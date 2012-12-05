@@ -26,3 +26,4 @@ gem "quiet_assets", ">= 1.0.1", :group => :development
 gem 'omniauth'
 gem 'oauth2'
 gem 'omniauth-douban-oauth2'
+gem 'omniauth-weibo-oauth2'

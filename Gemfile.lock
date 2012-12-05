@@ -125,6 +125,9 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
+    omniauth-weibo-oauth2 (0.2.0)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     quiet_assets (1.0.1)
@@ -223,6 +226,7 @@ DEPENDENCIES
   oauth2
   omniauth
   omniauth-douban-oauth2
+  omniauth-weibo-oauth2
   quiet_assets (>= 1.0.1)
   rails (= 3.2.9)
   rolify (>= 3.2.0)
