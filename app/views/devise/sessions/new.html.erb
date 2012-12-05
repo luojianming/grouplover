@@ -5,4 +5,7 @@
   <%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>
   <%= f.button :submit, "Sign in", :class => 'btn-primary' %>
 <% end %>
+<ul>
+  <li><%= link_to "Douban", user_omniauth_authorize_path(:douban) %> </li>
+</ul>
 <%= render "devise/shared/links" %>

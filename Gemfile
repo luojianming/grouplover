@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org/'
 gem 'rails', '3.2.9'
 gem 'sqlite3'
 group :assets do
@@ -23,3 +23,6 @@ gem "cancan", ">= 1.6.8"
 gem "rolify", ">= 3.2.0"
 gem "simple_form", ">= 2.0.3"
 gem "quiet_assets", ">= 1.0.1", :group => :development
+gem 'omniauth'
+gem 'oauth2'
+gem 'omniauth-douban-oauth2'
