@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 source 'http://mirrors.tuna.tsinghua.edu.cn/rubygems/'
+=======
+source 'http://ruby.taobao.org/'
+>>>>>>> weibo-auth
 gem 'rails', '3.2.9'
 gem 'sqlite3'
 group :assets do
@@ -26,3 +30,7 @@ gem "quiet_assets", ">= 1.0.1", :group => :development
 gem 'omniauth'
 gem 'omniauth-weibo'
 gem 'oauth2'
+<<<<<<< HEAD
+=======
+gem 'omniauth-douban-oauth2'
+>>>>>>> weibo-auth

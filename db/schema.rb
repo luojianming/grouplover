@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20121204160619) do
+=======
+ActiveRecord::Schema.define(:version => 20121204180515) do
+>>>>>>> weibo-auth
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -20,6 +24,17 @@ ActiveRecord::Schema.define(:version => 20121204160619) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+<<<<<<< HEAD
+=======
+
+  create_table "authorizations", :force => true do |t|
+    t.string   "provider"
+    t.integer  "user_id"
+    t.string   "uid"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+>>>>>>> weibo-auth
 
   create_table "roles", :force => true do |t|
     t.string   "name"

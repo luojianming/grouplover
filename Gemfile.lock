@@ -1,5 +1,9 @@
 GEM
+<<<<<<< HEAD
   remote: http://mirrors.tuna.tsinghua.edu.cn/rubygems/
+=======
+  remote: http://ruby.taobao.org/
+>>>>>>> weibo-auth
   specs:
     actionmailer (3.2.9)
       actionpack (= 3.2.9)
@@ -120,9 +124,21 @@ GEM
     omniauth (1.0.3)
       hashie (~> 1.2)
       rack
+<<<<<<< HEAD
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
+=======
+    omniauth-douban-oauth2 (0.0.5)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-oauth (1.0.1)
+      oauth
+      omniauth (~> 1.0)
+    omniauth-oauth2 (1.1.1)
+      oauth2 (~> 0.8.0)
+      omniauth (~> 1.0)
+>>>>>>> weibo-auth
     omniauth-weibo (1.0.1)
       multi_json
       omniauth (~> 1.0.0.rc2)
@@ -224,6 +240,10 @@ DEPENDENCIES
   launchy (>= 2.1.2)
   oauth2
   omniauth
+<<<<<<< HEAD
+=======
+  omniauth-douban-oauth2
+>>>>>>> weibo-auth
   omniauth-weibo
   quiet_assets (>= 1.0.1)
   rails (= 3.2.9)
