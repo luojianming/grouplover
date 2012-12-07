@@ -10,10 +10,11 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-  has_many :authorizations
+  has_many :authorizations, :dependent => :destroy
 
-
-    def bind_service(auth)
-      authorizations.create(:provider => auth[:provider], :uid => auth[:uid])
-    end
+  def bind_service(response)
+    provider = response["provider"]
+    uid = response["uid"]
+    authorizations.create(:provider => provider , :uid => uid )
+  end
 end

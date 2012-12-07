@@ -19,6 +19,7 @@ gem "factory_girl_rails", ">= 4.1.0", :group => [:development, :test]
 gem "bootstrap-sass", ">= 2.1.0.0"
 gem 'bootswatch-rails'
 gem "devise", ">= 2.1.2"
+gem 'devise-i18n'
 gem "cancan", ">= 1.6.8"
 gem "rolify", ">= 3.2.0"
 gem "simple_form", ">= 2.0.3"

@@ -2,3 +2,4 @@
 <% @users.each do |user| %>
   <p>User: <%=link_to user.name, user %></p>
 <% end %>
+<%= Time.now.to_s(:db) %>

@@ -6,10 +6,10 @@ class User
         uid = response["uid"]
         data = response["info"]
 
-   #     if user = User.where("authorizations.provider" => provider , "authorizations.uid" => uid).first
-   #       user
+#       if user = User.joins(:authorizations).where("authorizations.provider" => provider , "authorizations.uid" => uid).first
+#         user
         if user = Authorization.find_by_provider_and_uid(provider,uid).try(:user)
-           user
+          user
         elsif user = User.find_by_email(data["email"])
           user.bind_service(response)
           user
