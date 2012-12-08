@@ -5,8 +5,8 @@ class User
       define_method "find_or_create_for_#{provider}" do |response|
         uid = response["uid"]
         data = response["info"]
-
-        Rails.logger.warn(data)
+        extra = response["extra"]
+        Rails.logger.warn(extra)
 #       if user = User.joins(:authorizations).where("authorizations.provider" => provider , "authorizations.uid" => uid).first
 #         user
         if user = Authorization.find_by_provider_and_uid(provider,uid).try(:user)
@@ -31,10 +31,10 @@ class User
     def new_from_provider_data(provider, uid, data)
       User.new do |user|
         user.email = data["email"]
-#        user.email = "weibo+#{uid}@example.com" if provider == "weibo"
-#        user.email = "douban+#{uid}@example.com" if provider == "douban"
+        user.email = "weibo+#{uid}@example.com" if provider == "weibo"
+        user.email = "douban+#{uid}@example.com" if provider == "douban"
 
-         user.name = data["nickname"]
+         user.name = data["name"]
 #        user.login = data["name"] if provider == "google"
 #        user.login.gsub!(/[^\w]/, "_")
 =begin
