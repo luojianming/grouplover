@@ -6,6 +6,7 @@ class User
         uid = response["uid"]
         data = response["info"]
 
+        Rails.logger.warn(data)
 #       if user = User.joins(:authorizations).where("authorizations.provider" => provider , "authorizations.uid" => uid).first
 #         user
         if user = Authorization.find_by_provider_and_uid(provider,uid).try(:user)
@@ -30,19 +31,19 @@ class User
     def new_from_provider_data(provider, uid, data)
       User.new do |user|
         user.email = data["email"]
-        user.email = "weibo+#{uid}@example.com" if provider == "weibo"
-        user.email = "douban+#{uid}@example.com" if provider == "douban"
-=begin
-         user.login = data["nickname"]
-         user.login = data["name"] if provider == "google"
-         user.login.gsub!(/[^\w]/, "_")
+#        user.email = "weibo+#{uid}@example.com" if provider == "weibo"
+#        user.email = "douban+#{uid}@example.com" if provider == "douban"
 
+         user.name = data["nickname"]
+#        user.login = data["name"] if provider == "google"
+#        user.login.gsub!(/[^\w]/, "_")
+=begin
         if User.where(:login => user.login).count > 0 || user.login.blank?
           user.login = "u#{Time.now.to_i}" # TODO: possibly duplicated user login here. What should we do?
         end
 =end
-        user.password = Devise.friendly_token[0, 20]
- #       user.location = data["location"]
+         user.password = Devise.friendly_token[0, 20]
+         user.location = data["location"]
  #       user.tagline = data["description"]
       end
     end
