@@ -185,6 +185,10 @@ GEM
     simple_form (2.0.4)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
+    spork (1.0.0rc3)
+    spork-rails (3.2.0)
+      rails (>= 3.0.0, < 3.3.0)
+      spork (>= 1.0rc0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -237,6 +241,7 @@ DEPENDENCIES
   rspec-rails (>= 2.11.0)
   sass-rails (~> 3.2.3)
   simple_form (>= 2.0.3)
+  spork-rails
   therubyracer
   uglifier (>= 1.0.3)
   yaml_db
