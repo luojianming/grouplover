@@ -8,6 +8,9 @@
       </a>
       <%= link_to "校园爱情", root_path, :class => 'brand' %>
       <div class="nav-collapse">
+        <% if user_signed_in? %>
+          <%= render 'layouts/signed_in_nav' %>
+        <% end %>
         <ul class="nav pull-right">
           <% if user_signed_in? %>
             <li class="dropdown">

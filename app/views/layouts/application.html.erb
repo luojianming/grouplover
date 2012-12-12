@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Rails3 Bootstrap Devise Cancan" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Rails3 Bootstrap Devise Cancan" %>">
-    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= yield(:stylesheet) %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
@@ -18,13 +18,13 @@
            <div class="row">
             <div class="span12">
               <%= render 'layouts/messages' %>
-              <%= yield %>
             </div>
           </div>
-          <footer>
-          </footer>
         </div>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
+    <%= yield %>
+    <footer>
+    </footer>
   </body>
 </html>
