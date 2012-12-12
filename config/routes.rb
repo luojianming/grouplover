@@ -6,6 +6,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   root :to => "home#index"
   devise_for :users, :controllers => {
  #   :registrations => "registrations",
+    :sessions => "users/sessions",
     :omniauth_callbacks => "users/omniauth_callbacks"
   }do
     get "logout" => "devise/sessions#destroy"
