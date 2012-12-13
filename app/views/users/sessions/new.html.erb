@@ -1,56 +1,44 @@
+	<div class="login-top">
+		<div class="logo">校园爱情</div>
+	</div>
+	<div class="container">
+		<div class="other-login">
+			<div class="rr-login">
+        <%= image_tag("renrenlogin.png") %>
+			</div>
+			
+			<div class="sina-login">
+        <%= image_tag("weibologin.png") %>
+			</div>
+			
+			
+		</div>
+		<div style="margin-left: 145px;margin-top:50px;margin-bottom:50px">
+			<%= image_tag("dividing%20_line.png") %>
+		</div>
 <!--
-<div class="login-top">
-  <div class="logo">校园爱情</div>
-</div>
-<div class="container">
-  <div class="other-login">
-    <div class="rr-login">
-      <%= image_tag("renrenlogin.png") %>
-    </div>
-
-    <div class="sina-login">
-      <%= image_tag("weibologin.png") %>
-    </div>
-  </div>
-
-  <div style=" left: 145px;margin-top:50px;">
-    <%= image_tag("dividing%20_line.png") %>
-  </div>
-  -->
-<h2> Sing in </h2>
-  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
-    <%= f.input :email, :autofocus => true %>
-    <%= f.input :password %>
-    <%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>
-    <%= f.button :submit, "Sign in", :class => 'btn-primary' %>
-  <% end %>
-  <%= render "devise/shared/links" %>
-
-<!--
-  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
-    
-    <div class="control-group">
-      <label class="control-label" for="inputEmail">Email</label>
-      <div class="controls">
-        <input type="text" id="inputEmail" placeholder="Email">
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputPassword">Password</label>
-      <div class="controls">
-        <input type="password" id="inputPassword" placeholder="Password">
-      </div>
-    </div>
-    <div class="control-group">
-      <div class="controls">
-        <label class="checkbox">
-          <input type="checkbox"> Remember me
-        </label>
-        <button type="submit" class="btn">Sign in</button>
-      </div>
-    </div>
-  <% end %>
-
-</div>
-
+		<div class="login-main">
+		      <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|%>	
+			    		<input type="text" id="inputEmail" placeholder="Email" style="width:220px;margin-left:360px;margin-top:50px;margin-bottom:10px;height:30px;">
+			    
+			   
+			    		<input type="password" id="inputPassword" placeholder="Password" style="width:220px;margin-left:360px;height:30px;">
+			    		<label class="checkbox" style="margin-left:360px;">
+			    			<input type="checkbox"> 记住我
+              </label>
+			    		<button type="submit" class="btn" style="margin-left:360px;display:inline">登录</button>
+              <span style="margin-left:100px"><%= link_to "忘记密码？", new_password_path(resource_name) %></span>
+          <% end %>
+		</div>
 -->
+<div class="login-main">
+  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
+    <%= f.input :email, :autofocus => true, :label => "邮箱", :hint => false , :required => false %>
+  <%= f.input :password, :label => "密码", :required => false %>
+    <%= f.input :remember_me, :label => "记住我", :as => :boolean if devise_mapping.rememberable? %>
+    <%= f.button :submit, "登录", :class => 'btn-primary' %>
+    <%= link_to "忘记密码？", new_password_path(resource_name) %>
+    <%= link_to "注册", new_registration_path(resource_name) %> 
+  <% end %>
+</div>
+</div>

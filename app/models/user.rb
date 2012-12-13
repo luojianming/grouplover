@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :authorizations, :dependent => :destroy
   has_one :profile, :dependent => :destroy
 
+
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]

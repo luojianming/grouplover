@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
   def new
-  #  render :layout => "sign_in" 
+    render :layout => "sign_in" 
   end
 end
