@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me,
                   :location, :school
   has_many :authorizations, :dependent => :destroy
+  has_one :profile, :dependent => :destroy
 
   def bind_service(response)
     provider = response["provider"]

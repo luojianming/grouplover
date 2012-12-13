@@ -26,7 +26,10 @@
                   <%= link_to '退出', destroy_user_session_path, :method=>'delete' %>        
                 </li>
                 <li>
-                  <%= link_to '编辑资料', edit_user_registration_path %>
+                  <%= link_to '更新帐号', edit_user_registration_path %>
+                </li>
+                <li>
+                  <%= link_to '编辑资料', edit_profile_path(current_user.profile ||= current_user.create_profile()) %>
                 </li>
                 <% if current_user.has_role? :admin %>
                   <li>

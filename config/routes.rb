@@ -1,4 +1,7 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
+  resources :profiles, only: [:create, :update, :show, :edit]
+
+
   authenticated :user do
     root :to => 'home#index'
   end
