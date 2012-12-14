@@ -3,6 +3,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
    render :layout => "sign_in"
 
   end
+
+  def edit
+  end
 =begin
   def create
     build_resource
