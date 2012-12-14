@@ -1,5 +1,4 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
-  resources :profiles, only: [:create, :update, :show, :edit]
 
 
   authenticated :user do
@@ -15,5 +14,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     get "logout" => "devise/sessions#destroy"
   end
 #  devise_for :users
-  resources :users
+  resources :users do
+    resource :profiles, only: [:create, :update, :show, :edit]
+  end
 end

@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
-    @profile = Profile.find(params[:id])
+    @profile = current_user.profile
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,18 +37,18 @@ class ProfilesController < ApplicationController
 =end
   # GET /profiles/1/edit
   def edit
-    @profile = Profile.find(params[:id])
+    @profile = current_user.profile
     render "new"
   end
 
   # POST /profiles
   # POST /profiles.json
   def create
-    @profile = Profile.new(params[:profile])
+    @profile = current_user.build_profile(params[:profile])
 
     respond_to do |format|
       if @profile.save
-        format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
+        format.html { redirect_to user_profiles_path(current_user), notice: 'Profile was successfully created.' }
         format.json { render json: @profile, status: :created, location: @profile }
       else
         format.html { render action: "new" }
@@ -60,14 +60,14 @@ class ProfilesController < ApplicationController
   # PUT /profiles/1
   # PUT /profiles/1.json
   def update
-    @profile = Profile.find(params[:id])
+    @profile = current_user.profile
 
     respond_to do |format|
       if @profile.update_attributes(params[:profile])
-        format.html { redirect_to @profile, notice: '资料更新成功' }
+        format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新失败' }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end

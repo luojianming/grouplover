@@ -34,7 +34,7 @@
       
       <div class="span9 profile-style" id="profile">
     		<div class="hero-unit hero-unit-bg">  
-          <%= simple_form_for @profile, :html => {:class => "form-horizontal"} do |f| %> 
+          <%= simple_form_for @profile, :url => user_profiles_path(current_user), :html => {:class => "form-horizontal"} do |f| %> 
             <legend>基本资料<a class="pull-right" style="font-size:15px;color:#3FF;" onClick=""><i class="icon-edit"></i>编辑</a></legend>	
             <%= f.input :birthday, :label => "生日" %>
             <%= f.input :hometown, :label => "家乡" %>
