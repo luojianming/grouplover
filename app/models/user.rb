@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
                   :location, :school
   has_many :authorizations, :dependent => :destroy
   has_one :profile, :dependent => :destroy
+  validates :name, :presence => true
 
 
   def bind_service(response)

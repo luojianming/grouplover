@@ -31,6 +31,8 @@
           <% end %>
 		</div>
 -->
+
+    <%= render 'layouts/messages' %>
 <div class="login-main">
   <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
     <%= f.input :email, :autofocus => true, :label => "邮箱", :hint => false , :required => false %>
