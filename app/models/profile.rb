@@ -3,4 +3,5 @@ class Profile < ActiveRecord::Base
   validates :user_id, :presence => true
   belongs_to :user
   validates :books, :presence => true
+  validates :birthday, :presence => true 
 end

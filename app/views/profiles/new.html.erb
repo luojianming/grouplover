@@ -1,7 +1,6 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "bootstrap_and_overrides", "style", "jasny-bootstrap.min" %>
 <% end %>
-
  <div class="container">
  	<div class="clearfix">
     <div class="row main">
@@ -33,6 +32,16 @@
       </div>
       
       <div class="span9 profile-style" id="profile">
+        <% if @profile.errors.any? %>
+          <div class="alert-error">
+            <ul>
+              <%@profile.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+
+            </ul>
+          </div>
+        <% end %>
     		<div class="hero-unit hero-unit-bg">  
           <%= simple_form_for @profile, :url => user_profiles_path(current_user), :html => {:class => "form-horizontal"} do |f| %> 
             <legend>基本资料<a class="pull-right" style="font-size:15px;color:#3FF;" onClick=""><i class="icon-edit"></i>编辑</a></legend>	
