@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
                   :location, :school
   has_many :authorizations, :dependent => :destroy
   has_one :profile, :dependent => :destroy
+  has_one :extra_info, :dependent => :destroy
   validates :name, :presence => true
   has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
   has_many :reverse_relationships, :foreign_key => "followed_id",
@@ -38,4 +39,9 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     relationships.find_by_followed_id(other_user.id).destroy
   end
+
+  def get_extra_info(user)
+    user.extra_info
+  end
+  
 end

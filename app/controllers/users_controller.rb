@@ -10,6 +10,20 @@ class UsersController < ApplicationController
   def show
     begin
       @user = User.find(params[:id])
+=begin
+      if (current_user != @user)
+        extra_info = User.get_extra_info(@user)
+        vistors = extra_info.vistors.to_s
+        if vistors.length == 0
+          vistors += current_user.id.to_s
+        else
+          vistors = current_user.id.to_s + "," + vistors
+        end
+        extra_info.vistors = vistors
+        extra_info = @user.build_extra_info(vistors);
+        extra_info.save
+      end
+=end
     rescue
       redirect_to users_path, :alert => "the page is not exist"
     end
