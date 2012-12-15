@@ -1,3 +1,4 @@
+#encoding: utf-8
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
@@ -33,5 +34,27 @@ class UsersController < ApplicationController
     else
       redirect_to users_path, :notice => "Can't delete yourself."
     end
+  end
+
+  def following
+    @label = "关注的人"
+    @user = User.find(params[:id])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @label = "粉丝"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def friends
+    @label = "好友"
+    @user = User.find(params[:id])
+    @friends = (@user.followers & @user.followed_users)
+    @users = @friends.paginate(page: params[:page])
+    render 'show_follow'
   end
 end

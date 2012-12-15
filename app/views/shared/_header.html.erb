@@ -6,6 +6,8 @@
           <div  class="headphoto">
             <%= image_tag("secure.gravatar.com.jpg") %>
           </div>
+          <%= render "shared/stats" %>
+          <%= render 'shared/follow_form' %>
         </div>
         <span class="span7 trends-box">
           <div class="content">                        
@@ -69,7 +71,13 @@
         <li><a href="../cerulean">我的动态</a></li>
       </ul>
       </li>
-      <li><a href="grouppage.html">人脉</a></li>
+      <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <li><%= link_to "关注", following_user_path(@user) %></li>
+        <li><%= link_to "粉丝", followers_user_path(@user) %></li>
+        <li><%= link_to "好友", friends_user_path(@user) %></li>
+      </ul>
+      </li>
       <li><a href="grouppage.html">Groups</a></li>
       <li style="margin-left:300px"><a href="personal_information.html">资料</a></li>
       <li><a href="dailynote.html">日志</a></li>

@@ -37,7 +37,7 @@ class ProfilesController < ApplicationController
 =end
   # GET /profiles/1/edit
   def edit
-    @profile = current_user.profile
+    @profile = current_user.profile ||= current_user.build_profile()
     render "new"
   end
 

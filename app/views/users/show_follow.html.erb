@@ -1,0 +1,26 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides","bootswatch" %>
+<% end %>
+
+<% provide(:label,@label) %>
+
+<div class="container">
+  <%= render 'shared/header' %>
+  <div class="row">
+    <div class="span4">
+    </div>
+
+    <div class="span8">
+      <%= render 'follow_label' %>
+      <% if @users.any? %>
+        <ul class="users">
+          <% for user in @users %>
+            <li><%= link_to user.name, user %></li>
+          <% end %>
+        </ul>
+
+         <%= will_paginate %>
+      <% end %>
+    </div>
+  </div>
+</div>

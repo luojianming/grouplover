@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212124630) do
+ActiveRecord::Schema.define(:version => 20121215020026) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -37,9 +37,16 @@ ActiveRecord::Schema.define(:version => 20121212124630) do
     t.string   "msn"
     t.string   "qq"
     t.string   "email"
+    t.integer  "user_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-    t.integer  "user_id"
+  end
+
+  create_table "relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "roles", :force => true do |t|
