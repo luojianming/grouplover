@@ -1,4 +1,5 @@
 #encoding: utf-8
+require 'will_paginate/array'
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
@@ -12,7 +13,7 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
 =begin
       if (current_user != @user)
-        extra_info = User.get_extra_info(@user)
+        extra_info = @user.extra_info ||= @user.create_extra_info()
         vistors = extra_info.vistors.to_s
         if vistors.length == 0
           vistors += current_user.id.to_s
@@ -67,7 +68,7 @@ class UsersController < ApplicationController
   def friends
     @label = "好友"
     @user = User.find(params[:id])
-    @friends = (@user.followers & @user.followed_users)
+    @friends = @user.find_friends()
     @users = @friends.paginate(page: params[:page])
     render 'show_follow'
   end

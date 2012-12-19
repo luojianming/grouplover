@@ -1,6 +1,8 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
 
 
+
+  resources :groups
   authenticated :user do
     root :to => 'home#index'
   end
@@ -23,4 +25,6 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   end
 
   resources :relationships, only: [:create, :destroy]
+
+  match ':controller(/:action(/:id))'
 end

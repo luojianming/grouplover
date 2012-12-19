@@ -22,6 +22,11 @@ class User < ActiveRecord::Base
 
   has_many :followed_users, :through => :relationships, :source => :followed
   has_many :followers, :through => :reverse_relationships, :source => :follower
+
+  has_many :mygroups, :class_name => "Group", :foreign_key => "team_leader_id"
+  has_many :group_memberships, :foreign_key => "member_id"
+  has_many :groups, :through => :group_memberships, :foreign_key => "member_id"
+
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]
@@ -40,8 +45,9 @@ class User < ActiveRecord::Base
     relationships.find_by_followed_id(other_user.id).destroy
   end
 
-  def get_extra_info(user)
-    user.extra_info
+
+  def find_friends()
+    followers & followed_users
   end
   
 end

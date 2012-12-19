@@ -7,10 +7,13 @@ class Ability
       can :manage, :all
     else
       if user.persisted?
-        can :create, Profile
+        can :create,[Profile,Group]
       end
       can :manage, Profile do |profile|
         profile.try(:user) == user
+      end
+      can :manage, Group do |group|
+        group.try(:team_leader) == user
       end
     end
     # Define abilities for the passed in user here. For example:

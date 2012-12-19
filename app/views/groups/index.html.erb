@@ -1,0 +1,13 @@
+<h2> 你的Group </h2>
+<ol>
+  <% current_user.mygroups.each do |mygroup| %>
+    <ol>
+      <% mygroup.group_memberships.each do |member_ship| %>
+        <li> 
+            <%= link_to member_ship.member.name, user_path(member_ship.member_id) %>, 
+            <%= member_ship.status %>
+        </li>
+      <% end %>
+    </ol>
+  <% end %>
+</ol>
