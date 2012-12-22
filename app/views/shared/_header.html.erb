@@ -11,10 +11,12 @@
         </div>
         <span class="span7 trends-box">
           <div class="content">                        
-            <h3>罗健明</h3>
-            <span class="school">清华大学</span>
-            <span class="hometown">湖南</span>
-            <span class="state">可预约</span>
+            <h3><%= @user.name %></h3>
+            <% if @user.profile != nil %>
+              <span class="school"><%= @user.profile.school %></span>
+              <span class="hometown"><%= @user.hometown %></span>
+              <span class="state">可预约</span>
+            <% end %>
             <div class="divider-horizontal"></div>
             <div class="description">
               <input type="text" class="span6" placeholder="用一句话描述自己吧..." onClick="displayInputArea()" >
@@ -79,7 +81,7 @@
       </ul>
       </li>
       <li><a href="grouppage.html">Groups</a></li>
-      <li style="margin-left:300px"><a href="personal_information.html">资料</a></li>
+      <li style="margin-left:300px"><%= link_to "资料", user_profiles_path(current_user) %></li>
       <li><a href="dailynote.html">日志</a></li>
       <li><a href="album.html">相册</a></li>
     </ul>

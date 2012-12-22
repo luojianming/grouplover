@@ -1,6 +1,7 @@
 #encoding: utf-8
 class ProfilesController < ApplicationController
-  load_and_authorize_resource
+  load_resource :user
+  load_and_authorize_resource :profile, :through => :user, :singleton => true
   # GET /profiles
   # GET /profiles.json
 =begin
@@ -16,8 +17,11 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
-    @profile = current_user.profile
-
+=begin
+    @user = User.find(params[:user_id])
+    @profile = @user.profile
+    authorize! :show, @profile
+=end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @profile }
@@ -37,14 +41,19 @@ class ProfilesController < ApplicationController
 =end
   # GET /profiles/1/edit
   def edit
-    @profile = current_user.profile ||= current_user.build_profile()
-    render "new"
+=begin
+    @user = User.find(params[:user_id])
+    @profile = @user.profile
+    authorize! :edit, @profile
+=end
   end
 
+=begin
   # POST /profiles
   # POST /profiles.json
   def create
     @profile = current_user.build_profile(params[:profile])
+    authorize! :create, @profile
 
     respond_to do |format|
       if @profile.save
@@ -56,12 +65,16 @@ class ProfilesController < ApplicationController
       end
     end
   end
+=end
 
-  # PUT /profiles/1
+  # PUT /purofiles/1
   # PUT /profiles/1.json
   def update
-    @profile = current_user.profile
-
+=begin
+    @user = User.find(params[:user_id])
+    @profile = @user.profile
+    authorize! :update, @profile
+=end
     respond_to do |format|
       if @profile.update_attributes(params[:profile])
         format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
@@ -72,6 +85,9 @@ class ProfilesController < ApplicationController
       end
     end
   end
+
+  private
+
 =begin
   # DELETE /profiles/1
   # DELETE /profiles/1.json

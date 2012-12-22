@@ -6,7 +6,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def edit
   end
-=begin
   def create
     build_resource
 
@@ -14,6 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
+        resource.create_profile()
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
@@ -25,10 +25,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
      # respond_with({}, :location => after_sign_up_path_fails_for(resource))
      # redirect_to new_user_registration_path
      #  render :action => 'new'
-       respond_with resource, :location => after_sign_up_path_fails_for(resource)
+     #  respond_with resource, :location => after_sign_up_path_fails_for(resource)
+        respond_with resource       
     end
   end
-=end
 private
 =begin
   def after_sign_up_path_fails_for(resource)
@@ -37,5 +37,9 @@ private
 =end
   def after_sign_up_path_for(resource)
     user_path(current_user)
+  end
+
+  def sign_up(resource_name, resource)
+    sign_in(resource_name, resource)
   end
 end

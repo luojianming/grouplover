@@ -35,6 +35,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user], :as => :admin)
       redirect_to users_path, :notice => "User updated."
+      @current_ability = nil
+      @current_user = nil
     else
       redirect_to users_path, :alert => "Unable to update user."
     end

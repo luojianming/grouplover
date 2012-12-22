@@ -1,6 +1,84 @@
-<h1>Editing profile</h1>
+<% content_for :stylesheet  do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides" %>
+<% end %>
+<div class="container">
+  <div class="clearfix">
+    <div class="row main">
+      <div class="span3 sidenav">
+        <!--
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+          <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;"><img src="../img/secure.gravatar.com.jpg" class="img-rounded"/></div>
+          <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 200px; line-height: 20px;"></div>
+          <div>
+            <span class="btn btn-file"><span class="fileupload-new">上传头像</span><span class="fileupload-exists">换一张</span><input type="file" /></span>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
 
-<%= render 'form' %>
+          </div>
+        </div>
+-->
 
-<%= link_to 'Show', @profile %> |
-<%= link_to 'Back', profiles_path %>
+
+      </div>
+
+      <div class="span9 profile-style" id="profile">
+        <div class="accordion" id="accordion2">
+          <div class="hero-unit" style="padding-top:40px;padding-bottom:10px;">  
+            <%= simple_form_for @profile, :url => user_profiles_path(current_user), 
+              :html => {:class => "form-horizontal"} do |f|%> 
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a href="#collapseOne" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" >
+                    <legend>基本资料</legend>	
+                  </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <%= f.input :birthday, :label => "生日" %>
+                  <%= f.input :school, :label => "学校" %>
+                  <%= f.input :profession, :label => "行业" %>
+              </div>
+              </div><!-- accordion-group -->
+              <div class="accordion-group" >   
+
+                <div class="accordion-heading">
+                  <a href="#collapseTwo" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2">
+                    <legend>兴趣爱好</legend>
+                  </a>
+                </div>
+                <div id="collapseTwo" class="accordion-body collapse">
+                  <%= f.input :musical_instruments, :label => "擅长的乐器" %>
+                  <%= f.input :books, :label => "喜欢的书籍" %>
+                  <%= f.input :sports, :label => "喜欢的运动" %>
+                  <%= f.input :music, :label => "喜欢的音乐" %>
+                  <%= f.input :movie, :label => "喜欢的电影" %>
+                  <%= f.input :animation, :label => "喜欢的动漫" %>
+                  <%= f.input :games, :label => "玩的游戏" %>
+                </div>
+              </div><!-- accordion-group -->
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree"> 
+                    <legend>联系方式</legend>
+                  </a>
+                </div> 
+                <div id="collapseThree" class="accordion-body collapse">
+                  <%= f.input :telephone, :label => "电话" %>
+                  <%= f.input :msn, :label => "MSN" %>
+                  <%= f.input :qq, :label => "QQ" %>
+                  <%= f.input :email, :label => "Email" %>
+                </div>
+              </div> <!--accordion-group -->
+              <div class="control-group" >  				
+                <div class="controls" style="margin-left:261px">
+                  <button type="submit" class="btn">更新</button>
+                </div>
+              </div>
+            <% end %>
+            </div><!-- herounit -->
+          </div><!-- accordion2 -->
+        </div><!--span9 -->
+      </div>
+    </div>
+  </div>
+
+
+

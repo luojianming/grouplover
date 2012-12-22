@@ -9,7 +9,11 @@
     <% else %>
       <%= stylesheet_link_tag "bootstrap_and_overrides","log" %>
     <% end %>
-    <%= javascript_include_tag "application" %>
+    <% if content_for?(:javascript) %>
+      <%= yield(:javascript) %>
+    <% else %>
+      <%= javascript_include_tag "application" %>
+    <% end %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>

@@ -7,11 +7,15 @@ class Ability
       can :manage, :all
     else
       if user.persisted?
-        can :create,[Profile,Group]
+        can :create,Group
+        can :read, Profile
       end
+=begin
       can :manage, Profile do |profile|
         profile.try(:user) == user
       end
+=end
+      can :manage, Profile,   :user_id => user.id
       can :manage, Group do |group|
         group.try(:team_leader) == user
       end

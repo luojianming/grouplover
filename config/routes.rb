@@ -17,7 +17,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   end
 #  devise_for :users
   resources :users do
-    resource :profiles, only: [:create, :update, :show, :edit]
+    resource :profiles, only: [:update, :show, :edit]
 
     member do
       get :following, :followers, :friends
