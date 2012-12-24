@@ -74,4 +74,15 @@ class UsersController < ApplicationController
     @users = @friends.paginate(page: params[:page])
     render 'show_follow'
   end
+
+  def groups
+    @user = User.find(params[:id])
+    @mygroups = @user.mygroups
+    @group_memberships = @user.group_memberships
+    @groups = []
+    @group_memberships.each do |gm|
+      @groups << gm.group
+    end
+    render 'show_group'
+  end
 end

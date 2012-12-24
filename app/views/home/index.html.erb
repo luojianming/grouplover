@@ -4,6 +4,12 @@
 <% content_for :subnav do %>
   <%= render 'layouts/subnavigation' %>
 <% end %>
+
+<% if current_user && current_user.last_sign_in_at == nil %>
+  <script type="text/javascript">
+    alert("您是第一次访问哦")
+  </script>
+<% end %>
    <div class="container" id="container">
   		<div class="item" onMouseOver="display_actions()">
            <div class="actions" id="act">

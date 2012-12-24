@@ -20,7 +20,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     resource :profiles, only: [:update, :show, :edit]
 
     member do
-      get :following, :followers, :friends
+      get :following, :followers, :friends, :groups
     end
   end
 

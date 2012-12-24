@@ -301,7 +301,6 @@ body {
 }
 
 .show_panel , .group_showpanel{
-	height: 200px;
 	-webkit-border-radius:6px;
 	-moz-border-radius:6px;
 	border-radius:6px;
@@ -410,7 +409,8 @@ body {
 .group_showpanel_right{
 	background-color:#CCC;
 	width:580px;
-	float:left
+	float:left;
+	margin-bottom: 20px;
 }
 .group_notice ul {
 	list-style-type: none;
@@ -474,4 +474,10 @@ body {
 
 .accordion-heading a legend{
   text-decoration: none;
+}
+
+#new_group select option{
+  height: 53px;
+  background-image: url(<%= asset_path('pic2.jpg') %>); 
+  background-repeat: no-repeat;
 }

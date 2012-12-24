@@ -61,16 +61,23 @@
         <!--  <%= f.input :location, :label => "小组所在地" %>-->
           <%= f.simple_fields_for :group_memberships do |u|  %>
             <!-- <%= u.input :member_id %> -->
-            <%= u.association :member %>
+            <!--<%= u.association :member %>-->
+            <select class="select optional" name="group[group_memberships_attributes][0][member_id]">
+              <option value=""></option>
+              <option value="1">ljm1</option>
+              <option value="2">ljm2</option>
+              <option value="3">ljm3</option>
+              <option value="4">ljm4</option>
+            </select>
             <%= u.hidden_field :status, :value => "pending" %>
           <% end %>
-<!--
+
           <div class="control-group">
             <div class="controls">							
               <a href="#myModal" role="button" class="btn" data-toggle="modal">选择好友</a>
             </div>
           </div>
--->
+
           <%= f.hidden_field :status, :value => "pending" %>
 
           <div class="control-group">

@@ -4,7 +4,11 @@
       <div class="row">
         <div class="span2">
           <div  class="headphoto">
-            <%= image_tag("secure.gravatar.com.jpg") %>
+            <% if @user.head_url != nil %>
+              <%= image_tag(@user.head_url) %>
+            <% else %>
+                <%= image_tag("secure.gravatar.com.jpg") %>
+            <% end %>
           </div>
           <%= render "shared/stats" %>
           <%= render 'shared/follow_form' %>
@@ -80,15 +84,15 @@
         <li><%= link_to "好友", friends_user_path(@user) %></li>
       </ul>
       </li>
-      <li><a href="grouppage.html">Groups</a></li>
-      <li style="margin-left:300px"><%= link_to "资料", user_profiles_path(current_user) %></li>
+      <li><%= link_to "Groups", groups_user_path(@user)%></li>
+      <li style="margin-left:300px"><%= link_to "资料", user_profiles_path(@user) %></li>
       <li><a href="dailynote.html">日志</a></li>
       <li><a href="album.html">相册</a></li>
     </ul>
   </div>
 
   <div>
-   <% if current_user == @user %>
+   <% if current_user == @user%>
     <% current_user.group_memberships.each do |ship| %>
       <% if ship.status == "pending" || ship.status == nil  %>
         <span><%= ship.group.team_leader.name %>向你发出了邀请</span>

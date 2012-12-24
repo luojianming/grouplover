@@ -27,6 +27,4 @@ class GroupMembershipsController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def reject
-  end
 end

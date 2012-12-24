@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222012228) do
+ActiveRecord::Schema.define(:version => 20121224024949) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -144,6 +144,10 @@ ActiveRecord::Schema.define(:version => 20121222012228) do
     t.string   "hometown"
     t.string   "location"
     t.string   "status"
+    t.string   "head_url"
+    t.string   "hobby"
+    t.string   "lover_style"
+    t.string   "style"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

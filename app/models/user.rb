@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me,
-                  :location, :school
+                  :location, :school, :sex, :hometown, :hobby, :head_url, :lover_style,
+                  :style, :status
   has_many :authorizations, :dependent => :destroy
   has_one :profile, :dependent => :destroy
   has_one :extra_info, :dependent => :destroy
@@ -24,7 +25,7 @@ class User < ActiveRecord::Base
   has_many :followers, :through => :reverse_relationships, :source => :follower
 
   has_many :mygroups, :class_name => "Group", :foreign_key => "team_leader_id"
-  has_many :group_memberships, :foreign_key => "member_id"
+  has_many :group_memberships, :foreign_key => "member_id", :dependent => :destroy
   has_many :groups, :through => :group_memberships, :foreign_key => "member_id"
 
   def bind_service(response)
