@@ -1,27 +1,37 @@
 <% show_groups.each do |show_group| %>
-  <div class="group_showpanel">
-  <div class="group_showpanel_left">
-    <%= link_to image_tag(show_group.team_leader.head_url), user_path(show_group.team_leader), :title => "标签：聪明 可爱 仗义",
-      :placement => "left", :rel => "tooltip" %>
-    <div class="groupleader_info">
-        <label><%= show_group.team_leader.name %></label>
-      </div>
-    </div>
-
-
-    <div class="group_showpanel_right" style="background-color:#CFC">
-      <% show_group.group_memberships.each do |ship| %>
-        <div class="group_member">                        		 
-        <div class="pull-left">
-          <%= link_to image_tag(ship.member.head_url), user_path(ship.member), :title => "黄蓉 1989年5月",
-            :placement => "top", :rel => "tooltip" %>
+  <% if show_group.status == "active" %>
+    <div class="group_showpanel">
+    <div class="group_showpanel_left">
+      <%= link_to image_tag(show_group.team_leader.head_url), user_path(show_group.team_leader), :title => "标签：聪明 可爱 仗义",
+        :placement => "left", :rel => "tooltip" %>
+      <div class="groupleader_info">
+          <label><%= show_group.team_leader.name %></label>
         </div>
-          <div class="group_member_info pull-left">
-            <label>爱好：<%= ship.member.hobby %></label>
-            <label>喜欢的异性类型：<%= ship.member.lover_style %></label>
+        <% if current_user == @user %>
+          <% if current_user == show_group.team_leader %>
+            <%= link_to "编辑", edit_group_path(show_group) %>
+          <% else %>
+            <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => show_group } %>
+          <% end %>
+        <% end %>
+         
+      </div>
+
+
+      <div class="group_showpanel_right" style="background-color:#CFC">
+        <% show_group.group_memberships.each do |ship| %>
+          <div class="group_member">                        		 
+          <div class="pull-left">
+            <%= link_to image_tag(ship.member.head_url), user_path(ship.member), :title => "黄蓉 1989年5月",
+              :placement => "top", :rel => "tooltip" %>
           </div>
-        </div><!--group_member-->
-      <% end %>
-      </div> <!--group_showpanel_right -->
-    </div>
-  <% end %> <!-- each -->
+            <div class="group_member_info pull-left">
+              <label>爱好：<%= ship.member.hobby %></label>
+              <label>喜欢的异性类型：<%= ship.member.lover_style %></label>
+            </div>
+          </div><!--group_member-->
+        <% end %>
+        </div> <!--group_showpanel_right -->
+      </div>
+  <% end %>
+<% end %> <!-- each -->

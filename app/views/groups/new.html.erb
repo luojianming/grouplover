@@ -16,32 +16,34 @@
               <span style="line-height:30px">女生团体</span>
             </div>
           </div>
+          <!--
           <div class="control-group">
             <label class="control-label">小组名称</label>
             <div class="controls">
               <input type="text" name="group[name]"/>
             </div>
           </div>
-          <!--<%= f.input :name, :label => "小组名称" %>-->
+          -->
+          <%= f.input :name, :label => "小组名称" %>
+<!--
           <div class="control-group">
             <label class="control-label">交友宣言</label>
             <div class="controls">
               <textarea type="text" name="group[description]" style="width:206px;height:100px"></textarea>
             </div>
           </div>
-<!--
+-->
 <%= f.input :description, :label => "交友宣言", :as => :text,
                           :input_html => { :rows => 3 }%>
--->
+<!--
           <div class="control-group">
             <label class="control-label">小组标签</label>
             <div class="controls">
               <input type="text" name="group[labels]"/>
             </div>
           </div>
-<!--
-          <%= f.input :labels, :label => "小组标签" %>
 -->
+          <%= f.input :labels, :label => "小组标签" %>
 <!--
           <div class="control-group">
             <label class="control-label">小组成员</label>
@@ -51,14 +53,15 @@
             </div>
           </div>
 -->
-
+<!--
           <div class="control-group">
             <label class="control-label">小组所在地</label>
             <div class="controls">
               <input type="text" name="group[location]"/>
             </div>
           </div>
-        <!--  <%= f.input :location, :label => "小组所在地" %>-->
+          -->
+          <%= f.input :location, :label => "小组所在地" %>
           <%= f.simple_fields_for :group_memberships do |u|  %>
             <!-- <%= u.input :member_id %> -->
             <%= u.association :member %>
