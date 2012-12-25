@@ -1,0 +1,17 @@
+<%= simple_form_for(@invitation) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :initiate_group_id %>
+    <%= f.input :time %>
+    <%= f.input :location %>
+    <%= f.input :description %>
+    <%= f.input :status %>
+    <%= f.input :style %>
+    <%= f.input :lover_style %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

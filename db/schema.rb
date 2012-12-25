@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121224024949) do
+ActiveRecord::Schema.define(:version => 20121225042628) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(:version => 20121224024949) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "group_invitationships", :force => true do |t|
+    t.string   "applied_group_id"
+    t.string   "status"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "invitation_id"
+  end
+
   create_table "group_memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "member_id"
@@ -41,6 +49,8 @@ ActiveRecord::Schema.define(:version => 20121224024949) do
     t.datetime "updated_at", :null => false
     t.string   "status"
   end
+
+  add_index "group_memberships", ["group_id", "member_id"], :name => "index_group_memberships_on_group_id_and_member_id", :unique => true
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -54,6 +64,18 @@ ActiveRecord::Schema.define(:version => 20121224024949) do
     t.string   "founded_time"
     t.string   "labels"
     t.string   "status"
+  end
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "initiate_group_id"
+    t.string   "time"
+    t.string   "location"
+    t.string   "description"
+    t.string   "status"
+    t.string   "style"
+    t.string   "lover_style"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "notifications", :force => true do |t|

@@ -24,8 +24,13 @@ class User < ActiveRecord::Base
   has_many :followed_users, :through => :relationships, :source => :followed
   has_many :followers, :through => :reverse_relationships, :source => :follower
 
-  has_many :mygroups, :class_name => "Group", :foreign_key => "team_leader_id"
-  has_many :group_memberships, :foreign_key => "member_id", :dependent => :destroy
+  has_many :mygroups, :class_name => "Group", 
+                      :foreign_key => "team_leader_id", 
+                      :dependent => :destroy,
+                      :inverse_of => :team_leader
+  has_many :group_memberships, :foreign_key => "member_id", 
+                               :dependent => :destroy,
+                               :inverse_of => :member
   has_many :groups, :through => :group_memberships, :foreign_key => "member_id"
 
   def bind_service(response)

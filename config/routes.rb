@@ -2,6 +2,9 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
 
 
 
+  resources :invitations
+
+
   resources :groups
   authenticated :user do
     root :to => 'home#index'
