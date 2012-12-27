@@ -1,6 +1,6 @@
 class Group < ActiveRecord::Base
   attr_accessible :description, :name, :sex, :labels, :location,
-                  :member_counts, :group_memberships_attributes,:status
+                  :member_counts, :group_memberships_attributes,:status,:team_leader_id
 
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 
@@ -8,8 +8,8 @@ class Group < ActiveRecord::Base
   has_many :members, :class_name => "User", :through => :group_userships
 
   has_many :myinvitations, :class_name => "Invitation", 
-                           :dependent => :destroy, 
                            :foreign_key => "initiate_group_id",
+                           :dependent => :destroy, 
                            :inverse_of => :initiate_group
   has_many :group_invitationships, :dependent => :destroy, :foreign_key => "applied_group_id"
   has_many :invitations, :through => :group_invitationships, :foreign_key => "applied_group_id"

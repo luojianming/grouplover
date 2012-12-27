@@ -1,0 +1,35 @@
+<% if  invitations.blank? != true %>
+  <% invitations.each do |invitation| %>
+  <div class="item" onMouseOver="display_actions()">
+  <div class="actions" id="act">
+    <a class="btn favor_link" href="#">
+      <i class="icon-thumbs-up"></i>
+      <span>赞！</span>
+    </a>
+
+    <a class="btn join_link" href="#">
+      <i class="icon-heart"></i>
+      <span>参与</span>
+    </a>
+  </div>        	
+  <div class="box-photo"><%= image_tag(invitation.image_url) %></div>
+  <div class="activity_info"><span><%=invitation.time%>于<%= invitation.location %><%= invitation.activity %> </div>
+    <div class="activity_description"><span><%= invitation.description %></span></div>
+    <div class="members">
+      <ul style="margin-left:5px">
+        <li>
+          <a href="#"  rel="tooltip" data-placement="left"  title=<%=invitation.initiate_group.team_leader.style%> class="pull-left"><%= image_tag(invitation.initiate_group.team_leader.head_url) %></a>
+          <a href="#">发起者：<%= invitation.initiate_group.team_leader.name%> <%= invitation.initiate_group.team_leader.hometown %></a>
+        </li>
+        <% invitation.initiate_group.group_memberships.each do |group_membership| %>
+          <li>
+        <a href="#"  rel="tooltip" data-placement="left"  title=<%=group_membership.member.style%> class="pull-left"><%= image_tag(group_membership.member.head_url) %></a>
+        <a href="#"><%= group_membership.member.name%> <%= group_membership.member.hometown %></a>
+        </li>
+      <% end %>
+      </ul>
+    </div><!-- members -->
+  </div><!-- item -->
+<% end %>
+<% end %>
+<%= render 'users/show_foot' %>

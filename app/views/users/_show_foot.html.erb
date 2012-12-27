@@ -1,0 +1,32 @@
+<script type="text/javascript">
+$(function(){
+  $('.container').masonry({
+    // options
+    itemSelector : '.item',
+    columnWidth : 235
+  });
+});
+</script>
+
+<script type="text/javascript">
+function displayInputArea(){
+  $('.description').html("还能输入<span class=\"wordsOffset\">200</span>个字<button class=\"pull-right\">提交</button><textarea  id=\"description\" row=\"3\" class=\"span7\"  onkeyup=\"discountWordNum()\" onmouseup=\"discountWordNum()\"></textarea>");
+}
+
+function discountWordNum(){
+  var str = $('#description').val();
+  //	alert(str.length);
+  $('.wordsOffset').html(200 - str.length) ;
+}
+
+function display_actions(obj){
+  //	alert(obj);
+  //	$('#act').hide();
+  $(obj).css("display","block");
+}
+</script>
+
+<script>
+	$('.members ul li').tooltip({
+      selector: "a[rel=tooltip]"})
+</script>

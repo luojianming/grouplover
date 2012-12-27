@@ -73,8 +73,8 @@
 
       <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">动态<b class="caret"></b></a>
       <ul class="dropdown-menu" id="swatch-menu">
-        <li><a href="../amelia">好友动态</a></li>
-        <li><a href="../cerulean">我的动态</a></li>
+        <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
+        <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
       </ul>
       </li>
       <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>

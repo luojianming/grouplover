@@ -6,6 +6,10 @@ namespace :db do
     make_relationships
     make_groups
   end
+
+  task invitation_populate: :environment do
+    make_invitations
+  end
 end
 
 def make_users
@@ -76,3 +80,17 @@ def make_groups
   end
 end
 
+def make_invitations
+  groups = Group.all
+  11.times do |n|
+    invitation = Invitation.create!(initiate_group_id: n+1,
+                                    time: "2012-12-26",
+                                    location: "清华园",
+                                    description: "等待就是浪费青春",
+                                    status: "pending",
+                                    lover_style: "可爱 善良",
+                                    style: "帅气 才华",
+                                    activity: "三国杀",
+                                    image_url: "photo/#{n+1}.jpg")
+  end
+end

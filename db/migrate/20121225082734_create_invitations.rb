@@ -6,7 +6,6 @@ class CreateInvitations < ActiveRecord::Migration
       t.string :location
       t.string :description
       t.string :status
-      t.string :style
       t.string :lover_style
 
       t.timestamps

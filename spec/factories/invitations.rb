@@ -6,8 +6,7 @@ FactoryGirl.define do
     time "MyString"
     location "MyString"
     description "MyString"
-    status "MyString"
-    style "MyString"
+    status ""
     lover_style "MyString"
   end
 end

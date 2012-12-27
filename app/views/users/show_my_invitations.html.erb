@@ -1,10 +1,10 @@
-<%= render 'show_head' %>
+<%= render 'users/show_head' %>
 <div class="container">
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">
 
-    <%= render 'invitation', :invitations => @following_invitations %>
+    <%= render 'invitation', :invitations => @my_invitations %>
 
   </div><!-- personalpage -->
 </div><!-- container -->
-<%= render 'show_foot' %>
+<%= render 'users/show_foot' %>

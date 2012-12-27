@@ -1,10 +1,5 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
-
-
-
   resources :invitations
-
-
   resources :groups
   authenticated :user do
     root :to => 'home#index'
@@ -23,7 +18,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     resource :profiles, only: [:update, :show, :edit]
 
     member do
-      get :following, :followers, :friends, :groups
+      get :following, :followers, :friends, :groups, :following_invitations, :my_invitations
     end
   end
 

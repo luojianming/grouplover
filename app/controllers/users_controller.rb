@@ -85,4 +85,16 @@ class UsersController < ApplicationController
     end
     render 'show_group'
   end
+
+  def following_invitations
+    @user = User.find(params[:id])
+    @following_invitations = Invitation.initiated_by_users_followed_by(@user)
+    render 'show_following_invitations'
+  end
+
+  def my_invitations
+    @user = User.find(params[:id])
+    @my_invitations = Invitation.initiated_by_user(@user)
+    render 'show_my_invitations'
+  end
 end
