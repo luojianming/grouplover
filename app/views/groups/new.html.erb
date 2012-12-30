@@ -1,5 +1,5 @@
 <% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "style", "bootstrap_and_overrides" %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides","chosen" %>
 <% end %>
 <div class="container">
   <div class="row">
@@ -16,90 +16,72 @@
               <span style="line-height:30px">女生团体</span>
             </div>
           </div>
-          <!--
-          <div class="control-group">
-            <label class="control-label">小组名称</label>
-            <div class="controls">
-              <input type="text" name="group[name]"/>
-            </div>
-          </div>
-          -->
           <%= f.input :name, :label => "小组名称" %>
-<!--
-          <div class="control-group">
-            <label class="control-label">交友宣言</label>
-            <div class="controls">
-              <textarea type="text" name="group[description]" style="width:206px;height:100px"></textarea>
-            </div>
-          </div>
--->
-<%= f.input :description, :label => "交友宣言", :as => :text,
-                          :input_html => { :rows => 3 }%>
-<!--
           <div class="control-group">
             <label class="control-label">小组标签</label>
             <div class="controls">
-              <input type="text" name="group[labels]"/>
+              <%= f.select(:labels, [['aa','aa'],['bb','bb'],['cc','cc']],
+                       {},
+                       {:multiple => true, :class => "chzn-select"}
+                          ) -%>
             </div>
           </div>
--->
-          <%= f.input :labels, :label => "小组标签" %>
-<!--
-          <div class="control-group">
-            <label class="control-label">小组成员</label>
-            <div class="controls">
-              <a href="#" style="margin-left:20px;line-height:30px">杨过</a>
-              <a href="#" style="margin-left:20px;line-height:30px">周伯通</a>
-            </div>
-          </div>
--->
-<!--
-          <div class="control-group">
-            <label class="control-label">小组所在地</label>
-            <div class="controls">
-              <input type="text" name="group[location]"/>
-            </div>
-          </div>
-          -->
+          <%= f.input :description, :label => "交友宣言", :as => :text,
+                      :input_html => { :rows => 3 }%>
           <%= f.input :location, :label => "小组所在地" %>
-          <%= f.simple_fields_for :group_memberships do |u|  %>
+          
+          <!-- <%= f.simple_fields_for :group_memberships do |u|  %> -->
             <!-- <%= u.input :member_id %> -->
-            <%= u.association :member %>
-            <%= u.hidden_field :status, :value => "pending" %>
-          <% end %>
-<!--
+            <!-- <%= u.association :member, :as => :check_boxes, :multiple => true %> -->
+            <!--
+            <div class="member-select">
+            </div>-->
+            <!-- <%= u.hidden_field :status, :value => "pending" %>-->
+
+            <!--  <% end %> -->
           <div class="control-group">
             <div class="controls">							
-              <a href="#myModal" role="button" class="btn" data-toggle="modal">选择好友</a>
+              <a href="#myModal" role="button" class="btn" data-toggle="modal">选择好友并提交</a>
             </div>
           </div>
--->
-          <%= f.hidden_field :status, :value => "pending" %>
+          <!-- Modal -->
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="myModalLabel">选择好友</h3>
+            </div>
+            <div class="modal-body">
+              <p>好友列表</p>
+              <!--
+                <%= f.collection_check_boxes :member_ids, User.all, :id, :name , {:item_wrapper_tag => "div", :item_wrapper_class => "member_item"}%>
+              -->
 
+              <ul class="friend_list">
+                <% User.all.each do |member| %>
+                  <li>
+                    <%= image_tag(member.head_url)%>
+                    <label><%= h member.name -%><label>
+                    <%= check_box_tag 'member_ids[]', member.id -%>
+                  </li>
+                <% end %>
+               </ul>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" onClick="count_checked()">提交</button>
+            </div>
+          </div>
+          <%= f.hidden_field :status, :value => "pending" %>
+<!--
           <div class="control-group">
             <div class="controls">							
               <button type="submit" class="btn">提交</button>
             </div>
           </div>
-
+-->
         <% end %>
       </div>
     </div><!--span9-->
 
-    <!-- Modal -->
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Modal header</h3>
-      </div>
-      <div class="modal-body">
-        <p>One fine body…</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismissss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
 
     <div class="span4 group_notice">
       <div class="hero-unit" style="background-color:#FFC">
@@ -117,3 +99,6 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  $(".chzn-select").chosen();
+</script>

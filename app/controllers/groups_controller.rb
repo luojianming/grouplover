@@ -17,7 +17,23 @@ class GroupsController < ApplicationController
 
 =end
 
-
+    @member_ids = params[:member_ids]
+    @labels = params[:group][:labels]
+    @labels_num = @labels.size
+    @member_num = @member_ids.size
+    params[:group][:labels]=""
+    params[:group][:group_memberships_attributes] = {}
+    for i in 0..@member_num-1
+      params[:group][:group_memberships_attributes][i.to_s] = {}
+      params[:group][:group_memberships_attributes][i.to_s][:member_id] = @member_ids[i.to_i]
+    end
+    for i in 1..@labels_num-1
+      if i == 1
+        params[:group][:labels] += @labels[i]
+      else
+        params[:group][:labels] += "," + @labels[i] 
+      end
+    end
     @group = current_user.mygroups.build(params[:group])
      respond_to do |format|
       if @group.save
@@ -49,9 +65,11 @@ class GroupsController < ApplicationController
 
   def new
     @group = current_user.mygroups.build
-     3.times {
+=begin
+     1.times {
       @group.group_memberships.build
     }
+=end
   end
 
   def edit

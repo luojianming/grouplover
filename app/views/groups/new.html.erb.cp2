@@ -5,9 +5,10 @@
   <div class="row">
     <div class="span8">
       <div class="hero-unit" style="background-color:#CFC">
-        <%= simple_form_for @group, :html => {:class => "form-horizontal"} do |f| %>
+        <%= form_tag({:controller => "group", :action => "create"}, :class => "form-horizontal", :method => "post") do %>
           <legend>创建小组</legend>
           <div class="control-group">
+            <!--
             <label class="control-label">小组类型</label>
             <div class="controls">
               <input type="radio" name="group[sex]" id="men_group" checked style="margin-left:10px;margin-top:-5px"/>
@@ -15,33 +16,38 @@
               <input type="radio" name="group[sex]" id="women_grooup" style="margin-left:10px;margin-top:-5px"/>
               <span style="line-height:30px">女生团体</span>
             </div>
+            -->
+            <label class="control-label">小组类型</label>
+            <div class="controls">
+              <%= radio_button_tag(:sex, "true") %>
+              <%= label_tag(:sex_true, "男") %>
+              <%= radio_button_tag(:sex, "false") %>
+              <%= label_tag(:sex_true, "女") %>
+            </div>
           </div>
           <div class="control-group">
             <label class="control-label">小组名称</label>
             <div class="controls">
-              <input type="text" name="group[name]"/>
+              <%= text_field_tag(:name) %>
             </div>
           </div>
           <!--<%= f.input :name, :label => "小组名称" %>-->
           <div class="control-group">
             <label class="control-label">交友宣言</label>
             <div class="controls">
-              <textarea type="text" name="group[description]" style="width:206px;height:100px"></textarea>
-            </div>
+              <!--
+                <textarea type="text" name="group[description]" style="width:206px;height:100px"></textarea>
+              -->
+              <%= text_area_tag(:description, :size => "20x3") %>
+           </div>
           </div>
-<!--
-<%= f.input :description, :label => "交友宣言", :as => :text,
-                          :input_html => { :rows => 3 }%>
--->
           <div class="control-group">
             <label class="control-label">小组标签</label>
             <div class="controls">
-              <input type="text" name="group[labels]"/>
+              <!--        <input type="text" name="group[labels]"/> -->
+              <%= text_field_tag(:labels) %>
             </div>
           </div>
-<!--
-          <%= f.input :labels, :label => "小组标签" %>
--->
 <!--
           <div class="control-group">
             <label class="control-label">小组成员</label>
@@ -55,13 +61,12 @@
           <div class="control-group">
             <label class="control-label">小组所在地</label>
             <div class="controls">
-              <input type="text" name="group[location]"/>
+              <!--  <input type="text" name="group[location]"/>-->
+              <%= text_field_tag(:location) %>
             </div>
           </div>
-        <!--  <%= f.input :location, :label => "小组所在地" %>-->
+        <!--
           <%= f.simple_fields_for :group_memberships do |u|  %>
-            <!-- <%= u.input :member_id %> -->
-            <!--<%= u.association :member %>-->
             <select class="select optional" name="group[group_memberships_attributes][0][member_id]">
               <option value=""></option>
               <option value="1">ljm1</option>
@@ -71,6 +76,7 @@
             </select>
             <%= u.hidden_field :status, :value => "pending" %>
           <% end %>
+          -->
 
           <div class="control-group">
             <div class="controls">							
@@ -85,7 +91,6 @@
               <button type="submit" class="btn">提交</button>
             </div>
           </div>
-
         <% end %>
       </div>
     </div><!--span9-->

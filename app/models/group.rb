@@ -1,6 +1,6 @@
 class Group < ActiveRecord::Base
   attr_accessible :description, :name, :sex, :labels, :location,
-                  :member_counts, :group_memberships_attributes,:status,:team_leader_id
+                  :member_counts, :group_memberships_attributes,:status,:team_leader_id, :member_ids
 
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 
@@ -20,7 +20,7 @@ class Group < ActiveRecord::Base
 
   validates :name, :uniqueness => true
 
-
+  attr_accessor :member_ids
 #当且仅当所有的group_membership的status为accepted时才能变成active
   def self.update_status(group)
       group_status = "active"
@@ -32,4 +32,22 @@ class Group < ActiveRecord::Base
       end
       Group.find(group).update_attributes(:status => group_status)
   end
+=begin
+  def member_ids
+    @member_nums =  self.group_memberships.size
+    @member_ids = [];
+    for i in 0..@member_nums-1 
+      @member_ids << self.group_memberships[i.to_s][:member_id]
+    end
+  end
+
+  def member_ids=(member_ids)
+    @member_nums = member_ids.size
+    self.group_memberships = {}
+    for i in 0..@member_nums-1
+      self.group_memberships[i.to_s] = {}
+      self.group_memberships[i.to_s][:member_id] = member_ids[i].to_i
+    end
+  end
+=end
 end

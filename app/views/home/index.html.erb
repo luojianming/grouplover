@@ -18,11 +18,16 @@ $(function(){
 });
 </script>
 <script type="text/javascript">
-function display_actions(){
-	//$("#act").css("display","");
-	$(this).find(".actions").css("display","");
-	//alert("hello");
-}
+
+$(document).ready(function(){
+  $("div.item").children(".actions").hide();
+  $("div.item").mouseout(function(){
+    $(this).children(".actions").hide();
+  });
+  $("div.item").mouseover(function(){
+    $(this).children(".actions").show();
+  });
+});
 </script>
 <script>
 	$('.members ul li').tooltip({

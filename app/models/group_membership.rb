@@ -9,6 +9,7 @@ class GroupMembership < ActiveRecord::Base
   validates :group, :presence => true
   validates :member_id, :presence => true
   validates_associated :group
+
   def has_member(group, member)
 
   end

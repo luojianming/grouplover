@@ -424,7 +424,7 @@ body {
 }.index_container {
 	height: 800px;
 	width: 1100px;
-	background-image: url(../../img/bg.jpg);
+  background-image: url(<%= asset_path('bg.jpg') %>);
 	margin: auto;
 }
 .nav-menu ul li a {
@@ -476,8 +476,34 @@ body {
   text-decoration: none;
 }
 
-#new_group select option{
-  height: 53px;
-  background-image: url(<%= asset_path('pic2.jpg') %>); 
+
+.member_item{
+  width: 80px;
+  height: 90px;
+  position: relative;
+  float: left;
+  background-image: url(<%= asset_path('pic2.jpg') %>);
   background-repeat: no-repeat;
+}
+
+.member_item input{
+  position: absolute;
+  top: 70px;
+  left: 16px;
+}
+
+.member_item label{
+  position: absolute;
+  top: 50px;
+}
+
+.friend_list li{
+  width: 80px;
+  height: 90px;
+  list-style-type: none;
+  float: left;
+}
+
+.friend_list li input{
+  margin-left:16px;
 }
