@@ -23,6 +23,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   end
 
   resources :relationships, only: [:create, :destroy]
+  resources :group_invitationships, only: [:create, :destroy]
 
   match ':controller(/:action(/:id))'
 end

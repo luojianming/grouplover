@@ -50,4 +50,8 @@ class Group < ActiveRecord::Base
     end
   end
 =end
+
+  def applied!(invitation)
+    group_invitationships.create!(:invitation_id => invitation.id, :status => "pending")
+  end
 end
