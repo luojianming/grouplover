@@ -54,4 +54,16 @@ class Group < ActiveRecord::Base
   def applied!(invitation)
     group_invitationships.create!(:invitation_id => invitation.id, :status => "pending")
   end
+#如果group能申请该invitation返回true，否则返回false
+  def can_applied?(invitation)
+    if team_leader.applied?(invitation)
+      return false
+    end
+    group_memberships.each do |ship|
+      if ship.member.applied?(invitation)
+        return false
+      end
+    end
+    return true
+  end
 end

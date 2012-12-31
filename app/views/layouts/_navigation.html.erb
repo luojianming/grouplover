@@ -31,7 +31,6 @@
                 <li>
                   <%= link_to '编辑资料', edit_user_profiles_path(current_user) %>
                 </li>
-                </li>
                 <% if current_user.has_role? :admin %>
                   <li>
                     <%= link_to '管理', users_path %>

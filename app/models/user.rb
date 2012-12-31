@@ -55,5 +55,31 @@ class User < ActiveRecord::Base
   def find_friends()
     followers & followed_users
   end
+
+  def participate_groups()
+    @groups = []
+    @ships =  GroupMembership.find_all_by_member_id(id)
+    @ships.each do |ship|
+      if ship.group.status == "active"
+        @groups << ship.group
+      end
+    end
+    @groups
+  end
+
+  def related_groups()
+    participate_groups() | mygroups
+  end
+#如果某个用户所在的group已经申请了某invitation，则返回true,否则返回nil
+  def applied?(invitation)
+    groups = related_groups() 
+    for group in groups
+       if (invitation.group_invitationships.find_by_applied_group_id(group.id) != nil ||
+         invitation.initiate_group == group)
+          return true
+       end
+    end
+    return nil
+  end
   
 end

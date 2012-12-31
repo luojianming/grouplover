@@ -97,4 +97,22 @@ class UsersController < ApplicationController
     @my_invitations = Invitation.initiated_by_user(@user)
     render 'show_my_invitations'
   end
+
+  def received_invitations
+    @user = User.find(params[:id])
+    @my_invitations = Invitation.initiated_by_user(@user)
+    @received_invitations = []
+    @my_invitations.each do |my_invitation|
+      my_invitation.group_invitationships.each do |ship|
+        @received_invitations << ship.applied_group.myinvitations.build(
+          :location => ship.invitation.location,
+          :time => ship.invitation.time,
+          :style => ship.applied_group.labels,
+          :image_url => ship.applied_group.image_url,
+          :activity => ship.invitation.activity,
+          :description => ship.description)
+      end
+    end
+    render 'show_received_invitation'
+  end
 end

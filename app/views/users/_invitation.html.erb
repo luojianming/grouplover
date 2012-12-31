@@ -1,25 +1,28 @@
 <% if  invitations.blank? != true %>
   <% invitations.each do |invitation| %>
     <div class="item" id="invitation_<%=invitation.id%>">
-      <%= render 'shared/applied_action' %>
-          <div id="appliedModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h3 id="myModalLabel">申请参加</h3>
-            </div>
-            <%= form_for invitation.group_invitationships.build(invitation_id: invitation.id), 
-                         :remote => true do |f| %>
-            <div class="modal-body">
-              <p>选择一个group</p>
-              <%= f.hidden_field :invitation_id %>
-              <%= f.collection_select :applied_group_id, current_user.mygroups, :id, :name%>
-            </div>
-            <div class="modal-footer">
-              <!-- <button class="btn btn-primary" onClick="count_checked()">提交</button> -->
-              <%= f.submit "提交",:class => "btn btn-primary"%>
-            </div>
-          <% end %>
-          </div>
+    <% if user_signed_in?%>
+      <%= render 'shared/applied_action', :invitation => invitation %>
+      <div id="appliedModal_<%=invitation.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">申请参加</h3>
+        </div>
+        <%= simple_form_for invitation.group_invitationships.build(invitation_id: invitation.id) do |f| %>
+          <div class="modal-body">
+          <p>选择一个group</p>
+          <%= f.hidden_field :invitation_id %>
+          <%= f.collection_select :applied_group_id, current_user.mygroups, :id, :name%>
+          <%= f.input :description, :label => "对TA说的话", :as => :text,
+                      :input_html => { :rows => 3 }%>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">提交</button>
+          <!--<%= f.submit "提交",:class => "btn btn-primary"%>-->
+        </div>
+      <% end %>
+      </div>
+      <% end %>
   <div class="box-photo"><%= image_tag(invitation.image_url) %></div>
   <div class="activity_info"><span><%=invitation.time%>于<%= invitation.location %><%= invitation.activity %> </div>
     <div class="activity_description"><span><%= invitation.description %></span></div>

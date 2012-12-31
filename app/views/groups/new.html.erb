@@ -29,7 +29,6 @@
           <%= f.input :description, :label => "交友宣言", :as => :text,
                       :input_html => { :rows => 3 }%>
           <%= f.input :location, :label => "小组所在地" %>
-          
           <!-- <%= f.simple_fields_for :group_memberships do |u|  %> -->
             <!-- <%= u.input :member_id %> -->
             <!-- <%= u.association :member, :as => :check_boxes, :multiple => true %> -->
@@ -39,6 +38,7 @@
             <!-- <%= u.hidden_field :status, :value => "pending" %>-->
 
             <!--  <% end %> -->
+          <%= f.input :image_url, :label => "请上传形象照" %>
           <div class="control-group">
             <div class="controls">							
               <a href="#myModal" role="button" class="btn" data-toggle="modal">选择好友并提交</a>
