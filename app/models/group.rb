@@ -1,6 +1,7 @@
 class Group < ActiveRecord::Base
   attr_accessible :description, :name, :sex, :labels, :location,
-                  :member_counts, :group_memberships_attributes,:status,:team_leader_id, :member_ids
+                  :member_counts, :group_memberships_attributes,
+                  :status,:team_leader_id, :member_ids, :image_url
 
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 

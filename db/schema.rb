@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121231123744) do
+ActiveRecord::Schema.define(:version => 20130102130430) do
+
+  create_table "albums", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -99,6 +107,15 @@ ActiveRecord::Schema.define(:version => 20121231123744) do
   end
 
   add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
+
+  create_table "photos", :force => true do |t|
+    t.string   "name"
+    t.integer  "album_id"
+    t.string   "description"
+    t.string   "image"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "profiles", :force => true do |t|
     t.string   "birthday"

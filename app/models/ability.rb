@@ -7,8 +7,9 @@ class Ability
       can :manage, :all
     else
       if user.persisted?
-        can :create,Group
+        can :create, Group
         can :read, Profile
+        can :create, Album
       end
 =begin
       can :manage, Profile do |profile|
@@ -18,6 +19,9 @@ class Ability
       can :manage, Profile,   :user_id => user.id
       can :manage, Group do |group|
         group.try(:team_leader) == user
+      end
+      can :manage, Album do |album|
+        album.try(:user) == user
       end
     end
     # Define abilities for the passed in user here. For example:

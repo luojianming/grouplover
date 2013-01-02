@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+<h1>我的相册-<%= @album.name %></h1>
+
+<div id="photos">
+  <% for photo in @album.photos %>
+    <%= render 'photos/photo', :photo => photo %>
+  <% end %>
+</div>
+ <div class="clear" style="clear:both;"></div>
+<%= form_for Photo.new(album_id: @album.id) do |f| %>
+  <%= f.label :image, "上传照片：" %>
+  <%= f.file_field :image, multiple: true, name: "photo[image]" %>
+  <%= f.hidden_field :album_id %>
+<% end %>
+<script id="template-upload" type="text/x-tmpl">
+<div class="upload">
+  {%=o.name%}
+  <div class="progress"><div class="bar" style="width: 0%;"></div>
+</div>
+</script>
+<%= link_to 'Edit', edit_album_path(@album) %> |
+<%= link_to 'Back', albums_path %>

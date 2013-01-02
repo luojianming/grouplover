@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
                                :dependent => :destroy,
                                :inverse_of => :member
   has_many :groups, :through => :group_memberships, :foreign_key => "member_id"
+ 
+  has_many :albums, :dependent => :destroy
 
   def bind_service(response)
     provider = response["provider"]

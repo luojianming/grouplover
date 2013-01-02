@@ -1,4 +1,10 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
+  resources :photos
+
+
+  resources :albums
+
+
   resources :invitations
   resources :groups
   authenticated :user do
