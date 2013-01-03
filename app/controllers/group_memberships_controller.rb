@@ -1,5 +1,6 @@
 #encoding: utf-8
 class GroupMembershipsController < ApplicationController
+  before_filter :authenticate_user!
   def accept
     @member = current_user
     @group = params[:group]

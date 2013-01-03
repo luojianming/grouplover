@@ -1,8 +1,7 @@
-<div class="photo" style="float:left;margin-left:10px;">
-  <%= image_tag photo.image_url(:thumb) if photo.image? %>
+<div class="photo">
+  <%= link_to image_tag(photo.image_url(:thumb)), photo_path(photo)  if photo.image? %>
   <div class="name"><%= photo.name %></div>
   <div class="photo_actions">
-    <%= link_to "edit", edit_photo_path(photo) %>
-    <%= link_to "remove", photo, :confirm => 'Are you sure?', :method => :delete %>
+    <%= link_to "删除", photo, :confirm => '确定删除?', :method => :delete %>
   </div>
 </div>

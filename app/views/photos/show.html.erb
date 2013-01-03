@@ -1,25 +1,26 @@
-<p id="notice"><%= notice %></p>
+<%= content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums" %>
+<% end %>
+<div class="container">
+<div class = "row">
+  <div class="span9">
+    <div class="photo_header">
+      <h2>我的相册-<%= @photo.album.name %></h2>
+      <span>第<%=@photo.number+1%>张/共<%=@photo.album.photos_count%>张</span>
+      <%= link_to '上一张', photo_path(@photo.album.photos[(@photo.number+@photo.album.photos_count-1)%(@photo.album.photos_count)]),
+        :class => "pre_photo"%>/
+        <%= link_to '下一张', photo_path(@photo.album.photos[(@photo.number+1)%(@photo.album.photos_count)]) %>
+        <%= link_to '返回相册', album_path(@photo.album), :class => "pull-right" %>
+      </div>
 
-<p>
-  <b>Name:</b>
-  <%= @photo.name %>
-</p>
+      <%= image_tag @photo.image_url(:big) %>
 
-<p>
-  <b>Album:</b>
-  <%= @photo.album_id %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @photo.description %>
-</p>
-
-<p>
-  <b>Image:</b>
-  <%= @photo.image %>
-</p>
+      <%= form_tag({ :controller => "photos", :action => "update_description" }) do %>
+        <%= text_field_tag 'description', :placeholder => "请添加相片描述" %>
+      <% end %>
 
 
-<%= link_to 'Edit', edit_photo_path(@photo) %> |
-<%= link_to 'Back', photos_path %>
+      <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span> /
+    </div><!-- span9 -->
+  </div> <!-- row -->
+</div><!-- container -->

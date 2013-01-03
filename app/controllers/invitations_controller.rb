@@ -1,6 +1,7 @@
 class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
+  before_filter :authenticate_user!
   def index
     @invitations = Invitation.all
 

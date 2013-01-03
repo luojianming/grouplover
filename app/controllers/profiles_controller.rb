@@ -1,5 +1,6 @@
 #encoding: utf-8
 class ProfilesController < ApplicationController
+  before_filter :authenticate_user!
   load_resource :user
   load_and_authorize_resource :profile, :through => :user, :singleton => true
   # GET /profiles

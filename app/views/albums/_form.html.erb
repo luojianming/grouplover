@@ -2,11 +2,16 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :description %>
+    <%= f.input :name, :label => "相册名称（必填）" %>
+    <%= f.input :description , :as => :text, :label => "相册描述",
+                :input_html => { :rows => 5}%>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <% if @album.new_record? %>
+      <%= f.button :submit, "创建相册" %>
+    <% else %>
+      <%= f.button :submit, "更新相册" %>
+    <% end %>
   </div>
 <% end %>

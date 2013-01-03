@@ -1,4 +1,5 @@
 class PhotosController < ApplicationController
+  before_filter :authenticate_user!
   # GET /photos
   # GET /photos.json
   def index
@@ -40,6 +41,12 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
+    @album = Album.find(params[:photo][:album_id])
+    if @album.photos_count == nil
+      params[:photo][:number] = 0
+    else
+      params[:photo][:number] = @album.photos_count
+    end
     @photo = Photo.create(params[:photo])
 =begin
     respond_to do |format |
@@ -74,11 +81,19 @@ class PhotosController < ApplicationController
   # DELETE /photos/1.json
   def destroy
     @photo = Photo.find(params[:id])
+    @album = @photo.album
+    @num = @photo.number
+    for i in (@num+1)..(@album.photos_count-1)
+      @album.photos[i].update_attributes(:number => @album.photos[i].number-1)
+    end
     @photo.destroy
-
     respond_to do |format|
-      format.html { redirect_to photos_url }
+      format.html { redirect_to album_path(@photo.album) }
       format.json { head :no_content }
     end
+  end
+
+  def update_description
+    
   end
 end

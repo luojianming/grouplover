@@ -26,7 +26,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     member do
       get :following, :followers, :friends, 
           :groups, :following_invitations, :my_invitations,
-          :received_invitations
+          :received_invitations, :albums
     end
   end
 

@@ -115,4 +115,10 @@ class UsersController < ApplicationController
     end
     render 'show_received_invitation'
   end
+
+  def albums
+    @user = User.find(params[:id])
+    @albums = @user.albums
+    render 'show_album'
+  end
 end
