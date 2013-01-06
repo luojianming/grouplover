@@ -14,39 +14,67 @@
         <div class="tab-pane fade in active" id="basic_info">						
           <div class="hero-unit hero-unit-bg">  
 
-            <form class="form-horizontal"> 
+            <form class="form-horizontal profile_show"> 
               <!--<legend>基本资料<a class="pull-right" style="font-size:15px;color:#3FF;" onClick=""><i class="icon-edit"></i>编辑</a></legend>-->
               <legend>基本资料</legend>
 
               <div class="control-group">
-                <label class="control-label">姓名</label>
+                <label class="control-label">现居地</label>
                 <div class="controls">
-                  <input type="text" value="your name" readonly/>
+                  <%= @user.profile.location %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">性别</label>
                 <div class="controls">
-                  <input type="text" placeholder="sex">
+                  <% if @user.profile.sex %>
+                    男
+                  <% else %>
+                    女
+                  <% end %>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">生日</label>
                 <div class="controls">
-                  <input type="text" placeholder="birthday" onFocus="WdatePicker({isShowWeek:true})">
+                  <%= @user.profile.birthday %>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">家乡</label>
                 <div class="controls">
-                  <input type="text" placeholder="hometown">
+                  <%= @user.profile.hometown %>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">学校</label>
                 <div class="controls">
-                  <input type="text" placeholder="school">
+                  <%= @user.profile.school %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">标签</label>
+                <div class="controls">
+                  <%= @user.profile.style %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">兴趣</label>
+                <div class="controls">
+                  <%= @user.profile.hobby %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">喜欢的类型</label>
+                <div class="controls">
+                  <%= @user.profile.lover_style %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">行业</label>
+                <div class="controls">
+                  <%= @user.profile.profession %>
                 </div>
               </div>
             </form>
@@ -60,46 +88,46 @@
               <div class="control-group">
                 <label class="control-label">擅长的乐器</label>
                 <div class="controls">
-                  <input type="text" placeholder="your name">
+                  <%= @user.profile.musical_instruments %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">喜欢的书籍</label>
                 <div class="controls">
-                  <input type="text" placeholder="your name">
+                  <%= @user.profile.books %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">喜欢的运动</label>
                 <div class="controls">
-                  <input type="text" placeholder="your name">
+                  <%= @user.profile.sports %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">喜欢的音乐</label>
                 <div class="controls">
-                  <input type="text" placeholder="your name">
+                  <%= @user.profile.music %>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">喜欢的电影</label>
                 <div class="controls">
-                  <input type="text" placeholder="sex">
+                  <%= @user.profile.movie %>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">喜欢的动漫</label>
                 <div class="controls">
-                  <input type="text" placeholder="hometown">
+                  <%= @user.profile.animation %>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">玩的游戏</label>
                 <div class="controls">
-                  <input type="text" placeholder="school">
+                  <%= @user.profile.games %>
                 </div>
               </div>
             </form>
@@ -113,37 +141,30 @@
               <div class="control-group">
                 <label class="control-label">电话</label>
                 <div class="controls">
-                  <input type="text" placeholder="Telephone">
+                  <%= @user.profile.telephone %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">MSN</label>
                 <div class="controls">
-                  <input type="text" placeholder="MSN">
+                  <%= @user.profile.msn %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">QQ</label>
                 <div class="controls">
-                  <input type="text" placeholder="QQ">
+                  <%= @user.profile.qq %>
                 </div>
               </div>
 
               <div class="control-group">
                 <label class="control-label">Email</label>
                 <div class="controls">
-                  <input type="text" placeholder="Email">
+                  <%= @user.profile.email %>
                 </div>
               </div>
-
-              <div class="control-group" style="display:none">
-                <div class="controls">							
-                  <button type="submit" class="btn">保存</button>
-                </div>
-              </div>
-
             </form>
           </div>
         </div> 

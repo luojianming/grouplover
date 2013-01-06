@@ -67,7 +67,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
 
     respond_to do |format|
-      if @photo.update_attributes(params[:photo])
+      if @photo .update_attributes(params[:photo])
         format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
@@ -86,14 +86,14 @@ class PhotosController < ApplicationController
     for i in (@num+1)..(@album.photos_count-1)
       @album.photos[i].update_attributes(:number => @album.photos[i].number-1)
     end
-    @photo.destroy
+    @photo = Photo.destroy(params[:id])
     respond_to do |format|
       format.html { redirect_to album_path(@photo.album) }
-      format.json { head :no_content }
+      format.js
     end
   end
 
   def update_description
-    
+    render 'description_form'
   end
 end

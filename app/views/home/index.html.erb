@@ -6,14 +6,54 @@
 <% end %>
 <div class="container" id="container">
   <%= render 'users/invitation', :invitations => @invitations %>
+  <input class="btn" value="点此加载" id="load" />
+  <%= render 'users/show_foot' %>
 </div>
+<nav id="page-nav">
+  <%= will_paginate  @invitations%>
+</nav>
 
+<script>
+$('#load').click(function(){
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:3000",
+    success: function(data) {
+      var $res = $(data).find('.item');
+      $('#container').append($res).masonry('appended', $res);
+    }
+
+  })
+});
+</script>
 <script type="text/javascript">
 $(function(){
-  $('#container').masonry({
-    // options
+
+  $('#container').imagesLoaded(function(){
+    $('#container').masonry({
+      // options
+      itemSelector : '.item',
+      columnWidth : 235
+    });
+  });
+
+  $('#container').infinitescroll({
+    navSelector : '#page-nav div.pagination ul',
+    nextSelector : '#page-nav div.pagination ul li.next_page a:first',
     itemSelector : '.item',
-    columnWidth : 235
+    
+    loading: {
+      finishedMsg: 'No more pages to load.',
+      img: 'http://i.imgur.com/6RMhx.gif'
+    }
+  },
+
+  function(newElements) {
+    var $newElems = $(newElements).css({ opacity: 0 });
+    $newElems.imagesLoaded(function(){
+      $newElems.animate({opacity: 1 });
+      $('#container').masonry('appended', $newElems, true);
+    });
   });
 });
 </script>

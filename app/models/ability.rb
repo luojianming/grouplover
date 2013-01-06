@@ -17,7 +17,7 @@ class Ability
       end
 =end
       can :manage, Profile,   :user_id => user.id
-      can :manage, Group do |group|
+      can :manage, Group  do |group|
         group.try(:team_leader) == user
       end
       can :manage, Album do |album|

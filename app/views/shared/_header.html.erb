@@ -4,8 +4,8 @@
       <div class="row">
         <div class="span2">
           <div  class="headphoto">
-            <% if @user.head_url != nil %>
-              <%= image_tag(@user.head_url) %>
+            <% if @user.profile.avatar != nil %>
+              <%= image_tag(@user.profile.avatar) %>
             <% else %>
                 <%= image_tag("secure.gravatar.com.jpg") %>
             <% end %>
@@ -18,13 +18,15 @@
             <h3><%= @user.name %></h3>
             <% if @user.profile != nil %>
               <span class="school"><%= @user.profile.school %></span>
-              <span class="hometown"><%= @user.hometown %></span>
+              <span class="hometown"><%= @user.profile.hometown %></span>
               <span class="state">可预约</span>
             <% end %>
             <div class="divider-horizontal"></div>
             <div class="description">
-              <input type="text" class="span6" placeholder="用一句话描述自己吧..." onClick="displayInputArea()" >
-              <i class="icon-edit"></i>
+              <p>
+              <%= best_in_place_if @user==current_user, @user.profile, :games, :classes => "user_description",
+                                  :path => user_profiles_path(@user) , :type => :textarea, :nil => "用一句话描述自己把..." %>
+              </p>
             </div>
 
             <% if current_user == @user %>

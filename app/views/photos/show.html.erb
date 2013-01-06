@@ -12,15 +12,23 @@
         <%= link_to '下一张', photo_path(@photo.album.photos[(@photo.number+1)%(@photo.album.photos_count)]) %>
         <%= link_to '返回相册', album_path(@photo.album), :class => "pull-right" %>
       </div>
-
       <%= image_tag @photo.image_url(:big) %>
-
-      <%= form_tag({ :controller => "photos", :action => "update_description" }) do %>
-        <%= text_field_tag 'description', :placeholder => "请添加相片描述" %>
-      <% end %>
-
-
-      <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span> /
+      <p>
+        <%= best_in_place @photo, :description, type: :input, :nil => "输入照片描述" %>
+      </p>
+<!--
+      <a class="btn"  id="photo_description" style ="margin-top:5px;">添加相片描述</a>
+    -->
+    <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span> /
     </div><!-- span9 -->
   </div> <!-- row -->
 </div><!-- container -->
+<!--
+<script type="text/javascript">
+$(function () {
+  $('#photo_description').click(function(){
+    $('#photo_description').html("<textarea  id=\"description\" rows=\"1\" class=\"span7\"></textarea>");
+  });
+});
+</script>
+-->

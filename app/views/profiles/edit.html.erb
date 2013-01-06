@@ -4,27 +4,21 @@
 <div class="container">
   <div class="clearfix">
     <div class="row main">
+      <%= simple_form_for @profile, :url => user_profiles_path(current_user), 
+        :html => {:class => "form-horizontal"} do |f|%> 
       <div class="span3 sidenav">
-        <!--
         <div class="fileupload fileupload-new" data-provides="fileupload">
-          <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;"><img src="../img/secure.gravatar.com.jpg" class="img-rounded"/></div>
-          <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 200px; line-height: 20px;"></div>
-          <div>
-            <span class="btn btn-file"><span class="fileupload-new">上传头像</span><span class="fileupload-exists">换一张</span><input type="file" /></span>
-            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
-
+          <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;" id="avatar">
+            <%= image_tag @user.profile.avatar_url(:thumb) %> 
           </div>
+          <input class="btn" value="修改头像" id="upload_btn" style="width:80px;margin-top:10px" />
+          <%= f.file_field :avatar%>
         </div>
--->
-
-
       </div>
 
       <div class="span9 profile-style" id="profile">
         <div class="accordion" id="accordion2">
           <div class="hero-unit" style="padding-top:40px;padding-bottom:10px;">  
-            <%= simple_form_for @profile, :url => user_profiles_path(current_user), 
-              :html => {:class => "form-horizontal"} do |f|%> 
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a href="#collapseOne" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" >
@@ -32,7 +26,20 @@
                   </a>
                 </div>
                 <div id="collapseOne" class="accordion-body collapse">
+                  <div class="control-group">
+                    <label class="control-label">性别</label>
+                    <div class="controls">
+                      <input type="radio" name="profile[sex]"  style="margin-left:10px;margin-top:-5px" value=true />
+                      <span style="line-height:30px;">男</span>
+                      <input type="radio" name="profile[sex]"  style="margin-left:10px;margin-top:-5px" value=false />
+                      <span style="line-height:30px">女</span>
+                    </div>
+                  </div>
                   <%= f.input :birthday, :label => "生日" %>
+                  <%= f.input :hometown, :label => "家乡" %>
+                  <%= f.input :style, :label => "标签" %>
+                  <%= f.input :hobby, :label => "兴趣" %>
+                  <%= f.input :lover_style, :label => "喜欢的类型" %>
                   <%= f.input :school, :label => "学校" %>
                   <%= f.input :profession, :label => "行业" %>
               </div>
@@ -79,6 +86,12 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $('#profile_avatar').hide();
+    $('#upload_btn').click(function (){
+      $('#profile_avatar').click();
+    });
+  </script>
 
 
 

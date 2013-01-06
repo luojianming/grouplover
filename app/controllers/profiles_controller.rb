@@ -80,9 +80,11 @@ class ProfilesController < ApplicationController
       if @profile.update_attributes(params[:profile])
         format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
         format.json { head :no_content }
+        format.js { render 'update_avatar' }
       else
         format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新失败' }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
+        format.js { render  'update_avatar' }
       end
     end
   end

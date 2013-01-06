@@ -10,6 +10,10 @@ namespace :db do
   task invitation_populate: :environment do
     make_invitations
   end
+
+  task profile_populate: :environment do
+    make_profile
+  end
 end
 
 def make_users
@@ -21,28 +25,12 @@ def make_users
     name = "luojm#{n+1}"
     email = "xiaoluo#{n+1}@126.com"
     password = "890527"
-    head_url = "pic2.jpg"
-    lover_style = "可爱 性格好"
-    hobby = "篮球 乒乓求 k歌"
-    hometown = "湖南"
-    location = "北京"
-    style = "帅气 聪明"
-    sex = true
-    status = "active"
 
 
     User.create!(name: name,
                  email: email,
                  password: password,
-                 password_confirmation: password,
-                 head_url: head_url,
-                 lover_style: lover_style,
-                 hobby: hobby,
-                 hometown: hometown,
-                 location: location,
-                 style: style,
-                 sex: sex,
-                 status: status)
+                 password_confirmation: password)
   end
 end
 def make_relationships
@@ -82,8 +70,8 @@ end
 
 def make_invitations
   groups = Group.all
-  11.times do |n|
-    invitation = Invitation.create!(initiate_group_id: n+1,
+  60.times do |n|
+    invitation = Invitation.create!(initiate_group_id: n%10+1,
                                     time: "2012-12-26",
                                     location: "清华园",
                                     description: "等待就是浪费青春",
@@ -91,6 +79,30 @@ def make_invitations
                                     lover_style: "可爱 善良",
                                     style: "帅气 才华",
                                     activity: "三国杀",
-                                    image_url: "photo/#{n+1}.jpg")
+                                    image_url: "photo/#{n%10+1}.jpg")
+  end
+
+end
+
+def make_profile
+
+  User.all.each do |user|
+    avatar = "pic2.jpg"
+    lover_style = "可爱 性格好"
+    hobby = "篮球 乒乓求 k歌"
+    hometown = "湖南"
+    location = "北京"
+    style = "帅气 聪明"
+    sex = true
+    status = "active"
+    user.create_profile(:birthday => 1989,
+                        avatar: avatar,
+                        lover_style: lover_style,
+                        hobby: hobby,
+                        hometown: hometown,
+                        location: location,
+                        style: style,
+                        sex: sex,
+                        status: status)
   end
 end

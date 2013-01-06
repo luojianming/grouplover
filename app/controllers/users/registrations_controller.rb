@@ -29,6 +29,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
         respond_with resource       
     end
   end
+
+
 private
 =begin
   def after_sign_up_path_fails_for(resource)
@@ -42,4 +44,5 @@ private
   def sign_up(resource_name, resource)
     sign_in(resource_name, resource)
   end
+
 end
