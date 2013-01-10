@@ -11,17 +11,15 @@ class Ability
         can :read, Profile
         can :create, Album
       end
-=begin
-      can :manage, Profile do |profile|
-        profile.try(:user) == user
-      end
-=end
       can :manage, Profile,   :user_id => user.id
       can :manage, Group  do |group|
         group.try(:team_leader) == user
       end
       can :manage, Album do |album|
         album.try(:user) == user
+      end
+      can :manage, Photo do |photo|
+        photo.album.try(:user) == user
       end
     end
     # Define abilities for the passed in user here. For example:

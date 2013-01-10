@@ -3,20 +3,14 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
   def index
+    @groups = Group.all
   end
-
+=begin
   def show
   end
+=end
 
   def create
-=begin
-    @group = current_user.mygroups.build({:name => params[:group][:name], :sex => params[:group][:sex],
-                                          :member_counts => params[:group][:member_counts],
-                                          :description => params[:group][:description],
-                                          :labels => params[:group][:labels],
-                                          :location => params[:group][:location]})
-
-=end
 
     @member_ids = params[:member_ids]
     @labels = params[:group][:labels]
@@ -41,13 +35,17 @@ class GroupsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Group was successfully created.' }
         format.json { render json: @profile, status: :created, location: @profile }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to new_group_path, :notice => "创建小组失败" }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
+    @group = Group.destroy(params[:id])
+    respond_to do |format|
+      format.js
+    end
   end
 
   def update

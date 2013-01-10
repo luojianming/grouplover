@@ -5,6 +5,12 @@ class Invitation < ActiveRecord::Base
   has_many :group_invitationships, :dependent => :destroy
   has_many :applied_group, :class_name => "Group", :through => :group_invitationships
 
+  validates :initiate_group_id, :presence => true
+  validates :style, :presence => true
+  validates :location, :presence => true
+  validates :time, :presence => true
+
+
   def self.initiated_by_users_followed_by(user)
     followed_user_ids = Relationship.where("follower_id=(:user_id)", user_id: user).map(&:followed_id)
 

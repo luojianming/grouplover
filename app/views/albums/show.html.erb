@@ -6,8 +6,10 @@
     <div class="span9">
       <div class="album_header">
         <h2>我的相册-<%= @album.name %></h2>
-        <%= link_to '修改相册属性', edit_album_path(@album) ,:class => "album_edit_link"%> |
-        <%= link_to '返回相册首页', albums_user_path(current_user) %>
+        <% if can? :update, @album %>
+          <%= link_to '修改相册属性', edit_album_path(@album) ,:class => "album_edit_link"%> |
+        <% end %>
+        <%= link_to '返回相册首页', albums_user_path(@album.user),:class => "album_edit_link2" %>
       </div><!-- album_header -->
       <div id="photos">
         <% for photo in @album.photos %>
@@ -16,12 +18,13 @@
       </div>
       <div class="clear" style="clear:both;"></div>
     </div><!-- span9 -->
-
     <div class="span3">
-      <%= simple_form_for Photo.new(album_id: @album.id) do |f| %>
-        <%= f.label :image, "上传照片：" %>
-        <%= f.file_field :image, multiple: true, name: "photo[image]" %>
-        <%= f.hidden_field :album_id %>
+      <% if @album.user == current_user %> 
+        <%= simple_form_for Photo.new(album_id: @album.id) do |f| %>
+          <%= f.label :image, "上传照片：" %>
+          <%= f.file_field :image, multiple: true, name: "photo[image]" %>
+          <%= f.hidden_field :album_id %>
+        <% end %>
       <% end %>
     </div>
   </div><!-- row -->

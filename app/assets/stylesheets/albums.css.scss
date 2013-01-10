@@ -19,7 +19,10 @@
   text-decoration: none;
 }
 .album_edit_link{
-  margin-left:500px;
+  margin-left:515px;
+}
+.album_edit_link2{
+  float: right;
 }
 .pre_photo{
   margin-left:240px;
@@ -39,4 +42,9 @@
 
 #textarea_description{
   width:500px;
+}
+
+.photo_description{
+  margin-top: 5px;
+  width: 600px!important;
 }

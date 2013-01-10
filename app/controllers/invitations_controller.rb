@@ -2,6 +2,7 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
   before_filter :authenticate_user!
+=begin
   def index
     @invitations = Invitation.all
 
@@ -10,7 +11,8 @@ class InvitationsController < ApplicationController
       format.json { render json: @invitations }
     end
   end
-
+=end
+=begin
   # GET /invitations/1
   # GET /invitations/1.json
   def show
@@ -21,7 +23,7 @@ class InvitationsController < ApplicationController
       format.json { render json: @invitation }
     end
   end
-
+=end
   # GET /invitations/new
   # GET /invitations/new.json
   def new
@@ -32,11 +34,12 @@ class InvitationsController < ApplicationController
       format.json { render json: @invitation }
     end
   end
-
+=begin
   # GET /invitations/1/edit
   def edit
     @invitation = Invitation.find(params[:id])
   end
+=end
 
   # POST /invitations
   # POST /invitations.json
@@ -53,7 +56,7 @@ class InvitationsController < ApplicationController
       end
     end
   end
-
+=begin
   # PUT /invitations/1
   # PUT /invitations/1.json
   def update
@@ -69,7 +72,7 @@ class InvitationsController < ApplicationController
       end
     end
   end
-
+=end
   # DELETE /invitations/1
   # DELETE /invitations/1.json
   def destroy

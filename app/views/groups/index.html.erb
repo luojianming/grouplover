@@ -1,13 +1,10 @@
-<h2> 你的Group </h2>
-<ol>
-  <% current_user.mygroups.each do |mygroup| %>
-    <ol>
-      <% mygroup.group_memberships.each do |member_ship| %>
-        <li> 
-            <%= link_to member_ship.member.name, user_path(member_ship.member_id) %>, 
-            <%= member_ship.status %>
-        </li>
-      <% end %>
-    </ol>
-  <% end %>
-</ol>
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "style", "homepage" %>
+<% end %>
+<% content_for :subnav do %>
+  <%= render 'layouts/subnavigation' %>
+<% end %>
+<div class="container" id="group_container">
+  <%= render 'groups/group', :groups => @group %>
+  <%= render 'users/show_foot' %>
+</div>

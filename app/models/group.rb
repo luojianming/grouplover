@@ -1,7 +1,8 @@
+#encoding: utf-8
 class Group < ActiveRecord::Base
   attr_accessible :description, :name, :sex, :labels, :location,
                   :member_counts, :group_memberships_attributes,
-                  :status,:team_leader_id, :member_ids, :image_url
+                  :status, :member_ids, :image_url
 
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 
@@ -19,9 +20,22 @@ class Group < ActiveRecord::Base
                                 :reject_if => proc { |attributes| attributes['member_id'].blank? },
                                 :allow_destroy => true
 
-  validates :name, :uniqueness => true
+  validates :name, :uniqueness => true, :length => { :maximum => 8,
+                                                     :too_long => "名字最多不能超过8个字哦"}
+  validates :sex, :presence => true
+  validates :labels, :presence => true, :length => { :maximum => 20,
+                                                    :too_long => "标签总长度不能超过20个字哦"}
+  validates :location, :presence => true
+ # validates :member_counts, :numericality => { :less_than => 3 }
+  validate :labels_number_cannot_greater_than_three 
 
   attr_accessor :member_ids
+
+  def labels_number_cannot_greater_than_three
+    if labels.split(",").length >= 3
+      errors.add(:labels, "标签个数最多不能超过两个")
+    end
+  end
 #当且仅当所有的group_membership的status为accepted时才能变成active
   def self.update_status(group)
       group_status = "active"

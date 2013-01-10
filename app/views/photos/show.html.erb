@@ -14,12 +14,10 @@
       </div>
       <%= image_tag @photo.image_url(:big) %>
       <p>
-        <%= best_in_place @photo, :description, type: :input, :nil => "输入照片描述" %>
+      <%= best_in_place_if @photo.album.user==current_user, @photo, :description, type: :input, 
+        :nil => "输入照片描述", :classes => "photo_description" %>
       </p>
-<!--
-      <a class="btn"  id="photo_description" style ="margin-top:5px;">添加相片描述</a>
-    -->
-    <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span> /
+    <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span>
     </div><!-- span9 -->
   </div> <!-- row -->
 </div><!-- container -->

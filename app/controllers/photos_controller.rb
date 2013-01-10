@@ -1,7 +1,10 @@
+# encoding: utf-8
 class PhotosController < ApplicationController
   before_filter :authenticate_user!
   # GET /photos
   # GET /photos.json
+  authorize_resource
+=begin
   def index
     @photos = Photo.all
 
@@ -10,6 +13,7 @@ class PhotosController < ApplicationController
       format.json { render json: @photos }
     end
   end
+=end
 
   # GET /photos/1
   # GET /photos/1.json
@@ -21,7 +25,7 @@ class PhotosController < ApplicationController
       format.json { render json: @photo }
     end
   end
-
+=begin
   # GET /photos/new
   # GET /photos/new.json
   def new
@@ -32,11 +36,13 @@ class PhotosController < ApplicationController
       format.json { render json: @photo }
     end
   end
-
+=end
+=begin
   # GET /photos/1/edit
   def edit
     @photo = Photo.find(params[:id])
   end
+=end
 
   # POST /photos
   # POST /photos.json
@@ -47,7 +53,10 @@ class PhotosController < ApplicationController
     else
       params[:photo][:number] = @album.photos_count
     end
-    @photo = Photo.create(params[:photo])
+
+    @photo = Photo.new(params[:photo])
+    authorize! :create, @photo, :message => "对不起，您没有权限上传照片哦"
+    @photo.save
 =begin
     respond_to do |format |
       if @photo.save
@@ -65,6 +74,7 @@ class PhotosController < ApplicationController
   # PUT /photos/1.json
   def update
     @photo = Photo.find(params[:id])
+    authorize! :update, @photo, :message => "对不起，您没有权限修改照片属性哦"
 
     respond_to do |format|
       if @photo .update_attributes(params[:photo])
@@ -81,6 +91,7 @@ class PhotosController < ApplicationController
   # DELETE /photos/1.json
   def destroy
     @photo = Photo.find(params[:id])
+    authorize! :destroy, @photo, :message => "对不起，您没有权限删除照片哦"
     @album = @photo.album
     @num = @photo.number
     for i in (@num+1)..(@album.photos_count-1)
@@ -91,9 +102,5 @@ class PhotosController < ApplicationController
       format.html { redirect_to album_path(@photo.album) }
       format.js
     end
-  end
-
-  def update_description
-    render 'description_form'
   end
 end

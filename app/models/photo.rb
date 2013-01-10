@@ -3,6 +3,8 @@ class Photo < ActiveRecord::Base
   belongs_to :album, :counter_cache => true
   mount_uploader :image, ImageUploader
 
+  validates :album_id, :presence => true
+
   before_create :default_name
     def default_name
       self.name ||= File.basename(image.filename, '.*').titleize if image

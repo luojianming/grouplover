@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
  
   has_many :albums, :dependent => :destroy
 
+  has_many :photos, :through => :albums
+
+  has_many :invitations, :through => :mygroups
+
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]

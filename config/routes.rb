@@ -1,12 +1,11 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
-  resources :photos
 
+  resources :photos, only: [:show, :create, :update, :destroy]
 
-  resources :albums
+  resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]
 
-
-  resources :invitations
-  resources :groups
+  resources :invitations, only: [:new, :create, :destroy]
+  resources :groups, only: [:new, :create, :update, :destroy, :edit, :index]
   authenticated :user do
     root :to => 'home#index'
   end

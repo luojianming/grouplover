@@ -1,8 +1,10 @@
+#encoding: utf-8
 class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
   before_filter :authenticate_user!
   authorize_resource
+=begin
   def index
     @albums = Album.all
 
@@ -11,6 +13,7 @@ class AlbumsController < ApplicationController
       format.json { render json: @albums }
     end
   end
+=end
 
   # GET /albums/1
   # GET /albums/1.json
@@ -27,6 +30,7 @@ class AlbumsController < ApplicationController
   # GET /albums/new.json
   def new
     @album = Album.new
+    authorize! :new, @album, :message => "对不起，您没有权限创建相册哦"
 
     respond_to do  |format|
       format.html # new.html.erb
@@ -37,13 +41,14 @@ class AlbumsController < ApplicationController
   # GET /albums/1/edit
   def edit
     @album = Album.find(params[:id])
+    authorize! :edit, @album, :message => "对不起，您没有权限修改他人的相册哦"
   end
 
   # POST /albums
   # POST /albums.json
   def create
     @album = current_user.albums.build(params[:album])
-
+    authorize! :edit, @album, :message => "对不起，您没有权限创建相册哦"
     respond_to do |format|
       if @album.save
         format.html { redirect_to @album, notice: 'Album was successfully created.' }
@@ -59,6 +64,7 @@ class AlbumsController < ApplicationController
   # PUT /albums/1.json
   def update
     @album = Album.find(params[:id])
+    authorize! :update, @album, :message => "对不起，您没有权限修改他人的相册哦"
 
     respond_to do |format|
       if @album.update_attributes(params[:album])
@@ -75,11 +81,13 @@ class AlbumsController < ApplicationController
   # DELETE /albums/1.json
   def destroy
     @album = Album.find(params[:id])
-    @album.destroy
+    authorize! :destroy, @album, :message => "对不起，您没有权限删除他人的相册哦"
+    @album = Album.destroy(params[:id])
 
     respond_to do |format|
       format.html { redirect_to albums_url }
       format.json { head :no_content }
+      format.js
     end
   end
 end
