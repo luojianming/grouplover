@@ -39,6 +39,8 @@ class User < ActiveRecord::Base
 
   has_many :invitations, :through => :mygroups
 
+  has_many :messages, :foreign_key => "sender_id"
+
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]

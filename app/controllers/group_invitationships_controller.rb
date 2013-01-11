@@ -1,5 +1,6 @@
 #encoding: utf-8
 class GroupInvitationshipsController < ApplicationController
+  before_filter :authenticate_user!
   def create
     @applied_group = Group.find(params[:group_invitationship][:applied_group_id])
     @invitation = Invitation.find(params[:group_invitationship][:invitation_id])

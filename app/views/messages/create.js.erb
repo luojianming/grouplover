@@ -1,0 +1,5 @@
+<% publish_to "/conversations/group/"+@conversation.conversationer_id.to_s do %>
+  $("#chat_<%=@conversation.id %>").
+    append("<%= j render('messages/message', :message => @message) %>");
+  $("#new_message_<%= @conversation.id %>")[0].reset();
+<% end %>

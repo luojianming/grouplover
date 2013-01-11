@@ -16,6 +16,8 @@ class Group < ActiveRecord::Base
   has_many :group_invitationships, :dependent => :destroy, :foreign_key => "applied_group_id"
   has_many :invitations, :through => :group_invitationships, :foreign_key => "applied_group_id"
 
+  has_one :conversation, :as => :conversationer
+
   accepts_nested_attributes_for :group_memberships,
                                 :reject_if => proc { |attributes| attributes['member_id'].blank? },
                                 :allow_destroy => true

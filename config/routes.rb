@@ -1,5 +1,9 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
 
+  resources :messages, only: [:index, :create]
+
+  resources :conversations, only: [:index, :create]
+
   resources :photos, only: [:show, :create, :update, :destroy]
 
   resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]

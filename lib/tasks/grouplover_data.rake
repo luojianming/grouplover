@@ -14,6 +14,10 @@ namespace :db do
   task profile_populate: :environment do
     make_profile
   end
+
+  task conversation_populate: :environment do
+    make_conversations
+  end
 end
 
 def make_users
@@ -104,5 +108,12 @@ def make_profile
                         style: style,
                         sex: sex,
                         status: status)
+  end
+end
+
+def make_conversations
+  @groups = Group.all
+  @groups.each do |group|
+    group.create_conversation()
   end
 end

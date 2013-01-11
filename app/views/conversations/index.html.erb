@@ -1,0 +1,31 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations" %>
+<% end %>
+<div class="container">
+  <div class="row">
+    <div class="span3">
+      会话列表
+      <ul>
+        <% current_user.related_groups.each do |group| %>
+          <li id="group_session_<%= group.id %>">
+          <%= link_to group.name, { :controller => "conversations" , :group => group.id} ,:method => "post", :remote => true  %>
+          </li>
+        <% end %>
+      </ul>
+      成员列表
+      <ul>
+        <li>luojm</li>
+        <li>luojm2</li>
+        <li>luojm3</li>
+        <li>luojm4</li>
+      </ul>
+      
+    </div>
+    <div class="span9" id="conversations_container">
+    </div>
+  </div>
+</div>
+
+<script>
+
+</script>

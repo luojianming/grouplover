@@ -17,4 +17,5 @@
 //= require best_in_place
 //= require best_in_place.purr
 //= require bootstrap
+//= require private_pub
 //= require_tree .
