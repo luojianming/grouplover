@@ -15,7 +15,7 @@
           <%= f.collection_select :applied_group_id, current_user.mygroups, :id, :name%>
           <%= f.input :description, :label => "对TA说的话", :as => :text,
                       :input_html => { :rows => 3 }%>
-        </div>
+        </div>    
         <div class="modal-footer">
           <button class="btn btn-primary">提交</button>
           <!--<%= f.submit "提交",:class => "btn btn-primary"%>-->

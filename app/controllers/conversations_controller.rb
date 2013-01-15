@@ -16,4 +16,9 @@ class ConversationsController < ApplicationController
       redirect_to root_path, :notice => '您无权访问该页'
     end
   end
+
+  def destroy
+    @id = params[:id]
+    @conversation = Conversation.find(@id)
+  end
 end

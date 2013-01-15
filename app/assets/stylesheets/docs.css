@@ -322,3 +322,30 @@ body .one .bsa_it_p {
     width: 1168px; /* 2px less to account for left/right borders being removed when in fixed mode */
   }
 }
+
+/* Popovers */
+.bs-docs-example-popover {
+  padding-bottom: 24px;
+  background-color: #f9f9f9;
+}
+.bs-docs-example-popover .popover {
+  position: relative;
+  display: block;
+  width: 400px;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+/* Base class */
+.bs-docs-example {
+  position: relative;
+  margin: 15px 0;
+  padding: 39px 19px 14px;
+  *padding-top: 19px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+

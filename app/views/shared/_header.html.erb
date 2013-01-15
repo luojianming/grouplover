@@ -30,7 +30,7 @@
             </div>
 
             <% if current_user == @user %>
-              <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary" %>
+              <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary", :id => "create_invitation_btn" %>
             <% end %>
           </div>
         </span>
