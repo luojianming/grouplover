@@ -8,9 +8,33 @@ function discountWordNum(){
   //	alert(str.length);
   $('.wordsOffset').html(200 - str.length) ;
 }
+
+$(function(){
+  applied_action_process();
+});
 </script>
 
 <script>
 	$('.members ul li').tooltip({
       selector: "a[rel=tooltip]"})
+</script>
+
+<script>
+$(function(){
+  $('.container').masonry({
+    itemSelector : '.item',
+    columnWidth : 235
+  });
+});
+</script>
+<script>
+  function applied_action_process(){
+    $("div.item").children(".actions").hide();
+    $("div.item").mouseout(function(){
+      $(this).children(".actions").hide();
+    });
+    $("div.item").mouseover(function(){
+      $(this).children(".actions").show();
+    });
+  }
 </script>

@@ -19,7 +19,7 @@
       <div class="clear" style="clear:both;"></div>
     </div><!-- span9 -->
     <div class="span3">
-      <% if @album.user == current_user %> 
+      <% if @album.user == current_user %>
         <%= simple_form_for Photo.new(album_id: @album.id) do |f| %>
           <%= f.label :image, "上传照片：" %>
           <%= f.file_field :image, multiple: true, name: "photo[image]" %>

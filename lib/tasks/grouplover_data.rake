@@ -55,13 +55,15 @@ def make_groups
     team_leader_id = n+1
     status = "active"
     labels = "帅气 阳光"
+	sex = true
     
-    g = Group.create!(name: name,
-                 description: description,
-                 location: location,
-                 team_leader_id: team_leader_id,
-                 status: status,
-                 labels: labels)
+    g = users[n+2].mygroups.create(name: name,
+					  sex: sex,
+					  description: description,
+					  location: location,
+					  team_leader_id: team_leader_id,
+					  status: status,
+					  labels: labels)
     g.group_memberships.create(member_id: n+2,
                                status: "accepted")
     g.group_memberships.create(member_id: n+3,

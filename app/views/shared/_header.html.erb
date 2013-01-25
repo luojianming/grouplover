@@ -14,7 +14,7 @@
           <%= render 'shared/follow_form' %>
         </div>
         <span class="span7 trends-box">
-          <div class="content">                        
+          <div class="content">             
             <h3><%= @user.name %></h3>
             <% if @user.profile != nil %>
               <span class="school"><%= @user.profile.school %></span>
@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="row">
-
+ 
           <div class="span1">
             <%= image_tag("pic4.jpg") %>
             <label>马志华</label>
@@ -77,12 +77,12 @@
   <div class="subnav" style="background-color:#FAF7F7">
     <ul class="nav nav-pills">
 
-      <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">动态<b class="caret"></b></a>
-      <ul class="dropdown-menu" id="swatch-menu">
-        <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
-        <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
-        <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
-      </ul>
+      <li class="dropdown">
+        <a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">动态<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
+          <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
+        </ul>
       </li>
       <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
       <ul class="dropdown-menu" id="swatch-menu">
@@ -97,16 +97,5 @@
     </ul>
   </div>
 
-  <div>
-   <% if current_user == @user%>
-    <% current_user.group_memberships.each do |ship| %>
-      <% if ship.status == "pending" || ship.status == nil  %>
-        <span><%= ship.group.team_leader.name %>向你发出了邀请</span>
-        <%= link_to "接受", {:controller => "group_memberships", :action => "accept", :group => ship.group } %>
-        <%= link_to "忽略", {:controller => "group_memberships", :action => "reject", :group => ship.group } %>
-      <% end %>
-    <% end %>
-  <% end %>
-  </div>
 
 </header>

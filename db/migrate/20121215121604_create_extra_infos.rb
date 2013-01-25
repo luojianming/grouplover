@@ -8,5 +8,4 @@ class CreateExtraInfos < ActiveRecord::Migration
     end
   end
 
-  add_index :extra_infos, :user_id
 end

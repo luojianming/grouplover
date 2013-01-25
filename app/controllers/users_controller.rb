@@ -10,6 +10,8 @@ class UsersController < ApplicationController
   def show
     begin
       @user = User.find(params[:id])
+      @following_invitations = Invitation.initiated_by_users_followed_by(@user)
+      render 'show_following_invitations'
 =begin
       if (current_user != @user)
         extra_info = @user.extra_info ||= @user.create_extra_info()

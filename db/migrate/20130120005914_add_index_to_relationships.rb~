@@ -1,0 +1,4 @@
+class AddIndexToRelationships < ActiveRecord::Migration
+  def change
+  end
+end
