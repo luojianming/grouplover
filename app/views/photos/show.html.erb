@@ -1,0 +1,32 @@
+<%= content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums" %>
+<% end %>
+<div class="container">
+<div class = "row">
+  <div class="span9">
+    <div class="photo_header">
+      <h2>我的相册-<%= @photo.album.name %></h2>
+      <span>第<%=@photo.number+1%>张/共<%=@photo.album.photos_count%>张</span>
+      <%= link_to '上一张', photo_path(@photo.album.photos[(@photo.number+@photo.album.photos_count-1)%(@photo.album.photos_count)]),
+        :class => "pre_photo"%>/
+        <%= link_to '下一张', photo_path(@photo.album.photos[(@photo.number+1)%(@photo.album.photos_count)]) %>
+        <%= link_to '返回相册', album_path(@photo.album), :class => "pull-right" %>
+      </div>
+      <%= image_tag @photo.image_url(:big) %>
+      <p>
+      <%= best_in_place_if @photo.album.user==current_user, @photo, :description, type: :input, 
+        :nil => "输入照片描述", :classes => "photo_description" %>
+      </p>
+    <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span>
+    </div><!-- span9 -->
+  </div> <!-- row -->
+</div><!-- container -->
+<!--
+<script type="text/javascript">
+$(function () {
+  $('#photo_description').click(function(){
+    $('#photo_description').html("<textarea  id=\"description\" rows=\"1\" class=\"span7\"></textarea>");
+  });
+});
+</script>
+-->

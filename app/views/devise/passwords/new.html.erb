@@ -1,0 +1,17 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides" %>
+<% end %>
+<div class="container">
+<%= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+  <legend>忘记密码啦？</legend>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <%= f.input :email, :required => true %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "通过邮件重置密码" %>
+  </div>
+<% end %>
+<%= render "devise/shared/links" %>
+</div>

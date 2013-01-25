@@ -11,21 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20121204160619) do
-=======
-ActiveRecord::Schema.define(:version => 20121204180515) do
->>>>>>> weibo-auth
+ActiveRecord::Schema.define(:version => 20130120010059) do
 
-  create_table "authentications", :force => true do |t|
+  create_table "albums", :force => true do |t|
     t.integer  "user_id"
-    t.string   "provider"
-    t.string   "uid"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "photos_count"
   end
-<<<<<<< HEAD
-=======
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -34,7 +29,127 @@ ActiveRecord::Schema.define(:version => 20121204180515) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
->>>>>>> weibo-auth
+
+  create_table "conversations", :force => true do |t|
+    t.integer  "conversationer_id"
+    t.string   "conversationer_type"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  create_table "extra_infos", :force => true do |t|
+    t.string   "vistors"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "extra_infos", ["user_id"], :name => "index_extra_infos_on_user_id"
+
+  create_table "group_invitationships", :force => true do |t|
+    t.string   "applied_group_id"
+    t.string   "status"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "invitation_id"
+    t.string   "description"
+  end
+
+  create_table "group_memberships", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "member_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "status"
+  end
+
+  add_index "group_memberships", ["group_id", "member_id"], :name => "index_group_memberships_on_group_id_and_member_id", :unique => true
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "team_leader_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "member_counts"
+    t.boolean  "sex"
+    t.string   "location"
+    t.string   "founded_time"
+    t.text     "labels"
+    t.string   "status"
+  end
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "initiate_group_id"
+    t.string   "time"
+    t.string   "location"
+    t.string   "description"
+    t.string   "status"
+    t.string   "lover_style"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "image_url"
+    t.string   "style"
+    t.string   "activity"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.string   "content"
+    t.integer  "conversation_id"
+    t.integer  "sender_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.string   "name"
+    t.integer  "album_id"
+    t.string   "description"
+    t.string   "image"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "number"
+  end
+
+  create_table "profiles", :force => true do |t|
+    t.string   "birthday"
+    t.string   "school"
+    t.string   "musical_instruments"
+    t.string   "books"
+    t.string   "sports"
+    t.string   "music"
+    t.string   "movie"
+    t.string   "animation"
+    t.string   "games"
+    t.string   "telephone"
+    t.string   "msn"
+    t.string   "qq"
+    t.string   "email"
+    t.integer  "user_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "profession"
+    t.boolean  "sex"
+    t.string   "hometown"
+    t.string   "location"
+    t.string   "status"
+    t.string   "avatar"
+    t.string   "hobby"
+    t.string   "style"
+    t.string   "lover_style"
+    t.string   "description"
+  end
+
+  create_table "relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
+  add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
+  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -61,6 +176,10 @@ ActiveRecord::Schema.define(:version => 20121204180515) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "name"
+    t.boolean  "sex"
+    t.string   "hometown"
+    t.string   "location"
+    t.string   "status"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

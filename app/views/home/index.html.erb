@@ -1,4 +1,89 @@
-<h3>Home</h3>
-<% @users.each do |user| %>
-  <p>User: <%=link_to user.name, user %></p>
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "style", "homepage" %>
 <% end %>
+<% content_for :subnav do %>
+  <%= render 'layouts/subnavigation' %>
+<% end %>
+<div class="container" id="container">
+  <%= render 'users/invitation', :invitations => @invitations %>
+
+  <!-- <input class="btn" value="点此加载" id="load" />-->
+  <%= render 'users/show_foot' %>
+</div>
+<nav id="page-nav">
+  <%= will_paginate  @invitations%>
+</nav>
+
+<script>
+$('#load').click(function(){
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:3000",
+    success: function(data) {
+      var $res = $(data).find('.item');
+      $('#container').append($res).masonry('appended', $res);
+    }
+
+  })
+});
+</script>
+<script>
+ function sleep(d){
+   for (var t = Date.now(); Date.now() - t <= d;);
+ }
+</script>
+<script type="text/javascript">
+$(function(){
+
+  var $container = $('#container');
+  $container.imagesLoaded(function(){
+    $container.masonry({
+      // options
+      itemSelector : '.item',
+      columnWidth : 235
+    });
+  });
+
+  $container.infinitescroll({
+    navSelector : '#page-nav',
+    nextSelector : '#page-nav div.pagination ul li.next_page a:first',
+    itemSelector : '.item',
+    loading: {
+      finishedMsg: 'No more pages to load.',
+      img: 'http://i.imgur.com/6RMhx.gif'
+    },
+    debug: true
+  },
+
+  function(newElements) {
+    var $newElems = $( newElements ).css({ opacity: 0 });
+    sleep(2000);
+    $newElems.imagesLoaded(function(){
+      $newElems.animate({ opacity: 1 });
+      $container.masonry('appended', $newElems, true);
+      applied_action_process();
+    });
+  });
+});
+</script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+  applied_action_process();
+});
+</script>
+<script>
+	$('.members ul li').tooltip({
+      selector: "a[rel=tooltip]"})
+</script>
+<script>
+  function applied_action_process(){
+    $("div.item").children(".actions").hide();
+    $("div.item").mouseout(function(){
+      $(this).children(".actions").hide();
+    });
+    $("div.item").mouseover(function(){
+      $(this).children(".actions").show();
+    });
+  }
+</script>

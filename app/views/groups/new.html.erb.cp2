@@ -1,0 +1,128 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides" %>
+<% end %>
+<div class="container">
+  <div class="row">
+    <div class="span8">
+      <div class="hero-unit" style="background-color:#CFC">
+        <%= form_tag({:controller => "group", :action => "create"}, :class => "form-horizontal", :method => "post") do %>
+          <legend>创建小组</legend>
+          <div class="control-group">
+            <!--
+            <label class="control-label">小组类型</label>
+            <div class="controls">
+              <input type="radio" name="group[sex]" id="men_group" checked style="margin-left:10px;margin-top:-5px"/>
+              <span style="line-height:30px;">男生团体</span>
+              <input type="radio" name="group[sex]" id="women_grooup" style="margin-left:10px;margin-top:-5px"/>
+              <span style="line-height:30px">女生团体</span>
+            </div>
+            -->
+            <label class="control-label">小组类型</label>
+            <div class="controls">
+              <%= radio_button_tag(:sex, "true") %>
+              <%= label_tag(:sex_true, "男") %>
+              <%= radio_button_tag(:sex, "false") %>
+              <%= label_tag(:sex_true, "女") %>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">小组名称</label>
+            <div class="controls">
+              <%= text_field_tag(:name) %>
+            </div>
+          </div>
+          <!--<%= f.input :name, :label => "小组名称" %>-->
+          <div class="control-group">
+            <label class="control-label">交友宣言</label>
+            <div class="controls">
+              <!--
+                <textarea type="text" name="group[description]" style="width:206px;height:100px"></textarea>
+              -->
+              <%= text_area_tag(:description, :size => "20x3") %>
+           </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">小组标签</label>
+            <div class="controls">
+              <!--        <input type="text" name="group[labels]"/> -->
+              <%= text_field_tag(:labels) %>
+            </div>
+          </div>
+<!--
+          <div class="control-group">
+            <label class="control-label">小组成员</label>
+            <div class="controls">
+              <a href="#" style="margin-left:20px;line-height:30px">杨过</a>
+              <a href="#" style="margin-left:20px;line-height:30px">周伯通</a>
+            </div>
+          </div>
+-->
+
+          <div class="control-group">
+            <label class="control-label">小组所在地</label>
+            <div class="controls">
+              <!--  <input type="text" name="group[location]"/>-->
+              <%= text_field_tag(:location) %>
+            </div>
+          </div>
+        <!--
+          <%= f.simple_fields_for :group_memberships do |u|  %>
+            <select class="select optional" name="group[group_memberships_attributes][0][member_id]">
+              <option value=""></option>
+              <option value="1">ljm1</option>
+              <option value="2">ljm2</option>
+              <option value="3">ljm3</option>
+              <option value="4">ljm4</option>
+            </select>
+            <%= u.hidden_field :status, :value => "pending" %>
+          <% end %>
+          -->
+
+          <div class="control-group">
+            <div class="controls">							
+              <a href="#myModal" role="button" class="btn" data-toggle="modal">选择好友</a>
+            </div>
+          </div>
+
+          <%= f.hidden_field :status, :value => "pending" %>
+
+          <div class="control-group">
+            <div class="controls">							
+              <button type="submit" class="btn">提交</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div><!--span9-->
+
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Modal header</h3>
+      </div>
+      <div class="modal-body">
+        <p>One fine body…</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismissss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+
+    <div class="span4 group_notice">
+      <div class="hero-unit" style="background-color:#FFC">
+        <legend>注意事项</legend>
+        <ul>
+          <li><span class="badge badge-info">1</span>每个小组的所有成员必须同性，且无性取向问题</li>
+          <li><span class="badge badge-info">2</span>每个人最多只能创建一个group</li>
+          <li><span class="badge badge-info">3</span>每个人最多只能参加3个group</li>
+          <li><span class="badge badge-info">4</span>每个group的人数必须为2~4人</li>
+          <li><span class="badge badge-info">5</span>每个group的标签不能超过6个</li>
+          <li><span class="badge badge-info">6</span>如果group半年时间内都没任何活动，则系统自动解除</li>                   
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,3 +1,10 @@
-<h3>User</h3>
-<p>User: <%= @user.name %></p>
-<p>Email: <%= @user.email if @user.email %></p>
+<%= render 'show_head' %>
+<div class="container">
+  <%= render 'shared/header' %> 
+  <div id="personalpage" class="container">
+
+    <%= render 'invitation', :invitations => @following_invitations %>
+
+  </div><!-- personalpage -->
+</div><!-- container -->
+<%= render 'show_foot' %>

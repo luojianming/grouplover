@@ -1,0 +1,101 @@
+<header class="jumbotron subhead">
+  <div class="row">
+    <div class="span9">
+      <div class="row">
+        <div class="span2">
+          <div  class="headphoto">
+            <% if @user.profile.avatar != nil %>
+              <%= image_tag(@user.profile.avatar) %>
+            <% else %>
+                <%= image_tag("secure.gravatar.com.jpg") %>
+            <% end %>
+          </div>
+          <%= render "shared/stats" %>
+          <%= render 'shared/follow_form' %>
+        </div>
+        <span class="span7 trends-box">
+          <div class="content">             
+            <h3><%= @user.name %></h3>
+            <% if @user.profile != nil %>
+              <span class="school"><%= @user.profile.school %></span>
+              <span class="hometown"><%= @user.profile.hometown %></span>
+              <span class="state">可预约</span>
+            <% end %>
+            <div class="divider-horizontal"></div>
+            <div class="description">
+              <p>
+              <%= best_in_place_if @user==current_user, @user.profile, :games, :classes => "user_description",
+                                  :path => user_profiles_path(@user) , :type => :textarea, :nil => "用一句话描述自己把..." %>
+              </p>
+            </div>
+
+            <% if current_user == @user %>
+              <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary", :id => "create_invitation_btn" %>
+            <% end %>
+          </div>
+        </span>
+      </div>          
+    </div>
+    <div class="span3">
+      <div id="latest_invitor" class="personalpage_left">
+        <span class="pull-left">最近来访</span>
+        <span class="pull-right latest_invitor_more">更多</span>
+        <div class="row" style="clear:both">          	
+          <div class="span1">
+            <%= image_tag("pic4.jpg") %>
+            <label>马志华</label>
+          </div>
+          <div class="span1">
+            <%= image_tag("pic3.jpg") %>
+            <label>马志华</label>
+          </div>
+          <div class="span1">
+            <%= image_tag("pic2.jpg") %>
+            <label>马志华</label>
+          </div>
+        </div>
+        <div class="row">
+ 
+          <div class="span1">
+            <%= image_tag("pic4.jpg") %>
+            <label>马志华</label>
+          </div>
+          <div class="span1">
+            <%= image_tag("pic3.jpg") %>
+            <label>马志华</label>
+          </div>
+          <div class="span1">
+            <%= image_tag("pic2.jpg") %>
+            <label>马志华</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="subnav" style="background-color:#FAF7F7">
+    <ul class="nav nav-pills">
+
+      <li class="dropdown">
+        <a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">动态<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
+          <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <li><%= link_to "关注", following_user_path(@user) %></li>
+        <li><%= link_to "粉丝", followers_user_path(@user) %></li>
+        <li><%= link_to "好友", friends_user_path(@user) %></li>
+      </ul>
+      </li>
+      <li><%= link_to "Groups", groups_user_path(@user)%></li>
+      <li style="margin-left:300px"><%= link_to "资料", user_profiles_path(@user) %></li>
+      <li><%= link_to "相册", albums_user_path(@user) %></li>
+    </ul>
+  </div>
+
+
+</header>

@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>校园爱情</title>
+<link href="../bootstrap/css/style.css" rel="stylesheet" type="text/css">
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../bootstrap/css/homepage.css" rel="stylesheet" type="text/css">
+<link href="../bootstrap/css/docs.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body style="margin-top:-20px">
+	<script src="../bootstrap/js/bsa.js"></script>
+	<div class="navbar navbar-fixed-top">
+    	<div class="navbar-inner">
+        	<div class="container"> 
+            	 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          		<span class="icon-bar"></span>
+          		<span class="icon-bar"></span>
+        		<span class="icon-bar"></span>
+       			 </a>      			 
+      			 <a class="brand" href="../">校园爱情</a>
+     			 <div class="nav-collapse">
+					<ul class="nav">
+                    		<li class="active">
+                        	<a href="homepage.html">首页</a>
+                        </li>
+                        <li>
+                        	<a href="personalpage.html">个人主页</a>
+                        </li>
+                        <li>
+                        	<a href="../ta/ta.html">那个TA</a>
+                        </li>
+                        <li>
+                        	<a href="../group/groupmainpage.html">Groups</a>
+                        </li>
+                </ul>
+                
+                <ul class="nav pull-right">
+                    	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">账号<b class="caret"></b></a>
+                        	<ul class="dropdown-menu">
+                            	 <li><a href="#">设置</a></li>
+                               <li><a href="#">退出</a></li>                         
+                           </ul>
+                     </li>
+                     <li class="divider-vertical"></li>                       
+                </ul>   
+                  
+        		</div><!-- nav-collapse -->
+    		</div>
+    	</div><!-- navbar-inner -->
+	</div><!--navbar navbar-fixed-top-->
+    <div class="container">
+     <header class="jumbotron subhead">
+    	<div class="row">
+        	<div class="span9">
+            	<div class="row">
+                	<div class="span2">
+                    	<div  class="headphoto">
+            				<img src="../img/secure.gravatar.com.jpg"/>
+            			</div>
+                    </div>
+                    <span class="span7 trends-box">
+                    	<div class="content">                        
+                        	<h3>罗健明</h3>
+                            <span class="school">清华大学</span>
+                            <span class="hometown">湖南</span>
+                            <span class="state">可预约</span>
+                            <div class="divider-horizontal"></div>
+                            <div class="description">
+                            	<input type="text" class="span6" placeholder="用一句话描述自己吧..." onClick="displayInputArea()" >
+                                <i class="icon-edit"></i>
+                            </div>
+                            
+                        </div>
+                    </span>
+                </div>          
+            </div>
+        	<div class="span3">
+            	<div id="latest_invitor" class="personalpage_left">
+        			<span class="pull-left">最近来访</span>
+            		<span class="pull-right latest_invitor_more">更多</span>
+        			<div class="row" style="clear:both">          	
+            		<div class="span1">
+                		<img src="../img/pic4.jpg"/>
+                    	<label>马志华</label>
+                	</div>
+                	<div class="span1">
+                		<img src="../img/pic2.jpg"/>
+                    	<label>马志华</label>
+                	</div>
+                	<div class="span1">
+                		<img src="../img/pic3.jpg"/>
+                    	<label>马志华</label>
+                	</div>
+            	</div>
+            	<div class="row">
+            	
+            		<div class="span1">
+                		<img src="../img/pic4.jpg"/>
+                    	<label>马志华</label>
+                	</div>
+                	<div class="span1">
+                		<img src="../img/pic2.jpg"/>
+                    	<label>马志华</label>
+                	</div>
+                	<div class="span1">
+                		<img src="../img/pic3.jpg"/>
+                    	<label>马志华</label>
+                	</div>
+            	</div>
+           
+        	</div>
+          </div>
+    </div>
+    
+  <div class="subnav" style="background-color:#FAF7F7">
+    <ul class="nav nav-pills">
+      
+      <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">动态<b class="caret"></b></a>
+      	<ul class="dropdown-menu" id="swatch-menu">
+      		<li><a href="../amelia">好友动态</a></li>
+        	<li><a href="../cerulean">我的动态</a></li>
+      	</ul>
+      </li>
+      <li><a href="grouppage.html">人脉</a></li>
+      <li><a href="grouppage.html">Groups</a></li>
+      <li style="margin-left:300px"><a href="personal_information.html">资料</a></li>
+      <li><a href="dailynote.html">日志</a></li>
+      <li><a href="album.html">相册</a></li>
+    </ul>
+  </div>
+
+  </header>
+  
+  
+ <div class="container">
+    	<div class="row">
+        	<div class="span9">            	
+                <ul id="tab" class="nav nav-tabs">
+            		<li class="active"><a href="#lanched_group" data-toggle="tab">我发起的groups</a></li>
+           	 		<li><a href="#participated_group" data-toggle="tab">我参与的groups</a></li>
+           			<li><a href="#dated_group" data-toggle="tab">约会过的groups </a></li>
+          		</ul>
+            	<div class="tab-content">
+                	<div class="tab-pane fade in active" id="lanched_group">						
+                        <div class="group_showpanel">
+                        	<div class="group_showpanel_left">
+                            <!--
+                            <a href="#" rel="tooltip" data-placement="left" title="标签：聪明、可爱、仗义"><img src="../img/pic1.jpg" class="img-rounded"/></a>
+                            -->
+                            <%= link_to image_tag('pic1.jpg'), user_path(current_user), :title => "标签：聪明 可爱 仗义",
+                                        :data-placement => "left", :rel => "tooltip" %>
+                            <div class="groupleader_info">
+                              <label>御风冷袖</label>
+                            </div>
+                        	</div><!--group_showpanel_left-->
+                          <div class="group_showpanel_right" style="background-color:#CFC">
+                            <div class="group_member">                        		 
+                              <div class="pull-left"><a href="#"   rel="tooltip" data-placement="top" title="黄蓉 1989年5月" ><img src="../img/pic2.jpg" class="img-rounded"/></a></div>
+                              <div class="group_member_info pull-left">
+                                <label>爱好：看书、看电影、音乐</label>
+                                <label>喜欢的异性类型：阳光</label>
+                              </div>
+                            </div><!--group_member-->
+                            <div class="group_member">                       
+                              <div class="pull-left"><a href="#" rel="tooltip" data-placement="top" title="小龙女 1993年3月" ><img src="../img/pic3.jpg" class="img-rounded" /></a></div>
+                              <div class="group_member_info pull-left">
+                                <label>爱好：看书、看电影、音乐</label>
+                               <label>喜欢的异性类型：阳光</label>
+                              </div>
+                            </div>
+                            <div class="group_member">
+                              <div class="pull-left"><a href="#"  rel="tooltip" data-placement="top" title="郭靖 1986年2月"><img src="../img/pic4.jpg" class="img-rounded" /></a></div>
+                              <div class="group_member_info pull-left">
+                                <label>爱好：看书、看电影、音乐</label>
+                                <label>喜欢的异性类型：阳光</label>
+                              </div>
+                            </div> <!--group_member-->                             
+                          </div><!--group_showpanel_right-->                            
+                        </div><!--group_showpanel-->                                                                                   
+                      </div><!--lached_group-->
+
+                      <div class="tab-pane fade" id="participated_group">
+                        我参与的groups
+                      </div> 
+
+                      <div class="tab-pane fade" id="dated_group">
+                        约会过的groups
+                      </div> 
+                    </div><!--tabcontent-->
+                  </div><!--span9-->
+                  <div class="span3">
+                    <a class="btn btn-large  btn-primary" href="newgroup.html"><i class="icon-plus"></i>申请创建小组</a>
+                  </div>
+                </div>
+              </div>
+  
+  <script src="../bootstrap/js/jquery-1.7.js"></script>
+  <script src="../bootstrap/js/bootstrap.min.js"></script>
+  
+  <script>
+	$('.group_member .pull-left').tooltip({
+      selector: "a[rel=tooltip]"})
+	$('.group_showpanel_left').tooltip({
+      selector: "a[rel=tooltip]"})
+</script>
+
+<script type="text/javascript">
+	function displayInputArea(){
+		$('.description').html("还能输入<span class=\"wordsOffset\">200</span>个字<button class=\"pull-right\">提交</button><textarea  id=\"description\" row=\"3\" class=\"span7\"  onkeyup=\"discountWordNum()\" onmouseup=\"discountWordNum()\"></textarea>");
+	}
+	
+	function discountWordNum(){
+		var str = $('#description').val();
+	//	alert(str.length);
+		$('.wordsOffset').html(200 - str.length) ;
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div class="span9" id="room_<%=conversationer.conversation.id%>">
+<h1><%= conversationer.name %></h1>
+<%= link_to '退出', { :controller => "conversations", :action => "destroy",
+                        :id => conversationer.conversation.id }, 
+                    :method => :delete, :remote => true %> 
+<div id="chat_<%=conversationer.conversation.id %>" class="chat">
+  <% conversationer.conversation.messages.each do |message| %>
+    <%= render 'messages/message', :message => message %>
+  <% end %>
+</div>
+ 
+<%= form_for conversationer.conversation.messages.build(:conversation_id => conversationer.conversation.id, 
+                                                        :sender_id => current_user.id), 
+                                                        remote: true, 
+                                                        :html => {
+                                                          :id => "new_message_"+conversationer.conversation.id.to_s,
+                                                          :class => "input-append"} do |f| %>
+  <%= f.text_area :content  %>
+  <%= f.submit "发送", :id => "msg_send_btn" %>
+  <%= f.hidden_field :conversation_id %>
+  <%= f.hidden_field :sender_id %>
+<% end %>
+
+<%= subscribe_to "/conversations/group/"+conversationer.id.to_s %>
+</div>
+
+<script>
+
+$(function(){
+  $('textarea#message_content').keyup(function(){
+    var textarea = document.getElementById('message_content');
+   // alert($('#message_content').css("height"));
+   // textarea.style.height = textarea.scrollHeight;
+   $('#message_content').css("height",textarea.scrollHeight);
+   // $(this).style.posHeight = $(this).scrollHeight;
+  });
+});
+
+
+$(function(){
+  $('#msg_send_btn').click(function(){
+    $('#message_content').css("height",20);
+  });
+});
+</script>

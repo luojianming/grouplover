@@ -1,0 +1,10 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "style", "homepage" %>
+<% end %>
+<% content_for :subnav do %>
+  <%= render 'layouts/subnavigation' %>
+<% end %>
+<div class="container" id="group_container">
+  <%= render 'groups/group', :groups => @group %>
+  <%= render 'users/show_foot' %>
+</div>

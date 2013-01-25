@@ -1,0 +1,138 @@
+
+--- 
+authorizations: 
+  columns: 
+  - id
+  - provider
+  - user_id
+  - uid
+  - created_at
+  - updated_at
+  records: 
+  - - 2
+    - weibo
+    - 4
+    - "2397510365"
+    - 2012-12-08 08:37:33.683164
+    - 2012-12-08 08:37:33.683164
+
+--- 
+roles: 
+  columns: 
+  - id
+  - name
+  - resource_id
+  - resource_type
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - admin
+    - 
+    - 
+    - 2012-12-08 08:32:37.022005
+    - 2012-12-08 08:32:37.022005
+  - - 2
+    - user
+    - 
+    - 
+    - 2012-12-08 08:32:37.278525
+    - 2012-12-08 08:32:37.278525
+  - - 3
+    - VIP
+    - 
+    - 
+    - 2012-12-08 08:32:37.544142
+    - 2012-12-08 08:32:37.544142
+
+--- 
+users: 
+  columns: 
+  - id
+  - email
+  - encrypted_password
+  - reset_password_token
+  - reset_password_sent_at
+  - remember_created_at
+  - sign_in_count
+  - current_sign_in_at
+  - last_sign_in_at
+  - current_sign_in_ip
+  - last_sign_in_ip
+  - created_at
+  - updated_at
+  - name
+  - sex
+  - birthday
+  - hometown
+  - location
+  - school
+  records: 
+  - - 1
+    - user@example.com
+    - $2a$10$Wylhk27uwz/dKq.64RWoV.8qYT5OkYyYM6z6xpAqce.8BaS6Z9FqK
+    - 
+    - 
+    - 
+    - 1
+    - 2012-12-08 09:03:54.325503
+    - 2012-12-08 09:03:54.325503
+    - 127.0.0.1
+    - 127.0.0.1
+    - 2012-12-08 08:32:38.016159
+    - 2012-12-08 09:03:54.326326
+    - First User
+    - false
+    - 
+    - 
+    - 
+    - 
+  - - 2
+    - user2@example.com
+    - $2a$10$bCoPdRqDuq2Y2ZptutpWEO0rRLRpxe1J1sVlW76uCI/S5aqJqimCu
+    - 
+    - 
+    - 
+    - 0
+    - 
+    - 
+    - 
+    - 
+    - 2012-12-08 08:32:38.393530
+    - 2012-12-08 08:32:38.393530
+    - Second User
+    - false
+    - 
+    - 
+    - 
+    - 
+  - - 4
+    - weibo+2397510365@example.com
+    - $2a$10$7zUUnK1b2bue5s2i4r1IYehe2cnFZjfMCeNHEzOKHU0Vy/1/lqDhu
+    - 
+    - 
+    - 
+    - 4
+    - 2012-12-08 09:20:31.644855
+    - 2012-12-08 09:02:24.256246
+    - 127.0.0.1
+    - 127.0.0.1
+    - 2012-12-08 08:37:33.222474
+    - 2012-12-08 09:20:31.646444
+    - JimmyRoy
+    - false
+    - 
+    - 
+    - "\xE5\x8C\x97\xE4\xBA\xAC \xE6\xB5\xB7\xE6\xB7\x80\xE5\x8C\xBA"
+    - 
+
+--- 
+users_roles: 
+  columns: 
+  - user_id
+  - role_id
+  records: 
+  - - 1
+    - 1
+  - - 2
+    - 3

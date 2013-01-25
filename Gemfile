@@ -1,15 +1,12 @@
-<<<<<<< HEAD
-source 'http://mirrors.tuna.tsinghua.edu.cn/rubygems/'
-=======
 source 'http://ruby.taobao.org/'
->>>>>>> weibo-auth
 gem 'rails', '3.2.9'
-gem 'sqlite3'
+gem 'mysql2'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
+gem 'jquery-fileupload-rails'
 gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
@@ -23,14 +20,24 @@ gem "factory_girl_rails", ">= 4.1.0", :group => [:development, :test]
 gem "bootstrap-sass", ">= 2.1.0.0"
 gem 'bootswatch-rails'
 gem "devise", ">= 2.1.2"
+gem 'devise-i18n'
 gem "cancan", ">= 1.6.8"
 gem "rolify", ">= 3.2.0"
 gem "simple_form", ">= 2.0.3"
 gem "quiet_assets", ">= 1.0.1", :group => :development
 gem 'omniauth'
-gem 'omniauth-weibo'
 gem 'oauth2'
-<<<<<<< HEAD
-=======
 gem 'omniauth-douban-oauth2'
->>>>>>> weibo-auth
+gem 'omniauth-weibo-oauth2'
+gem 'yaml_db'
+gem 'spork-rails'
+gem 'faker'
+gem 'will_paginate', '~> 3.0'
+gem 'bootstrap-will_paginate'
+gem 'rmagick'
+gem 'carrierwave'
+gem 'best_in_place'
+gem 'thin'
+gem 'private_pub'
+gem 'tlsmail'
+gem 'rb-readline'

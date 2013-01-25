@@ -1,0 +1,12 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch" %>
+<% end %>
+<% if current_user && current_user.sign_in_count == 1 %>
+  <% session[:visited] ||= false %> 
+  <% if session[:visited] == false %>
+    <script type="text/javascript">
+      alert("您是第一次访问哦")
+    </script>
+  <% end %>
+  <% session[:visited] = true %>
+<% end %>

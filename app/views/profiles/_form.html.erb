@@ -1,0 +1,26 @@
+<%= simple_form_for(@profile) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :sex %>
+    <%= f.input :birthday %>
+    <%= f.input :hometown %>
+    <%= f.input :school %>
+    <%= f.input :musical_instruments %>
+    <%= f.input :books %>
+    <%= f.input :sports %>
+    <%= f.input :music %>
+    <%= f.input :movie %>
+    <%= f.input :animation %>
+    <%= f.input :games %>
+    <%= f.input :telephone %>
+    <%= f.input :msn %>
+    <%= f.input :qq %>
+    <%= f.input :email %>
+    <%= f.input :user_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

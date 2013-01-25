@@ -1,5 +1,13 @@
+require 'will_paginate/array'
 class HomeController < ApplicationController
   def index
-    @users = User.all
+    @invitations = Invitation.all
+    @invitations = @invitations.paginate(page: params[:page])
+=begin
+    respond_to do |format|
+      format.html
+      format.json { render json: @invitations }
+    end
+=end
   end
 end

@@ -1,0 +1,14 @@
+@import "bootswatch/simplex/variables";
+@import "bootstrap";
+body { 
+padding-top: 60px;
+background-color: #F7F7F7;
+}
+//@import "bootstrap-responsive";
+// And finally bootswatch style itself
+@import "bootswatch/simplex/bootswatch";
+$iconSpritePath: url(<%= asset_path 'bootstrap/glyphicons-halflings.png'%>); 
+$iconWhiteSpritePath: url(<%= asset_path 'bootstrap/glyphicons-halflings-white.png'%> ); 
+
+// Whatever application styles you have go last
+//@import "base";

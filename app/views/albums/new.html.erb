@@ -1,0 +1,17 @@
+<%= content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums" %>
+<% end %>
+<div class="container">
+  <div class="row">
+    <div class="span9">
+      <h2>创建新相册</h2>
+
+      <%= render 'form' %>
+
+    </div>
+    <div class="span3">
+      <%= link_to '返回相册', albums_user_path(current_user),
+          :class => "btn btn-primary pull-left"%>
+    </div>
+  </div>
+</div>

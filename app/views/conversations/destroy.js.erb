@@ -1,0 +1,3 @@
+$('#room_<%=@id.to_s%>').remove();
+$('#conversation_link_group_<%=@conversation.conversationer.id%>').
+  attr("href", "/conversations?group=<%=@conversation.conversationer.id%>")

@@ -1,0 +1,23 @@
+<% if  @groups.blank? != true %>
+  <% @groups.each do |group| %>
+    <div class="item" id="group_<%=group.id%>">
+      <div class="box-photo"><%= image_tag('secure.gravatar.com.jpg') %></div>
+      <div class="group_info"><span><%= group.location %></span></div>
+        <div class="group_description"><span><%= group.description %></span></div>
+        <div class="members">
+          <ul style="margin-left:5px">
+            <li>
+              <a href="#"  rel="tooltip" data-placement="left"  title=<%=group.team_leader.profile.style%> class="pull-left"><%= image_tag('pic2.jpg') %></a>
+              <a href="#">发起者：<%= group.team_leader.name%> <%= group.team_leader.profile.hometown %></a>
+            </li>
+            <% group.group_memberships.each do |group_membership| %>
+            <li>
+              <a href="#"  rel="tooltip" data-placement="left"  title=<%=group_membership.member.profile.style%> class="pull-left"><%= image_tag('pic2.jpg') %></a>
+              <a href="#"><%= group_membership.member.name%> <%= group_membership.member.profile.hometown %></a>
+            </li>
+          <% end %>
+          </ul>
+      </div><!-- members -->
+    </div><!-- item -->
+  <% end %>
+<% end %>

@@ -1,0 +1,43 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides","bootswatch","homepage", "docs" %>
+<% end %>
+
+
+<div class="container">
+  <%= render 'shared/header' %>
+  <div class="row">
+    <div class="span9">
+      <% if @mygroups.any? %>
+        <div>我发起的Groups</div>
+        <%= render 'group', :show_groups => @mygroups %>
+      <% end %><!-- block -->
+      <% if @groups.any? %>
+        <div>我参与的Groups</div>
+        <%= render 'group', :show_groups => @groups %>
+      <% end %> <!-- each -->
+    </div> <!--span9 -->
+
+    <div class="span3">
+      <%= link_to "申请创建小组", new_group_path, :class => "btn btn-large btn-primary"  %>
+    </div>
+  </div><!-- row -->
+</div><!-- container -->
+
+<script>
+$('.group_member .pull-left').tooltip({
+  selector: "a[rel=tooltip]"})
+  $('.group_showpanel_left').tooltip({
+    selector: "a[rel=tooltip]"})
+</script>
+
+<script type="text/javascript">
+  function displayInputArea(){
+    $('.description').html("还能输入<span class=\"wordsOffset\">200</span>个字<button class=\"pull-right\">提交</button><textarea  id=\"description\" row=\"3\" class=\"span7\"  onkeyup=\"discountWordNum()\" onmouseup=\"discountWordNum()\"></textarea>");
+  }
+
+  function discountWordNum(){
+    var str = $('#description').val();
+    //	alert(str.length);
+    $('.wordsOffset').html(200 - str.length) ;
+  }
+</script>

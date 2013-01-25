@@ -1,0 +1,22 @@
+<%= render 'users/show_head' %>
+<div class="container">
+  <%= render 'shared/header' %> 
+  <div id="personalpage" class="container">
+
+    <%= render 'invitation', :invitations => @my_invitations %>
+
+  </div><!-- personalpage -->
+</div><!-- container -->
+<%= render 'users/show_foot' %>
+<script type="text/javascript">
+
+$(document).ready(function(){
+  $("div.item").children(".actions").hide();
+  $("div.item").mouseout(function(){
+    $(this).children(".actions").hide();
+  });
+  $("div.item").mouseover(function(){
+    $(this).children(".actions").show();
+  });
+});
+</script>
