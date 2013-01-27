@@ -29,12 +29,12 @@
     <div class="members">
       <ul style="margin-left:5px">
         <li>
-          <a href="#"  rel="tooltip" data-placement="left"  title=<%=invitation.initiate_group.team_leader.profile.style%> class="pull-left"><%= image_tag(invitation.initiate_group.team_leader.profile.avatar) %></a>
+          <a href="#"  rel="tooltip" data-placement="left"  title=<%=invitation.initiate_group.team_leader.profile.style%> class="pull-left"><%= image_tag('pic1.jpg') %></a>
           <a href="#">发起者：<%= invitation.initiate_group.team_leader.name%> <%= invitation.initiate_group.team_leader.profile.hometown %></a>
         </li>
         <% invitation.initiate_group.group_memberships.each do |group_membership| %>
         <li>
-          <a href="#"  rel="tooltip" data-placement="left"  title=<%=group_membership.member.profile.style%> class="pull-left"><%= image_tag(group_membership.member.profile.avatar) %></a>
+          <a href="#"  rel="tooltip" data-placement="left"  title=<%=group_membership.member.profile.style%> class="pull-left"><%= image_tag('pic1.jpg') %></a>
           <a href="#"><%= group_membership.member.name%> <%= group_membership.member.profile.hometown %></a>
         </li>
       <% end %>
