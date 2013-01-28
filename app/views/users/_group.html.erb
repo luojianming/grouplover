@@ -2,7 +2,7 @@
   <% if show_group.status == "active" %>
     <div class="group_showpanel" id="related_group_<%= show_group.id %>">
     <div class="group_showpanel_left">
-      <%= link_to image_tag(show_group.team_leader.profile.avatar_url(:small)), user_path(show_group.team_leader), :title => "标签：聪明 可爱 仗义",
+      <%= link_to safe_image_tag(show_group.team_leader.profile.avatar_url(:small)), user_path(show_group.team_leader), :title => "标签：聪明 可爱 仗义",
         :placement => "left", :rel => "tooltip" %>
       <div class="groupleader_info">
           <label><%= show_group.team_leader.name %></label>
@@ -24,7 +24,7 @@
         <% show_group.group_memberships.each do |ship| %>
           <div class="group_member">                        		 
           <div class="pull-left">
-            <%= link_to image_tag(ship.member.profile.avatar_url(:mini)), user_path(ship.member), :title => "黄蓉 1989年5月",
+            <%= link_to safe_image_tag(ship.member.profile.avatar_url(:mini)), user_path(ship.member), :title => "黄蓉 1989年5月",
               :placement => "top", :rel => "tooltip" %>
           </div>
             <div class="group_member_info pull-left">

@@ -34,36 +34,36 @@ $('#load').click(function(){
 </script>
 <script type="text/javascript">
 $(function(){
-
   var $container = $('#container');
   $container.imagesLoaded(function(){
     $container.masonry({
       // options
       itemSelector : '.item',
-      columnWidth : 235
+      columnWidth : 235,
     });
   });
-
   $container.infinitescroll({
     navSelector : '#page-nav',
-    nextSelector : '#page-nav div.pagination ul li.next_page a:first',
+    nextSelector : 'li.next_page a:first',
     itemSelector : '.item',
     loading: {
       finishedMsg: 'No more pages to load.',
       img: 'http://i.imgur.com/6RMhx.gif'
-    },
-    debug: true
+    }
   },
-
-  function(newElements) {
+  function(newElements){
     var $newElems = $( newElements ).css({ opacity: 0 });
-    sleep(2000);
     $newElems.imagesLoaded(function(){
+      // show elems now they're ready
       $newElems.animate({ opacity: 1 });
-      $container.masonry('appended', $newElems, true);
-      applied_action_process();
+      $container.masonry( 'appended', $newElems, true ); 
     });
+    applied_action_process();
   });
+});
+
+jQuery(document).ajaxError(function(e,xhr,opt){
+  if (xhr.status == 404) jQuery('#').remove();
 });
 </script>
 <script type="text/javascript">
