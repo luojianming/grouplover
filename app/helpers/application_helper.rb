@@ -1,6 +1,8 @@
 module ApplicationHelper
   def safe_image_tag(source, options = {})
-    source ||= "pic1.jpg"
+    if source == nil || source.size == 0
+      source = "pic1.jpg"
+    end
     image_tag(source, options)
   end
 end
