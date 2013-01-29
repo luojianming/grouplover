@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130120010059) do
+ActiveRecord::Schema.define(:version => 20130129030615) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20130120010059) do
     t.string   "founded_time"
     t.text     "labels"
     t.string   "status"
+    t.string   "image_url"
   end
 
   create_table "invitations", :force => true do |t|

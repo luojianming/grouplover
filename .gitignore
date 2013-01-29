@@ -31,6 +31,8 @@ db/*.sqlite3
 .sass-cache
 /config/config.yml
 /config/database.yml
+/config/sphinx.yml
+db/sphinx/
 /coverage.data
 /coverage/
 /db/*.javadb/

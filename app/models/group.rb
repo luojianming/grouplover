@@ -33,6 +33,10 @@ class Group < ActiveRecord::Base
 
   attr_accessor :member_ids
 
+  define_index do
+    indexes :name
+    indexes location
+  end
   def labels_number_cannot_greater_than_three
     if labels.split(",").length >= 3
       errors.add(:labels, "标签个数最多不能超过两个")

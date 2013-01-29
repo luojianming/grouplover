@@ -4,6 +4,11 @@
 <% content_for :subnav do %>
   <%= render 'layouts/subnavigation' %>
 <% end %>
+  <%= form_tag groups_path, method: :get do %>
+    <div class="field">
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search" %>
+  <% end %>
 <div class="container" id="group_container">
   <%= render 'groups/group', :groups => @group %>
   <%= render 'users/show_foot' %>

@@ -28,6 +28,19 @@ namespace :deploy do
     end
   end
 =end
+  namespace :thinking_sphinx do
+    task :stop, :roles => :app do
+      run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake ts:stop"
+    end
+
+    task :restart, :roles => :app do
+      run "cd #{release_path} && RAILS_ENV=#{rails_env} bundle exec rake ts:stop ts:rebuild"
+    end
+  end
+
+ # before 'deploy:update_code', 'deploy:thinking_sphinx:stop'
+  after 'deploy:restart', 'deploy:thinking_sphinx:restart'
+
 
   task :setup_config, roles: :app do
 =begin
@@ -35,7 +48,7 @@ namespace :deploy do
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
 =end
     run "mkdir -p #{shared_path}/config"
-    put File.read("config/example/database.yml"), "#{shared_path}/config/database.yml"
+    put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
     puts "Now edit the config files in #{shared_path}."
   end
   after "deploy:setup", "deploy:setup_config"

@@ -1,17 +1,17 @@
+require 'will_paginate/array'
 class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
   before_filter :authenticate_user!
-=begin
   def index
-    @invitations = Invitation.all
+    @invitations = Invitation.search(params[:search])
+    @invitations = @invitations.paginate(page: params[:page])
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render 'home/index'}
       format.json { render json: @invitations }
     end
   end
-=end
 =begin
   # GET /invitations/1
   # GET /invitations/1.json

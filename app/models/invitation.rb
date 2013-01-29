@@ -1,3 +1,4 @@
+#encoding: utf-8
 class Invitation < ActiveRecord::Base
   attr_accessible :description, :initiate_group_id, :location, :lover_style, :status, :style, :time, :activity, :image_url
   default_scope order: 'invitations.created_at DESC'
@@ -12,6 +13,9 @@ class Invitation < ActiveRecord::Base
   validates :location, :presence => true
   validates :time, :presence => true
 
+  define_index do
+    indexes location
+  end
 
   def self.initiated_by_users_followed_by(user)
     followed_user_ids = Relationship.where("follower_id=(:user_id)", user_id: user).map(&:followed_id)
