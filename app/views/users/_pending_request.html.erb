@@ -1,0 +1,7 @@
+<% pending_requests.each do |pending_request| %>
+  <li>
+    <%= pending_request.group.team_leader.name %>向你发出了邀请，希望你加入TA创建的小组
+    <%= link_to "接受", {:controller => "group_memberships", :action => "accept", :group => pending_request.group } %>
+    <%= link_to "忽略", {:controller => "group_memberships", :action => "reject", :group => pending_request.group } %>
+  </li>
+<% end %>

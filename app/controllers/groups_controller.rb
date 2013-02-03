@@ -3,7 +3,11 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
   def index
-    @groups = Group.search(params[:search])
+    if params[:search] != nil
+      @groups = Group.search(params[:search])
+    else 
+      @groups = Group.all
+    end
   end
 =begin
   def show

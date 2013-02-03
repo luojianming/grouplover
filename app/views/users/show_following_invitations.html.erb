@@ -3,6 +3,11 @@
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">
 
+    <%
+        if @user != current_user
+          @user.extra_info.add(current_user)
+        end
+    %>
     <%= render 'invitation', :invitations => @following_invitations %>
 
   </div><!-- personalpage -->

@@ -7,7 +7,7 @@ class GroupMembershipsController < ApplicationController
     unless @member.nil?
       if GroupMembership.accept(@member, @group)
         flash[:notice] = "加入成功"
-      else 
+      else
         flash[:notice] = "加入失败"
       end
     end

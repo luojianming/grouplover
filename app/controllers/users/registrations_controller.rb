@@ -13,7 +13,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
-        resource.create_profile()
+        profile = resource.build_profile()
+        profile.save(:validate => false)
+
+        extra_info = resource.build_extra_info()
+        extra_info.save(:validate => false)
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?

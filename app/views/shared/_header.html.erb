@@ -19,7 +19,9 @@
             <% if @user.profile != nil %>
               <span class="school"><%= @user.profile.school %></span>
               <span class="hometown"><%= @user.profile.hometown %></span>
-              <span class="state">可预约</span>
+              <%= best_in_place_if @user==current_user, @user.profile, :status, :type => :select, 
+                :path => user_profiles_path(@user), :classes => "user_status",
+                :collection => [["pending", "最近比较忙"], ["active", "可预约"]] %>
             <% end %>
             <div class="divider-horizontal"></div>
             <div class="description">
@@ -76,14 +78,18 @@
 
   <div class="subnav" style="background-color:#FAF7F7">
     <ul class="nav nav-pills">
-
-      <li class="dropdown">
-        <a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">动态<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
-          <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
-        </ul>
+      <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
+    <li class="dropdown">
+    <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle") do %>
+        我的动态<b class="caret"></b>
+      <% end %>
+      <ul class="dropdown-menu">
+        <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
+        <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
+        <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>
+      </ul>
       </li>
+
       <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
       <ul class="dropdown-menu" id="swatch-menu">
         <li><%= link_to "关注", following_user_path(@user) %></li>
@@ -91,8 +97,8 @@
         <li><%= link_to "好友", friends_user_path(@user) %></li>
       </ul>
       </li>
-      <li><%= link_to "Groups", groups_user_path(@user)%></li>
-      <li style="margin-left:300px"><%= link_to "资料", user_profiles_path(@user) %></li>
+      <li style="margin-left:300px"><%= link_to "Groups", groups_user_path(@user)%></li>
+      <li><%= link_to "资料", user_profiles_path(@user) %></li>
       <li><%= link_to "相册", albums_user_path(@user) %></li>
     </ul>
   </div>

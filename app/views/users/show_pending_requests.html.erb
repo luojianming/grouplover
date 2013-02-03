@@ -2,9 +2,7 @@
 <div class="container">
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">
-
-    <%= render 'invitation', :invitations => @my_invitations %>
-
+    <%= render 'pending_request', :pending_requests => @pending_requests %>
   </div><!-- personalpage -->
 </div><!-- container -->
 <%= render 'users/show_foot' %>

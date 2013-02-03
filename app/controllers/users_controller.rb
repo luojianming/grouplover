@@ -102,24 +102,31 @@ class UsersController < ApplicationController
   def received_invitations
     @user = User.find(params[:id])
     @my_invitations = Invitation.initiated_by_user(@user)
-    @received_invitations = []
+    @ships = Hash.new
     @my_invitations.each do |my_invitation|
-      my_invitation.group_invitationships.each do |ship|
-        @received_invitations << ship.applied_group.myinvitations.build(
-          :location => ship.invitation.location,
-          :time => ship.invitation.time,
-          :style => ship.applied_group.labels,
-          :image_url => ship.applied_group.image_url,
-          :activity => ship.invitation.activity,
-          :description => ship.description)
+      if my_invitation.status != "active"
+        @invitation_ships = GroupInvitationship.find_all_by_invitation_id(my_invitation.id)
+        @ships[my_invitation.id] = @invitation_ships
       end
     end
     render 'show_received_invitation'
+  end
+
+  def pending_requests
+    @user = User.find(params[:id])
+    @pending_requests = GroupMembership.find_all_by_member_id_and_status(
+                        @user.id, "pending")
+    render 'show_pending_requests'
   end
 
   def albums
     @user = User.find(params[:id])
     @albums = @user.albums
     render 'show_album'
+  end
+
+  def add_visitor(visitor)
+    @user = User.find(params[:id])
+    @user.extra_info.add(visitor)
   end
 end

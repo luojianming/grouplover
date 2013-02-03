@@ -1,13 +1,10 @@
+<%= render 'users/show_head' %>
 <div class="container">
-    <%= render 'invitation', :invitations => @received_invitations %>
-  <div>
-    <% current_user.group_memberships.each do |ship| %>
-      <% if ship.status == "pending" || ship.status == nil  %>
-        <span>小组<%= ship.group.name %>向你发出了邀请，希望你加入他们</span>
-        <%= link_to "接受", {:controller => "group_memberships", :action => "accept", :group => ship.group } %>
-        <%= link_to "忽略", {:controller => "group_memberships", :action => "reject", :group => ship.group } %>
-      <% end %>
-    <% end %>
-  </div>
-</div><!-- container -->  
+  <%= render 'shared/header' %> 
+  <div id="personalpage" class="container">
+    
+    <%= render 'received_invitation'%>
+
+  </div><!-- personalpage -->
+</div><!-- container -->
 <%= render 'users/show_foot' %>

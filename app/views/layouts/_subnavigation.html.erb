@@ -1,24 +1,50 @@
 <div class="nav-menu">
   <ul class="container">
     <li class="dropdown">
-    <a href="#"  class="dropdown-toggle" data-toggle="dropdown">北京<b class="caret"></b></a>
-    <ul class="dropdown-menu" id="swatch-menu">
-      <li><a href="../default">Default</a></li>
-      <li class="divider"></li>
-      <li><a href="../amelia">Amelia</a></li>
-      <li><a href="../cerulean">Cerulean</a></li>
-      <li><a href="../cyborg">Cyborg</a></li>
-      <li><a href="../journal">Journal</a></li>
-      <li><a href="../readable">Readable</a></li>
-      <li><a href="../simplex">Simplex</a></li>
-      <li><a href="../slate">Slate</a></li>
-      <li><a href="../spacelab">Spacelab</a></li>
-      <li><a href="../spacelabpruce">Spruce</a></li>
-      <li><a href="../superhero">Superhero</a></li>
-      <li><a href="../united">United</a></li>
-    </ul>
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <% if params[:city]==nil || params[:city].size==0%>
+          全国
+      <% else %>
+          <%= params[:city] %>
+      <% end %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <%= render 'layouts/hot_cities' %>
+        <li class="divider"></li>
+      </ul>
     </li>
-    <li class="dropdownn"><a href="#" class="dropdown-toggle" data-toggle="dropdown">筛选<b class="caret"></b></a></li>
+
+    <li class="dropdown">
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <% if params[:time]==nil || params[:time].size==0%>
+          时间不限
+      <% else %>
+          <%= params[:time] %>
+      <% end %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <%= render 'layouts/active_time' %>
+        <li class="divider"></li>
+      </ul>
+    </li>
+
+
+    <li class="dropdown">
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <% if params[:member_counts]==nil || params[:member_counts].size==0%>
+          人数不限
+      <% else %>
+          <%= params[:member_counts] %>
+      <% end %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <%= render 'layouts/member_counts' %>
+        <li class="divider"></li>
+      </ul>
+    </li>
     <li><a href="#">全部</a></li>
   </ul>
 </div><!--navbar navbar-fixed-top-->

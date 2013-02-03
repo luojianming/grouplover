@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 
                                :inverse_of => :group
-  has_many :members, :class_name => "User", :through => :group_userships
+  has_many :members, :class_name => "User", :through => :group_memberships
 
   has_many :myinvitations, :class_name => "Invitation", 
                            :foreign_key => "initiate_group_id",
@@ -72,16 +72,16 @@ class Group < ActiveRecord::Base
   end
 =end
 
-  def applied!(invitation)
-    group_invitationships.create!(:invitation_id => invitation.id, :status => "pending")
+  def applied!(invitation, description)
+    group_invitationships.create!(:invitation_id => invitation.id, :status => "pending", :description => description)
   end
 #如果group能申请该invitation返回true，否则返回false
   def can_applied?(invitation)
     if team_leader.applied?(invitation)
       return false
     end
-    group_memberships.each do |ship|
-      if ship.member.applied?(invitation)
+    members.each do |member|
+      if member.applied?(invitation)
         return false
       end
     end

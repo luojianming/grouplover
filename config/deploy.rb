@@ -30,16 +30,16 @@ namespace :deploy do
 =end
   namespace :thinking_sphinx do
     task :stop, :roles => :app do
-      run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake ts:stop"
+      run "cd #{current_path} && RAILS_ENV=#{rails_env} rake ts:stop"
     end
 
     task :restart, :roles => :app do
-      run "cd #{release_path} && RAILS_ENV=#{rails_env} bundle exec rake ts:stop ts:rebuild"
+      run "cd #{release_path} && RAILS_ENV=#{rails_env} rake ts:rebuild"
     end
   end
 
  # before 'deploy:update_code', 'deploy:thinking_sphinx:stop'
-  after 'deploy:restart', 'deploy:thinking_sphinx:restart'
+   after 'deploy:restart', 'deploy:thinking_sphinx:restart'
 
 
   task :setup_config, roles: :app do
@@ -47,9 +47,11 @@ namespace :deploy do
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
 =end
+    
     run "mkdir -p #{shared_path}/config"
     put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
     puts "Now edit the config files in #{shared_path}."
+
   end
   after "deploy:setup", "deploy:setup_config"
  

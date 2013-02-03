@@ -1,9 +1,14 @@
 class ExtraInfo < ActiveRecord::Base
-  attr_accessible  :vistors
+  attr_accessible  :visitors
   validates :user_id, :presence => true
   belongs_to :user
 
-  def extra_info(user)
-    ExtraInfo extra_info = @user.extra_info ||= ExtraInfo.new
+  def add(visitor)
+    debugger
+    if visitors != nil
+       visitors = visitor.id.to_s + ',' + visitors
+    else
+       visitors = visitor.id.to_s
+    end
   end
 end

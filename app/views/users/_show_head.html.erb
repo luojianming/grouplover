@@ -1,12 +1,84 @@
 <% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch" %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
 <% if current_user && current_user.sign_in_count == 1 %>
   <% session[:visited] ||= false %> 
   <% if session[:visited] == false %>
-    <script type="text/javascript">
-      alert("您是第一次访问哦")
-    </script>
+    <div id="init_profile" class="modal hide fade" tabindex="-1" role="dialog" 
+          aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
+      <div class="modal-header">
+        <h3 id="myModalLabel">必填资料</h3>
+      </div>
+      <%
+          @profile = current_user.profile
+          style_str = @profile.style
+          @profile.style = str_to_arry(style_str)
+          @profile.hobby = str_to_arry(@profile.hobby)
+      %>
+    <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put  do |f| %>
+        <div class="modal-body" >
+          <div class="modal-left">
+            <div class="control-group required">
+              <label class="control-label required"><abbr title="required">*</abbr> 性别</label>
+              <div class="controls" style="padding-top:2px;">
+                <%= f.collection_radio_buttons :sex,  [[true,"男"],[false,"女"]], :first, :last %>
+              </div>
+            </div>
+            <div class="control-group required">
+              <label class="control-label required"><abbr title="required">*</abbr> 家乡（省/直辖市）</label>
+              <div class="controls">
+                <%= f.select(:hometown, ApplicationHelper::PROVINCES,
+                             {},
+                             {:class => "hometown-select"}
+                            ) -%>
+              </div>
+            </div>
+            <div class="control-group required">
+              <label class="control-label required"><abbr title="required">*</abbr> 现居地（市）</label>
+              <div class="controls">
+                <%= f.select(:location, ApplicationHelper::CITIES,
+                             {},
+                             {:class => "location-select"}
+                            ) -%>
+              </div>
+            </div>
+            <div class="control-group required">
+              <label class="control-label required"><abbr title="required">*</abbr> 标签</label>
+              <div class="controls">
+                <%= f.select(:style, ApplicationHelper::PERSONAL_STYLE,
+                             {},
+                             {:multiple => true, :class => "chzn-select"}
+                            ) -%>
+              </div>
+            </div>
+            <div class="control-group required">
+              <label class="control-label required"><abbr title="required">*</abbr> 兴趣</label>
+              <div class="controls">
+                <%= f.select(:hobby, ApplicationHelper::HOBBIES,
+                             {},
+                             {:multiple => true, :class => "chzn-select"}
+                            ) -%>
+              </div>
+            </div>
+          </div>
+          <div class="modal-right">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">确定</button>
+        </div>
+      <% end %>
+    </div>
   <% end %>
   <% session[:visited] = true %>
 <% end %>
+<script type="text/javascript">
+$(function(){
+  $('#init_profile').modal('show')
+});
+</script>
+<script type="text/javascript">
+$(".chzn-select").chosen();
+$(".hometown-select").chosen();
+$(".location-select").chosen();
+</script>

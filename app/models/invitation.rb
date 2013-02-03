@@ -4,7 +4,7 @@ class Invitation < ActiveRecord::Base
   default_scope order: 'invitations.created_at DESC'
   belongs_to :initiate_group, :class_name => "Group", :inverse_of => :myinvitations
   has_many :group_invitationships, :dependent => :destroy
-  has_many :applied_group, :class_name => "Group", :through => :group_invitationships
+  has_many :applied_groups, :class_name => "Group", :through => :group_invitationships
 
   has_one :conversation, :as => :conversationer
 
@@ -15,6 +15,9 @@ class Invitation < ActiveRecord::Base
 
   define_index do
     indexes location
+    indexes time
+    has initiate_group.member_counts, as: :group_member_counts
+    indexes initiate_group.location, as: :city
   end
 
   def self.initiated_by_users_followed_by(user)
