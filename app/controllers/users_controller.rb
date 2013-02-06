@@ -129,4 +129,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.extra_info.add(visitor)
   end
+
+  def my_private_messages
+    @user = User.find(params[:id])
+    @private_messages_original = PrivateMessage.related_messages(@user).original_messages
+    render 'show_private_messages'
+  end
 end

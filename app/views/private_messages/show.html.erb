@@ -1,0 +1,19 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides","style", "private_messages" %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="span9">
+      <%
+        @original_messages = []
+        @original_messages[0] = @original_private_message
+        @private_messages = @original_private_message.applied_messages | @original_messages
+      %>
+      <%= render 'private_messages/private_message', :private_messages => @private_messages %>
+    </div>
+
+    <div class="span3">
+    </div>
+  </div>
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203053009) do
+ActiveRecord::Schema.define(:version => 20130203160925) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -128,6 +128,16 @@ ActiveRecord::Schema.define(:version => 20130203053009) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "number"
+  end
+
+  create_table "private_messages", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.string   "content"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "status"
+    t.integer  "original_message_id"
   end
 
   create_table "profiles", :force => true do |t|

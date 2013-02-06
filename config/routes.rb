@@ -1,5 +1,8 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
 
+  resources :private_messages
+
+
   resources :messages, only: [:index, :create]
 
   resources :conversations, only: [:index, :create]
@@ -29,7 +32,8 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     member do 
       get :following, :followers, :friends, 
           :groups, :following_invitations, :my_invitations,
-          :received_invitations, :albums, :pending_requests
+          :received_invitations, :albums, :pending_requests,
+          :my_private_messages
     end
   end
 

@@ -1,0 +1,15 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "private_messages" %>
+<% end %>
+<div class="container">
+  <div class="row">
+    <div class="span9">
+      <h4>我的私信</h4>
+      <%= render 'private_message', :private_messages => @private_messages_original %>
+    </div>
+
+    <div class="span3">
+    </div>
+  </div>
+</div><!-- container -->
+<%= render 'users/show_foot' %>

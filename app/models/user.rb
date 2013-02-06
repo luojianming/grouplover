@@ -41,6 +41,12 @@ class User < ActiveRecord::Base
 
   has_many :messages, :foreign_key => "sender_id"
 
+  has_many :sended_private_messages, :class_name => "PrivateMessage",
+                                     :foreign_key => "sender_id"
+
+  has_many :received_private_messages, :class_name => "PrivateMessage",
+                                       :foreign_key => "receiver_id"
+
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]
@@ -90,5 +96,4 @@ class User < ActiveRecord::Base
     return nil
   end
 
-  
 end

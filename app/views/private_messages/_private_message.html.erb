@@ -1,0 +1,25 @@
+  <% private_messages.each do |private_message| %>
+    <div class="message row">
+    <div class="span2">
+    </div>
+
+    <div class="span7">
+      <div class="span7 message-right">
+        <div class="message-right-top">
+          <span><%= private_message.sender.name %>:</span>
+          <%= private_message.content %>
+        </div>
+
+        <div class="message-right-bottom">
+          <span class="message-created-time">
+            <%= private_message.created_at.strftime("%Y-%m-%d %H:%M") %>
+          </span>
+          <span class="message-detail">
+            <a href="#">回复</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
