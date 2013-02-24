@@ -1,0 +1,20 @@
+<div id="send_message_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">发私信</h3>
+  </div>
+  <%= simple_form_for(PrivateMessage.new(original_message_id: -1,
+                                    sender_id: current_user.id, 
+                                    receiver_id: -1), remote: true) do |f| %>
+  <div class="modal-body">
+    <%= f.hidden_field :sender_id %>
+    <%= f.hidden_field :original_message_id %>
+    <%= f.hidden_field :receiver_id %>
+    <%= f.input :content, :label => "内容", :as => :text,
+      :input_html => { :rows => 3, class: 'span5' }%>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary">发送</button>
+  </div>
+<% end %>
+</div>

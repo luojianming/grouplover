@@ -2,6 +2,9 @@ class GroupInvitationship < ActiveRecord::Base
   attr_accessible :applied_group_id, :status, :invitation_id, :description
   belongs_to :applied_group, :class_name => "Group"
   belongs_to :invitation
+  scope :active_invitation_ship_applied_by_group, 
+          lambda { |group|where(["applied_group_id=?", group.id]) }
+
 
   def self.accept(applied_group_id, invitation_id)
     group_invitationship = GroupInvitationship.find_by_applied_group_id_and_invitation_id(
@@ -18,6 +21,8 @@ class GroupInvitationship < ActiveRecord::Base
           end
         end
         Invitation.find(invitation_id).update_attribute("status", "active")
+
+        Invitation.create_conversation()
       end
     end
   end

@@ -1,8 +1,20 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "bootstrap_and_overrides","style", "private_messages" %>
 <% end %>
-
+<%
+  contactor_id = @original_private_message.sender_id==current_user.id ? @original_private_message.receiver_id : @original_private_message.sender_id
+%>
 <div class="container">
+  <div class="row">
+    <div class="span9">
+      <h4>我和<%=User.find(contactor_id).name %>的对话</h4>
+      <%= link_to '返回所有私信', my_private_messages_user_path(current_user), :class => "pull-right" %>
+      <div class="row">
+        <div class="divider-horizontal span9"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="span9">
       <%
@@ -10,6 +22,26 @@
         @original_messages[0] = @original_private_message
         @private_messages = @original_private_message.applied_messages | @original_messages
       %>
+      <div class="row" style="margin-bottom: 10px;">
+        <div class="span1">
+        </div>
+
+        <div class="span7">
+          <%= simple_form_for @original_private_message.applied_messages.build(original_message_id: @original_private_message.id,
+                                                                               sender_id: current_user.id, 
+                                                                               receiver_id: contactor_id) do |f| %>
+            <%= f.hidden_field :sender_id %>
+            <%= f.hidden_field :original_message_id %>
+            <%= f.hidden_field :receiver_id %>
+            <%= f.input :content,:label => '回复:',:as => :text,
+              :input_html => { :rows => 3,class: 'span7' }%>
+            <button class="btn btn-primary pull-right">发送</button>
+          <% end %>
+        </div>
+
+        <div class="span1">
+        </div>
+      </div>
       <%= render 'private_messages/private_message', :private_messages => @private_messages %>
     </div>
 

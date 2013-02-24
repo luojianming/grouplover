@@ -4,7 +4,6 @@
   <div id="personalpage" class="container">
 
     <%
-        debugger
         if @user != current_user
           @user.extra_info.add(current_user)
         end

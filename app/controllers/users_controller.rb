@@ -3,8 +3,22 @@ require 'will_paginate/array'
 class UsersController < ApplicationController
   before_filter :authenticate_user!
   def index
-    authorize! :index, @user, :message => 'Not authorized as an administrator.'
-    @users = User.all
+    @users = User.by_user_location(params[:user_location]) if params[:user_location]
+    if @user == nil
+      @users = User.by_hometown(params[:user_hometown]) if params[:user_hometown]
+    else
+      @users = @users.by_hometown(params[:user_hometown]) if params[:user_hometown]
+    end
+    if @user == nil
+      @users = User.by_school(params[:user_school]) if params[:user_school]
+    else
+      @users = @users.by_school(params[:user_school]) if params[:user_school]
+    end
+    if @users == nil
+      @users = User.all.paginate(page: params[:page], :per_page => 12)
+    else
+      @users = @users.paginate(page: params[:page], :per_page => 12)
+    end
   end
 
   def show
@@ -125,14 +139,11 @@ class UsersController < ApplicationController
     render 'show_album'
   end
 
-  def add_visitor(visitor)
-    @user = User.find(params[:id])
-    @user.extra_info.add(visitor)
-  end
 
   def my_private_messages
     @user = User.find(params[:id])
     @private_messages_original = PrivateMessage.related_messages(@user).original_messages
+    @private_messages_original = @private_messages_original.paginate(page: params[:page])
     render 'show_private_messages'
   end
 end

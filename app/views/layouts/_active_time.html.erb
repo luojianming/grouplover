@@ -1,4 +1,4 @@
 <% t = Time.now %>
 <% for i in 0..6 %>
-  <li><%= link_to (t+i*24*3600).strftime("%m-%d"), :controller => "invitations", :action => "index",:time => (t+i*24*3600).strftime("%m-%d")%></li>
+  <li><%= link_to (t+i*24*3600).strftime("%Y-%m-%d"), :controller => "invitations", :action => "index",:time => (t+i*24*3600).strftime("%Y-%m-%d")%></li>
 <% end %>  

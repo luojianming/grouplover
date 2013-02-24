@@ -1,30 +1,72 @@
-<h3>Users</h3>
-<div class="span8">
-<table class="table table-condensed">
-	  <thead>
-      <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Registered</th>
-          <th>Role</th>
-          <th></th>
-          <th></th>                                      
-      </tr>
-  </thead>   
-  <tbody>
-  <% @users.each do |user| %>
-    <tr>
-        <td><%= link_to user.name, user %></td>
-        <td><%= user.email %></td>
-        <td><%= user.created_at.to_date %></td>
-        <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
-        <td>
-          <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
-          <%= render user %>
-        </td>
-        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %></td>                                       
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "style", "homepage" %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="span3 user_search_bar">
+      <h4>快速寻找</h4>
+      <%= link_to '和我同城的人', { :controller => "users", :action => "index", :user_location => current_user.profile.location }%>
+      <%= link_to '我的老乡', { :controller => "users", :action => "index", :user_hometown => current_user.profile.hometown }%>
+      <%= link_to '我的校友', { :controller => "users", :action => "index", :user_school => current_user.profile.school }%>
+      <%= link_to '我的同城老乡', { :controller => "users", :action => "index", 
+                                          :user_hometown => current_user.profile.hometown, 
+                                          :user_location => current_user.profile.location }%>
+    </div>
+
+    <div class="span2">
+    </div>
+    <div class="span10">
+      <%= will_paginate  @users%>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th></th>
+            <th>姓名</th>
+            <th>现居地</th>
+            <th>家乡</th>
+            <th></th>
+            <th></th>                                      
+          </tr>
+        </thead>   
+        <tbody>
+        <% @users.each do |user| %>
+          <% if user != current_user %>
+          <tr>
+            <td><%= safe_image_tag(user.profile.avatar_url(:small), 'pic1.jpg') %></td>
+            <td><%= link_to user.name, user %></td>
+            <td><%= user.profile.location %></td>
+            <td><%= user.profile.hometown %></td>
+            <% @user = user %>
+            <td id="follow_form_<%=user.id%>">
+              <% if current_user.following?(user) %>
+                <%= render 'shared/unfollow'%>
+              <% else %>
+                <%= render 'shared/follow' %>
+              <% end %>
+            </td>
+            <td>
+              <a data-toggle="modal" href="#" class="btn btn-large send_private_message" 
+                type="button" receiver_id="<%= user.id %>" >
+                发私信
+              </a>
+            </td>
+          </tr>
+        <%end %>
+        <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate  @users%>
+      <%= render 'users/show_foot' %>
+    </div><!-- span10 -->
+    <%= render 'send_message_modal' %>
+  </div>
 </div>
+<script>
+$(function(){
+  $(".send_private_message").click(function() {
+    $('#private_message_receiver_id').val($(this).attr('receiver_id'));
+    $('#send_message_modal').modal('show');
+  });
+});
+</script>

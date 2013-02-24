@@ -38,7 +38,7 @@
             <!-- <%= u.hidden_field :status, :value => "pending" %>-->
 
             <!--  <% end %> -->
-          <%= f.input :image_url, :label => "请上传形象照" %>
+          <%= f.input :image, :label => "请上传形象照" %>
           <div class="control-group">
             <div class="controls">							
               <a href="#myModal" role="button" class="btn" data-toggle="modal">选择好友并提交</a>
@@ -59,7 +59,7 @@
               <ul class="friend_list">
                 <% User.all.each do |member| %>
                   <li>
-                    <%= safe_image_tag(member.profile.avatar)%>
+                    <%= safe_image_tag(member.profile.avatar_url(:mini))%>
                     <label><%= h member.name -%><label>
                     <%= check_box_tag 'member_ids[]', member.id -%>
                   </li>

@@ -1,5 +1,8 @@
 <% publish_to "/conversations/group/"+@conversation.conversationer_id.to_s do %>
   $("#chat_<%=@conversation.id %>").
     append("<%= j render('messages/message', :message => @message) %>");
+
+  play_click(this,'Audio.wav');
+  $("#chat_<%=@conversation.id %>").scrollTop = $("#chat_<%=@conversation.id%>").scrollHeight;
   $("#new_message_<%= @conversation.id %>")[0].reset();
 <% end %>

@@ -1,12 +1,26 @@
 #encoding: utf-8
+require 'will_paginate/array'
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
   def index
+    if params[:hometown] != nil
+
+    end
     if params[:search] != nil
       @groups = Group.search(params[:search])
     else 
-      @groups = Group.all
+      @groups = Group.by_group_location(params[:location]) if params[:location]
+    end
+    if @groups == nil
+      @groups = Group.with_member_counts(params[:member_counts].to_i-1) if params[:member_counts]
+    else
+      @groups = @groups.with_member_counts(params[:member_counts].to_i-1)if params[:member_counts]
+    end
+    if @groups == nil
+      @groups = Group.all.paginate(page: params[:page], :per_page => 12)
+    else
+      @groups = @groups.paginate(page: params[:page], :per_page => 12)
     end
   end
 =begin

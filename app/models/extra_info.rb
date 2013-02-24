@@ -3,12 +3,15 @@ class ExtraInfo < ActiveRecord::Base
   validates :user_id, :presence => true
   belongs_to :user
 
-  def add(visitor)
-    debugger
-    if visitors != nil
-       visitors = visitor.id.to_s + ',' + visitors
+  def self.add(extra_info, visitor)
+    if extra_info.visitors != nil
+      visitor_array = extra_info.visitors.split(",")
+      visitor_array.delete(visitor.id.to_s)
+      extra_info.visitors = visitor_array.join(",")
+      extra_info.visitors = visitor.id.to_s + ',' + extra_info.visitors
+      extra_info.save
     else
-       visitors = visitor.id.to_s
+      extra_info.visitors = visitor.id.to_s
     end
   end
 end

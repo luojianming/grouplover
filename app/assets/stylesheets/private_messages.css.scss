@@ -6,7 +6,7 @@
 }
 
 .message-created-time{
-  float: left;
+  float: right;
 }
 
 .message-detail{
@@ -14,5 +14,9 @@
 }
 
 .message{
-  margin-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.message_body{
+  border-bottom: 1px groove #999;
 }

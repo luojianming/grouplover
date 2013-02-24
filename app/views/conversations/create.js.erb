@@ -1,3 +1,9 @@
 $('#conversations_container').
-  append("<%= j render('conversations/conversation', :conversationer => @group)  %>")
-$('#conversation_link_group_<%=@group.id %>').attr("href", "javascript:void(0)");
+  append("<%= j render('conversations/conversation', :conversationer => @conversationer)  %>")
+<% if @conversationer.class == Group %>
+    $('#conversation_link_group_<%=@conversationer.id %>').attr("href", "javascript:void(0)");
+<% end %>
+
+<% if @conversationer.class == Invitation %>
+    $('#conversation_link_invitation_<%=@conversationer.id %>').attr("href", "javascript:void(0)");
+<% end %>

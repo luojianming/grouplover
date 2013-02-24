@@ -19,7 +19,28 @@
 <body>
   <!-- This file lives in public/500.html -->
   <div class="dialog">
-    <h1>We're sorry, but something went wrong.</h1>
+    <h1>有错误</h1>
   </div>
+
+  <div id="sound">
+  </div>
+<div id="sound_tmp"></div>
+<script>
+function play_click(sef,url){
+  var div = document.getElementById('sound');
+  div.innerHTML = '<embed src="'+url+'" loop="0" autostart="true" hidden="true"></embed>';
+  var emb = document.getElementsByTagName('EMBED')[0];
+  if (emb) {
+    /* 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 */
+    div = document.getElementById('sound_tmp');
+    div.innerHTML = 'loading: '+emb.src;
+    alert(div.innerHTML);
+    sef.disabled = true;
+    setTimeout(function(){div.innerHTML='';},1000);
+  }
+
+}
+  play_click(this,'Audio.wav');
+</script>
 </body>
 </html>

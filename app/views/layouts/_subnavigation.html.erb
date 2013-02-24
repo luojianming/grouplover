@@ -4,9 +4,9 @@
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:city]==nil || params[:city].size==0%>
           全国
-      <% else %>
+        <% else %>
           <%= params[:city] %>
-      <% end %>
+        <% end %>
         <b class="caret"></b>
       </a>
       <ul class="dropdown-menu" id="swatch-menu">
@@ -36,7 +36,7 @@
         <% if params[:member_counts]==nil || params[:member_counts].size==0%>
           人数不限
       <% else %>
-          <%= params[:member_counts] %>
+          <%= params[:member_counts] %>人
       <% end %>
         <b class="caret"></b>
       </a>
@@ -45,6 +45,6 @@
         <li class="divider"></li>
       </ul>
     </li>
-    <li><a href="#">全部</a></li>
+    <li><%= link_to '全部', root_path %></li>
   </ul>
 </div><!--navbar navbar-fixed-top-->

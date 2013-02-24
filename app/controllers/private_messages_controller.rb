@@ -1,3 +1,4 @@
+#encoding: utf-8
 class PrivateMessagesController < ApplicationController
   # GET /private_messages
   # GET /private_messages.json
@@ -44,11 +45,13 @@ class PrivateMessagesController < ApplicationController
 
     respond_to do |format|
       if @private_message.save
-        format.html { redirect_to @private_message, notice: 'Private message was successfully created.' }
+        format.html { redirect_to my_private_messages_user_path(current_user), notice: '回复成功' }
         format.json { render json: @private_message, status: :created, location: @private_message }
+        format.js
       else
         format.html { render action: "new" }
         format.json { render json: @private_message.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

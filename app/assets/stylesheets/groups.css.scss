@@ -1,3 +1,39 @@
 // Place all the styles related to the Groups controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.group_search_bar{
+  height: 50px;
+  border: medium none;
+  box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+  margin-top: -10px;
+  margin-bottom: 20px;
+  padding-left:10px;
+  padding-right: 20px;
+}
+
+.group_search_bar form{
+  margin-top: 10px;
+}
+
+.group_search_bar ul{
+	text-align: center;
+}
+
+.group_search_bar ul li {
+	display: inline;
+	margin-right: 20;
+	list-style-type: none;
+  line-height: 50px;
+}
+
+.members ul a li span{
+  color: #000000;
+  font-size: 12px;
+  font-style: oblique;
+  text-decoration: none;
+}
+.group_search_bar ul li a .caret{
+	margin-top:23px;
+	margin-right:10px;
+}
+

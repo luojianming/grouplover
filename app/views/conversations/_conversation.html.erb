@@ -1,30 +1,70 @@
-<div class="span9" id="room_<%=conversationer.conversation.id%>">
-<h1><%= conversationer.name %></h1>
-<%= link_to '退出', { :controller => "conversations", :action => "destroy",
-                        :id => conversationer.conversation.id }, 
-                    :method => :delete, :remote => true %> 
-<div id="chat_<%=conversationer.conversation.id %>" class="chat">
-  <% conversationer.conversation.messages.each do |message| %>
-    <%= render 'messages/message', :message => message %>
-  <% end %>
-</div>
- 
-<%= form_for conversationer.conversation.messages.build(:conversation_id => conversationer.conversation.id, 
+<div class="span11 chat_room" id="room_<%=conversationer.conversation.id%>">
+  <div class="chat_room_top">
+    <% if conversationer.class == Group %>
+      <h3><%= conversationer.name %></h3>
+      <%
+        members = conversationer.members
+      %>
+    <% end %>
+
+    <% if conversationer.class == Invitation %>
+      <h3><%= conversationer.initiate_group.name + " vs " + conversationer.applied_groups[0].name %></h3>
+      <%
+        members = conversationer.initiate_group.members
+        members = members | conversationer.applied_groups[0].members
+      %>
+    <% end %>
+
+    <%= link_to '退出', { :controller => "conversations", :action => "destroy",
+                            :id => conversationer.conversation.id }, 
+                            :method => :delete, :remote => true,
+                            :class => "pull-right"
+                          %>
+  </div>
+
+  <div class="chat_room_body">
+    <div class="chat_room_body_left">
+      <div id="chat_<%=conversationer.conversation.id %>" class="chat" >
+        <% conversationer.conversation.messages.each do |message| %>
+          <%= render 'messages/message', :message => message %>
+        <% end %>
+      </div>
+
+      <%= form_for conversationer.conversation.messages.build(:conversation_id => conversationer.conversation.id, 
                                                         :sender_id => current_user.id), 
                                                         remote: true, 
                                                         :html => {
                                                           :id => "new_message_"+conversationer.conversation.id.to_s,
                                                           :class => "input-append"} do |f| %>
-  <%= f.text_area :content  %>
-  <%= f.submit "发送", :id => "msg_send_btn" %>
-  <%= f.hidden_field :conversation_id %>
-  <%= f.hidden_field :sender_id %>
-<% end %>
+        <%= f.text_area :content  %>
+        <%= f.submit "发送", :id => "msg_send_btn" %>
+        <%= f.hidden_field :conversation_id %>
+        <%= f.hidden_field :sender_id %>
+      <% end %>
 
-<%= subscribe_to "/conversations/group/"+conversationer.id.to_s %>
+      <%= subscribe_to "/conversations/group/"+conversationer.id.to_s %>
+    </div> <!-- chat_room_body_left -->
+    <div class="chat_room_body_right">
+      <h4>成员列表</h4>
+      <ul>
+        <% members.each do |member| %>
+        <%= link_to user_path(member) do %>
+          <li class="chat_member_list">
+            <%= safe_image_tag(member.profile.avatar, 'pic2.jpg') %>
+            <%= member.name + " " + member.profile.hometown.to_s%>
+          </li>
+        <% end %>
+      <% end %>
+      </ul>
+    </div>
+  </div><!--chat_room_body -->
 </div>
-
 <script>
+$(function(){
+ // alert($('div.chat').length)
+ for(var i=0; i < $('div.chat').length; i++)
+  $("div.chat")[i].scrollTop = $("div.chat")[i].scrollHeight;
+});
 
 $(function(){
   $('textarea#message_content').keyup(function(){
@@ -39,7 +79,8 @@ $(function(){
 
 $(function(){
   $('#msg_send_btn').click(function(){
-    $('#message_content').css("height",20);
+    $('#message_content').css("height",53);
   });
 });
 </script>
+

@@ -2,7 +2,7 @@
 class Group < ActiveRecord::Base
   attr_accessible :description, :name, :sex, :labels, :location,
                   :member_counts, :group_memberships_attributes,
-                  :status, :member_ids, :image_url
+                  :status, :member_ids, :image
 
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 
@@ -31,12 +31,24 @@ class Group < ActiveRecord::Base
  # validates :member_counts, :numericality => { :less_than => 3 }
   validate :labels_number_cannot_greater_than_three 
 
+  mount_uploader :image, ImageUploader
+
   attr_accessor :member_ids
 
   define_index do
     indexes :name
     indexes location
+    has member_counts
   end
+  sphinx_scope(:by_group_location) { |location|
+    { :conditions => { :location => location } }
+  }
+  sphinx_scope(:with_member_counts) { |member_counts|
+    { :with => { :member_counts => member_counts } }
+  }
+  sphinx_scope(:by_name) { |name|
+    { :conditions => { :name => name } }
+  }
   def labels_number_cannot_greater_than_three
     if labels.split(",").length >= 3
       errors.add(:labels, "标签个数最多不能超过两个")
@@ -52,6 +64,9 @@ class Group < ActiveRecord::Base
         end
       end
       Group.find(group).update_attributes(:status => group_status)
+      if group_status == "active"
+        group.create_conversation()
+      end
   end
 =begin
   def member_ids

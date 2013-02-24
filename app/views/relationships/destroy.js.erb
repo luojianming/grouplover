@@ -1,2 +1,6 @@
+$("#follow_form_<%= @user.id%>").html("<%= escape_javascript(render('shared/follow')) %>")
 $("#follow_form").html("<%= escape_javascript(render('shared/follow')) %>")
-$("#followers").html('<%= @user.followers.count %>')
+$("#followers_<%= @user.id %>").html('<%= @user.followers.count %>')
+$("#followers_<%= current_user.id %>").html('<%= current_user.followers.count %>')
+$("#following_<%= @user.id %>").html('<%= @user.followers.count %>')
+$("#following_<%= current_user.id %>").html('<%= current_user.followers.count %>')

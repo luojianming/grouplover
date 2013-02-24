@@ -5,7 +5,7 @@
 
     <%
         if @user != current_user
-          @user.extra_info.add(current_user)
+          @user.add_visitor(current_user)
         end
     %>
     <%= render 'invitation', :invitations => @following_invitations %>

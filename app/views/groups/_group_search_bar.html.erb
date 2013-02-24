@@ -1,0 +1,60 @@
+<div class="container group_search_bar">
+  <div class="row">
+  <div class="span8">
+  <ul>
+    <li class="dropdown">
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <% if params[:city]==nil || params[:city].size==0%>
+          全国
+        <% else %>
+          <%= params[:city] %>
+        <% end %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <%= render 'group_hot_cities' %>
+        <li class="divider"></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <% if params[:member_counts]==nil || params[:member_counts].size==0%>
+          人数不限
+      <% else %>
+          <%= params[:member_counts] %>人
+      <% end %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <%= render 'group_member_counts' %>
+        <li class="divider"></li>
+      </ul>
+    </li>
+    <li style="margin-right:4px;">
+      <%= link_to '含有老乡的group', { :controller => "groups", :action => "index", :hometown => current_user.profile.hometown}
+      %>
+    </li>
+    <li><a href="#">全部</a></li>
+  </ul>
+</div>
+<div class="span4">
+  <%= form_tag groups_path, method: :get, :class => "navbar-search pull-right" do %>
+    <div class="field">
+      <%= text_field_tag :search, params[:search], :placeholder => "请输入关键词",
+          :class => "search-query" %>
+          <a href="#" id="submit-link"><i style="right: 5px; top: 7px;" class="icon-search"></i></a>
+      <input type="submit" value="搜索" name="commit" id="group_search_submit" hidden>
+    </div>
+  <% end %>
+</div>
+</div><!-- row -->
+</div>
+
+<script>
+$(function(){
+  $('#submit-link').click(function(){
+    $('#group_search_submit').click();
+  });
+});
+</script>

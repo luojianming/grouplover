@@ -1,31 +1,107 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations", "docs" %>
 <% end %>
-<div class="container">
-  <div class="row">
-    <div class="span3" style="position:fixed">
-      <h3>会话列表</h3>
+<div>
+    <div class="span4" style="position:fixed;margin-right:50px;margin-left:130px;">
       <ul id='conversation_list'>
+        <h4>与我相关的小组</h4>
         <% current_user.related_groups.each do |group| %>
-          <li>
-          <%= link_to group.name, { :controller => "conversations" , :group => group.id} ,
+          <%
+            member_names=""
+            group.members.each do |member|
+              member_names = member_names + " " + member.name
+            end
+          %>
+          <%= link_to({ :controller => "conversations" , :group => group.id} ,
                       :method => "post",
                       :remote => true,
-                      :id => "conversation_link_group_"+group.id.to_s %>
+                      :id => "conversation_link_group_"+group.id.to_s,
+                      :class => "conversation_link",
+                      :title => member_names,
+                      :rel => 'tooltip') do %>
+          <li class="conversationer_list">
+          <div class="conversationer_list_left">
+            <%= safe_image_tag(group.image_url(:mini),'pic3.jpg') %>
+          </div>
+          <div class="conversationer_list_right">
+            <span><%= group.name %></span>
 
+            <p class="group_description">
+              <% if group.description.size <= 12 %>
+                <%= group.description %>
+              <% else %>
+                <%= group.description.slice(0,12) %>...
+              <% end %>
+            </p>
+           </div>
+           </li>
+         <% end %>
+        <% end %>
+        <h4>与我相关的活动</h4>
+        <% current_user.related_active_invitations.each do |invitation| %>
+          <%
+            applied_group = invitation.applied_groups[0]
+            initiate_group = invitation.initiate_group
+            if initiate_group.members.include?(current_user)
+              my_group = initiate_group
+              other_group = applied_group
+            else
+              my_group = applied_group
+              other_group = initiate_group
+            end
+
+            member_names=""
+            other_group.members.each do |member|
+              member_names = member_names + " " + member.name
+            end
+          %>
+          <%= link_to({ :controller => "conversations" , :invitation => invitation.id} ,
+                      :method => "post",
+                      :remote => true,
+                      :id => "conversation_link_invitation_"+invitation.id.to_s,
+                      :class => "conversation_link",
+                      :title => member_names,
+                      :rel => 'tooltip') do %>
+          <li class="conversationer_list">
+            <div class="conversationer_list_left">
+              <%= safe_image_tag(other_group.image_url(:mini),'pic3.jpg') %>
+            </div>
+
+            <div class="conversationer_list_right">
+              <span><%= my_group.name + " vs " + other_group.name %></span>
+            </div>
           </li>
         <% end %>
+        <% end %>
+
 
       </ul>
-      <h3>成员列表</h3>
-      <ul id='member_list'>
-        <li>luojm</li>
-        <li>luojm2</li>
-        <li>luojm3</li>
-        <li>luojm4</li>
-      </ul>
     </div>
-    <div class="span9" id="conversations_container">
+    <div class="span12" id="conversations_container" style="margin-left: 470px;margin-top: 37px;">
     </div>
-  </div>
 </div>
+<div id="sound">
+</div>
+<div id="sound_tmp"></div>
+
+<script>
+$(function(){
+  $(".conversation_link").tooltip();
+});
+</script>
+<script>
+function play_click(sef,url){
+  var div = document.getElementById('sound');
+  div.innerHTML = '<embed src="'+url+'" loop="0" autostart="true" hidden="true"></embed>';
+  var emb = document.getElementsByTagName('EMBED')[0];
+  if (emb) {
+    /* 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 */
+    div = document.getElementById('sound_tmp');
+    div.innerHTML = 'loading: '+emb.src;
+    alert(div.innerHTML);
+    sef.disabled = true;
+    setTimeout(function(){div.innerHTML='';},1000);
+  }
+}
+play_click(this,'Audio.wav');
+</script>

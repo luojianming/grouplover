@@ -4,21 +4,44 @@ class InvitationsController < ApplicationController
   # GET /invitations.json
   before_filter :authenticate_user!
   def index
+=begin
     @city = params[:city]
     @time = params[:time] || Time.now.strftime('%m-%d')..(Time.now+6*24*3600).strftime('%m-%d')
-    @member_counts = params[:member_counts] || 1..3
+    @member_counts = params[:member_counts] ||= 1..3
     if @city == nil
       @invitations = Invitation.search(conditions: {time: @time}, with: { group_member_counts: @member_counts})
     else
       @invitations = Invitation.search(conditions: {time: @time, city: @city}, with: { group_member_counts: @member_counts})
     end
-    @invitations = @invitations.paginate(page: params[:page])
+=end
+    @invitations = Invitation.by_location(params[:location]) if params[:location]
+    if @invitations == nil
+      @invitations = Invitation.by_time(params[:time]) if params[:time]
+    else
+      @invitations = @invitations.by_time(params[:time]) if params[:time]
+    end
+    if @invitations == nil
+      @invitations = Invitation.with_member_counts(params[:member_counts].to_i - 1) if params[:member_counts]
+    else
+      @invitations = @invitations.with_member_counts(params[:member_counts].to_i - 1) if params[:member_counts]
+    end
+    if @invitations == nil
+      @invitations = Invitation.by_city(params[:city]) if params[:city]
+    else
+      @invitations = @invitations.by_city(params[:city]) if params[:city]
+    end
+    if @invitations == nil
+      @invitations = Invitation.all.paginate(page: params[:page])
+    else
+      @invitations = @invitations.paginate(page: params[:page])
+    end
 
     respond_to do |format|
       format.html { render 'home/index'}
       format.json { render json: @invitations }
     end
   end
+
 =begin
   # GET /invitations/1
   # GET /invitations/1.json

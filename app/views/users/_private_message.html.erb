@@ -1,25 +1,49 @@
 <% private_messages.each do |private_message_original| %>
-  <% private_message = private_message_original.applied_messages[0] %>
-  <div class="row">
+  <% private_message = private_message_original.applied_messages[0] ||= private_message_original %>
+  <% 
+    contactor_id = private_message_original.sender_id==current_user.id ? private_message_original.receiver_id : private_message_original.sender_id 
+    contactor = User.find(contactor_id)
+  %>
+  <div class="row" style="margin-bottom: 10px;">
     <div class="divider-horizontal span9"></div>
-    <div class="span2 message-left">
+    <div class="span1 message-left">
+      <%= safe_image_tag(contactor.profile.avatar_url(:mini),'pic2.jpg') %>
+      <%= link_to User.find(contactor_id).name, user_path(contactor) %>
     </div>
 
-    <div class="span7 message-right">
+    <div class="span8 message-right">
       <div class="message-right-top">
         <span><%= private_message.sender.name %>:</span>
         <%= private_message.content %>
       </div>
 
       <div class="message-right-bottom">
-        <span class="message-created-time">
+        <span class="pull-left">
           <%= private_message.created_at.strftime("%Y-%m-%d %H:%M") %>
         </span>
         <span class="message-detail">
-          共<%= private_message_original.applied_messages.count + 1 %>条私信 | 
-          <a href="#">快速回复</a>
+          <%
+              receiver_id = private_message_original.sender_id==current_user.id ? private_message_original.receiver_id : private_message_original.sender_id
+          %>
+
+          <%= link_to '共'+(private_message_original.applied_messages.count + 1).to_s+'条私信', 
+              private_message_path(private_message_original) %> | 
+              <a class="replied_message_modal" data-toggle="modal" href="#"
+                data-id="<%= private_message_original.id %>" receiver_id="<%= receiver_id %>">
+                快速回复
+              </a>
         </span>
       </div>
     </div>
   </div>
 <% end %>
+<%= render 'send_message_modal' %>
+<script>
+$(function(){
+  $(".replied_message_modal").click(function() {
+    $('#private_message_original_message_id').val($(this).data('id'));
+    $('#private_message_receiver_id').val($(this).attr('receiver_id'));
+    $('#send_message_modal').modal('show');
+  });
+});
+</script>

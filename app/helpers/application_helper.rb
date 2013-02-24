@@ -1,8 +1,8 @@
 #encoding: utf-8
 module ApplicationHelper
-  def safe_image_tag(source, options = {})
+  def safe_image_tag(source, default_source, options = {})
     if source == nil || source.size == 0
-      source = "pic1.jpg"
+      source = default_source
     end
     image_tag(source, options)
   end

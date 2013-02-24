@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me,
-                  :location, :school, :sex, :hometown, :hobby, :head_url, :lover_style,
-                  :style, :status, :descriptio, :current_password
+                  :descriptio, :current_password
   has_many :authorizations, :dependent => :destroy
   has_one :profile, :dependent => :destroy
   has_one :extra_info, :dependent => :destroy
@@ -47,6 +46,25 @@ class User < ActiveRecord::Base
   has_many :received_private_messages, :class_name => "PrivateMessage",
                                        :foreign_key => "receiver_id"
 
+  define_index do
+    indexes profile.sex, as: :user_sex
+    indexes :name
+    indexes profile.location, as: :user_location
+    indexes profile.hometown, as: :user_hometown
+    indexes profile.school, as: :user_school
+  end
+  sphinx_scope(:by_user_location) { |location|
+    { :conditions => { :user_location => location } }
+  }
+  sphinx_scope(:by_hometown) { |hometown|
+    { :conditions => { :user_hometown => hometown } }
+  }
+  sphinx_scope(:by_school) { |school|
+    { :conditions => { :user_school => school } }
+  }
+  sphinx_scope(:by_sex) { |sex|
+    { :conditions => { :user_sex => sex } }
+  }
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]
@@ -96,4 +114,21 @@ class User < ActiveRecord::Base
     return nil
   end
 
+  def related_active_invitations()
+    result = []
+    related_groups().each do |group|
+      Invitation.active_invitation_initiated_by_group(group).each do |invitation|
+        result << invitation
+      end
+
+      GroupInvitationship.active_invitation_ship_applied_by_group(group).each do |invitation_ship|
+        result << invitation_ship.invitation
+      end
+    end
+    result
+  end
+
+  def add_visitor(visitor)
+    ExtraInfo.add(extra_info, visitor)
+  end
 end

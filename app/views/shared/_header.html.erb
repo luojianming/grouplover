@@ -43,33 +43,27 @@
         <span class="pull-left">最近来访</span>
         <span class="pull-right latest_invitor_more">更多</span>
         <div class="row" style="clear:both">          	
+        <% 
+          if @user.extra_info == nil
+            @user.extra_info = @user.create_extra_info()
+          end
+          if @user.extra_info.visitors == nil 
+            @user.extra_info.visitors = ""
+          end
+          visitors_array = @user.extra_info.visitors.split(",")
+          if visitors_array.size > 6
+            visitors_array = visitors_array[0..5]
+          end
+        %>
+
+        <% visitors_array.each do |visitor_id| %>
+          <% visitor = User.find(visitor_id.to_i) %>
           <div class="span1">
-            <%= image_tag("pic4.jpg") %>
-            <label>马志华</label>
+            <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'pic2.jpg') %>
+            <label><%= visitor.name %></label>
           </div>
-          <div class="span1">
-            <%= image_tag("pic3.jpg") %>
-            <label>马志华</label>
-          </div>
-          <div class="span1">
-            <%= image_tag("pic2.jpg") %>
-            <label>马志华</label>
-          </div>
-        </div>
-        <div class="row">
- 
-          <div class="span1">
-            <%= image_tag("pic4.jpg") %>
-            <label>马志华</label>
-          </div>
-          <div class="span1">
-            <%= image_tag("pic3.jpg") %>
-            <label>马志华</label>
-          </div>
-          <div class="span1">
-            <%= image_tag("pic2.jpg") %>
-            <label>马志华</label>
-          </div>
+        <% end %>
+
         </div>
 
       </div>
