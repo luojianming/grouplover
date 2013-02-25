@@ -1,4 +1,4 @@
-# coding: utf-8
+#encoding: utf-8
 class User
   module OmniauthCallbacks
     ["weibo","douban"].each do |provider|
@@ -19,6 +19,10 @@ class User
 
           if user.save(:validate => false)
             user.authorizations << Authorization.new(:provider => provider, :uid => uid )
+            profile = user.build_profile()
+            profile.save(:validate => false)
+            extra_info = user.build_extra_info()
+            extra_info.save(:validate => false)
             return user
           else
             Rails.logger.warn("User.create_from_hash 失败，#{user.errors.inspect}")
@@ -43,7 +47,7 @@ class User
         end
 =end
          user.password = Devise.friendly_token[0, 20]
-         user.location = data["location"]
+    #     user.location = data["location"]
  #       user.tagline = data["description"]
       end
     end

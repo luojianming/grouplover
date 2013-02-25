@@ -210,7 +210,6 @@ Devise.setup do |config|
   config.omniauth :douban, '038ee7705de8235e0aacb65119b86a1a', 'cc661fcbca20cc51'
   config.omniauth :weibo, '1970726135', '917e09c87ca64220e0a321c3d9fc3eb8'
 
-  config.omniauth :douban, '038ee7705de8235e0aacb65119b86a1a', 'cc661fcbca20cc51'
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

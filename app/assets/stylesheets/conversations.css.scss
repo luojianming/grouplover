@@ -7,7 +7,7 @@ div.chat {
   width: 660px;
   height: 450px;
   margin-bottom: 18px;
-  border-bottom: 1px groove #999;
+  border-bottom: 1px solid #CCC;
   overflow-y: auto;
 }
 
@@ -34,7 +34,7 @@ textarea#message_content {
 
 .conversationer_list{
   margin-bottom: 10px;
-  border: 1px groove #CCC;
+  border: 1px solid #CCC;
   height: 50px;
 }
 
@@ -48,6 +48,7 @@ textarea#message_content {
   padding-top: 3px;
 }
 
+
 .conversationer_list_right .group_description{
   font: 12px;
   color: #999;
@@ -59,14 +60,14 @@ textarea#message_content {
 
 .chat_room{
   height: 600px;
-  border: 1px groove #aaa;
+  border: 1px solid #aaa;
   border-radius: 4px 4px 4px 4px;
   margin-bottom: 20px;
 }
 
 .chat_room_top{
   height: 50px;
-  border-bottom: 1px groove #999; 
+  border-bottom: 1px solid #CCC; 
 }
 
 .chat_room_top h3{
@@ -78,8 +79,12 @@ textarea#message_content {
 
 .chat_member_list{
   height: 40px;
-  border-bottom: 1px groove #999;
+  border-bottom: 1px solid #CCC;
   margin-bottom: 5px;
+}
+
+.chat_room_body_right a{
+  text-decoration: none;
 }
 
 .chat_room_body{
@@ -109,5 +114,5 @@ textarea#message_content {
 
 .chat_room_body_right h4{
   margin-left: 20px;
-  border-bottom: 1px groove #999;
+  border-bottom: 1px solid #CCC;
 }

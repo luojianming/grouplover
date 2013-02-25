@@ -1,6 +1,7 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
+<%debugger %>
 <% if current_user && current_user.sign_in_count == 1 %>
   <% session[:visited] ||= false %> 
   <% if session[:visited] == false %>
@@ -11,9 +12,9 @@
       </div>
       <%
           @profile = current_user.profile
-          style_str = @profile.style
+          style_str = @profile.style.to_s
           @profile.style = str_to_arry(style_str)
-          @profile.hobby = str_to_arry(@profile.hobby)
+          @profile.hobby = str_to_arry(@profile.hobby.to_s)
       %>
     <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put  do |f| %>
         <div class="modal-body" >
