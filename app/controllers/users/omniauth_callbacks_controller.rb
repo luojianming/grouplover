@@ -22,8 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  provides_callback_for :weibo, :douban
-
+  provides_callback_for :weibo, :douban, :xiaonei
 
   # This is solution for existing accout want bind Google login but current_user is always nil
   # https://github.com/intridea/omniauth/issues/185

@@ -1,8 +1,9 @@
 #encoding: utf-8
 class User
   module OmniauthCallbacks
-    ["weibo","douban"].each do |provider|
+    ["weibo","douban","xiaonei"].each do |provider|
       define_method "find_or_create_for_#{provider}" do |response|
+          debugger
         uid = response["uid"]
         data = response["info"]
         extra = response["extra"]
@@ -35,9 +36,10 @@ class User
     def new_from_provider_data(provider, uid, data)
       User.new do |user|
         user.email = data["email"]
-        user.email = "weibo+#{uid}@example.com" if provider == "weibo"
-        user.email = "douban+#{uid}@example.com" if provider == "douban"
-
+        user.email = "weibo+#{uid}@itripl.com" if provider == "weibo"
+        user.email = "douban+#{uid}@itripl.com" if provider == "douban"
+        user.email = "xiaonei+#{uid}@itripl.com" if provider == "xiaonei"
+        
          user.name = data["name"]
 #        user.login = data["name"] if provider == "google"
 #        user.login.gsub!(/[^\w]/, "_")

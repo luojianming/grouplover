@@ -15,6 +15,7 @@ Devise.setup do |config|
   # available as additional gems.
   require 'devise/orm/active_record'
   require 'omniauth-douban-oauth2'
+  require 'omniauth-xiaonei'
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -209,6 +210,8 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   config.omniauth :douban, '038ee7705de8235e0aacb65119b86a1a', 'cc661fcbca20cc51'
   config.omniauth :weibo, '1970726135', '917e09c87ca64220e0a321c3d9fc3eb8'
+  config.omniauth :xiaonei, '28ad742d9f7b4865a158e0760de215f9', '5bcdef5b3d57471ea913e4883fb6e86b'
+
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
