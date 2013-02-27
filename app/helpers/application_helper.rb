@@ -68,7 +68,7 @@ module ApplicationHelper
 
   HOBBIES = ['篮球', '羽毛球', '吉他', '钢琴', '画画', 'K歌']
 
-  def str_to_arry(str)
+  def str_to_array(str)
     arr = [""]
     arr[1..str.split(',').size] = str.split(',')
     arr

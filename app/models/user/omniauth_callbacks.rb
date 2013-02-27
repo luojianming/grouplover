@@ -3,7 +3,6 @@ class User
   module OmniauthCallbacks
     ["weibo","douban","xiaonei"].each do |provider|
       define_method "find_or_create_for_#{provider}" do |response|
-          debugger
         uid = response["uid"]
         data = response["info"]
         extra = response["extra"]
@@ -19,7 +18,7 @@ class User
           user = User.new_from_provider_data(provider, uid, data)
 
           if user.save(:validate => false)
-            user.authorizations << Authorization.new(:provider => provider, :uid => uid )
+            user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
             profile = user.build_profile()
             profile.save(:validate => false)
             extra_info = user.build_extra_info()

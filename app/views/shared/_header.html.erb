@@ -3,9 +3,9 @@
     <div class="span9">
       <div class="row">
         <div class="span2">
-          <div  class="headphoto">
+          <div  class="headphoto" id="headphoto">
             <% if @user.profile && @user.profile.avatar.size != 0 %>
-              <%= image_tag(@user.profile.avatar) %>
+              <%= image_tag(@user.profile.avatar_url(:thumb)) %>
             <% else %>
                 <%= image_tag("secure.gravatar.com.jpg") %>
             <% end %>
@@ -37,6 +37,9 @@
 
             <% if current_user == @user %>
               <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary", :id => "create_invitation_btn" %>
+              <script type="text/javascript">Renren.init({appId:181208});</script>
+              <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
+      <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
             <% end %>
           </div>
         </span>
@@ -103,3 +106,19 @@
 
 
 </header>
+<script type="text/javascript">
+function sendRequest() {
+  var uiOpts = {
+    url : "request", 
+    display : "popup",
+    params : {
+      "accept_url":"http://www.groupdate.com:3000/",//接受邀请按钮url
+      "accept_label":"接受",
+      "actiontext":"邀请好友一起来玩"
+    },
+     onSuccess: function(r){}, 
+     onFailure: function(r){}
+  };
+  Renren.ui(uiOpts); 
+}
+</script>

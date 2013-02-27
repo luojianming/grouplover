@@ -85,6 +85,7 @@ class ProfilesController < ApplicationController
       params[:profile]["hobby"] = hobby_str
     end
     respond_to do |format|
+      debugger
       if @profile.update_attributes(params[:profile])
         format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
         format.json { head :no_content }

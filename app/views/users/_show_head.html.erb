@@ -1,10 +1,10 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
-<%debugger %>
-<% if current_user && current_user.sign_in_count == 1 %>
+<% if current_user && current_user.sign_in_count == 1 || current_user.profile.style == nil ||
+      current_user.profile.hobby == nil%>
   <% session[:visited] ||= false %> 
-  <% if session[:visited] == false %>
+  <% if session[:visited] == false || current_user.profile.style == nil%>
     <div id="init_profile" class="modal hide fade" tabindex="-1" role="dialog" 
           aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
       <div class="modal-header">
@@ -13,10 +13,11 @@
       <%
           @profile = current_user.profile
           style_str = @profile.style.to_s
-          @profile.style = str_to_arry(style_str)
-          @profile.hobby = str_to_arry(@profile.hobby.to_s)
+          @profile.style = str_to_array(style_str)
+          @profile.hobby = str_to_array(@profile.hobby.to_s)
       %>
-    <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put  do |f| %>
+    <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put,
+      :html => { :class => "profiles" } do |f| %>
         <div class="modal-body" >
           <div class="modal-left">
             <div class="control-group required">
@@ -62,11 +63,36 @@
               </div>
             </div>
           </div>
-          <div class="modal-right">
+          <div style="display: none">
+            <%= f.input :status, :value => "active" %>
+            <% if current_user.authorizations.size > 0 %>
+              <%= f.text_field :remote_avatar_url, :value => current_user.authorizations[0].head_url %>
+            <% end %>
           </div>
+          <!--
+          <div class="modal-right span3">
+            <% if  current_user.authorizations.size > 0 %>
+              <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put,
+                :html => { :class => "profiles" }, :remote => true do |f| %>
+                <div class="fileupload fileupload-new"  data-provides="fileupload">
+                  <div class="fileupload-new thumbnail" style="width: 100px; height: 100px;" id="avatar">
+                    <%= image_tag @profile.avatar_url(:small) %> 
+                  </div>
+                  <div style="display: none">
+                    <%= f.text_field :remote_avatar_url, :value => current_user.authorizations[0].head_url %>
+                    <button class="btn btn-primary" id="upload_photo_button">确定</button>
+                  </div>
+                </div>
+              <% end %>
+              <script>
+                $('#upload_photo_button').click();
+              </script>
+            <% end %>
+          </div>
+          -->
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary">确定</button>
+          <%= f.submit '确定', :class => 'btn btn-primary'  %>
         </div>
       <% end %>
     </div>

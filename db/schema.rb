@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130222072830) do
+ActiveRecord::Schema.define(:version => 20130225160019) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20130222072830) do
     t.string   "uid"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "head_url"
   end
 
   create_table "conversations", :force => true do |t|
