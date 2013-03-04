@@ -1,9 +1,11 @@
 <div class="container group_search_bar">
   <div class="row">
   <div class="span8">
+  <%= form_tag groups_path, :method => "get" do %>
   <ul>
     <li class="dropdown">
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <%= text_field_tag :city, params[:city], :id => "city_value", :type => "hidden"%>
         <% if params[:city]==nil || params[:city].size==0%>
           全国
         <% else %>
@@ -18,11 +20,12 @@
     </li>
 
     <li class="dropdown">
+        <%= text_field_tag :member_counts, params[:member_counts], :id => "member_counts_value", :type => "hidden"%>
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:member_counts]==nil || params[:member_counts].size==0%>
           人数不限
       <% else %>
-          <%= params[:member_counts] %>人
+          <%= params[:member_counts] %>
       <% end %>
         <b class="caret"></b>
       </a>
@@ -35,13 +38,15 @@
       <%= link_to '含有老乡的group', { :controller => "groups", :action => "index", :hometown => current_user.profile.hometown}
       %>
     </li>
-    <li><a href="#">全部</a></li>
+    <li><%= link_to '全部', groups_path %></li>
   </ul>
+  <input type="submit" value="搜索" name="commit" id="groups_btn_submit" hidden>
+<% end %>
 </div>
 <div class="span4">
   <%= form_tag groups_path, method: :get, :class => "navbar-search pull-right" do %>
     <div class="field">
-      <%= text_field_tag :search, params[:search], :placeholder => "请输入关键词",
+      <%= text_field_tag :search, params[:search], :placeholder => "按组名搜索",
           :class => "search-query" %>
           <a href="#" id="submit-link"><i style="right: 5px; top: 7px;" class="icon-search"></i></a>
       <input type="submit" value="搜索" name="commit" id="group_search_submit" hidden>

@@ -41,8 +41,8 @@ class PrivateMessagesController < ApplicationController
   # POST /private_messages
   # POST /private_messages.json
   def create
-    @private_message = PrivateMessage.new(params[:private_message])
-
+    @private_message = current_user.sended_private_messages.build(params[:private_message])
+    @private_message[:status] = "unread"
     respond_to do |format|
       if @private_message.save
         format.html { redirect_to my_private_messages_user_path(current_user), notice: '回复成功' }
@@ -61,8 +61,8 @@ class PrivateMessagesController < ApplicationController
   def update
     @private_message = PrivateMessage.find(params[:id])
 
-    respond_to do |format|
-      if @private_message.update_attributes(params[:private_message])
+    respond_to do |format| 
+      if @private_message.update_attributes (params[:private_message])
         format.html { redirect_to @private_message, notice: 'Private message was successfully updated.' }
         format.json { head :no_content }
       else
@@ -81,6 +81,17 @@ class PrivateMessagesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to private_messages_url }
       format.json { head :no_content }
+    end
+  end
+
+  def change_status
+    @unread_messages = PrivateMessage.unread_messages(current_user)
+    @unread_messages.each do |msg|
+      msg.status = "read"
+      msg.save
+    end
+    respond_to do |format|
+      format.js { render 'change_status.js' }
     end
   end
 end

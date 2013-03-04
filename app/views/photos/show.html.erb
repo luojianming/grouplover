@@ -14,7 +14,7 @@
       </div>
       <%= image_tag @photo.image_url(:big) %>
       <p>
-      <%= best_in_place_if @photo.album.user==current_user, @photo, :description, type: :input, 
+      <%= best_in_place_if @photo.album.user==current_user, @photo, :description, type: :textarea, 
         :nil => "输入照片描述", :classes => "photo_description" %>
       </p>
     <span>上传于<%= @photo.created_at.to_s.split(" ")[0]%></span>

@@ -21,6 +21,12 @@
         @original_messages = []
         @original_messages[0] = @original_private_message
         @private_messages = @original_private_message.applied_messages | @original_messages
+        @private_messages.each do |private_message|
+          if private_message.sender_id != current_user.id
+            private_message.status = "readed"
+            private_message.save
+          end
+        end
       %>
       <div class="row" style="margin-bottom: 10px;">
         <div class="span1">
@@ -28,9 +34,7 @@
 
         <div class="span7">
           <%= simple_form_for @original_private_message.applied_messages.build(original_message_id: @original_private_message.id,
-                                                                               sender_id: current_user.id, 
                                                                                receiver_id: contactor_id) do |f| %>
-            <%= f.hidden_field :sender_id %>
             <%= f.hidden_field :original_message_id %>
             <%= f.hidden_field :receiver_id %>
             <%= f.input :content,:label => '回复:',:as => :text,

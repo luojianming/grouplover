@@ -19,7 +19,13 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <%= link_to '私信', my_private_messages_user_path(current_user) , :method => 'get' %>
+                <%= link_to(my_private_messages_user_path(current_user)) do %>
+                  私信
+                  <% unread_messages_count = PrivateMessage.unread_messages(current_user).size %>
+                  <% if unread_messages_count > 0 %>
+                    <span style="margin-left: 40px; color: red;"> <%=unread_messages_count %>条未读 </span>
+                  <% end %>
+                <% end %>
                 </li>
               </ul>
             </li>
@@ -61,14 +67,15 @@
   </div>
 </div>
 <script>
+/*
 $(function(){
 $("li.dropdown").children("a").mouseover(function(){
   $(this).click();
-});
+  });
+*/
 /*
 $("li.dropdown").mouseout(function(){
   $("body").click();
   });
-*/
-});
+ */
 </script>

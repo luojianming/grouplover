@@ -51,7 +51,7 @@ class AlbumsController < ApplicationController
     authorize! :edit, @album, :message => "对不起，您没有权限创建相册哦"
     respond_to do |format|
       if @album.save
-        format.html { redirect_to @album, notice: 'Album was successfully created.' }
+        format.html { redirect_to @album, notice: '相册创建成功' }
         format.json { render json: @album, status: :created, location: @album }
       else
         format.html { render action: "new" }
@@ -68,7 +68,7 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.update_attributes(params[:album])
-        format.html { redirect_to @album, notice: 'Album was successfully updated.' }
+        format.html { redirect_to @album, notice: '相册更新成功.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -84,7 +84,7 @@ class AlbumsController < ApplicationController
     authorize! :destroy, @album, :message => "对不起，您没有权限删除他人的相册哦"
     @album = Album.destroy(params[:id])
 
-    respond_to do |format|
+    respond_to do |format| 
       format.html { redirect_to albums_url }
       format.json { head :no_content }
       format.js

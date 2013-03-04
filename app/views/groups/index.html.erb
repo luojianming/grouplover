@@ -8,14 +8,16 @@
   <%= will_paginate @groups %>
 </div>
 <div class="container" id="group_container">
-  <%= render 'groups/group', :groups => @group %>
+  <%= render 'groups/group', :groups => @groups %>
   <%= render 'users/show_foot' %>
 </div>
-<script>
-$(function(){
-  $('#group_container').masonry({
+<script type="text/javascript">
+var $container = $('#group_container');
+$container.imagesLoaded(function(){
+  $container.masonry({
     itemSelector : '.item',
     columnWidth : 235
   });
 });
 </script>
+

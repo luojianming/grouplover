@@ -2,5 +2,5 @@ $('#follow_form_<%= @user.id %>').html("<%= escape_javascript(render('shared/unf
 $('#follow_form').html("<%= escape_javascript(render('shared/unfollow')) %>")
 $('#followers_<%=@user.id %>').html('<%= @user.followers.count %>')
 $('#followers_<%=current_user.id %>').html('<%= current_user.followers.count %>')
-$("#following_<%= @user.id %>").html('<%= @user.followers.count %>')
-$("#following_<%= current_user.id %>").html('<%= current_user.followers.count %>')
+$("#following_<%= @user.id %>").html('<%= @user.followed_users.count %>')
+$("#following_<%= current_user.id %>").html('<%= current_user.followed_users.count %>')

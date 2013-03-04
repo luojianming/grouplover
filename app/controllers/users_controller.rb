@@ -3,16 +3,22 @@ require 'will_paginate/array'
 class UsersController < ApplicationController
   before_filter :authenticate_user!
   def index
-    @users = User.by_user_location(params[:user_location]) if params[:user_location]
-    if @user == nil
-      @users = User.by_hometown(params[:user_hometown]) if params[:user_hometown]
+    per_page = 100
+    @users = User.search(params[:search],:per_page => per_page)
+    if @users == nil
+      @users = User.by_user_location(params[:user_location]).search(:per_page => per_page) if params[:user_location]
     else
-      @users = @users.by_hometown(params[:user_hometown]) if params[:user_hometown]
+      @users = @users.by_user_location(params[:user_location]).search(:per_page => per_page) if params[:user_location]
     end
-    if @user == nil
-      @users = User.by_school(params[:user_school]) if params[:user_school]
+    if @users == nil
+      @users = User.by_hometown(params[:user_hometown]).search(:per_page => per_page) if params[:user_hometown]
     else
-      @users = @users.by_school(params[:user_school]) if params[:user_school]
+      @users = @users.by_hometown(params[:user_hometown]).search(:per_page => per_page) if params[:user_hometown]
+    end
+    if @users == nil
+      @users = User.by_school(params[:user_school]).search(:per_page => per_page) if params[:user_school] && params[:user_school].to_s.size != 0
+    else
+      @users = @users.by_school(params[:user_school]).search(:per_page => per_page) if params[:user_school] && params[:user_school].to_s.size != 0
     end
     if @users == nil
       @users = User.all.paginate(page: params[:page], :per_page => 12)
@@ -24,8 +30,16 @@ class UsersController < ApplicationController
   def show
     begin
       @user = User.find(params[:id])
-      @following_invitations = Invitation.initiated_by_users_followed_by(@user)
-      render 'show_following_invitations'
+      if current_user == @user
+        @following_invitations = Invitation.initiated_by_users_followed_by(@user)
+        render 'show_following_invitations'
+      else
+        @my_invitations = Invitation.initiated_by_user(@user)
+        render 'show_my_invitations'
+      end
+    rescue
+      redirect_to root_path, :alert => "您访问的页面不存在"
+    end
 =begin
       if (current_user != @user)
         extra_info = @user.extra_info ||= @user.create_extra_info()
@@ -40,9 +54,6 @@ class UsersController < ApplicationController
         extra_info.save
       end
 =end
-    rescue
-      redirect_to users_path, :alert => "the page is not exist"
-    end
   end
   
   def update
@@ -145,5 +156,23 @@ class UsersController < ApplicationController
     @private_messages_original = PrivateMessage.related_messages(@user).original_messages
     @private_messages_original = @private_messages_original.paginate(page: params[:page])
     render 'show_private_messages'
+  end
+
+  def visitors
+    @label = "最近来访"
+    @user = User.find(params[:id])
+    if @user.extra_info == nil
+      @user.extra_info = @user.create_extra_info()
+    end
+    if @user.extra_info.visitors == nil 
+      @user.extra_info.visitors = ""
+    end
+    @users = []
+    @user_ids_array = @user.extra_info.visitors.split(",")
+    @user_ids_array.each do |user_id|
+      @users << User.find(user_id)
+    end
+    @users = @users.paginate(page: params[:page])
+    render 'users/show_visitors'
   end
 end

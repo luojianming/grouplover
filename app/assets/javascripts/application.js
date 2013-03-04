@@ -19,4 +19,6 @@
 //= require best_in_place.purr
 //= require bootstrap
 //= require private_pub
+//= require rails.validations
+//= require rails.validations.simple_form
 //= require_tree .

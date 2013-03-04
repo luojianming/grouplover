@@ -11,6 +11,11 @@ class Ability
         can :read, Profile
         can :create, Album
       end
+      can :manage, Invitation do |invitation|
+        invitation.initiate_group.try(:team_leader) == user
+      end
+      can :manage, Message do |message|
+      end
       can :manage, Profile,   :user_id => user.id
       can :manage, Group  do |group|
         group.try(:team_leader) == user

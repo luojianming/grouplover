@@ -2,12 +2,6 @@
 <div class="container">
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">
-
-    <%
-        if @user != current_user
-          @user.add_visitor(current_user)
-        end
-    %>
     <%= render 'invitation', :invitations => @following_invitations %>
 
   </div><!-- personalpage -->

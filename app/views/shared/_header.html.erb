@@ -4,14 +4,18 @@
       <div class="row">
         <div class="span2">
           <div  class="headphoto" id="headphoto">
+            <%
+              if @user != current_user
+                @user.add_visitor(current_user)
+              end
+            %>
             <% if @user.profile && @user.profile.avatar.size != 0 %>
               <%= image_tag(@user.profile.avatar_url(:thumb)) %>
             <% else %>
-                <%= image_tag("secure.gravatar.com.jpg") %>
+              <%= image_tag("secure.gravatar.com.jpg") %>
             <% end %>
           </div>
           <%= render "shared/stats" %>
-          <%= render 'shared/follow_form' %>
         </div>
         <span class="span7 trends-box">
           <div class="content">             
@@ -36,20 +40,37 @@
             </div>
 
             <% if current_user == @user %>
-              <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary", :id => "create_invitation_btn" %>
+              <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary header_btn", :id => "create_invitation_btn" %>
               <script type="text/javascript">Renren.init({appId:181208});</script>
-              <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
-      <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
+              <a href="javascript:sendRequest();" class="btn btn-primary header_btn">邀请人人好友</a>
+              <!--
+                <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
+                -->
+            <% else %>
+              <div style="margin-top: 100px;">
+                <div class="pull-left" style="margin-right: 20px">
+                  <%= render 'shared/follow_form' %>
+                </div>
+                <div>
+                  <a data-toggle="modal" href="#" class="btn send_private_message" 
+                    type="button" receiver_id="<%= @user.id %>" >
+                    发私信
+                  </a>
+                  <%= render 'users/send_message_modal' %>
+                </div>
+              </div>
             <% end %>
           </div>
         </span>
-      </div>          
+      </div>
     </div>
     <div class="span3">
       <div id="latest_invitor" class="personalpage_left">
-        <span class="pull-left">最近来访</span>
-        <span class="pull-right latest_invitor_more">更多</span>
-        <div class="row" style="clear:both">          	
+        <span class="pull-left" style="margin-bottom: 5px;">最近来访（<%= @user.extra_info.counts.to_i%>）</span>
+        <% if current_user == @user %>
+          <span class="pull-right latest_invitor_more"><%= link_to '更多', visitors_user_path(@user) %></span>
+        <% end %>
+          <div class="row" style="clear:both">	
         <% 
           if @user.extra_info == nil
             @user.extra_info = @user.create_extra_info()
@@ -65,9 +86,10 @@
 
         <% visitors_array.each do |visitor_id| %>
           <% visitor = User.find(visitor_id.to_i) %>
-          <div class="span1">
-            <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'pic2.jpg') %>
-            <label><%= visitor.name %></label>
+          <div class="span1 latest_visitors">
+            <%= link_to(user_path(visitor),:title => visitor.name, :rel => 'tooltip') do%>
+              <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'pic2.jpg') %>
+            <% end %>
           </div>
         <% end %>
 
@@ -79,6 +101,7 @@
 
   <div class="subnav" style="background-color:#FAF7F7">
     <ul class="nav nav-pills">
+      <% if current_user == @user %>
       <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
     <li class="dropdown">
     <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle") do %>
@@ -90,6 +113,9 @@
         <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>
       </ul>
       </li>
+    <% else %>
+        <li><%= link_to "动态", my_invitations_user_path(@user) %></li>
+    <% end %>
 
       <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
       <ul class="dropdown-menu" id="swatch-menu">
@@ -100,11 +126,9 @@
       </li>
       <li style="margin-left:300px"><%= link_to "Groups", groups_user_path(@user)%></li>
       <li><%= link_to "资料", user_profiles_path(@user) %></li>
-      <li><%= link_to "相册", albums_user_path(@user) %></li>
+      <li><%= link_to "个人show", albums_user_path(@user) %></li>
     </ul>
   </div>
-
-
 </header>
 <script type="text/javascript">
 function sendRequest() {
@@ -121,4 +145,14 @@ function sendRequest() {
   };
   Renren.ui(uiOpts); 
 }
+
+$('.latest_visitors a').tooltip();
+</script>
+<script>
+$(function(){
+  $(".send_private_message").click(function() {
+    $('#private_message_receiver_id').val($(this).attr('receiver_id'));
+    $('#send_message_modal').modal('show');
+  });
+});
 </script>

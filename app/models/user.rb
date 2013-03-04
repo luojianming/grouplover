@@ -68,7 +68,8 @@ class User < ActiveRecord::Base
   def bind_service(response)
     provider = response["provider"]
     uid = response["uid"]
-    authorizations.create(:provider => provider , :uid => uid )
+    auth = authorizations.create(:provider => provider , :uid => uid )
+    auth.save
   end
 
   def following?(other_user)
@@ -130,5 +131,15 @@ class User < ActiveRecord::Base
 
   def add_visitor(visitor)
     ExtraInfo.add(extra_info, visitor)
+  end
+
+  def active_groups
+    my_active_groups = []
+    mygroups.each do | group|
+      if group.status == "active"
+        my_active_groups << group
+      end
+    end
+    my_active_groups
   end
 end

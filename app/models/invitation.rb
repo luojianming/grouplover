@@ -11,7 +11,6 @@ class Invitation < ActiveRecord::Base
   has_one :conversation, :as => :conversationer
 
   validates :initiate_group_id, :presence => true
-  validates :style, :presence => true
   validates :location, :presence => true
   validates :time, :presence => true
 
@@ -49,5 +48,6 @@ class Invitation < ActiveRecord::Base
     mygroup_ids = user.mygroups.map(&:id)
     where("initiate_group_id IN (:mygroup_ids)", mygroup_ids: mygroup_ids)
   end
+
 
 end

@@ -19,8 +19,9 @@ $('.members ul a').tooltip();
 </script>
 
 <script>
-$(function(){
-  $('#personalpage').masonry({
+var $container = $('#personalpage');
+$container.imagesLoaded(function(){
+  $container.masonry({
     itemSelector : '.item',
     columnWidth : 235
   });

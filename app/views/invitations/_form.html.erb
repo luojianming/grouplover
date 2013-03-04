@@ -1,24 +1,30 @@
 <div class="container">
-  <h1>创建邀请函</h1>
+  <div class="row">
+
+    <div class="span4">
+      <h4>创建邀请函</h4>
+      <%= link_to '返回', user_path(current_user) %>
   <%= simple_form_for(@invitation) do |f| %>
-    <%= f.error_notification %>
 
     <div class="form-inputs">
-      <%= f.association :initiate_group, :collection => current_user.mygroups,
+      <%= f.association :initiate_group, :collection => current_user.active_groups,
         :prompt => "请选择你的一个小组", :label => "小组"%>
       <%= f.input :time , :label => "活动时间" %>
-      <%= f.input :image_url, :label => "请上传照片" %>
       <%= f.input :location, :label => "活动地点" %>
       <%= f.input :activity, :label => "活动" %>
       <%= f.input :description, :label => "描述", :as => :text,
                   :input_html => {:rows => 3} %>
       <%= f.hidden_field :status, :value => "pending" %>
+      <!--
       <%= f.input :lover_style, :label => "对方的风格" %>
       <%= f.input :style, :label => "我们的风格" %>
+      -->
     </div>
 
     <div class=form-actions">
-      <%= f.button :submit %>
+      <%= f.submit '创建', :class => 'btn'%>
     </div>
   <% end %>
+</div>
+  </div>
 </div>

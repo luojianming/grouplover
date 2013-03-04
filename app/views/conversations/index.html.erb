@@ -6,6 +6,7 @@
       <ul id='conversation_list'>
         <h4>与我相关的小组</h4>
         <% current_user.related_groups.each do |group| %>
+          <% if group.status == "active" %>
           <%
             member_names=""
             group.members.each do |member|
@@ -36,6 +37,7 @@
            </div>
            </li>
          <% end %>
+       <% end %>
         <% end %>
         <h4>与我相关的活动</h4>
         <% current_user.related_active_invitations.each do |invitation| %>
@@ -97,11 +99,10 @@ function play_click(sef,url){
   if (emb) {
     /* 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 */
     div = document.getElementById('sound_tmp');
-    div.innerHTML = 'loading: '+emb.src;
+    div.innerHTML = '  ';
     alert(div.innerHTML);
     sef.disabled = true;
     setTimeout(function(){div.innerHTML='';},1000);
   }
 }
-play_click(this,'Audio.wav');
 </script>

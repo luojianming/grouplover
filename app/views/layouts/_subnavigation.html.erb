@@ -1,6 +1,8 @@
 <div class="nav-menu">
+  <%= form_tag invitations_path, :method => "get" do %>
   <ul class="container">
     <li class="dropdown">
+    <%= text_field_tag :city, params[:city], :id => "city_value", :type => "hidden"%>
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:city]==nil || params[:city].size==0%>
           全国
@@ -16,6 +18,7 @@
     </li>
 
     <li class="dropdown">
+    <%= text_field_tag :time, params[:time], :id => "time_value", :type => "hidden"%>
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:time]==nil || params[:time].size==0%>
           时间不限
@@ -32,11 +35,12 @@
 
 
     <li class="dropdown">
+    <%= text_field_tag :member_counts, params[:member_counts], :id => "member_counts_value", :type => "hidden"%>
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:member_counts]==nil || params[:member_counts].size==0%>
           人数不限
       <% else %>
-          <%= params[:member_counts] %>人
+          <%= params[:member_counts] %>
       <% end %>
         <b class="caret"></b>
       </a>
@@ -44,7 +48,9 @@
         <%= render 'layouts/member_counts' %>
         <li class="divider"></li>
       </ul>
-    </li>
+      </li>
     <li><%= link_to '全部', root_path %></li>
   </ul>
+  <input type="submit" value="搜索" name="commit" id="invitations_search_submit" hidden>
+<% end %>
 </div><!--navbar navbar-fixed-top-->

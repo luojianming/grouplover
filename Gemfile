@@ -48,3 +48,5 @@ gem 'thinking-sphinx','2.0.10'
 gem 'debugger', :group => :development
 gem 'better_errors', :group => :development
 gem 'binding_of_caller', :group => :development
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'

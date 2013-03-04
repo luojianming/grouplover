@@ -1,4 +1,13 @@
 <% cities = ['全国','北京','上海','长沙'] %>
 <% for city in cities %>
-  <li><%= link_to city, :controller => "groups", :action => "index",:city => city%></li>
+  <!--
+    <li><%= link_to city, :controller => "groups", :action => "index",:city => city%></li>
+  -->
+  <li><a href="#" class="cities"><%= city%></a></li>
 <% end %>
+<script>
+$('.cities').click(function(){
+  $('#city_value').val($(this).text());
+  $('#groups_btn_submit').click();
+});
+</script>

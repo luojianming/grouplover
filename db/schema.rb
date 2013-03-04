@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225160019) do
+ActiveRecord::Schema.define(:version => 20130301042139) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130225160019) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "counts"
   end
 
   add_index "extra_infos", ["user_id"], :name => "index_extra_infos_on_user_id"
@@ -73,10 +74,9 @@ ActiveRecord::Schema.define(:version => 20130225160019) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.integer  "member_counts"
-    t.boolean  "sex"
+    t.string   "sex"
     t.string   "location"
     t.string   "founded_time"
-    t.text     "labels"
     t.string   "status"
     t.string   "image"
   end
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(:version => 20130225160019) do
     t.string   "lover_style"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
-    t.string   "image_url"
     t.string   "style"
     t.string   "activity"
   end
@@ -159,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20130225160019) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.string   "profession"
-    t.boolean  "sex"
+    t.string   "sex"
     t.string   "hometown"
     t.string   "location"
     t.string   "status"

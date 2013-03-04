@@ -5,13 +5,14 @@
   <div class="clearfix">
     <div class="row main">
       <%
+          debugger
           @profile = current_user.profile
           style_str = @profile.style
           @profile.style = str_to_array(style_str)
           @profile.hobby = str_to_array(@profile.hobby)
       %>
       <%= simple_form_for @profile, :url => user_profiles_path(current_user), 
-        :html => {:class => "form-horizontal profiles"} do |f|%> 
+        :validate => true, :html => {:class => "form-horizontal profiles"} do |f|%> 
         <div class="span3 sidenav">
           <div class="fileupload fileupload-new" data-provides="fileupload">
             <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;" id="avatar">
@@ -42,7 +43,7 @@
                   <div class="control-group required">
                     <label class="control-label required ><abbr title="required">*</abbr> 性别</label>
                     <div class="controls" style="padding-top:2px;">
-                      <%= f.collection_radio_buttons :sex,  [[true,"男"],[false,"女"]], :first, :last %>
+                      <%= f.collection_radio_buttons :sex,  [["男","男"],["女","女"]], :first, :last %>
                     </div>
                   </div>
                   <%= f.input :hometown, :label => "家乡", :input_html => { :id => "hometown" }%>

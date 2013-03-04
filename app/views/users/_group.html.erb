@@ -1,39 +1,43 @@
 <% show_groups.each do |show_group| %>
-  <% if show_group.status == "active" %>
-    <div class="group_showpanel" id="related_group_<%= show_group.id %>">
+  <div class="group_showpanel" id="related_group_<%= show_group.id %>" style="clear: both;margin-top: 30px;" >
     <div class="group_showpanel_left">
-      <%= link_to safe_image_tag(show_group.team_leader.profile.avatar_url(:small)), user_path(show_group.team_leader), :title => "标签：聪明 可爱 仗义",
+      <%= link_to safe_image_tag(show_group.image_url(:small), 'pic1.jpg'), user_path(show_group.team_leader),
         :placement => "left", :rel => "tooltip" %>
       <div class="groupleader_info">
-          <label><%= show_group.team_leader.name %></label>
-        </div>
-        <% if current_user == @user %>
-          <% if current_user == show_group.team_leader %>
-            <%= link_to "编辑", edit_group_path(show_group) %>
-            <%= link_to "解散", show_group, :confirm => '确定删除？',
-                :method => :delete, :remote => true %>
+        <label><%= show_group.name %>
+          <% if show_group.status == "active" %>
+            (已激活)
           <% else %>
-            <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => show_group } %>
+            (尚未激活)
           <% end %>
-        <% end %>
-         
+        </label>
       </div>
+      <% if current_user == @user %>
+        <% if current_user == show_group.team_leader %>
+          <!-- 
+            <%= link_to "编辑", edit_group_path(show_group) %>
+            -->
+          <%= link_to "解散", show_group, :confirm => '确定删除？',
+            :method => :delete, :remote => true %>
+        <% else %>
+          <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => show_group } %>
+        <% end %>
+      <% end %>
+    </div>
 
-
-      <div class="group_showpanel_right" style="background-color:#CFC">
+    <div class="group_showpanel_right" style="background-color:#CFC">
         <% show_group.group_memberships.each do |ship| %>
           <div class="group_member">                        		 
-          <div class="pull-left">
-            <%= link_to safe_image_tag(ship.member.profile.avatar_url(:mini)), user_path(ship.member), :title => "黄蓉 1989年5月",
-              :placement => "top", :rel => "tooltip" %>
-          </div>
+            <div class="pull-left">
+              <%= link_to safe_image_tag(ship.member.profile.avatar_url(:mini), 'pic2.jpg'), user_path(ship.member), :title => ship.member.name,
+                :placement => "top", :rel => "tooltip" %>
+            </div>
             <div class="group_member_info pull-left">
               <label>爱好：<%= ship.member.profile.hobby %></label>
               <label>喜欢的异性类型：<%= ship.member.profile.lover_style %></label>
             </div>
           </div><!--group_member-->
         <% end %>
-        </div> <!--group_showpanel_right -->
-      </div>
-  <% end %>
+    </div> <!--group_showpanel_right -->
+  </div>
 <% end %> <!-- each -->

@@ -6,10 +6,11 @@
 <% end %>
 <div class="container" id="container">
   <%= render 'users/invitation', :invitations => @invitations %>
-
   <!-- <input class="btn" value="点此加载" id="load" />-->
-  <%= render 'users/show_foot' %>
+  <div id="loading_div" style="bottom: 0px;position: absolute;clear:both; width:100%;text-align:center;z-index: 1000;">
+  </div>
 </div>
+<%= render 'users/show_foot' %>
 <nav id="page-nav">
   <%= will_paginate  @invitations%>
 </nav>
@@ -33,13 +34,14 @@ $('#load').click(function(){
  }
 </script>
 <script type="text/javascript">
+
 $(function(){
   var $container = $('#container');
   $container.imagesLoaded(function(){
     $container.masonry({
       // options
       itemSelector : '.item',
-      columnWidth : 235,
+      columnWidth : 235
     });
   });
   $container.infinitescroll({
@@ -47,8 +49,10 @@ $(function(){
     nextSelector : 'li.next_page a:first',
     itemSelector : '.item',
     loading: {
-      finishedMsg: 'No more pages to load.',
-      img: 'http://i.imgur.com/6RMhx.gif'
+      selector: '#loading_div',
+      msgText: "正在加载中...",
+      finishedMsg: '没有更多页面了',
+      img: '/6RMhx.gif'
     }
   },
   function(newElements){
@@ -64,7 +68,7 @@ $(function(){
 
 jQuery(document).ajaxError(function(e,xhr,opt){
   if (xhr.status == 404) jQuery('#').remove();
-});
+  });
 </script>
 <script type="text/javascript">
 

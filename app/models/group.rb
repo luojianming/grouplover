@@ -1,6 +1,6 @@
 #encoding: utf-8
 class Group < ActiveRecord::Base
-  attr_accessible :description, :name, :sex, :labels, :location,
+  attr_accessible :description, :name, :sex, :location,
                   :member_counts, :group_memberships_attributes,
                   :status, :member_ids, :image
 
@@ -22,14 +22,12 @@ class Group < ActiveRecord::Base
                                 :reject_if => proc { |attributes| attributes['member_id'].blank? },
                                 :allow_destroy => true
 
-  validates :name, :uniqueness => true, :length => { :maximum => 8,
+  validates :name, :presence => true, :length => { :maximum => 8,
                                                      :too_long => "名字最多不能超过8个字哦"}
-  validates :sex, :presence => true
-  validates :labels, :presence => true, :length => { :maximum => 20,
-                                                    :too_long => "标签总长度不能超过20个字哦"}
+  validates :sex,  :presence => true
   validates :location, :presence => true
- # validates :member_counts, :numericality => { :less_than => 3 }
-  validate :labels_number_cannot_greater_than_three 
+ # validate :labels_number_cannot_greater_than_three 
+ # validate :members_should_of_the_same_sex
 
   mount_uploader :image, ImageUploader
 
@@ -49,9 +47,18 @@ class Group < ActiveRecord::Base
   sphinx_scope(:by_name) { |name|
     { :conditions => { :name => name } }
   }
+=begin
   def labels_number_cannot_greater_than_three
     if labels.split(",").length >= 3
       errors.add(:labels, "标签个数最多不能超过两个")
+    end
+  end
+=end
+  def members_should_of_the_same_sex
+    members.each do |member|
+      if member.profile.sex != sex
+        errors.add(:member_ids, "所有成员必须同性别")
+      end
     end
   end
 #当且仅当所有的group_membership的status为accepted时才能变成active

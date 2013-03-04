@@ -1,3 +1,13 @@
+<li><a href="#" class="member_counts">人数不限</a></li>
 <% for i in 2..4 %>
+  <!--
   <li><%= link_to i.to_s + "人", :controller => "invitations", :action => "index",:member_counts => i.to_s%></li>
+  -->
+  <li><a href="#" class="member_counts"><%= i.to_s + "人" %></a></li>
 <% end %>  
+<script>
+$('.member_counts').click(function(){
+  $('#member_counts_value').val($(this).text());
+  $('#invitations_search_submit').click();
+});
+</script>

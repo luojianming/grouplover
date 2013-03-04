@@ -4,10 +4,8 @@
     <h3 id="myModalLabel">发私信</h3>
   </div>
   <%= simple_form_for(PrivateMessage.new(original_message_id: -1,
-                                    sender_id: current_user.id, 
                                     receiver_id: -1), remote: true) do |f| %>
   <div class="modal-body">
-    <%= f.hidden_field :sender_id %>
     <%= f.hidden_field :original_message_id %>
     <%= f.hidden_field :receiver_id %>
     <%= f.input :content, :label => "内容", :as => :text,

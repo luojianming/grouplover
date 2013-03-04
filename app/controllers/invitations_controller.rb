@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'will_paginate/array'
 class InvitationsController < ApplicationController
   # GET /invitations
@@ -14,21 +15,23 @@ class InvitationsController < ApplicationController
       @invitations = Invitation.search(conditions: {time: @time, city: @city}, with: { group_member_counts: @member_counts})
     end
 =end
-    @invitations = Invitation.by_location(params[:location]) if params[:location]
+    per_page = 100
+    debugger
+    @invitations = Invitation.by_location(params[:location]).search(:per_page => per_page) if params[:location]
     if @invitations == nil
-      @invitations = Invitation.by_time(params[:time]) if params[:time]
+      @invitations = Invitation.search(params[:time], :per_page => per_page) if (params[:time] && params[:time].to_s.size != 0 && params[:time].to_s != "时间不限")
     else
-      @invitations = @invitations.by_time(params[:time]) if params[:time]
+      @invitations = @invitations.search(params[:time],:per_page => per_page) if (params[:time]&& params[:time].to_s.size != 0 && params[:time].to_s != "时间不限")
     end
     if @invitations == nil
-      @invitations = Invitation.with_member_counts(params[:member_counts].to_i - 1) if params[:member_counts]
+      @invitations = Invitation.with_member_counts(params[:member_counts].to_i - 1).search(:per_page => per_page) if (params[:member_counts].to_s.size != 0 && params[:member_counts].to_s != "人数不限")
     else
-      @invitations = @invitations.with_member_counts(params[:member_counts].to_i - 1) if params[:member_counts]
+      @invitations = @invitations.with_member_counts(params[:member_counts].to_i - 1).search(:per_page => per_page) if (params[:member_counts].to_s.size != 0 && params[:member_counts].to_s != "人数不限")
     end
     if @invitations == nil
-      @invitations = Invitation.by_city(params[:city]) if params[:city]
+      @invitations = Invitation.by_city(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city].to_s != "全国")
     else
-      @invitations = @invitations.by_city(params[:city]) if params[:city]
+      @invitations = @invitations.by_city(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city].to_s != "全国")
     end
     if @invitations == nil
       @invitations = Invitation.all.paginate(page: params[:page])
@@ -39,6 +42,7 @@ class InvitationsController < ApplicationController
     respond_to do |format|
       format.html { render 'home/index'}
       format.json { render json: @invitations }
+      format.js { render 'index.js' }
     end
   end
 
@@ -76,12 +80,13 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new(params[:invitation])
 
+    authorize! :create, @invitation, :message => "对不起，您没有创建邀请贴的权限哦"
     respond_to do |format|
       if @invitation.save
-        format.html { redirect_to @invitation, notice: 'Invitation was successfully created.' }
+        format.html { redirect_to my_invitations_user_path(current_user), notice: '邀请贴创建成功.' }
         format.json { render json: @invitation, status: :created, location: @invitation }
       else
-        format.html { render action: "new" }
+        format.html { render 'new' }
         format.json { render json: @invitation.errors, status: :unprocessable_entity }
       end
     end

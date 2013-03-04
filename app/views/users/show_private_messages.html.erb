@@ -5,7 +5,8 @@
   <div class="row">
     <div class="span9" id="private_messages_abstract">
     <h4>我的私信</h4>
-      <%= render 'private_message', :private_messages => @private_messages_original %>
+    <%= link_to '将所有私信标为已读', private_messages_change_status_path, :remote => true, :class => "pull-right" %>
+    <%= render 'private_message', :private_messages => @private_messages_original %>
     </div>
 
     <div class="span3">

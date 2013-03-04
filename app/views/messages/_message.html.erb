@@ -5,7 +5,7 @@
           <h3 class="popover-title"><%= message.sender.name %>
             <span class="created_at"><%= message.created_at.strftime("%H:%M") %></span>
           </h3>
-          <div class="popover-content"><%= message.content %></div>
+          <div class="popover-content"><span><%= message.content %> <%= current_user.id %></span></div>
         </div>
       </div>
     <% else %>
@@ -14,9 +14,8 @@
           <h3 class="popover-title"><%= message.sender.name %>
             <span class="created_at"><%= message.created_at.strftime("%H:%M") %></span>
           </h3>
-          <div class="popover-content"><%= message.content %></div>
+          <div class="popover-content"><span><%= message.content %></span></div>
         </div>
       </div>
     <% end %>
 </li>
-

@@ -1,0 +1,53 @@
+  <div class="row">
+    <div class="span2">
+    </div>
+
+    <div class="span10">
+      <%= render 'follow_label' %>
+      <%= will_paginate  @users%>
+      <table class="table table-condensed">
+        <% if @users.size != 0 %> 
+          <thead>
+            <tr>
+              <th></th>
+              <th>姓名</th>
+              <th>现居地</th>
+              <th>家乡</th>
+              <th></th>
+              <th></th>                                      
+            </tr>
+          </thead>
+        <% end %>
+        <tbody>
+        <% user_tmp = @user %>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= safe_image_tag(user.profile.avatar_url(:mini), 'pic2.jpg') %></td>
+            <td><%= link_to user.name, user_path(user) %></td>
+            <td><%= user.profile.location %></td>
+            <td><%= user.profile.hometown %></td>
+            <% if current_user == user_tmp %> 
+            <td id="follow_form_<%= user.id%>">
+              <% @user = user %>
+              <% if current_user.following?(user) %>
+                <%= render 'shared/unfollow' %>
+              <% else %>
+                <%= render 'shared/follow' %>
+              <% end %>
+            </td>
+            <td>
+              <a data-toggle="modal" href="#" class="btn send_private_message" 
+                type="button" receiver_id="<%= user.id %>" >
+                发私信
+              </a>
+            </td>
+          <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate  @users%>
+      <%= render 'users/show_foot' %>
+    </div><!-- span10 -->
+    <%= render 'send_message_modal' %>
+  </div>

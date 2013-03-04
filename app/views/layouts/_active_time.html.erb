@@ -1,4 +1,14 @@
 <% t = Time.now %>
+  <li><a href="#" class="time">时间不限</a></li>
 <% for i in 0..6 %>
+  <!--
   <li><%= link_to (t+i*24*3600).strftime("%Y-%m-%d"), :controller => "invitations", :action => "index",:time => (t+i*24*3600).strftime("%Y-%m-%d")%></li>
+  -->
+  <li><a href="#" class="time"><%= (t+i*24*3600).strftime("%Y-%m-%d")%></a></li>
 <% end %>  
+<script>
+$('.time').click(function(){
+  $('#time_value').val($(this).text());
+  $('#invitations_search_submit').click();
+});
+</script>

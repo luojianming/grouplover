@@ -1,7 +1,30 @@
+<div class="row">
 <% pending_requests.each do |pending_request| %>
-  <li>
-    <%= pending_request.group.team_leader.name %>向你发出了邀请，希望你加入TA创建的小组
-    <%= link_to "接受", {:controller => "group_memberships", :action => "accept", :group => pending_request.group } %>
-    <%= link_to "忽略", {:controller => "group_memberships", :action => "reject", :group => pending_request.group } %>
-  </li>
+  <%
+      group = pending_request.group
+      leader = group.team_leader
+  %>
+  <div class="span8">
+    <div class="pending_request_left pull-left">
+      <%= safe_image_tag(group.image_url(:mini), 'pic2.jpg') %>
+    </div>
+    <div class="pending_request_body pull-left">
+      <%= leader.name %>向你发出了邀请，希望你加入TA创建的小组<%= group.name %></br>
+      其他组成员为：
+      <% group.members.each do |member| %>
+        <% if member != @user %>
+          <%= link_to member.name, user_path(member) %>
+          <%= "   " %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="pending_request_right pull-right">
+      <%= link_to "接受", {:controller => "group_memberships", :action => "accept", :group => pending_request.group } %>
+      <%= link_to "忽略", {:controller => "group_memberships", :action => "reject", :group => pending_request.group } %>
+    </div>
+  </div>
+
 <% end %>
+  <div class="span4">
+  </div>
+</div>

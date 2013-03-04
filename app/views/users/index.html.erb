@@ -12,6 +12,16 @@
       <%= link_to '我的同城老乡', { :controller => "users", :action => "index", 
                                           :user_hometown => current_user.profile.hometown, 
                                           :user_location => current_user.profile.location }%>
+
+      <h4>搜索</h4>
+      <%= form_tag users_path, method: :get, :class => "navbar-search" do %>
+        <div class="field">
+        <%= text_field_tag :search, params[:search], :placeholder => "按姓名搜索",
+          :class => "user-search-query-input" %>
+        <a href="#" id="submit-link" style="display: inline;line-height: 20px;"><i style="right: 5px; top: 7px;" class="icon-search"></i></a>
+          <input type="submit" value="搜索" name="commit" id="group_search_submit" hidden>
+        </div>
+      <% end %>
     </div>
 
     <div class="span2">
@@ -67,6 +77,13 @@ $(function(){
   $(".send_private_message").click(function() {
     $('#private_message_receiver_id').val($(this).attr('receiver_id'));
     $('#send_message_modal').modal('show');
+  });
+});
+</script>
+<script>
+$(function(){
+  $('#submit-link').click(function(){
+    $('#group_search_submit').click();
   });
 });
 </script>

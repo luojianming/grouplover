@@ -8,11 +8,19 @@
   <div class="row">
     <div class="span9">
       <% if @mygroups.any? %>
-        <div>我发起的Groups</div>
+        <% if current_user == @user %>
+          <div>我发起的Groups</div>
+        <% else %>
+          <div>Ta发起的Groups</div>
+        <% end %>
         <%= render 'group', :show_groups => @mygroups %>
       <% end %><!-- block -->
       <% if @groups.any? %>
-        <div>我参与的Groups</div>
+        <% if current_user == @user %>
+          <div style="clear: both; margin-top: 30px;">我参与的Groups</div>
+        <% else %>
+          <div style="clear: both; margin-top: 40px;">Ta参与的Groups</div>
+        <% end %>
         <%= render 'group', :show_groups => @groups %>
       <% end %> <!-- each -->
     </div> <!--span9 -->
@@ -23,6 +31,8 @@
   </div><!-- row -->
 </div><!-- container -->
 
+<div style="height: 20px;" class="container">
+</div>
 <script>
 $('.group_member .pull-left').tooltip({
   selector: "a[rel=tooltip]"})

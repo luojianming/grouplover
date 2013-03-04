@@ -1,11 +1,14 @@
 <%
-  contactor_id = @original_private_message.sender_id==current_user.id ? @original_private_message.receiver_id : @original_private_message.sender_id
+    contactor_id = @original_private_message.sender_id==current_user.id ? @original_private_message.receiver_id : @original_private_message.sender_id
+    contactor = User.find(contactor_id)
 %>
   <% private_messages.each do |private_message| %>
     <div class="message row">
     <div class="span1">
       <% if private_message.sender_id != current_user.id %>
-        <%= safe_image_tag(User.find(contactor_id).profile.avatar_url(:mini), 'pic2.jpg') %>
+        <%= link_to(user_path(contactor), :target => "_blank") do %>
+          <%= safe_image_tag(contactor.profile.avatar_url(:mini), 'pic2.jpg') %>
+        <% end %>
       <% end %>
     </div>
 

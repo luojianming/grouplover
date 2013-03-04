@@ -11,19 +11,20 @@
         <h3 id="myModalLabel">必填资料</h3>
       </div>
       <%
+ debugger 
           @profile = current_user.profile
           style_str = @profile.style.to_s
           @profile.style = str_to_array(style_str)
           @profile.hobby = str_to_array(@profile.hobby.to_s)
       %>
     <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put,
-      :html => { :class => "profiles" } do |f| %>
+      :validate => true,:html => { :class => "profiles" } do |f| %>
         <div class="modal-body" >
           <div class="modal-left">
             <div class="control-group required">
               <label class="control-label required"><abbr title="required">*</abbr> 性别</label>
               <div class="controls" style="padding-top:2px;">
-                <%= f.collection_radio_buttons :sex,  [[true,"男"],[false,"女"]], :first, :last %>
+                <%= f.collection_radio_buttons :sex,  [["男","男"],["女","女"]], :first, :last %>
               </div>
             </div>
             <div class="control-group required">

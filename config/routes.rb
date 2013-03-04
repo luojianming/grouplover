@@ -1,11 +1,11 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
 
-  resources :private_messages
+  match 'private_messages/change_status' => 'private_messages#change_status'
+  resources :private_messages, only: [:show, :create]
 
-
-  resources :messages, only: [:index, :create]
-
-  resources :conversations, only: [:index, :create]
+  resources :conversations, only: [:index, :create] do
+    resources :messages, only: [:index, :create]
+  end
 
   resources :photos, only: [:show, :create, :update, :destroy]
 
@@ -33,7 +33,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
       get :following, :followers, :friends, 
           :groups, :following_invitations, :my_invitations,
           :received_invitations, :albums, :pending_requests,
-          :my_private_messages
+          :my_private_messages, :visitors
     end
   end
 

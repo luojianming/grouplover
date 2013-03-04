@@ -4,18 +4,24 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
   def index
+    per_page = 100
+    @groups = Group.search(params[:search],:per_page => per_page)
     if params[:hometown] != nil
 
     end
-    if params[:search] != nil
-      @groups = Group.search(params[:search])
+    if @groups == nil
+      @groups = Group.by_group_location(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city] != "全国")
     else 
-      @groups = Group.by_group_location(params[:location]) if params[:location]
+      @groups = @groups.by_group_location(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city] != "全国")
     end
     if @groups == nil
-      @groups = Group.with_member_counts(params[:member_counts].to_i-1) if params[:member_counts]
+      if (params[:member_counts] && params[:member_counts].to_s.size != 0 && params[:member_counts] != "人数不限")
+        @groups = Group.with_member_counts(params[:member_counts].to_i-1).search(:per_page => per_page)
+      end
     else
-      @groups = @groups.with_member_counts(params[:member_counts].to_i-1)if params[:member_counts]
+      if (params[:member_counts] && params[:member_counts].to_s.size != 0 && params[:member_counts] != "人数不限")
+        @groups = @groups.with_member_counts(params[:member_counts].to_i-1).search(:per_page => per_page)
+      end
     end
     if @groups == nil
       @groups = Group.all.paginate(page: params[:page], :per_page => 12)
@@ -29,31 +35,26 @@ class GroupsController < ApplicationController
 =end
 
   def create
-
+debugger
     @member_ids = params[:member_ids]
-    @labels = params[:group][:labels]
-    @labels_num = @labels.size
+    if @member_ids == nil
+      @member_ids = []
+    end
     @member_num = @member_ids.size
-    params[:group][:labels]=""
     params[:group][:group_memberships_attributes] = {}
     for i in 0..@member_num-1
       params[:group][:group_memberships_attributes][i.to_s] = {}
       params[:group][:group_memberships_attributes][i.to_s][:member_id] = @member_ids[i.to_i]
+      params[:group][:group_memberships_attributes][i.to_s]["status"] = "pending"
     end
-    for i in 1..@labels_num-1
-      if i == 1
-        params[:group][:labels] += @labels[i]
-      else
-        params[:group][:labels] += "," + @labels[i] 
-      end
-    end
+    debugger
     @group = current_user.mygroups.build(params[:group])
      respond_to do |format|
       if @group.save
-        format.html { redirect_to root_path, notice: 'Group was successfully created.' }
+        format.html { redirect_to groups_user_path(current_user), notice: '小组创建成功' }
         format.json { render json: @profile, status: :created, location: @profile }
       else
-        format.html { redirect_to new_group_path, :notice => "创建小组失败" }
+        format.html { render 'new'}
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end
@@ -67,9 +68,10 @@ class GroupsController < ApplicationController
   end
 
   def update
+    debugger
     @group = Group.find(params[:id])
     params[:group][:status] = @group.status
-    @num = @group.group_memberships.count
+    @num = @group.members.count
     for i in  0..@num-1
       params[:group][:group_memberships_attributes][i.to_s][:status] = @group.group_memberships[i].status
     end
@@ -81,7 +83,8 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = current_user.mygroups.build
+     @group = current_user.mygroups.build()
+    #  @group = Group.new
 =begin
      1.times {
       @group.group_memberships.build
