@@ -78,6 +78,11 @@ module Rails3BootstrapDeviseCancan
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    config.i18n.default_locale = "zh-CN"
+
+    config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+
+    config.i18n.default_locale = 'zh-CN'
+
+    I18n.locale = 'zh-CN'
   end
 end

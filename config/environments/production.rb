@@ -1,4 +1,6 @@
 Rails3BootstrapDeviseCancan::Application.configure do
+  require 'tlsmail'
+  Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
@@ -64,7 +66,7 @@ Rails3BootstrapDeviseCancan::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'itripl.com' }
+  config.action_mailer.default_url_options = { :host => 'www.itripl.com' }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
@@ -75,11 +77,13 @@ Rails3BootstrapDeviseCancan::Application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "example.com",
+    domain: "gmail.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: ENV["GMAIL_USERNAME"],
-    password: ENV["GMAIL_PASSWORD"]
+  #  user_name: ENV["GMAIL_USERNAME"],
+  #  password: ENV["GMAIL_PASSWORD"]
+    user_name: "luojmfly@gmail.com",
+    password: "jianming0527"
   }
 
 

@@ -1,3 +1,6 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "bootswatch", "chosen" %>
+<% end %>
 <div class="container">
   <div class="row">
 
@@ -5,11 +8,24 @@
       <h4>创建邀请函</h4>
       <%= link_to '返回', user_path(current_user) %>
   <%= simple_form_for(@invitation) do |f| %>
-
+    <%
+        time_collection = []
+        for i in 0..6
+          time_collection[i] = (Time.now+i*24*3600).strftime("%Y-%m-%d")
+        end
+    %>
     <div class="form-inputs">
       <%= f.association :initiate_group, :collection => current_user.active_groups,
         :prompt => "请选择你的一个小组", :label => "小组"%>
-      <%= f.input :time , :label => "活动时间" %>
+      <div class="control-group required">
+        <label class="control-label required"><abbr title="required">*</abbr> 活动时间</label>
+        <div class="controls">
+          <%= f.select(:time, time_collection,
+                       {},
+                       {:class => "time-select"}
+                      ) -%>
+        </div>
+      </div>
       <%= f.input :location, :label => "活动地点" %>
       <%= f.input :activity, :label => "活动" %>
       <%= f.input :description, :label => "描述", :as => :text,
@@ -28,3 +44,7 @@
 </div>
   </div>
 </div>
+<script>
+  $(".time-select").chosen();
+  $(".chzn-container").css('width', '220px');
+</script>
