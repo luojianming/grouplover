@@ -1,4 +1,5 @@
 require "bundler/capistrano"
+require 'thinking_sphinx/deploy/capistrano'
 load 'deploy' unless defined?(_cset)
 
 server "166.111.70.158", :web, :app, :db, primary: true
@@ -59,12 +60,12 @@ namespace :deploy do
       run <<-CMD
         cd #{release_path} &&
         RAILS_ENV=#{rails_env} rake ts:conf &&
-        RAILS_ENV=#{rails_env} rake ts:rebuild"
+        RAILS_ENV=#{rails_env} rake ts:rebuild
       CMD
     end
   end
 
-  before 'deploy:update_code', 'deploy:thinking_sphinx:stop'
+  # before 'deploy:update_code', 'deploy:thinking_sphinx:stop'
   after 'deploy:restart', 'deploy:thinking_sphinx:restart'
 
 
