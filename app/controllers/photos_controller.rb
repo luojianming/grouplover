@@ -48,12 +48,13 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @album = Album.find(params[:photo][:album_id])
+=begin
     if @album.photos_count == nil
       params[:photo][:number] = 0
     else
       params[:photo][:number] = @album.photos_count
     end
-
+=end
     @photo = Photo.new(params[:photo])
     authorize! :create, @photo, :message => "对不起，您没有权限上传照片哦"
     @photo.save
@@ -93,10 +94,12 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     authorize! :destroy, @photo, :message => "对不起，您没有权限删除照片哦"
     @album = @photo.album
+=begin
     @num = @photo.number
     for i in (@num+1)..(@album.photos_count-1)
       @album.photos[i].update_attributes(:number => @album.photos[i].number-1)
     end
+=end
     @photo = Photo.destroy(params[:id])
     respond_to do |format|
       format.html { redirect_to album_path(@photo.album) }

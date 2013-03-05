@@ -25,6 +25,7 @@ class Group < ActiveRecord::Base
   validates :name, :presence => true, :length => { :maximum => 8,
                                                      :too_long => "名字最多不能超过8个字哦"}
   validates :sex,  :presence => true
+  validates :member_counts, :numericality => { :greater_than => 0, :less_than => 4 } 
   validates :location, :presence => true
  # validate :labels_number_cannot_greater_than_three 
  # validate :members_should_of_the_same_sex

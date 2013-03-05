@@ -26,6 +26,7 @@ after "deploy", "deploy:cleanup" # keep only the last 5 releases
 
 before 'deploy:finalize_update', 'deploy:assets:symlink'
 after 'deploy:update_code', 'deploy:assets:precompile'
+after 'deploy:assets:precompile', 'deploy:migrate'
 namespace :deploy do
   namespace :assets do
     task :symlink, :roles => assets_role, :except => { :no_release => true } do
@@ -49,10 +50,6 @@ namespace :deploy do
     end
   end
 =end
-  after 'deploy:assets:precompile', 'deploy:migrate_database'
-  task :migrate_database, :roles => :app do
-    run "cd #{latest_release} && #{rake} db:migrate"
-  end
   namespace :thinking_sphinx do
     task :stop, :roles => :app do
       run "cd #{current_path} && RAILS_ENV=#{rails_env} rake ts:stop"

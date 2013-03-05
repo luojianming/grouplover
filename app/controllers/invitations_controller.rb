@@ -16,7 +16,6 @@ class InvitationsController < ApplicationController
     end
 =end
     per_page = 100
-    debugger
     @invitations = Invitation.by_location(params[:location]).search(:per_page => per_page) if params[:location]
     if @invitations == nil
       @invitations = Invitation.search(params[:time], :per_page => per_page) if (params[:time] && params[:time].to_s.size != 0 && params[:time].to_s != "时间不限")

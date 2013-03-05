@@ -1,0 +1,10 @@
+production:
+  ngram_len: 1
+  ngram_chars: "U+3000..U+2FA1F"
+
+development:
+  ngram_len: 1
+  ngram_chars: "U+3000..U+2FA1F"
+  port: 9310
+  max_matches: 1000
+  per_page: 100
