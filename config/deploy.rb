@@ -1,7 +1,13 @@
 require "bundler/capistrano"
+load 'deploy' unless defined?(_cset)
 
 server "166.111.70.158", :web, :app, :db, primary: true
 
+_cset :asset_env, "RAILS_GROUPS=assets"
+_cset :assets_prefix, "assets"
+_cset :assets_role, [:web]
+
+_cset :normalize_asset_timestamps, false
 set :application, "grouplover"
 set :user, "ljm"
 set :deploy_to, "/home/#{user}/grouplover_v2"
@@ -18,8 +24,23 @@ default_run_options[:shell] = false
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 
-
+before 'deploy:finalize_update', 'deploy:assets:symlink'
+after 'deploy:update_code', 'deploy:assets:precompile'
 namespace :deploy do
+  namespace :assets do
+    task :symlink, :roles => assets_role, :except => { :no_release => true } do
+      run <<-CMD
+        rm -rf #{latest_release}/public/#{assets_prefix} &&
+        mkdir -p #{latest_release}/public &&
+        mkdir -p #{shared_path}/assets &&
+        ln -s #{shared_path}/assets #{latest_release}/public/#{assets_prefix}
+      CMD
+     end
+
+    task :precompile, :roles => assets_role, :except => { :no_release => true } do
+      run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
+    end
+   end
 =begin
   %w[start stop restart].each do |command|
     desc "#{command} thin server"

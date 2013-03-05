@@ -49,7 +49,7 @@ Rails3BootstrapDeviseCancan::Application.configure do
   config.assets.precompile += %w( bootstrap_and_overrides.css  style.css  homepage.css albums.css bootswatch.css 
                                 chosen.css conversations.css ddslick.css docs.css group_memberships.css groups.css
                                 home.css invitations.css jasny-bootstrap.min.css log.css messages.css photos.css 
-                                profiles.css scaffolds.css)
+                                profiles.css scaffolds.css private_messages.css)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
