@@ -49,6 +49,10 @@ namespace :deploy do
     end
   end
 =end
+  after 'deploy:assets:precompile', 'deploy:migrate_database'
+  task :migrate_database, :roles => :app do
+    run "cd #{latest_release} && #{rake} db:migrate"
+  end
   namespace :thinking_sphinx do
     task :stop, :roles => :app do
       run "cd #{current_path} && RAILS_ENV=#{rails_env} rake ts:stop"
