@@ -11,14 +11,13 @@
         <h3 id="myModalLabel">必填资料</h3>
       </div>
       <%
- debugger 
           @profile = current_user.profile
           style_str = @profile.style.to_s
           @profile.style = str_to_array(style_str)
           @profile.hobby = str_to_array(@profile.hobby.to_s)
       %>
     <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put,
-      :validate => true,:html => { :class => "profiles" } do |f| %>
+      :html => { :class => "profiles" } do |f| %>
         <div class="modal-body" >
           <div class="modal-left">
             <div class="control-group required">
@@ -26,7 +25,7 @@
               <div class="controls" style="padding-top:2px;">
                 <%= f.collection_radio_buttons :sex,  [["男","男"],["女","女"]], :first, :last %>
               </div>
-            </div>
+            </div><!--sex -->
             <div class="control-group required">
               <label class="control-label required"><abbr title="required">*</abbr> 家乡（省/直辖市）</label>
               <div class="controls">
@@ -35,7 +34,7 @@
                              {:class => "hometown-select"}
                             ) -%>
               </div>
-            </div>
+            </div><!--hometown-->
             <div class="control-group required">
               <label class="control-label required"><abbr title="required">*</abbr> 现居地（市）</label>
               <div class="controls">
@@ -44,7 +43,7 @@
                              {:class => "location-select"}
                             ) -%>
               </div>
-            </div>
+            </div><!-- location -->
             <div class="control-group required">
               <label class="control-label required"><abbr title="required">*</abbr> 标签</label>
               <div class="controls">
@@ -53,7 +52,7 @@
                              {:multiple => true, :class => "chzn-select"}
                             ) -%>
               </div>
-            </div>
+            </div><!--labels -->
             <div class="control-group required">
               <label class="control-label required"><abbr title="required">*</abbr> 兴趣</label>
               <div class="controls">
@@ -62,36 +61,15 @@
                              {:multiple => true, :class => "chzn-select"}
                             ) -%>
               </div>
-            </div>
-          </div>
+            </div><!-- hobby-->
+          </div><!-- modal-left-->
           <div style="display: none">
             <%= f.input :status, :value => "active" %>
             <% if current_user.authorizations.size > 0 %>
               <%= f.text_field :remote_avatar_url, :value => current_user.authorizations[0].head_url %>
             <% end %>
           </div>
-          <!--
-          <div class="modal-right span3">
-            <% if  current_user.authorizations.size > 0 %>
-              <%= simple_form_for @profile, :url => user_profiles_path(current_user), :method => :put,
-                :html => { :class => "profiles" }, :remote => true do |f| %>
-                <div class="fileupload fileupload-new"  data-provides="fileupload">
-                  <div class="fileupload-new thumbnail" style="width: 100px; height: 100px;" id="avatar">
-                    <%= image_tag @profile.avatar_url(:small) %> 
-                  </div>
-                  <div style="display: none">
-                    <%= f.text_field :remote_avatar_url, :value => current_user.authorizations[0].head_url %>
-                    <button class="btn btn-primary" id="upload_photo_button">确定</button>
-                  </div>
-                </div>
-              <% end %>
-              <script>
-                $('#upload_photo_button').click();
-              </script>
-            <% end %>
-          </div>
-          -->
-        </div>
+        </div><!-- modal-body -->
         <div class="modal-footer">
           <%= f.submit '确定', :class => 'btn btn-primary'  %>
         </div>
@@ -102,7 +80,7 @@
 <% end %>
 <script type="text/javascript">
 $(function(){
-  $('#init_profile').modal('show')
+  $('#init_profile').modal('show');
 });
 </script>
 <script type="text/javascript">

@@ -1,4 +1,4 @@
-<div class="span11 chat_room" id="room_<%=conversationer.conversation.id%>">
+<div class="span10 chat_room" id="room_<%=conversationer.conversation.id%>">
   <div class="chat_room_top">
     <% if conversationer.class == Group %>
       <h3><%= conversationer.name %></h3>
@@ -31,7 +31,11 @@
     <div class="chat_room_body_left">
       <div id="chat_<%=conversationer.conversation.id %>" class="chat" >
         <% conversationer.conversation.messages.each do |message| %>
-          <%= render 'messages/message', :message => message %>
+          <% if current_user.id == message.sender_id %>
+            <%= render 'messages/left_message', :message => message %>
+          <% else%>
+            <%= render 'messages/right_message', :message => message %>
+          <% end %>
         <% end %>
       </div>
 
@@ -50,10 +54,11 @@
       <h4>成员列表</h4>
       <ul>
         <% (team_leaders | members).each do |member| %>
-        <%= link_to user_path(member) do %>
+          <%= link_to(user_path(member), :title => member.profile.hometown.to_s,
+                      :rel => 'tooltip') do %>
           <li class="chat_member_list">
             <%= safe_image_tag(member.profile.avatar, 'pic2.jpg') %>
-            <%= member.name + " " + member.profile.hometown.to_s%>
+            <%= member.name %>
           </li>
         <% end %>
       <% end %>
@@ -67,7 +72,7 @@ $(function(){
  for(var i=0; i < $('div.chat').length; i++)
   $("div.chat")[i].scrollTop = $("div.chat")[i].scrollHeight;
 });
-
+/*
 $(function(){
   $('textarea#message_content').keyup(function(){
     var textarea = document.getElementById('message_content');
@@ -77,12 +82,16 @@ $(function(){
    // $(this).style.posHeight = $(this).scrollHeight;
   });
 });
-
+*/
 
 $(function(){
   $('#msg_send_btn').click(function(){
     $('#message_content').css("height",53);
   });
+});
+
+$(function(){
+  $('div.chat_room_body_right a').tooltip();
 });
 </script>
 

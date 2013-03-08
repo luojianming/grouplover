@@ -4,7 +4,7 @@
 div.chat {
   list-style: none;
   padding: 10;
-  width: 660px;
+  width: 600px;
   height: 450px;
   margin-bottom: 18px;
   border-bottom: 1px solid #CCC;
@@ -19,7 +19,7 @@ div.chat {
   float: right;
 }
 textarea#message_content {
-  width: 600px;
+  width: 540px;
   height: 53px;
   overflow-y: hidden;
 }
@@ -93,14 +93,14 @@ textarea#message_content {
 }
 
 .chat_room_body_left{
-  width: 660px;
+  width: 600px;
   border-right: solid 1px #ccc;
   float: left;
   height: 540px;
 }
 
 .chat_room_body_right{
-  width: 198px;
+  width: 175px;
   float: left;
 }
 
@@ -115,4 +115,8 @@ textarea#message_content {
 .chat_room_body_right h4{
   margin-left: 20px;
   border-bottom: 1px solid #CCC;
+}
+
+.yellow{
+  background-color: yellow;
 }

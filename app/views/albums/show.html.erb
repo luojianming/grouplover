@@ -1,6 +1,51 @@
 <%= content_for :stylesheet do %>
-  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums" %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums", "swfuploader-default"%>
 <% end %>
+<script type="text/javascript">
+var swfu;
+window.onload = function() {
+  var settings = {
+    flash_url : '<%= asset_path("swfupload.swf") %>',
+    upload_url: '/photos/create',
+    file_post_name: "image",
+    post_params: { "<%= Rails.application.config.session_options[:key]%>" : "<%= cookies[Rails.application.config.session_options[:key]]%>",
+      "authenticity_token" : "<%=form_authenticity_token -%>",
+      "album_id" : "<%= @album.id %>"},
+    file_size_limit : "100 MB",
+    file_types : "*.png;*.jpg;*.jpeg,*.pjpeg;*.bmp;*.gif",
+    file_types_description : "All Files",
+    file_upload_limit : 100,
+    file_queue_limit : 0,
+    prevent_swf_caching : false,
+    custom_settings : {
+    //  progressTarget : "fsUploadProgress",
+      //  cancelButtonId : "btnCancel"
+      upload_target : "divFileProgressContainer"
+    },
+    debug: false,
+    // Button settings
+    button_image_url: '/images/upload_image_btn.png',
+    button_width: "100",
+    button_height: "45",
+    button_placeholder_id: "spanButtonPlaceHolder",
+    button_text: '<span class="theFont">上传图片</span>',
+    button_text_style: ".theFont { font-size: 16; }",
+    button_text_left_padding: 12,
+    Buttonn_text_top_padding: 3,
+    // The event handler functions are devisefined in handlers.js
+   // file_queued_handler : fileQueued,
+    file_queue_error_handler : fileQueueError,
+    file_dialog_complete_handler : fileDialogComplete,
+   // upload_start_handler : uploadStart,
+    upload_progress_handler : uploadProgress,
+    upload_error_handler : uploadError,
+    upload_success_handler : uploadSuccess,
+    upload_complete_handler : uploadComplete,
+  //  queue_complete_handler : queueComplete// Queue plugin event
+  };
+  swfu = new SWFUpload(settings);
+};
+</script>
 <div class="container">
   <div class="row">
     <div class="span9">
@@ -14,22 +59,40 @@
       <div id="photos">
         <% for photo in @album.photos %>
           <%= render 'photos/photo', :photo => photo %>
-      <% end %>
+        <% end %>
       </div>
       <div class="clear" style="clear:both;"></div>
     </div><!-- span9 -->
-    <div class="span3">
+    <div class="span3" style="margin-top: 80px;">
       <% if @album.user == current_user %>
+        <!--
+        <p>This page demonstrates a simple usage of SWFUpload.  It uses the Queue Plugin to sizemplify uploading or cancelling all queued files.</p>
+        <div class="fieldset flash" id="fsUploadProgress">
+          <span class="legend">Upload Queue</span>
+        </div>
+        <div id="divStatus">0 Files Uploaded</div>
+        <div>
+          <span id="spanButtonPlaceHolder"></span>
+          <input id="btnCancel" type="button" value="Cancel All Uploads" onclick="swfu.cancelQueue();" disabled="disabled" style="margin-left: 2px; font-size: 8pt; height: 29px;" />
+        </div>
+        -->
+      <!--
         <%= simple_form_for @album.photos.build(album_id: @album.id) do |f| %>
           <%= f.label :image, "上传照片：" %>
           <%= f.file_field :image, multiple: true, name: "photo[image]" %>
           <%= f.hidden_field :album_id %>
         <% end %>
+        -->
+        <form>
+          <div style="display: inline; border: solid 1px #7FAAFF; background-color: #backgroundC5D9FF; padding: 2px;">
+            <span id="spanButtonPlaceHolder"></span>
+          </div>
+        </form>
       <% end %>
+      <div id="divFileProgressContainer" style="height: 75px;"></div>
+      <div id="thumbnails"></div>
     </div>
   </div><!-- row -->
 </div><!--container -->
 <script id="template-upload" type="text/x-tmpl">
-
-
 </script>

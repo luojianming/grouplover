@@ -79,7 +79,7 @@
 
       </ul>
     </div>
-    <div class="span12" id="conversations_container" style="margin-left: 470px;margin-top: 37px;">
+    <div class="span10" id="conversations_container" style="margin-left: 470px;margin-top: 37px;">
     </div>
 </div>
 <div id="sound">
@@ -100,7 +100,6 @@ function play_click(sef,url){
     /* 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 */
     div = document.getElementById('sound_tmp');
     div.innerHTML = '  ';
-    alert(div.innerHTML);
     sef.disabled = true;
     setTimeout(function(){div.innerHTML='';},1000);
   }

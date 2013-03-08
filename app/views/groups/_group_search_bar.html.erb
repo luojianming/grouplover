@@ -40,7 +40,7 @@
     </li>
     <li><%= link_to '全部', groups_path %></li>
   </ul>
-  <input type="submit" value="搜索" name="commit" id="groups_btn_submit" hidden>
+  <input type="submit" value="搜索" name="commit" id="groups_btn_submit" style="display: none">
 <% end %>
 </div>
 <div class="span4">
@@ -49,7 +49,7 @@
       <%= text_field_tag :search, params[:search], :placeholder => "按组名搜索",
           :class => "search-query" %>
           <a href="#" id="submit-link"><i style="right: 5px; top: 7px;" class="icon-search"></i></a>
-      <input type="submit" value="搜索" name="commit" id="group_search_submit" hidden>
+      <input type="submit" value="搜索" name="commit" id="group_search_submit" style="display: none">
     </div>
   <% end %>
 </div>

@@ -1,25 +1,71 @@
 <% content_for :stylesheet  do %>
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "chosen", "homepage", "bootswatch" %>
 <% end %>
+<script type="text/javascript">
+var swfu;
+window.onload = function() {
+  var settings = {
+    flash_url : '<%= asset_path("swfupload.swf") %>',
+    upload_url: '/profiles/update',
+    file_post_name: "avatar",
+    post_params: { "<%= Rails.application.config.session_options[:key]%>" : "<%= cookies[Rails.application.config.session_options[:key]]%>",
+      "authenticity_token" : "<%=form_authenticity_token -%>",
+      "user_id" : "<%= @user.id %>",
+      "flag" : "1"},
+    file_size_limit : "100 MB",
+    file_types : "*.png;*.jpg;*.jpeg,*.pjpeg;*.bmp;*.gif",
+    file_types_description : "All Files",
+    file_upload_limit : 100,
+    file_queue_limit : 0,
+    prevent_swf_caching : false,
+    custom_settings : {
+    //  progressTarget : "fsUploadProgress",
+      //  cancelButtonId : "btnCancel"
+      upload_target : "divFileProgressContainer"
+    },
+    debug: false,
+    // Button settings
+    button_image_url: '/images/upload_image_btn.png',
+    button_width: "100",
+    button_height: "45",
+    button_placeholder_id: "spanButtonPlaceHolder",
+    button_text: '<span class="theFont">上传图片</span>',
+    button_text_style: ".theFont { font-size: 16; }",
+    button_text_left_padding: 12,
+    Buttonn_text_top_padding: 3,
+    // The event handler functions are devisefined in handlers.js
+   // file_queued_handler : fileQueued,
+    file_queue_error_handler : fileQueueError,
+    file_dialog_complete_handler : fileDialogComplete,
+   // upload_start_handler : uploadStart,
+    upload_progress_handler : uploadProgress,
+    upload_error_handler : uploadError,
+    upload_success_handler : uploadSuccess,
+    upload_complete_handler : uploadComplete,
+  //  queue_complete_handler : queueComplete// Queue plugin event
+  };
+  swfu = new SWFUpload(settings);
+};
+</script>
 <div class="container">
   <div class="clearfix">
     <div class="row main">
       <%
-          debugger
           @profile = current_user.profile
           style_str = @profile.style
           @profile.style = str_to_array(style_str)
           @profile.hobby = str_to_array(@profile.hobby)
       %>
       <%= simple_form_for @profile, :url => user_profiles_path(current_user), 
-        :validate => true, :html => {:class => "form-horizontal profiles"} do |f|%> 
+        :html => {:class => "form-horizontal profiles"} do |f|%> 
         <div class="span3 sidenav">
           <div class="fileupload fileupload-new" data-provides="fileupload">
             <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;" id="avatar">
               <%= safe_image_tag(current_user.profile.avatar_url(:thumb), 'secure.gravatar.com.jpg') %> 
             </div>
+            <!--
             <input class="btn" value="修改头像" id="upload_btn" style="width:80px;margin-top:10px" />
-            <div style="display: none">
+            <div style="display: none" id="upload_original_btn">
               <%= f.file_field :avatar%>
               <script type="text/javascript">
                 $('#upload_btn').click(function(){
@@ -27,6 +73,14 @@
                 });
               </script>
             </div>
+            -->
+            <div style="display: inline; border: solid 1px #7FAAFF; background-color: #backgroundC5D9FF; padding: 2px;">
+              <span id="spanButtonPlaceHolder"></span>
+            </div>
+            <div id="divFileProgressContainer" style="height: 75px;display: none"></div>
+            <!--
+            <div id="thumbnails"></div>
+            -->
           </div>
         </div>
 
@@ -117,6 +171,13 @@
 <script type="text/javascript">
 $(".chzn-select").chosen();
 $(".chzn-container").css('width', '220px');
+$(function(){
+  if(navigator.userAgent.indexOf("Chromium") > 0)
+    {
+      $('#upload_btn').css("display","none");
+      $('#upload_original_btn').css("display","block");
+    }
+});
 </script>
 
 

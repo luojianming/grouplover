@@ -1,4 +1,4 @@
-<% if  invitations.blank? != true %>
+<% if invitations.blank? != true %>
   <% invitations.each do |invitation| %>
     <% if invitation.status != "active" %>
     <div class="item" id="invitation_<%=invitation.id%>">

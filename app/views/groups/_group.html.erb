@@ -1,5 +1,6 @@
 <% if  groups.blank? != true %>
   <% groups.each do |group| %>
+    <% if group != nil %>
     <div class="item" id="group_<%=group.id%>">
       <div class="box-photo"><%= image_tag('secure.gravatar.com.jpg') %></div>
       <div class="group_info"><span><%= group.name %></span></div>
@@ -25,6 +26,7 @@
           </ul>
       </div><!-- members -->
     </div><!-- item -->
+  <% end %>
   <% end %>
 <% end %>
 

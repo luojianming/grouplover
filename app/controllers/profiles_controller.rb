@@ -74,26 +74,36 @@ class ProfilesController < ApplicationController
     @profile = @user.profile
     authorize! :update, @profile
 =end
-    if params[:profile]["style"]
-       style_arr = params[:profile]["style"]
-       style_str = style_arr[1..style_arr.size].join(',')
-       params[:profile]["style"] = style_str
-    end
-    if params[:profile]["hobby"]
-      hobby_arr = params[:profile]["hobby"]
-      hobby_str = hobby_arr[1..hobby_arr.size].join(',')
-      params[:profile]["hobby"] = hobby_str
-    end
-    respond_to do |format|
-      if @profile.update_attributes(params[:profile])
-        debugger
-        format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
-        format.json { head :no_content }
-        format.js { render 'update_avatar' }
-      else
-        format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新失败' }
-        format.json { render json: @profile.errors, status: :unprocessable_entity }
-        format.js { render  'update_avatar' }
+    if params[:flag] != nil
+      @user = User.find(params[:user_id])
+      @profile = @user.profile
+   #   params[:avatar].content_type = MIME::Types.type_for(params[:avatar].original_filename)[0].to_s
+      respond_to do |format|
+        if @user.profile.update_attributes(:avatar => params[:avatar])
+          format.js { render 'update_avatar' }
+        end
+      end
+    else
+      if params[:profile]["style"]
+        style_arr = params[:profile]["style"]
+        style_str = style_arr[1..style_arr.size].join(',')
+        params[:profile]["style"] = style_str
+      end
+      if params[:profile]["hobby"]
+        hobby_arr = params[:profile]["hobby"]
+        hobby_str = hobby_arr[1..hobby_arr.size].join(',')
+        params[:profile]["hobby"] = hobby_str
+      end
+      respond_to do |format|
+        if @profile.update_attributes(params[:profile])
+          format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
+          format.json { head :no_content }
+          format.js { render 'update_avatar' }
+        else
+          format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新失败' }
+          format.json { render json: @profile.errors, status: :unprocessable_entity }
+          format.js { render  'update_avatar' }
+        end
       end
     end
   end

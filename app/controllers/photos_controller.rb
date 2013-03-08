@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'mime/types'
 class PhotosController < ApplicationController
   before_filter :authenticate_user!
   # GET /photos
@@ -47,7 +48,8 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
-    @album = Album.find(params[:photo][:album_id])
+    @album = Album.find(params[:album_id].to_i)
+    params[:image].content_type = MIME::Types.type_for(params[:image].original_filename)[0].to_s
 =begin
     if @album.photos_count == nil
       params[:photo][:number] = 0
@@ -55,10 +57,10 @@ class PhotosController < ApplicationController
       params[:photo][:number] = @album.photos_count
     end
 =end
-    @photo = Photo.new(params[:photo])
+    @photo = @album.photos.build(:image => params[:image])
     authorize! :create, @photo, :message => "对不起，您没有权限上传照片哦"
     @photo.save
-=begin
+=begin 
     respond_to do |format |
       if @photo.save
         format.html { redirect_to @photo, notice: 'Photo was successfully created.' }

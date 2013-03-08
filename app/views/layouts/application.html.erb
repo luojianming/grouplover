@@ -24,6 +24,9 @@
     <%= render 'layouts/messages' %>
     <%= yield %>
     <div style="height:30px;margin-top:20px;">
+      <% if current_user %>
+      <span id="current_user_id" style="display: none"><%= current_user.id %></span>
+      <% end %>
     </div>
   </body>
 </html>

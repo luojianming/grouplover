@@ -1,7 +1,26 @@
 <% publish_to "/conversations/group/"+@conversation.conversationer_id.to_s do %>
-  $("#chat_<%=@conversation.id %>").
-    append("<%= j render('messages/message', :message => @message) %>");
-  play_click(this,'/Audio.wav');
-  $("#chat_<%=@conversation.id %>").scrollTop = $("#chat_<%=@conversation.id%>").scrollHeight;
+  var current_user_id = $('#current_user_id').text();
+  if (current_user_id == <%= current_user.id %>)
+    {
+      $("#chat_<%=@conversation.id %>").
+        append("<%= j render('messages/left_message', :message => @message) %>");
+    }
+  else
+    {
+      $("#chat_<%=@conversation.id %>").
+        append("<%= j render('messages/right_message', :message => @message) %>");
+        play_click(this,'/Audio.wav');
+      //  alert(<%= @conversation.conversationer_type == "Group"%>);
+      //  alert($("#coversation_link_group_" + <%= @conversation.id%>));
+        if (<%= @conversation.conversationer_type == Group%>)
+          $("#coversation_link_group_" + <%= @conversation.id%>).addClass("yellow");
+        else
+          $("#coversation_link_invitation_" + <%= @conversation.id%>).addClass("yellow");
+    }
+
+ for(var i=0; i < $('div.chat').length; i++)
+  $("div.chat")[i].scrollTop = $("div.chat")[i].scrollHeight;
+
+ // $("#chat_<%=@conversation.id %>").scrollTop = $("#chat_<%=@conversation.id%>").scrollHeight;
   $("#new_message_<%= @conversation.id %>")[0].reset();
 <% end %>
