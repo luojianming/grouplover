@@ -27,6 +27,14 @@
                   <% end %>
                 <% end %>
                 </li>
+                <% unread_photo_comments = PhotoComment.unread_reply_comments(current_user)%>
+                <% unread_photo_comments.each do |comment|%>
+                  <li>
+                  <%= link_to(photo_path(comment.photo)) do %>
+                    <span><%=comment.sender.name%>在照片<%=comment.photo.name%>中回复了你</span>
+                  <% end %>
+                  </li>
+                <% end %>
               </ul>
             </li>
             <li class="dropdown">

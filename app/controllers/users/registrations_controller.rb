@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
         profile = resource.build_profile()
+        profile.status = "active"
         profile.save(:validate => false)
 
         extra_info = resource.build_extra_info()
@@ -30,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
      # redirect_to new_user_registration_path
      #  render :action => 'new'
      #  respond_with resource, :location => after_sign_up_path_fails_for(resource)
-        respond_with resource       
+        respond_with resource
     end
   end
 

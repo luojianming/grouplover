@@ -1,0 +1,18 @@
+<%= form_tag(photo_photo_comments_path(@photo),:method => "post", :remote => true) do %>
+  <span>评论:</span>
+  <span class="pull-right">还能输入<span class="wordsoffset">140</span>个字</span>
+  <%= text_area_tag(:content, nil, :class => "photo_comment_content", :maxlength => 140) %>
+  <%= submit_tag("评论", :class => "pull-right btn-primary") %>
+<% end %>
+<script type="text/javascript">
+$(function(){
+  $('textarea#content').keyup(function(){
+    discountWordNum();
+  });
+});
+function discountWordNum(){
+  var str = $('#content').val();
+  //	alert(str.length);
+  $('.wordsoffset').html(140 - str.length) ;
+}
+</script>

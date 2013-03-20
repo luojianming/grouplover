@@ -27,12 +27,12 @@ window.onload = function() {
     // Button settings
     button_image_url: '/images/upload_image_btn.png',
     button_width: "100",
-    button_height: "45",
+    button_height: "30",
     button_placeholder_id: "spanButtonPlaceHolder",
-    button_text: '<span class="theFont">上传图片</span>',
+    button_text: '<span class="theFont">上传头像</span>',
     button_text_style: ".theFont { font-size: 16; }",
     button_text_left_padding: 12,
-    Buttonn_text_top_padding: 3,
+    buttonn_text_top_padding: 10,
     // The event handler functions are devisefined in handlers.js
    // file_queued_handler : fileQueued,
     file_queue_error_handler : fileQueueError,
@@ -74,9 +74,7 @@ window.onload = function() {
               </script>
             </div>
             -->
-            <div style="display: inline; border: solid 1px #7FAAFF; background-color: #backgroundC5D9FF; padding: 2px;">
               <span id="spanButtonPlaceHolder"></span>
-            </div>
             <div id="divFileProgressContainer" style="height: 75px;display: none"></div>
             <!--
             <div id="thumbnails"></div>

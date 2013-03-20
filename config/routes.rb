@@ -8,7 +8,9 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     resources :messages, only: [:index, :create]
   end
 
-  resources :photos, only: [:show, :create, :update, :destroy]
+  resources :photos, only: [:show, :create, :update, :destroy] do
+    resources :photo_comments, only: [:new, :create]
+  end
 
   resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]
 

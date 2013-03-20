@@ -96,7 +96,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     authorize! :destroy, @photo, :message => "对不起，您没有权限删除照片哦"
     @album = @photo.album
-=begin
+=begin 
     @num = @photo.number
     for i in (@num+1)..(@album.photos_count-1)
       @album.photos[i].update_attributes(:number => @album.photos[i].number-1)

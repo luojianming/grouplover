@@ -1,0 +1,41 @@
+<%= form_tag(photo_photo_comments_path(@photo),
+                    :method => "post",
+                    remote: true) do %>
+  <div style="display: none">
+    <%= text_field_tag :original_comment_id,  @comment.id %>
+    <%= text_field_tag :photo_id, @photo.id %>
+  </div>
+  <span>回复<%= @comment.sender.name %>:</span>
+  <span class="pull-right">还能输入<span class="wordsoffset">140</span>个字</span>
+  <%= text_area_tag :content, nil,:class => "photo_comment_content", :maxlength => 140 %>
+  <%= submit_tag "回复", :class=>"pull-right btn-primary" %>
+<% end %>
+<script type="text/javascript">
+$(function(){
+  $('#content').blur(function(){
+    if($('#content').val().length==0)
+      {
+        $('a#photo_comment_btn').click();
+      }
+  });
+});
+
+$(function(){
+  $('textarea#content').keyup(function(){
+    discountWordNum();
+  });
+});
+function discountWordNum(){
+  var str = $('#content').val();
+  //	alert(str.length);
+  $('.wordsoffset').html(140 - str.length) ;
+
+}
+</script>
+<script>
+$(function(){
+  $('a.reply_btn').click(function(){
+  $('#content').focus();
+  });
+});
+</script>

@@ -1,0 +1,15 @@
+<div style="margin-bottom: 10px;border-bottom:1px solid #CCC">
+<span><%= link_to comment.sender.name, user_path(comment.sender)%>:</span>
+<% if comment.receiver != @photo.album.user %>
+  <span>回复<%= comment.receiver.name %>:</span>
+<% end %>
+<span><%= comment.content %></span></br>
+<span class="pull-left" style="font-size: 10px;color: #cccccc"><%= comment.created_at.strftime("%Y-%m-%d %H:%M")%></span>
+<% if current_user != comment.sender %>
+<span class="pull-right">
+  <%= link_to "回复", new_photo_photo_comment_path(@photo, :original_comment_id => comment.id), :remote => true, :class => "reply_btn" %>
+</span></br>
+<% else %>
+  </br>
+<% end %>
+</div>

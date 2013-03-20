@@ -1,0 +1,6 @@
+<% if @comment %>
+  $('#photo_reply').html("<%= j render('photos/comment_reply_form') %>");
+<% else %>
+  $('#photo_reply').html("<%= j render('photos/photo_reply_form') %>");
+<% end %>
+
