@@ -20,6 +20,7 @@ class User
           if user.save(:validate => false)
             user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
             profile = user.build_profile()
+            profile.status = "active"
             profile.save(:validate => false)
             extra_info = user.build_extra_info()
             extra_info.save(:validate => false)

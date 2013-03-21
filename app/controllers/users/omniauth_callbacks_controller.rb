@@ -12,7 +12,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
             if @user.persisted?
               flash[:notice] = "用 #{provider.to_s.titleize} 帐号登录成功."
-              sign_in_and_redirect @user, :event => :authentication, :notice => "登陆成功。"
+              sign_in @user, :event => :authentication
+              redirect_to user_path(@user)
             else
               redirect_to new_user_registration_url
             end
@@ -29,6 +30,4 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def handle_unverified_request
     true
   end
-
-
 end
