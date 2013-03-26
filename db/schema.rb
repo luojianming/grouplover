@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320015607) do
+ActiveRecord::Schema.define(:version => 20130322010913) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -41,9 +41,10 @@ ActiveRecord::Schema.define(:version => 20130320015607) do
   create_table "extra_infos", :force => true do |t|
     t.string   "visitors"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "counts"
+    t.integer  "occupied_days"
   end
 
   add_index "extra_infos", ["user_id"], :name => "index_extra_infos_on_user_id"

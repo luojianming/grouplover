@@ -6,7 +6,14 @@
 
 <div class="container">
   <%= render 'shared/header' %>
-  <%= render 'show_user' %>
+  <% if @users.size != 0 %>
+    <%= render 'show_user' %>
+  <% else %>
+    <div  style="margin-left: 392px;margin-top: 80px;">
+      <%= image_tag('PeopleIcon156.png') %>
+      <p style="margin-left: -40px;font-size: 24px;color: #CCC">这个圈子还没有朋友哦</p>
+    </div>
+  <% end %>
 </div>
 <script>
 $(function(){

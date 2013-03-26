@@ -23,7 +23,7 @@
             <div class="control-group required">
               <label class="control-label required"><abbr title="required">*</abbr> 性别</label>
               <div class="controls" style="padding-top:2px;">
-                <%= f.collection_radio_buttons :sex,  [["男","男"],["女","女"]], :first, :last %>
+                <%= f.collection_radio_buttons :sex,  [["男","男"],["女","女"]], :first, :last, { :checked => "男"} %>
               </div>
             </div><!--sex -->
             <div class="control-group required">
@@ -45,7 +45,7 @@
               </div>
             </div><!-- location -->
             <div class="control-group required">
-              <label class="control-label required"><abbr title="required">*</abbr> 标签</label>
+              <label class="control-label required"><abbr title="required">*</abbr> 标签（请选择2～4个标签）</label>
               <div class="controls">
                 <%= f.select(:style, ApplicationHelper::PERSONAL_STYLE,
                              {},
@@ -54,7 +54,7 @@
               </div>
             </div><!--labels -->
             <div class="control-group required">
-              <label class="control-label required"><abbr title="required">*</abbr> 兴趣</label>
+              <label class="control-label required"><abbr title="required">*</abbr> 兴趣（请选择2～4项兴趣）</label>
               <div class="controls">
                 <%= f.select(:hobby, ApplicationHelper::HOBBIES,
                              {},
@@ -71,7 +71,7 @@
           </div>
         </div><!-- modal-body -->
         <div class="modal-footer">
-          <%= f.submit '确定', :class => 'btn btn-primary'  %>
+          <%= f.submit '确定', :class => 'btn btn-primary', :id => "init_profile_btn"  %>
         </div>
       <% end %>
     </div>
@@ -87,4 +87,31 @@ $(function(){
 $(".chzn-select").chosen();
 $(".hometown-select").chosen();
 $(".location-select").chosen();
+</script>
+<script>
+$(function(){
+  $('#init_profile_btn').attr("disabled","true");
+});
+
+$(function(){
+  $('.chzn-select').change(function(){
+    var style_value = new String($("#profile_style").val());
+    style_array = style_value.split(",");
+    var hobby_value = new String($("#profile_hobby").val());
+    hobby_array = hobby_value.split(",");
+    if(style_array.length > 4)
+      alert("最多只能填写4个标签哦");
+    if(hobby_array.length > 4)
+      alert("最多只能填写4项兴趣哦");
+
+    if (style_array.length >=2 && style_array.length <= 4 && hobby_array.length >= 2 && hobby_array.length <= 4)
+      {
+        $('#init_profile_btn').removeAttr("disabled");
+      }
+      if ( style_array.length > 4 || hobby_array.length > 4)
+      {
+        $('#init_profile_btn').attr("disabled","true");
+      }
+  });
+});
 </script>

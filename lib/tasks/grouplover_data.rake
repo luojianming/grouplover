@@ -71,21 +71,22 @@ def make_groups
     status = "active"
 	  sex = "男"
     image = "photo/#{n+1}.jpg"
-    member_counts = 3
     g = users[n+2].mygroups.create(name: name,
 					  sex: sex,
 					  description: description,
 					  location: location,
 					  status: status,
-            image: image,
-            member_counts: member_counts)
-    g.save
-    g.group_memberships.create(member_id: n+2,
+            image: image)
+    g.save(:validate => false)
+    membership = g.group_memberships.create(member_id: n+2,
+                                  status: "accepted")
+    membership.save(:validate => false)
+    membership = g.group_memberships.create(member_id: n+3,
                                status: "accepted")
-    g.group_memberships.create(member_id: n+3,
+    membership.save(:validate => false)
+    membership = g.group_memberships.create(member_id: n+4,
                                status: "accepted")
-    g.group_memberships.create(member_id: n+4,
-                               status: "accepted")
+    membership.save(:validate => false)
   end
 end
 
@@ -98,9 +99,18 @@ def make_invitations
                                     description: "等待就是浪费青春",
                                     status: "pending",
                                     activity: "三国杀")
-    invitation.save
+    invitation.save(:validate => false)
   end
 
+end
+
+def make_applied_invitations
+  invitations = Invitation.all
+  invitations.each do |invitation|
+    3.times do |n|
+      
+    end
+  end
 end
 
 def make_profile

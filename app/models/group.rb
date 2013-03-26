@@ -28,7 +28,6 @@ class Group < ActiveRecord::Base
   validates :member_counts, :numericality => { :greater_than => 0, :less_than => 4 } 
   validates :location, :presence => true
  # validate :labels_number_cannot_greater_than_three 
- # validate :members_should_of_the_same_sex
 
   mount_uploader :image, ImageUploader
 
@@ -55,13 +54,6 @@ class Group < ActiveRecord::Base
     end
   end
 =end
-  def members_should_of_the_same_sex
-    members.each do |member|
-      if member.profile.sex != sex
-        errors.add(:member_ids, "所有成员必须同性别")
-      end
-    end
-  end
 #当且仅当所有的group_membership的status为accepted时才能变成active
   def self.update_status(group)
       group_status = "active"
@@ -73,7 +65,7 @@ class Group < ActiveRecord::Base
       end
       Group.find(group).update_attributes(:status => group_status)
       if group_status == "active"
-        group.create_conversation()
+        Group.find(group).create_conversation()
       end
   end
 =begin

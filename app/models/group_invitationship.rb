@@ -26,4 +26,16 @@ class GroupInvitationship < ActiveRecord::Base
       end
     end
   end
+
+  def self.find_received_invitations_by_user(user)
+    @my_invitations = Invitation.initiated_by_user(user)
+    @ships = Hash.new
+    @my_invitations.each do |my_invitation|
+      if my_invitation.status != "active"
+        @invitation_ships = GroupInvitationship.find_all_by_invitation_id(my_invitation.id)
+        @ships[my_invitation.id] = @invitation_ships
+      end
+    end
+    @ships
+  end
 end

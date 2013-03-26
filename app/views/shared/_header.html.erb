@@ -34,8 +34,8 @@
             <div class="divider-horizontal"></div>
             <div class="description">
               <p>
-              <%= best_in_place_if @user==current_user, @user.profile, :games, :classes => "user_description",
-                                  :path => user_profiles_path(@user) , :type => :textarea, :nil => "用一句话描述自己把..." %>
+                <%= best_in_place_if @user==current_user, @user.profile, :games, :classes => "user_description",
+                  :path => user_profiles_path(@user) , :type => :textarea, :html_attrs => {:maxlength => 140},:nil => "用一句话描述自己把(最多140个字）..." %>
               </p>
             </div>
 
@@ -47,12 +47,12 @@
                 <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
                 -->
             <% else %>
-              <div style="margin-top: 100px;">
+              <div style="margin-top: 60px;">
                 <div class="pull-left" style="margin-right: 20px">
                   <%= render 'shared/follow_form' %>
                 </div>
                 <div>
-                  <a data-toggle="modal" href="#" class="btn send_private_message" 
+                  <a data-toggle="modal" href="#" class="btn "
                     type="button" receiver_id="<%= @user.id %>" >
                     发私信
                   </a>

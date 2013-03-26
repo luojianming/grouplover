@@ -2,6 +2,8 @@
 require 'will_paginate/array'
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :members_should_of_the_same_sex, :only => :create
+  before_filter :cannot_have_the_same_members, :only => :create
   load_and_authorize_resource
   def index
     per_page = 100
@@ -96,5 +98,29 @@ debugger
   def edit
     @group = Group.find(params[:id])
     render 'new'
+  end
+  def members_should_of_the_same_sex
+    debugger
+    params[:member_ids].each do |member_id|
+      if User.find(member_id.to_i).profile.sex != current_user.profile.sex
+        flash[:error] = "一个小组的所有成员必须是同性"
+        redirect_to new_group_path
+        return false
+      end
+    end
+  end
+
+  def cannot_have_the_same_members
+    members_tmp = []
+    params[:member_ids].each do |member_id|
+      members_tmp << User.find(member_id.to_i)
+    end
+    current_user.mygroups.each do |mygroup|
+      if mygroup.members == members_tmp
+        flash[:notice] = "您所创建的小组已经存在了"
+        redirect_to new_group_path
+        return false
+      end
+    end
   end
 end

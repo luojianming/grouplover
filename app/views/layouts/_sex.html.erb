@@ -1,0 +1,9 @@
+<li><a href="" class="sex">男</a></li>
+<li><a href="" class="sex">女</a></li>
+
+<script>
+$('.sex').click(function(){
+  $('#sex_value').val($(this).text());
+  $('#invitations_search_submit').click();
+});
+</script>

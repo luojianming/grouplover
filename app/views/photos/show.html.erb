@@ -27,7 +27,8 @@
         <%= image_tag @photo.image_url(:big) %>
         <p>
         <%= best_in_place_if album.user==current_user, @photo, :description, type: :textarea,
-          :nil => "输入照片描述", :classes => "photo_description" %>
+          :html_attrs => {:maxlength => 100},
+          :nil => "输入照片描述(最多100个字)", :classes => "photo_description" %>
         </p>
         <% if current_user != album.user %>
           <span class="pull-right">

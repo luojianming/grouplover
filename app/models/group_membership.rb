@@ -5,6 +5,7 @@ class GroupMembership < ActiveRecord::Base
                      :inverse_of => :group_memberships
   belongs_to :member, :class_name => "User", :inverse_of => :group_memberships
 
+  scope :unprocessed_invite, lambda{|user|where(["member_id=? AND status=?",user.id, "pending"])}
   validates :member_id, :uniqueness => { :scope => :group_id, :message => "a group cannot has the same member" }
   validates :group, :presence => true
   validates :member_id, :presence => true
@@ -32,6 +33,10 @@ class GroupMembership < ActiveRecord::Base
       return false
     else
       gm.destroy
+      #当group的成员少于两个人时，自动解散该组
+      if Group.find(group).group_memberships.count < 1
+        Group.find(group).destroy
+      end
     end
 
     return true

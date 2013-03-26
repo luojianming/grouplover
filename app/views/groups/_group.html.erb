@@ -1,6 +1,6 @@
 <% if  groups.blank? != true %>
   <% groups.each do |group| %>
-    <% if group != nil %>
+    <% if group != nil && group.status != "pending" %>
     <div class="item" id="group_<%=group.id%>">
       <div class="box-photo"><%= image_tag('secure.gravatar.com.jpg') %></div>
       <div class="group_info"><span><%= group.name %></span></div>

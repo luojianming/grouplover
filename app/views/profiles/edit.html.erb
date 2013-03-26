@@ -119,7 +119,15 @@ window.onload = function() {
                                   ) -%>
                     </div>
                   </div>
-                  <%= f.input :lover_style, :label => "喜欢的类型" %>
+                  <div class="control-group required">
+                    <label class="control-label required">喜欢的类型</label>
+                    <div class="controls">
+                      <%= f.select(:lover_style, ApplicationHelper::PERSONAL_STYLE,
+                                   {},
+                                   {:multiple => true, :class => "chzn-select"}
+                                  ) -%>
+                    </div>
+                  </div>
                   <%= f.input :school, :label => "学校" %>
                   <%= f.input :profession, :label => "行业" %>
                 </div>

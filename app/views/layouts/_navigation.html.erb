@@ -17,26 +17,57 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-envelope"></i>
               </a>
+              <% flag = 0 %>
               <ul class="dropdown-menu">
                 <li>
                 <%= link_to(my_private_messages_user_path(current_user)) do %>
                   私信
                   <% unread_messages_count = PrivateMessage.unread_messages(current_user).size %>
                   <% if unread_messages_count > 0 %>
+                    <% flag = 1 %>
                     <span style="margin-left: 40px; color: red;"> <%=unread_messages_count %>条未读 </span>
                   <% end %>
                 <% end %>
                 </li>
                 <% unread_photo_comments = PhotoComment.unread_reply_comments(current_user)%>
-                <% unread_photo_comments.each do |comment|%>
+                <% if unread_photo_comments.size > 0%>
+                  <% flag = 1 %>
+                  <% unread_photo_comments.each do |comment|%>
                   <li>
-                  <%= link_to(photo_path(comment.photo)) do %>
-                    <span><%=comment.sender.name%>在照片<%=comment.photo.name%>中回复了你</span>
+                    <%= link_to(photo_path(comment.photo)) do %>
+                      <span><%=comment.sender.name%>在照片<%=comment.photo.name%>中回复了你</span>
+                    <% end %>
+                  </li>
                   <% end %>
+                <% end %>
+                <% unprocessed_invite = GroupMembership.unprocessed_invite(current_user) %>
+                <% if unprocessed_invite.count > 0%>
+                  <% flag = 1 %>
+                  <li>
+                    <%= link_to(pending_requests_user_path(current_user)) do %>
+                      你收到了<span><%= unprocessed_invite.count%></span>条邀请
+                    <% end %>
+                  </li>
+                  <% end %>
+
+                <% @ships = GroupInvitationship.find_received_invitations_by_user(current_user) %>
+                <% @ships.keys.each do |invitation_key| %>
+                  <li>
+                <% if @ships[invitation_key].blank? != true %>
+                    <% flag = 1 %>
+                    <% invitation = Invitation.find(invitation_key) %>
+                    <%= link_to received_invitations_user_path(current_user) do%>
+                    <p>活动<%= invitation.time%>于<%=invitation.location%><%=invitation.activity%>
+                      有未处理的请求
+                    </p>
+                    <% end %>
+                  <%end%>
                   </li>
                 <% end %>
               </ul>
             </li>
+            <% if flag == 1 %>
+            <% end %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-user"></i>

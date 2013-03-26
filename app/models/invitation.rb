@@ -19,6 +19,7 @@ class Invitation < ActiveRecord::Base
     indexes time
     has initiate_group.member_counts, as: :group_member_counts
     indexes initiate_group.location, as: :city
+    indexes initiate_group.sex, as: :sex
   end
 
   sphinx_scope(:by_location) { |location|
@@ -35,6 +36,10 @@ class Invitation < ActiveRecord::Base
 
   sphinx_scope(:by_city) { |city|
     { :conditions => { :city => city } }
+  }
+
+  sphinx_scope(:by_sex) { |sex|
+    { :conditions => { :sex => sex } }
   }
 
   def self.initiated_by_users_followed_by(user)

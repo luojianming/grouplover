@@ -1,6 +1,7 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations", "docs" %>
 <% end %>
+<% if current_user.related_groups.size > 0 %>
 <div>
     <div class="span4" style="position:fixed;margin-right:50px;margin-left:130px;">
       <ul id='conversation_list'>
@@ -41,6 +42,7 @@
         <% end %>
         <h4>与我相关的活动</h4>
         <% current_user.related_active_invitations.each do |invitation| %>
+          <% if invitation != nil %>
           <%
             applied_group = invitation.applied_groups[0]
             initiate_group = invitation.initiate_group
@@ -74,14 +76,18 @@
             </div>
           </li>
         <% end %>
-        <% end %>
+      <% end %>
+      <% end %>
 
 
       </ul>
     </div>
     <div class="span10" id="conversations_container" style="margin-left: 470px;margin-top: 37px;">
     </div>
-</div>
+  </div>
+<% else %>
+    您还没有创建任何小组哦
+<% end %>
 <div id="sound">
 </div>
 <div id="sound_tmp"></div>

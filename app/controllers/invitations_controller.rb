@@ -4,6 +4,7 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
   before_filter :authenticate_user!
+  before_filter :only_create_one_invitation_one_day, :only => :create
   def index
 =begin
     @city = params[:city]
@@ -26,6 +27,11 @@ class InvitationsController < ApplicationController
       @invitations = Invitation.with_member_counts(params[:member_counts].to_i - 1).search(:per_page => per_page) if (params[:member_counts].to_s.size != 0 && params[:member_counts].to_s != "人数不限")
     else
       @invitations = @invitations.with_member_counts(params[:member_counts].to_i - 1).search(:per_page => per_page) if (params[:member_counts].to_s.size != 0 && params[:member_counts].to_s != "人数不限")
+    end
+    if @invitations == nil
+      @invitations = Invitation.by_sex(params[:sex]).search(:per_page => per_page) if (params[:sex] && params[:sex].to_s.size != 0 && params[:sex].to_s != "性别不限")
+    else
+      @invitations = @invitations.by_sex(params[:sex]).search(:per_page => per_page) if (params[:sex] && params[:sex].to_s.size != 0 && params[:sex].to_s != "性别不限")
     end
     if @invitations == nil
       @invitations = Invitation.by_city(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city].to_s != "全国")
@@ -111,11 +117,20 @@ class InvitationsController < ApplicationController
   # DELETE /invitations/1.json
   def destroy
     @invitation = Invitation.find(params[:id])
-    @invitation.destroy
+    @invitation = @invitation.destroy
 
     respond_to do |format|
-      format.html { redirect_to invitations_url }
+      format.html { redirect_to my_invitations_user_path(current_user), :notice => "取消活动成功" }
       format.json { head :no_content }
+      format.js
+    end
+  end
+
+  def only_create_one_invitation_one_day
+    if Invitation.find_by_initiate_group_id_and_time(params[:invitation][:initiate_group_id],params[:invitation][:time])
+      flash[:error] = "该group在当天已经创建过活动了哦"
+      redirect_to new_invitation_path
+      return false
     end
   end
 end

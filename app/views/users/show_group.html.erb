@@ -26,7 +26,9 @@
     </div> <!--span9 -->
 
     <div class="span3">
-      <%= link_to "申请创建小组", new_group_path, :class => "btn btn-large btn-primary"  %>
+      <% if current_user == @user %>
+        <%= link_to "申请创建小组", new_group_path, :class => "btn btn-large btn-primary"  %>
+      <% end %>
     </div>
   </div><!-- row -->
 </div><!-- container -->

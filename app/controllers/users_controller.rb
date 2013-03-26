@@ -126,14 +126,7 @@ class UsersController < ApplicationController
 
   def received_invitations
     @user = User.find(params[:id])
-    @my_invitations = Invitation.initiated_by_user(@user)
-    @ships = Hash.new
-    @my_invitations.each do |my_invitation|
-      if my_invitation.status != "active"
-        @invitation_ships = GroupInvitationship.find_all_by_invitation_id(my_invitation.id)
-        @ships[my_invitation.id] = @invitation_ships
-      end
-    end
+    @ships = GroupInvitationship.find_received_invitations_by_user(@user)
     render 'show_received_invitation'
   end
 
