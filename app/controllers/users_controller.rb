@@ -16,6 +16,11 @@ class UsersController < ApplicationController
       @users = @users.by_hometown(params[:user_hometown]).search(:per_page => per_page) if params[:user_hometown]
     end
     if @users == nil
+      @users = User.by_sex(params[:user_sex]).search(:per_page => per_page) if params[:user_sex] && params[:user_sex].to_s.size != 0
+    else
+      @users = @users.by_sex(params[:user_sex]).search(:per_page => per_page) if params[:user_sex] && params[:user_sex].to_s.size != 0
+    end
+    if @users == nil
       @users = User.by_school(params[:user_school]).search(:per_page => per_page) if params[:user_school] && params[:user_school].to_s.size != 0
     else
       @users = @users.by_school(params[:user_school]).search(:per_page => per_page) if params[:user_school] && params[:user_school].to_s.size != 0

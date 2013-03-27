@@ -34,10 +34,28 @@
         <li class="divider"></li>
       </ul>
     </li>
-    <li style="margin-right:4px;">
-      <%= link_to '含有老乡的group', { :controller => "groups", :action => "index", :hometown => current_user.profile.hometown}
-      %>
+
+    <li class="dropdown">
+        <%= text_field_tag :sex, params[:sex], :id => "sex_value", :type => "hidden"%>
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <% if params[:sex]==nil || params[:sex].size==0%>
+          性别不限
+        <% else %>
+          <%= params[:sex] %>
+        <% end %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" id="swatch-menu">
+        <%= render 'group_sex' %>
+        <li class="divider"></li>
+      </ul>
     </li>
+      <!--
+    <li style="margin-right:4px;">
+        <%= link_to '含有老乡的group', { :controller => "groups", :action => "index", :hometown => current_user.profile.hometown}
+        %>
+    </li>
+      -->
     <li><%= link_to '全部', groups_path %></li>
   </ul>
   <input type="submit" value="搜索" name="commit" id="groups_btn_submit" style="display: none">

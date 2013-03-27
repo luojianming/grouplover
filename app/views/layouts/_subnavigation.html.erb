@@ -18,11 +18,14 @@
     </li>
 
     <li class="dropdown">
-    <% debugger %>
-      <%= text_field_tag :sex, params[:sex], :id => "sex_value", :type => "hidden"%>
-      <a href=""  class="dropdown-toggle" data-toggle="dropdown">
+    <%= text_field_tag :sex, params[:sex], :id => "sex_value", :type => "hidden"%>
+      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:sex]==nil || params[:sex].size==0%>
-         性别不限
+          <% if current_user != nil %>
+            <%= current_user.profile.sex == "男" ? "女" : "男" %>
+          <% else %>
+            性格不限
+          <% end %>
         <% else %>
           <%= params[:sex] %>
         <% end %>
@@ -35,13 +38,13 @@
     </li>
 
     <li class="dropdown">
-    <%= text_field_tag :time, params[:time], :id => "time_value", :type => "hidden"%>
+      <%= text_field_tag :time, params[:time], :id => "time_value", :type => "hidden"%>
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
         <% if params[:time]==nil || params[:time].size==0%>
           时间不限
-      <% else %>
+        <% else %>
           <%= params[:time] %>
-      <% end %>
+        <% end %>
         <b class="caret"></b>
       </a>
       <ul class="dropdown-menu" id="swatch-menu">

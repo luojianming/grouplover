@@ -2,13 +2,14 @@
 		<div class="logo">校园爱情</div>
 	</div>
 	<div class="container">
+    <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
 		<div class="other-login">
 			<div class="rr-login">
-        <%= image_tag("renrenlogin.png") %>
+        <%= link_to image_tag("renrenlogin.png"), omniauth_authorize_path(resource_name,'xiaonei') %>
 			</div>
 			
 			<div class="sina-login">
-        <%= image_tag("weibologin.png") %>
+        <%= link_to image_tag("weibologin.png"), omniauth_authorize_path(resource_name,'weibo') %>
 			</div>
 			
 			
@@ -34,13 +35,12 @@
 
     <%= render 'layouts/messages' %>
 <div class="login-main">
-  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
     <%= f.input :email, :autofocus => true, :label => "邮箱", :hint => false , :required => false %>
   <%= f.input :password, :label => "密码", :required => false %>
     <%= f.input :remember_me, :label => "记住我", :as => :boolean if devise_mapping.rememberable? %>
     <%= f.button :submit, "登录", :class => 'btn-primary' %>
     <%= link_to "忘记密码？", new_password_path(resource_name) %>
     <%= link_to "注册", new_registration_path(resource_name) %> 
-  <% end %>
 </div>
+  <% end %>
 </div>

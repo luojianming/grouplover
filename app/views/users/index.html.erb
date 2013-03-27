@@ -8,7 +8,11 @@
       <h4>快速寻找</h4>
       <%= link_to '和我同城的人', { :controller => "users", :action => "index", :user_location => current_user.profile.location }%>
       <%= link_to '我的老乡', { :controller => "users", :action => "index", :user_hometown => current_user.profile.hometown }%>
-      <%= link_to '我的校友', { :controller => "users", :action => "index", :user_school => current_user.profile.school }%>
+      <% other_sex = (current_user.profile.sex == "男" ? "女" : "男") %>
+      <%= link_to '异性', { :controller => "users", :action => "index", :user_sex => other_sex }%>
+      <!--
+        <%= link_to '我的校友', { :controller => "users", :action => "index", :user_school => current_user.profile.school }%>
+      -->
       <%= link_to '我的同城老乡', { :controller => "users", :action => "index", 
                                           :user_hometown => current_user.profile.hometown, 
                                           :user_location => current_user.profile.location }%>

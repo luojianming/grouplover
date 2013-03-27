@@ -1,10 +1,10 @@
 <% sexs = ['性别不限','男','女'] %>
 <% for sex in sexs %>
-  <li><a href="#" class="sex"><%=sex%></a></li>
+  <li><a href="#" class="sex"><%= sex%></a></li>
 <% end %>
 <script>
 $('.sex').click(function(){
   $('#sex_value').val($(this).text());
-  $('#invitations_search_submit').click();
+  $('#groups_btn_submit').click();
 });
 </script>

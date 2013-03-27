@@ -2,7 +2,7 @@ require "bundler/capistrano"
 require 'thinking_sphinx/deploy/capistrano'
 load 'deploy' unless defined?(_cset)
 
-server "118.244.224.130", :web, :app, :db, primary: true
+server "210.209.68.24", :web, :app, :db, primary: true
 
 _cset :asset_env, "RAILS_GROUPS=assets"
 _cset :assets_prefix, "assets"
