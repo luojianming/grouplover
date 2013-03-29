@@ -2,7 +2,11 @@
 <div class="container">
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">
-    <%= render 'my_invitation', :invitations => @my_invitations %>
+    <% if current_user == @user %>
+      <%= render 'my_invitation', :invitations => @my_invitations %>
+    <% else %>
+      <%= render 'invitation', :invitations => @my_invitations %>
+    <% end %>
   </div><!-- personalpage -->
 </div><!-- container -->
 <%= render 'users/show_foot' %>

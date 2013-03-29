@@ -1,9 +1,12 @@
 <% if invitations.blank? != true %>
   <% invitations.each do |invitation| %>
+    <% team_leader = invitation.initiate_group.team_leader %>
     <% if invitation.status != "active" %>
     <div class="item" id="invitation_<%=invitation.id%>">
     <% if user_signed_in?%>
-      <%= render 'shared/applied_action', :invitation => invitation %>
+      <% if team_leader != current_user %>
+        <%= render 'shared/applied_action', :invitation => invitation %>
+      <% end %>
       <div id="appliedModal_<%=invitation.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -28,7 +31,6 @@
     <div class="activity_description"><span><%= invitation.description %></span></div>
     <div class="members">
       <ul style="margin-left:5px">
-        <% team_leader = invitation.initiate_group.team_leader %>
         <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
                         :rel => 'tooltip') do %>
           <li>

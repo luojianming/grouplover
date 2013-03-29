@@ -21,8 +21,10 @@
           <div class="content">
             <h3><%= @user.name %></h3>
             <% if @user.profile != nil %>
-              <span class="school"><%= @user.profile.school %></span>
-              <span class="hometown" style="margin-right: 20px;"><%= @user.profile.hometown %></span>
+              <!--
+                <span class="school"><%= @user.profile.school %></span>
+              -->
+              <span class="hometown" style="margin-left: 120px;"><%= @user.profile.hometown %></span>
               <% if current_user == @user %>
                 <%= best_in_place @user.profile, :status, :type => :select,
                   :inner_class => "status_select",
