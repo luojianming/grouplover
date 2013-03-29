@@ -56,15 +56,21 @@
               -->
 
               <ul class="friend_list">
+                <% friend_num = 0 %>
                 <% current_user.find_friends.each do |member| %>
                   <% if member.profile.sex == current_user.profile.sex %>
+                    <% friend_num = friend_num + 1 %>
                     <li>
-                    <%= link_to(user_path(member),:title => member.name,:rel => 'tooltip', :target => "_blank") do %>
+                      <%= link_to(user_path(member),:title => member.name,:rel => 'tooltip', :target => "_blank") do %>
                       <%= safe_image_tag(member.profile.avatar_url(:mini), 'pic3.jpg')%>
                     <% end %>
                       <%= check_box_tag 'member_ids[]', member.id -%>
                     </li>
                   <% end %>
+                <% end %>
+                <% if friend_num == 0 %>
+                  <p>还没有同性朋友哦</p>
+                  <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
                 <% end %>
                </ul>
             </div>
@@ -87,10 +93,12 @@
         <legend>注意事项</legend>
         <ul>
           <li><span class="badge badge-info">1</span>每个小组的所有成员必须同性，且无性取向问题</li>
-          <li><span class="badge badge-info">2</span>每个人最多只能创建一个group</li>
-          <li><span class="badge badge-info">3</span>每个人最多只能参加3个group</li>
-          <li><span class="badge badge-info">4</span>每个group的人数必须为2~4人</li>
-          <li><span class="badge badge-info">5</span>Group创建之后便不能再修改</li>
+          <!--
+            <li><span class="badge badge-info">2</span>每个人最多只能创建一个group</li>
+            <li><span class="badge badge-info">3</span>每个人最多只能参加3个group</li>
+          -->
+          <li><span class="badge badge-info">2</span>每个group的人数必须为2~4人</li>
+          <li><span class="badge badge-info">3</span>Group创建之后便不能再修改</li>
         </ul>
       </div>
     </div>
@@ -116,4 +124,21 @@
 
     });
   });
+</script>
+<script type="text/javascript">
+function sendRequest() {
+  var uiOpts = {
+    url : "request", 
+    display : "popup",
+    params : {
+      "accept_url":"http://www.aizuju.com",//接受邀请按钮url
+      "accept_label":"接受",
+      "actiontext":"邀请好友一起来玩"
+    },
+     onSuccess: function(r){}, 
+     onFailure: function(r){}
+  };
+  Renren.ui(uiOpts); 
+}
+
 </script>

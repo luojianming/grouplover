@@ -65,7 +65,7 @@
           </div><!-- modal-left-->
           <div style="display: none">
             <%= f.input :status, :value => "active" %>
-            <% if current_user.authorizations.size > 0 %>
+            <% if current_user.authorizations.size > 0 && current_user.authorizations[0].head_url != nil %>
               <%= f.text_field :remote_avatar_url, :value => current_user.authorizations[0].head_url %>
             <% end %>
           </div>
