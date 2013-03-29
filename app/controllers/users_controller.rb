@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
   def index
     per_page = 100
-    @users = User.search(params[:search],:per_page => per_page)
     if @users == nil
       @users = User.by_user_location(params[:user_location]).search(:per_page => per_page) if params[:user_location]
     else
@@ -24,6 +23,9 @@ class UsersController < ApplicationController
       @users = User.by_school(params[:user_school]).search(:per_page => per_page) if params[:user_school] && params[:user_school].to_s.size != 0
     else
       @users = @users.by_school(params[:user_school]).search(:per_page => per_page) if params[:user_school] && params[:user_school].to_s.size != 0
+    end
+    if params[:search] != nil
+       @users = User.search(params[:search],:per_page => per_page)
     end
     if @users == nil
       @users = User.all.paginate(page: params[:page], :per_page => 12)

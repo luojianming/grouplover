@@ -94,6 +94,11 @@ class ProfilesController < ApplicationController
         hobby_str = hobby_arr[1..hobby_arr.size].join(',')
         params[:profile]["hobby"] = hobby_str
       end
+      if params[:profile]["lover_style"]
+        lover_style_arr = params[:profile]["lover_style"]
+        lover_style_str = lover_style_arr[1..lover_style_arr.size].join(',')
+        params[:profile]["lover_style"] = lover_style_str
+      end
       respond_to do |format|
         if @profile.update_attributes(params[:profile])
           format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }

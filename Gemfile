@@ -50,3 +50,4 @@ gem 'better_errors', :group => :development
 gem 'binding_of_caller', :group => :development
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
+gem 'whenever', :require => false

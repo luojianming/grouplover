@@ -28,6 +28,7 @@ after "deploy", "deploy:cleanup" # keep only the last 5 releases
 before 'deploy:finalize_update', 'deploy:assets:symlink'
 after 'deploy:update_code', 'deploy:assets:precompile'
 after 'deploy:assets:precompile', 'deploy:migrate'
+after "deploy:symlink", "deploy:update_crontab"
 namespace :deploy do
   namespace :assets do
     task :symlink, :roles => assets_role, :except => { :no_release => true } do
@@ -51,6 +52,9 @@ namespace :deploy do
     end
   end
 =end
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab grouplover_v2"
+  end
   namespace :thinking_sphinx do
     task :stop, :roles => :app do
       run "cd #{current_path} && RAILS_ENV=#{rails_env} rake ts:stop"

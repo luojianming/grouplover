@@ -55,13 +55,16 @@ window.onload = function() {
           style_str = @profile.style
           @profile.style = str_to_array(style_str)
           @profile.hobby = str_to_array(@profile.hobby)
+          if @profile.lover_style != nil
+            @profile.lover_style = str_to_array(@profile.lover_style)
+          end
       %>
       <%= simple_form_for @profile, :url => user_profiles_path(current_user), 
         :html => {:class => "form-horizontal profiles"} do |f|%> 
         <div class="span3 sidenav">
           <div class="fileupload fileupload-new" data-provides="fileupload">
             <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;" id="avatar">
-              <%= safe_image_tag(current_user.profile.avatar_url(:thumb), 'secure.gravatar.com.jpg') %> 
+              <%= safe_image_tag(current_user.profile.avatar_url(:thumb), 'secure.gravatar.com.jpg') %>
             </div>
             <!--
             <input class="btn" value="修改头像" id="upload_btn" style="width:80px;margin-top:10px" />
@@ -74,7 +77,7 @@ window.onload = function() {
               </script>
             </div>
             -->
-              <span id="spanButtonPlaceHolder"></span>
+            <span id="spanButtonPlaceHolder"></span>
             <div id="divFileProgressContainer" style="height: 75px;display: none"></div>
             <!--
             <div id="thumbnails"></div>
@@ -183,6 +186,24 @@ $(function(){
       $('#upload_btn').css("display","none");
       $('#upload_original_btn').css("display","block");
     }
+});
+$(function(){
+  $('#collapseOne').collapse('show');
+  /*
+  $('#collapseOne').click(function(){
+    $('#collapseTwo').collapse('hide');
+    $('#collapseThree').collapse('hide');
+  });
+  $('#collapseTwo').click(function(){
+    alert('hi');
+    $('#collapseOne').collapse('hide');
+    $('#collapseThree').collapse('hide');
+  });
+  $('#collapseThree').click(function(){
+    $('#collapseTwo').collapse('hide');
+    $('#collapseOne').collapse('hide');
+  });
+  */
 });
 </script>
 

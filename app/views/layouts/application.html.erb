@@ -21,7 +21,9 @@
   <body class="<%= controller_name %> <%= action_name %>">
     <%= render 'layouts/navigation' %>
     <%= yield(:subnav) %>
-    <%= render 'layouts/messages' %>
+    <div id="messages">
+      <%= render 'layouts/messages' %>
+    </div>
     <%= yield %>
     <div style="height:30px;margin-top:20px;">
       <% if current_user %>

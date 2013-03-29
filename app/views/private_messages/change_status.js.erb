@@ -1,1 +1,4 @@
-alert('已将所有消息标为已读');
+<% flash[:notice] = "您已将所有私信标为了已读" %>
+$('#messages').html("<%= j render('layouts/messages') %>");
+setTimeout("$('#messages').html('')",3000);
+<% flash.delete(:notice) %>

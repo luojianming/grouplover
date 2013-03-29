@@ -1,2 +1,6 @@
 $('#send_message_modal').modal('hide');
-alert('消息发送成功');
+$('#send_message_modal_2').modal('hide');
+<% flash[:notice] = "恭喜，消息发送成功!" %>
+$('#messages').html("<%= j render('layouts/messages') %>");
+setTimeout("$('#messages').html('')",3000);
+<% flash.delete(:notice) %>
