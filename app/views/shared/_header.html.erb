@@ -48,7 +48,7 @@
                 <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
                 -->
             <% else %>
-              <div style="margin-top: 60px;">
+              <div style="margin-top: 100px;">
                 <div class="pull-left" style="margin-right: 20px">
                   <%= render 'shared/follow_form' %>
                 </div>
@@ -86,10 +86,21 @@
         %>
 
         <% visitors_array.each do |visitor_id| %>
-          <% visitor = User.find(visitor_id.to_i) %>
+          <% 
+              begin
+                visitor = User.find(visitor_id.to_i)
+              rescue
+                next
+              end
+          %>
           <div class="span1 latest_visitors">
             <%= link_to(user_path(visitor),:title => visitor.name, :rel => 'tooltip') do%>
-              <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'pic2.jpg') %>
+              <% if visitor.profile.sex == '男' %>
+                <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'boy.jpg') %>
+              <% else %>
+                <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'girl.jpg') %>
+              <% end %>
+
             <% end %>
           </div>
         <% end %>

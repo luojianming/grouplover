@@ -40,14 +40,18 @@
             <th>现居地</th>
             <th>家乡</th>
             <th></th>
-            <th></th>                                      
+            <th></th>
           </tr>
         </thead>   
         <tbody>
         <% @users.each do |user| %>
           <% if user != current_user %>
           <tr>
-            <td><%= safe_image_tag(user.profile.avatar_url(:small), 'pic1.jpg') %></td>
+            <% if user.profile.sex == '男' %>
+              <td><%= safe_image_tag(user.profile.avatar_url(:small), 'boy.jpg') %></td>
+            <% else %>
+              <td><%= safe_image_tag(user.profile.avatar_url(:small), 'girl.jpg') %></td>
+            <% end %>
             <td><%= link_to user.name, user %></td>
             <td><%= user.profile.location %></td>
             <td><%= user.profile.hometown %></td>
