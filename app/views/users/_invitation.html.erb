@@ -33,9 +33,9 @@
                         :rel => 'tooltip') do %>
           <li>
             <% if team_leader.profile.sex == '男' %>
-              <%= safe_image_tag(invitation.initiate_group.team_leader.profile.avatar_url(:mini),'boy.jpg') %>
+              <%= safe_image_tag(team_leader.profile.avatar_url(:mini),'boy.jpg') %>
             <% else %>
-              <%= safe_image_tag(invitation.initiate_group.team_leader.profile.avatar_url(:mini),'girl.jpg') %>
+              <%= safe_image_tag(team_leader.profile.avatar_url(:mini),'girl.jpg') %>
             <% end %>
             <span>发起者：<%= invitation.initiate_group.team_leader.name %> <%= invitation.initiate_group.team_leader.profile.hometown %> <%=invitation.initiate_group.team_leader.profile.sex %> </span>
           </li>
@@ -64,3 +64,4 @@ $(function(){
 $('.members ul li').tooltip();
 });
 </script>
+

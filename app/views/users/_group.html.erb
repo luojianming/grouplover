@@ -4,13 +4,13 @@
       <%= link_to safe_image_tag(show_group.image_url(:small), 'pic1.jpg'), user_path(show_group.team_leader),
         :placement => "left", :rel => "tooltip" %>
       <div class="groupleader_info">
-        <label><%= show_group.name %>
+        <span><%= show_group.name %>
           <% if show_group.status == "active" %>
             (已激活)
           <% else %>
             (尚未激活)
           <% end %>
-        </label>
+        </span>
       </div>
       <% if current_user == @user %>
         <% if current_user == show_group.team_leader %>

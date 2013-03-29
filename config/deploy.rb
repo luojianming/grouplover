@@ -28,7 +28,7 @@ after "deploy", "deploy:cleanup" # keep only the last 5 releases
 before 'deploy:finalize_update', 'deploy:assets:symlink'
 after 'deploy:update_code', 'deploy:assets:precompile'
 after 'deploy:assets:precompile', 'deploy:migrate'
-after "deploy:symlink", "deploy:update_crontab"
+after "deploy:cleanup", "deploy:update_crontab"
 namespace :deploy do
   namespace :assets do
     task :symlink, :roles => assets_role, :except => { :no_release => true } do

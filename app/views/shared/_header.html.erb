@@ -35,8 +35,8 @@
             <div class="divider-horizontal"></div>
             <div class="description">
               <p>
-                <%= best_in_place_if @user==current_user, @user.profile, :games, :classes => "user_description",
-                  :path => user_profiles_path(@user) , :type => :textarea, :html_attrs => {:maxlength => 140},:nil => "用一句话描述自己把(最多140个字）..." %>
+                <%= best_in_place_if @user==current_user, @user.profile, :description, :classes => "user_description",
+                  :path => user_profiles_path(@user) , :type => :textarea, :html_attrs => {:maxlength => 140},:nil => "用一句话描述自己吧(最多140个字）..." %>
               </p>
             </div>
 
@@ -53,7 +53,7 @@
                   <%= render 'shared/follow_form' %>
                 </div>
                 <div>
-                  <a data-toggle="modal" href="#send_message_modal" class="btn "
+                  <a data-toggle="modal" href="#send_message_modal" class="btn send_private_message"
                     type="button" receiver_id="<%= @user.id %>">
                     发私信
                   </a>
@@ -164,7 +164,7 @@ $('.latest_visitors a').tooltip();
 $(function(){
   $(".send_private_message").click(function() {
     $('#private_message_receiver_id').val($(this).attr('receiver_id'));
-    $('#send_message_modal').modal('show');
+//    $('#send_message_modal').modal('show');
   });
 });
 </script>

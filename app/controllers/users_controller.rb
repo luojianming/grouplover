@@ -89,14 +89,14 @@ class UsersController < ApplicationController
   def following
     @label = "关注的人"
     @user = User.find(params[:id])
-    @users = @user.followed_users.paginate(page: params[:page])
+    @users = @user.followed_users.paginate(page: params[:page], :per_page => 12)
     render 'show_follow'
   end
 
   def followers
     @label = "粉丝"
     @user = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
+    @users = @user.followers.paginate(page: params[:page], :per_page => 12)
     render 'show_follow'
   end
 
@@ -104,7 +104,7 @@ class UsersController < ApplicationController
     @label = "好友"
     @user = User.find(params[:id])
     @friends = @user.find_friends()
-    @users = @friends.paginate(page: params[:page])
+    @users = @friends.paginate(page: params[:page], :per_page => 12)
     render 'show_follow'
   end
 
@@ -154,7 +154,7 @@ class UsersController < ApplicationController
   def my_private_messages
     @user = User.find(params[:id])
     @private_messages_original = PrivateMessage.related_messages(@user).original_messages
-    @private_messages_original = @private_messages_original.paginate(page: params[:page])
+    @private_messages_original = @private_messages_original.paginate(page: params[:page], :per_page => 10)
     render 'show_private_messages'
   end
 
@@ -172,7 +172,7 @@ class UsersController < ApplicationController
     @user_ids_array.each do |user_id|
       @users << User.find(user_id)
     end
-    @users = @users.paginate(page: params[:page])
+    @users = @users.paginate(page: params[:page], :per_page => 12)
     render 'users/show_visitors'
   end
 end
