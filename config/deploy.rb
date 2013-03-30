@@ -2,6 +2,9 @@ require "bundler/capistrano"
 require 'thinking_sphinx/deploy/capistrano'
 load 'deploy' unless defined?(_cset)
 
+set :whenever_command, "bundle exec whenever"
+require 'whenever/capistrano'
+
 server "210.209.68.24", :web, :app, :db, primary: true
 
 _cset :asset_env, "RAILS_GROUPS=assets"
@@ -18,6 +21,7 @@ set :bundle_cmd, 'source $HOME/.bash_profile && bundle'
 set :scm, "git"
 set :repository, "git@github.com:luojianming/grouplover.git"
 set :branch, "master"
+set :shared_children, shared_children + %w{public/uploads}
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
@@ -28,7 +32,6 @@ after "deploy", "deploy:cleanup" # keep only the last 5 releases
 before 'deploy:finalize_update', 'deploy:assets:symlink'
 after 'deploy:update_code', 'deploy:assets:precompile'
 after 'deploy:assets:precompile', 'deploy:migrate'
-after "deploy:cleanup", "deploy:update_crontab"
 namespace :deploy do
   namespace :assets do
     task :symlink, :roles => assets_role, :except => { :no_release => true } do
@@ -52,9 +55,6 @@ namespace :deploy do
     end
   end
 =end
-  task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --update-crontab grouplover_v2"
-  end
   namespace :thinking_sphinx do
     task :stop, :roles => :app do
       run "cd #{current_path} && RAILS_ENV=#{rails_env} rake ts:stop"
@@ -70,7 +70,7 @@ namespace :deploy do
   end
 
   # before 'deploy:update_code', 'deploy:thinking_sphinx:stop'
-  after 'deploy:restart', 'deploy:thinking_sphinx:restart'
+  # after 'deploy:restart', 'deploy:thinking_sphinx:restart'
 
 
   task :setup_config, roles: :app do

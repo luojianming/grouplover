@@ -18,8 +18,13 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-
-every :hour do
+set :output, "#{path}/log/cron.log"
+every 30.minutes do
   rake "ts:rebuild"
 end
+
+every :reboot do
+    rake "ts:start"
+end
+
 

@@ -1,7 +1,9 @@
 <% show_groups.each do |show_group| %>
+  <% if show_group != nil %>
+  <% team_leader = show_group.team_leader %>
   <div class="group_showpanel" id="related_group_<%= show_group.id %>" style="clear: both;margin-top: 30px;" >
     <div class="group_showpanel_left">
-      <%= link_to safe_image_tag(show_group.image_url(:small), 'pic1.jpg'), user_path(show_group.team_leader),
+      <%= link_to safe_image_tag(show_group.image_url(:small), 'pic1.jpg'), user_path(team_leader),
         :placement => "left", :rel => "tooltip" %>
       <div class="groupleader_info">
         <span><%= show_group.name %>
@@ -13,7 +15,7 @@
         </span>
       </div>
       <% if current_user == @user %>
-        <% if current_user == show_group.team_leader %>
+        <% if current_user == team_leader %>
           <!-- 
             <%= link_to "编辑", edit_group_path(show_group) %>
             -->
@@ -26,18 +28,44 @@
     </div>
 
     <div class="group_showpanel_right" style="background-color:#CFC">
-        <% show_group.group_memberships.each do |ship| %>
-          <div class="group_member">                        		 
+          <div class="group_member">
             <div class="pull-left">
-              <%= link_to safe_image_tag(ship.member.profile.avatar_url(:mini), 'pic2.jpg'), user_path(ship.member), :title => ship.member.name,
-                :placement => "top", :rel => "tooltip" %>
+              <% if team_leader.profile.sex == '男' %>
+                <%= link_to safe_image_tag(team_leader.profile.avatar_url(:mini), 'boy.jpg'), user_path(team_leader), :title => team_leader.profile.style,
+                  :placement => "top", :rel => "tooltip" %>
+              <% else %>
+                <%= link_to safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg'), user_path(team_leader), :title => team_leader.profile.style,
+                  :placement => "top", :rel => "tooltip" %>
+              <% end %>
+
             </div>
             <div class="group_member_info pull-left">
-              <label>爱好：<%= ship.member.profile.hobby %></label>
-              <label>喜欢的异性类型：<%= ship.member.profile.lover_style %></label>
+              <label>创建者：<%= team_leader.name %></label>
+              <label>爱好：<%= team_leader.profile.hobby %></label>
+              <!--
+                <label>喜欢的异性类型：<%= team_leader.profile.lover_style %></label>
+              -->
+            </div>
+          </div>
+          <% show_group.group_memberships.each do |ship| %>
+            <% member = ship.member %>
+          <div class="group_member">
+            <div class="pull-left">
+              <% if member.profile.sex == '男' %>
+                <%= link_to safe_image_tag(member.profile.avatar_url(:mini), 'boy.jpg'), user_path(ship.member), :title => member.profile.style,
+                  :placement => "top", :rel => "tooltip" %>
+              <% else %>
+                <%= link_to safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg'), user_path(ship.member), :title => member.profile.style,
+                  :placement => "top", :rel => "tooltip" %>
+              <% end %>
+            </div>
+            <div class="group_member_info pull-left">
+              <label>成员：<%= member.name %></label>
+              <label>爱好：<%= member.profile.hobby %></label>
             </div>
           </div><!--group_member-->
         <% end %>
     </div> <!--group_showpanel_right -->
   </div>
+<% end %>
 <% end %> <!-- each -->

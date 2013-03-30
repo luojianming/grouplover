@@ -2,6 +2,7 @@
 class GroupInvitationshipsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :one_group_can_apply_the_invitation_only_one_time, :only => :create
+  before_filter :the_members_of_applied_group_should_be_equal_to_invitation , :only => :create
   def create
     @applied_group = Group.find(params[:group_invitationship][:applied_group_id])
     @invitation = Invitation.find(params[:group_invitationship][:invitation_id])
@@ -44,6 +45,16 @@ class GroupInvitationshipsController < ApplicationController
     @invitation = Invitation.find(params[:group_invitationship][:invitation_id])
     if @invitation.applied_groups.include?(@applied_group)
       flash[:error]="该组已经申请过该活动了"
+      redirect_to root_path
+      return false
+    end
+  end
+
+  def the_members_of_applied_group_should_be_equal_to_invitation
+    @applied_group = Group.find(params[:group_invitationship][:applied_group_id])
+    @invitation = Invitation.find(params[:group_invitationship][:invitation_id])
+    if @applied_group.members.count != @invitation.initiate_group.members.count
+      flash[:error] = "两个小组的成员数目必须相等哦"
       redirect_to root_path
       return false
     end

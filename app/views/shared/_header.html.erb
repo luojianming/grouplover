@@ -12,7 +12,11 @@
             <% if @user.profile && @user.profile.avatar.size != 0 %>
               <%= image_tag(@user.profile.avatar_url(:thumb)) %>
             <% else %>
-              <%= image_tag("secure.gravatar.com.jpg") %>
+              <% if @user.profile.sex == '男' %>
+                <%= image_tag("secure.gravatar.com.jpg") %>
+              <% else %>
+                <%= image_tag("girl.jpg") %>
+              <% end %>
             <% end %>
           </div>
           <%= render "shared/stats" %>

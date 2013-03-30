@@ -5,6 +5,7 @@ class InvitationsController < ApplicationController
   # GET /invitations.json
   before_filter :authenticate_user!
   before_filter :only_create_one_invitation_one_day, :only => :create
+  before_filter :the_members_of_applied_group_should_be_equal_to_invitation , :only => :create
   def index
 =begin
     @city = params[:city]

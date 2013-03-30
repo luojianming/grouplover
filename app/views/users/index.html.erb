@@ -45,7 +45,7 @@
         </thead>   
         <tbody>
         <% @users.each do |user| %>
-          <% if user != current_user %>
+          <% if user && user != current_user %>
           <tr>
             <% if user.profile.sex == '男' %>
               <td><%= safe_image_tag(user.profile.avatar_url(:small), 'boy.jpg') %></td>
