@@ -1,0 +1,20 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides","bootswatch", "homepage" %>
+<% end %>
+<%
+  @follower_ships.each do |follower_ship|
+    follower_ship.update_attribute(:status,"readed")
+  end
+%>
+<% provide(:label,@label) %>
+<div class="container">
+  <%= render 'show_user' %>
+</div>
+<script>
+$(function(){
+  $(".send_private_message").click(function() {
+    $('#private_message_receiver_id').val($(this).attr('receiver_id'));
+    $('#send_message_modal').modal('show');
+  });
+});
+</script>

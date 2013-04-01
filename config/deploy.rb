@@ -1,8 +1,5 @@
 require "bundler/capistrano"
 require 'thinking_sphinx/deploy/capistrano'
-set :whenever_command, "/home/luojm/.rvm/gems/ruby-1.9.3-p392@rails3-aizuju/bin/whenever"
-set :whenever_identifier, "grouplover_v2"
-require 'whenever/capistrano'
 
 load 'deploy' unless defined?(_cset)
 

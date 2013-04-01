@@ -1,4 +1,6 @@
-<%= render 'users/show_head' %>
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
+<% end %>
 <div class="container">
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">

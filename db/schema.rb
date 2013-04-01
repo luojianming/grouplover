@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130322010913) do
+ActiveRecord::Schema.define(:version => 20130401075122) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(:version => 20130322010913) do
     t.integer  "followed_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "status"
   end
 
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"

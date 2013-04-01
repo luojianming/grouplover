@@ -34,6 +34,14 @@
                   <% end %>
                 <% end %>
                 </li>
+                <% unread_followed_message = Relationship.find_all_by_followed_id_and_status(current_user.id,"pending") %>
+                <% if unread_followed_message.size > 0 %>
+                  <li>
+                    <%= link_to(latest_followers_user_path(current_user)) do %>
+                      <span>有<%= unread_followed_message.size %>个人关注了你</span>
+                    <% end %>
+                  </li>
+                <% end %>
                 <% unread_photo_comments = PhotoComment.unread_reply_comments(current_user)%>
                 <% if unread_photo_comments.size > 0%>
                   <% flag = 1 %>

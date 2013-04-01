@@ -5,6 +5,6 @@ test:
   server: "http://www.itripl.com:9292/faye"
   secret_token: "secret"
 production:
-  server: "http://www.itripl.com:9292/faye"
+  server: "http://www.aizuju.com:9292/faye"
   secret_token: "3178af43265dc77d07926baa90fa4989aedeca19b4d7aa0b83e77bf3497423c8"
   signature_expiration: 3600 # one hour

@@ -4,11 +4,6 @@
       <div class="row">
         <div class="span2">
           <div  class="headphoto" id="headphoto">
-            <%
-              if @user != current_user
-                @user.add_visitor(current_user)
-              end
-            %>
             <% if @user.profile && @user.profile.avatar.size != 0 %>
               <%= image_tag(@user.profile.avatar_url(:thumb)) %>
             <% else %>

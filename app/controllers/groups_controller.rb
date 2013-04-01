@@ -43,6 +43,7 @@ debugger
       @member_ids = []
     end
     @member_num = @member_ids.size
+    params[:group][:sex] = current_user.profile.sex
     params[:group][:group_memberships_attributes] = {}
     for i in 0..@member_num-1
       params[:group][:group_memberships_attributes][i.to_s] = {}

@@ -173,7 +173,7 @@ class UsersController < ApplicationController
   def visitors
     @label = "最近来访"
     @user = User.find(params[:id])
-    if @user.extra_info == nil
+     if @user.extra_info == nil
       @user.extra_info = @user.create_extra_info()
     end
     if @user.extra_info.visitors == nil 
@@ -186,6 +186,18 @@ class UsersController < ApplicationController
     end
     @users = @users.paginate(page: params[:page], :per_page => 12)
     render 'users/show_visitors'
+  end
+
+  def latest_followers
+    @label = "最新粉丝"
+    @user = User.find(params[:id])
+    @follower_ships = Relationship.find_all_by_followed_id_and_status(current_user.id,"pending")
+    @users = []
+    @follower_ships.each do |follower_ship|
+      @users << follower_ship.follower
+    end
+    @users = @users.paginate(page: params[:page], :per_page => 12)
+    render 'show_latest_followers'
   end
 
   def sended_requests

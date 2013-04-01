@@ -83,13 +83,12 @@ class User < ActiveRecord::Base
   end
 
   def follow!(other_user)
-    relationships.create!(:followed_id => other_user.id)
+    relationships.create!(:followed_id => other_user.id, :status => "pending")
   end
 
   def unfollow!(other_user)
     relationships.find_by_followed_id(other_user.id).destroy
   end
-
 
   def find_friends()
     followers & followed_users

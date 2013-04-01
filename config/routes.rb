@@ -36,7 +36,8 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
       get :following, :followers, :friends, 
           :groups, :following_invitations, :my_invitations,
           :received_invitations, :albums, :pending_requests,
-          :my_private_messages, :visitors, :sended_requests
+          :my_private_messages, :visitors, :sended_requests,
+          :latest_followers
     end
   end
 
