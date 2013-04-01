@@ -124,10 +124,11 @@ class User < ActiveRecord::Base
   def related_active_invitations()
     result = []
     related_groups().each do |group|
+      #由group发起的且已激活的invitation
       Invitation.active_invitation_initiated_by_group(group).each do |invitation|
         result << invitation
       end
-
+      #group申请的且已激活的invitation
       GroupInvitationship.active_invitation_ship_applied_by_group(group).each do |invitation_ship|
         result << invitation_ship.invitation
       end

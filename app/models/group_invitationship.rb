@@ -3,12 +3,13 @@ class GroupInvitationship < ActiveRecord::Base
   belongs_to :applied_group, :class_name => "Group"
   belongs_to :invitation
   scope :active_invitation_ship_applied_by_group, 
-          lambda { |group|where(["applied_group_id=?", group.id]) }
+          lambda { |group|where(["applied_group_id=? AND status=?", group.id,"active"]) }
 
 
   def self.accept(applied_group_id, invitation_id)
     group_invitationship = GroupInvitationship.find_by_applied_group_id_and_invitation_id(
                            applied_group_id, invitation_id)
+    invitation = Invitation.find(invitation_id)
     begin
       #首先，将group_invitationship的status置为active，接着删除其他人的申请请求，最后将该邀请的status
       #置为active，使其别再显示在首页，以免别人再次请求
@@ -16,13 +17,21 @@ class GroupInvitationship < ActiveRecord::Base
         group_invitationship.update_attribute("status", "active")
         other_group_invitationships = GroupInvitationship.find_all_by_invitation_id(invitation_id)
         for other_group_invitationship in other_group_invitationships
-          if group_invitationship != other_group_invitationship
+          if group_invitationship != other_group_invitationship 
             other_group_invitationship.destroy
           end
         end
-        Invitation.find(invitation_id).update_attribute("status", "active")
+        invitation.update_attribute("status", "active")
 
-        Invitation.create_conversation()
+        invitation.create_conversation()
+
+        #删除applied_group在当天的其它应征帖
+        group_invitations = GroupInvitationship.find_all_by_applied_group_id_and_status(applied_group_id,"pending")
+        group_invitations.each do |group_invitation|
+          if group_invitation.invitation.time == invitation.time
+            group_invitation.destroy
+          end
+        end
       end
     end
   end

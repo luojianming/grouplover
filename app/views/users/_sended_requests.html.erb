@@ -1,0 +1,63 @@
+<div class="accordion" id="accordion2">
+  <% @sended_requests.keys.each do |group_key| %>
+    <% group = Group.find(group_key) %>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+          href="#collapse_<%=group_key%>">
+          <%= group.name %>应征的活动
+        </a>
+      </div>
+
+      <% if @sended_requests[group_key].blank? != true %>
+        <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
+          <div class="accordion-inner sended_request_inner" style="padding-left: 0px;padding-right: 0px;">
+            <% @sended_requests[group_key].each do |sended_request| %>
+              <% invitation = Invitation.find(sended_request.invitation_id) %>
+              <% initiate_group = invitation.initiate_group %>
+              <% team_leader = initiate_group.team_leader %>
+              <% if sended_request.status == "active" %>
+                <div class="item" style="border-color:#00ff00;margin-right: 0px;margin-left: 5px;">
+                  <div class="pull-right actived_sended_request">
+                    <span style="font-size:24px; color: #00ff00;">已激活</span>
+                  </div>
+              <% else %>
+                <div class="item" style="margin-right: 0px;margin-left: 5px;">
+              <% end %>
+                <div class="box-photo"><%= safe_image_tag(initiate_group.image_url(:thumb),'photo/3.jpg') %></div>
+                <div class="activity_info"><span><%=invitation.time%>于<%= invitation.location %><%=invitation.activity %> </div>
+                  <div class="activity_description"><span><%= invitation.description %></span></div>
+                  <div class="members">
+                    <ul style="margin-left:5px;list-style-type: none;">
+                      <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
+                                  :rel => 'tooltip') do %>
+                        <li>
+                          <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'pic2.jpg') %>
+                          <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %></span>
+                        </li>
+                      <% end %>
+                      <% initiate_group.members.each do |member| %>
+                          <%= link_to(user_path(member),:title => member.profile.style,
+                                      :rel => 'tooltip') do %>
+                          <li>
+                            <%= safe_image_tag(member.profile.avatar_url(:mini), 'pic3.jpg') %>
+                            <span><%= member.name%> <%= member.profile.hometown %></span>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </div><!-- members -->
+                </div><!-- item -->
+              <% end %>
+            </div><!--accordion-inner-->
+          </div><!-- accordion-body -->
+        <% else %>
+          <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
+            <div class="accordion-inner">
+              <h4 style="text-align: center;">这个group没有未被处理的请求哦</h4>
+            </div>
+          </div>
+        <% end %>
+      </div><!-- accordion-group -->
+    <% end %>
+</div>

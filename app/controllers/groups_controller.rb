@@ -4,12 +4,12 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :members_should_of_the_same_sex, :only => :create
   before_filter :cannot_have_the_same_members, :only => :create
+  before_filter :member_counts_limit, :only => :create
   load_and_authorize_resource
   def index
     per_page = 100
-    @groups = Group.search(params[:search],:per_page => per_page)
-    if params[:hometown] != nil
-
+    if params[:search] != nil
+      @groups = Group.search(params[:search],:per_page => per_page)
     end
     if @groups == nil
       @groups = Group.by_group_location(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city] != "全国")
@@ -49,7 +49,6 @@ debugger
       params[:group][:group_memberships_attributes][i.to_s][:member_id] = @member_ids[i.to_i]
       params[:group][:group_memberships_attributes][i.to_s]["status"] = "pending"
     end
-    params[:group][:member_counts] = @member_num
     debugger
     @group = current_user.mygroups.build(params[:group])
      respond_to do |format|
@@ -121,6 +120,15 @@ debugger
         redirect_to new_group_path
         return false
       end
+    end
+  end
+
+  def member_counts_limit
+    member_num = params[:member_ids].size + 1
+    if member_num < 2 || member_num > 4
+      flash[:error] = "成员数必须是2~4人哦"
+      redirect_to new_group_path
+      return false
     end
   end
 end

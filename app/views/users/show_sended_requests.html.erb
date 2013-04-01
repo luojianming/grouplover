@@ -1,0 +1,19 @@
+<%= render 'users/show_head' %>
+<div class="container">
+  <%= render 'shared/header' %> 
+  <div id="personalpage" class="container">
+    <%= render 'sended_requests'%>
+  </div><!-- personalpage -->
+</div><!-- container -->
+<script>
+$('.members ul a').tooltip();
+</script>
+<script>
+var $container = $('.sended_request_inner');
+$container.imagesLoaded(function(){
+    $container.masonry({
+      itemSelector : '.item',
+      columnWidth : 234
+    });
+});
+</script>

@@ -28,7 +28,7 @@
               <!--
                 <span class="school"><%= @user.profile.school %></span>
               -->
-              <span class="hometown" style="margin-left: 120px;"><%= @user.profile.hometown %></span>
+              <span class="hometown" style="margin-left: 120px;margin-right: 20px;"><%= @user.profile.hometown %></span>
               <% if current_user == @user %>
                 <%= best_in_place @user.profile, :status, :type => :select,
                   :inner_class => "status_select",
@@ -54,7 +54,11 @@
                 <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
                 -->
             <% else %>
-              <div style="margin-top: 100px;">
+              <% if @user.profile.description.to_s.size != 0 %>
+                <div style="margin-top: 60px;">
+              <% else %>
+                <div style="margin-top: 100px;">
+              <% end %>
                 <div class="pull-left" style="margin-right: 20px">
                   <%= render 'shared/follow_form' %>
                 </div>
@@ -92,7 +96,7 @@
         %>
 
         <% visitors_array.each do |visitor_id| %>
-          <% 
+          <%
               begin
                 visitor = User.find(visitor_id.to_i)
               rescue
@@ -129,6 +133,7 @@
         <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
         <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
         <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>
+        <li><%= link_to "已发送的请求", sended_requests_user_path(@user) %></li>
       </ul>
       </li>
     <% else %>

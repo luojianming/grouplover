@@ -1,3 +1,4 @@
+<h4>各个活动收到的回帖</h4>
 <div class="accordion" id="accordion2">
 <% @ships.keys.each do |invitation_key| %>
   <% invitation = Invitation.find(invitation_key) %>
@@ -5,7 +6,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
         href="#collapse_<%=invitation_key%>">
-        申请参加活动<%=Invitation.find(invitation_key).time%>于<%=Invitation.find(invitation_key).location %>的groups
+        活动发布小组：<%= invitation.initiate_group.name+"      " %>活动时间：<%=invitation.time+"      "%>活动地点：<%=invitation.location+" "%>活动：<%= invitation.activity %>
       </a>
     </div>
 
@@ -41,15 +42,17 @@
             </div><!-- members -->
           </div><!-- item -->
         <% end %>
-      <% end %><!-- if -->
+      </div>
+    </div>
+    <% end %><!-- if -->
 
     <% if @ships[invitation_key].blank? == true %>
       <div id="collapse_<%= invitation_key%>" class="accordion-body collapse in">
-      <div class="accordion-inner" style="padding-left: 0px;padding-right: 0px;">
-        <h4 style="text-align: center;">还没有group申请参加这个活动哦</h4>
-    <% end %>
+        <div class="accordion-inner" style="padding-left: 0px;padding-right: 0px;">
+          <h4 style="text-align: center;">还没有group申请参加这个活动哦</h4>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 <% end %>
 </div>

@@ -11,12 +11,12 @@ class Group < ActiveRecord::Base
 
   has_many :myinvitations, :class_name => "Invitation", 
                            :foreign_key => "initiate_group_id",
-                           :dependent => :destroy, 
+                           :dependent => :destroy,
                            :inverse_of => :initiate_group
   has_many :group_invitationships, :dependent => :destroy, :foreign_key => "applied_group_id"
   has_many :invitations, :through => :group_invitationships, :foreign_key => "applied_group_id"
 
-  has_one :conversation, :as => :conversationer
+  has_one :conversation, :as => :conversationer, :dependent => :destroy
 
   accepts_nested_attributes_for :group_memberships,
                                 :reject_if => proc { |attributes| attributes['member_id'].blank? },
@@ -25,7 +25,7 @@ class Group < ActiveRecord::Base
   validates :name, :presence => true, :length => { :maximum => 8,
                                                      :too_long => "名字最多不能超过8个字哦"}
   validates :sex,  :presence => true
-  validates :member_counts, :numericality => { :greater_than => 0, :less_than => 4 } 
+#  validates :member_counts, :numericality => { :greater_than => 0, :less_than => 4 } 
   validates :location, :presence => true
  # validate :labels_number_cannot_greater_than_three 
 

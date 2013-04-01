@@ -53,18 +53,19 @@
               my_group = applied_group
               other_group = initiate_group
             end
-
+=begin
             member_names=""
             other_group.members.each do |member|
               member_names = member_names + " " + member.name
             end
+=end
           %>
           <%= link_to({ :controller => "conversations" , :invitation => invitation.id} ,
                       :method => "post",
                       :remote => true,
                       :id => "conversation_link_invitation_"+invitation.id.to_s,
                       :class => "conversation_link",
-                      :title => member_names,
+                      :title =>  my_group.name + " vs " + other_group.name,
                       :rel => 'tooltip') do %>
           <li class="conversationer_list">
             <div class="conversationer_list_left">
@@ -72,7 +73,7 @@
             </div>
 
             <div class="conversationer_list_right">
-              <span><%= my_group.name + " vs " + other_group.name %></span>
+              <span><%= invitation.time  + "于" + invitation.location + invitation.activity %></span>
             </div>
           </li>
         <% end %>

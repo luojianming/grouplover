@@ -87,22 +87,34 @@ class UsersController < ApplicationController
   end
 
   def following
-    @label = "关注的人"
     @user = User.find(params[:id])
+    if current_user == @user
+      @label = "关注"
+    else
+      @label = "TA的关注"
+    end
     @users = @user.followed_users.paginate(page: params[:page], :per_page => 12)
     render 'show_follow'
   end
 
   def followers
-    @label = "粉丝"
     @user = User.find(params[:id])
+    if current_user == @user
+      @label = "粉丝"
+    else
+      @label = "TA的粉丝"
+    end
     @users = @user.followers.paginate(page: params[:page], :per_page => 12)
     render 'show_follow'
   end
 
   def friends
-    @label = "好友"
     @user = User.find(params[:id])
+    if current_user == @user
+      @label = "好友"
+    else
+      @label = "TA的好友"
+    end
     @friends = @user.find_friends()
     @users = @friends.paginate(page: params[:page], :per_page => 12)
     render 'show_follow'
@@ -174,5 +186,16 @@ class UsersController < ApplicationController
     end
     @users = @users.paginate(page: params[:page], :per_page => 12)
     render 'users/show_visitors'
+  end
+
+  def sended_requests
+    @user = User.find(params[:id])
+    @related_groups = []
+    @related_groups = current_user.related_groups()
+    @sended_requests = Hash.new
+    @related_groups.each do |group|
+      @sended_requests[group.id] = GroupInvitationship.find_all_by_applied_group_id(group.id)
+    end
+    render 'show_sended_requests'
   end
 end

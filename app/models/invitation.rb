@@ -8,7 +8,7 @@ class Invitation < ActiveRecord::Base
   has_many :group_invitationships, :dependent => :destroy
   has_many :applied_groups, :class_name => "Group", :through => :group_invitationships
 
-  has_one :conversation, :as => :conversationer
+  has_one :conversation, :as => :conversationer, :dependent => :destroy
 
   validates :initiate_group_id, :presence => true
   validates :location, :presence => true

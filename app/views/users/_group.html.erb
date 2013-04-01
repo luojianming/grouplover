@@ -19,7 +19,7 @@
           <!-- 
             <%= link_to "编辑", edit_group_path(show_group) %>
             -->
-          <%= link_to "解散", show_group, :confirm => '确定删除？',
+          <%= link_to "解散", show_group, :confirm => '确定解散？',
             :method => :delete, :remote => true %>
         <% else %>
           <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => show_group } %>
@@ -27,7 +27,7 @@
       <% end %>
     </div>
 
-    <div class="group_showpanel_right" style="background-color:#CFC">
+    <div class="group_showpanel_right" style="background-color:#FFF">
           <div class="group_member">
             <div class="pull-left">
               <% if team_leader.profile.sex == '男' %>
@@ -60,7 +60,11 @@
               <% end %>
             </div>
             <div class="group_member_info pull-left">
-              <label>成员：<%= member.name %></label>
+              <% if ship.status == "accepted" %>
+                <label>成员：<%= member.name %> <span style="margin-left: 30px;color: #00ff00">已接受邀请</span></label>
+              <% else %>
+                <label>成员：<%= member.name %> <span style="margin-left: 30px;color: #ff0000">尚未接受邀请</span></label>
+              <% end %> 
               <label>爱好：<%= member.profile.hobby %></label>
             </div>
           </div><!--group_member-->

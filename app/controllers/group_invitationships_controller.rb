@@ -7,7 +7,7 @@ class GroupInvitationshipsController < ApplicationController
     @applied_group = Group.find(params[:group_invitationship][:applied_group_id])
     @invitation = Invitation.find(params[:group_invitationship][:invitation_id])
     @description = params[:group_invitationship][:description]
-    if @applied_group.sex == current_user.profile.sex
+    if @applied_group.sex == @invitation.initiate_group.sex
       flash[:error] = "申请失败，你只能参加异性朋友发起的活动哦"
       redirect_to root_path
       return false
@@ -28,7 +28,7 @@ class GroupInvitationshipsController < ApplicationController
 =end
     @applied_group.applied!(@invitation, @description)
     respond_to do |format|
-      format.html { redirect_to root_path, :notice => "申请成功"}
+      format.html { redirect_to sended_requests_user_path(current_user), :notice => "申请成功"}
       format.js
     end
   end
@@ -37,7 +37,7 @@ class GroupInvitationshipsController < ApplicationController
     @applied_group_id = params[:applied_group]
     @invitation_id = params[:invitation]
     GroupInvitationship.accept(@applied_group_id,@invitation_id)
-    redirect_to received_invitations_user_path(current_user)
+    redirect_to conversations_path
   end
 
   def one_group_can_apply_the_invitation_only_one_time

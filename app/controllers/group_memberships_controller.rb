@@ -12,7 +12,7 @@ class GroupMembershipsController < ApplicationController
       end
     end
 
-    redirect_to user_path(current_user)
+    redirect_to groups_user_path(current_user)
   end
 
   def reject

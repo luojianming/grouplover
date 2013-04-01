@@ -63,11 +63,12 @@
 	top:-5px;
 	left:20px;
 }
-.item .actions .btn.join_link {
+.item .actions .btn.join_link, .item .actived_invitation, .item .actived_sended_request{
 	position:absolute;
 	top:-5px;
 	right:20px;
 }
+
 
 .album{
   width:200px;
@@ -135,9 +136,16 @@ ul.ui-autocomplete {
 }
 
 .table-condensed tbody td{
-  line-height: 80px;
+  line-height: 60px;
 }
 
+.table-condensed tbody td form{
+  margin: 0px;
+}
+.table-condensed tbody td img{
+  width: 50px;
+  height:50px;
+}
 .pagination{
   float: right;
 }
