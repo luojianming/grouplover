@@ -18,6 +18,7 @@ class User
           user = User.new_from_provider_data(provider, uid, data)
 
           if user.save(:validate => false)
+            debugger
             user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
             profile = user.build_profile()
             profile.status = "active"

@@ -1,6 +1,4 @@
-<% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
-<% end %>
+<%= render 'show_head' %>
 <%
     if @user != current_user
       @user.add_visitor(current_user)

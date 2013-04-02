@@ -5,7 +5,7 @@
       current_user.profile.hobby == nil%>
   <% session[:visited] ||= false %> 
   <% if session[:visited] == false || current_user.profile.style == nil%>
-    <div id="init_profile" class="modal hide fade" tabindex="-1" role="dialog" 
+    <div id="init_profile" class="modal hide fade" tabindex="-1" role="dialog"
           aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false">
       <div class="modal-header">
         <h3 id="myModalLabel">必填资料</h3>
@@ -115,3 +115,4 @@ $(function(){
   });
 });
 </script>
+
