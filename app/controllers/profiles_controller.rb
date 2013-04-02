@@ -74,9 +74,10 @@ class ProfilesController < ApplicationController
     @profile = @user.profile
     authorize! :update, @profile
 =end
-    if params[:flag] != nil
+debugger
       @user = User.find(params[:user_id])
       @profile = @user.profile
+    if params[:flag] != nil
    #   params[:avatar].content_type = MIME::Types.type_for(params[:avatar].original_filename)[0].to_s
       respond_to do |format|
         if @user.profile.update_attributes(:avatar => params[:avatar])
@@ -100,12 +101,13 @@ class ProfilesController < ApplicationController
         params[:profile]["lover_style"] = lover_style_str
       end
       respond_to do |format|
+      debugger
         if @profile.update_attributes(params[:profile])
           format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
           format.json { head :no_content }
           format.js { render 'update_avatar' }
         else
-          format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新失败' }
+          format.html { redirect_to user_path(current_user), notice: '资料更新失败' }
           format.json { render json: @profile.errors, status: :unprocessable_entity }
           format.js { render  'update_avatar' }
         end

@@ -51,6 +51,7 @@ window.onload = function() {
   <div class="clearfix">
     <div class="row main">
       <%
+          debugger
           @profile = current_user.profile
           style_str = @profile.style
           @profile.style = str_to_array(style_str)

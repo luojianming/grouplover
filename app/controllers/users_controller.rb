@@ -47,20 +47,6 @@ class UsersController < ApplicationController
     rescue
       redirect_to root_path, :alert => "您访问的页面不存在"
     end
-=begin
-      if (current_user != @user)
-        extra_info = @user.extra_info ||= @user.create_extra_info()
-        vistors = extra_info.vistors.to_s
-        if vistors.length == 0
-          vistors += current_user.id.to_s
-        else
-          vistors = current_user.id.to_s + "," + vistors
-        end
-        extra_info.vistors = vistors
-        extra_info = @user.build_extra_info(vistors);
-        extra_info.save
-      end
-=end
   end
   
   def update

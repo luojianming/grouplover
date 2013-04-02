@@ -19,7 +19,12 @@ class User
 
           if user.save(:validate => false)
             debugger
-            user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
+            if provider == "xiaonei"
+              user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
+            else
+              user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => (extra["raw_info"]["avatar_large"].to_s+".jpg") )
+            end
+
             profile = user.build_profile()
             profile.status = "active"
             profile.save(:validate => false)
