@@ -7,7 +7,11 @@
   <div class="row" style="margin-bottom: 10px;">
     <div class="divider-horizontal span9"></div>
     <div class="span1 message-left">
-      <%= safe_image_tag(contactor.profile.avatar_url(:mini),'pic2.jpg') %>
+      <% if contactor.profile.sex == '男' %>
+        <%= safe_image_tag(contactor.profile.avatar_url(:mini),'boy.jpg') %>
+      <% else %>
+        <%= safe_image_tag(contactor.profile.avatar_url(:mini),'girl.jpg') %>
+      <% end %>
       <%= link_to User.find(contactor_id).name, user_path(contactor) %>
     </div>
 

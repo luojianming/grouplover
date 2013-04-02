@@ -120,7 +120,7 @@
   });
   $(function(){
     $('input[type=checkbox]').click(function(){
-      checked_num = $('input:checked').length - 1;
+      checked_num = $('input:checked').length;
       if(checked_num <= 3)
         $('#able_slected_num').html(3-checked_num);
       if(checked_num >= 1 && checked_num <= 3)

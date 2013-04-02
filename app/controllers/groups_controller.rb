@@ -26,6 +26,15 @@ class GroupsController < ApplicationController
       end
     end
     if @groups == nil
+      if (params[:sex] && params[:sex].to_s.size != 0 && params[:sex] != "性别不限")
+        @groups = Group.by_sex(params[:sex]).search(:per_page => per_page)
+      end
+    else
+      if (params[:sex] && params[:sex].to_s.size != 0 && params[:sex] != "性别不限")
+        @groups = @groups.by_sex(params[:sex]).search(:per_page => per_page)
+      end
+    end
+    if @groups == nil
       @groups = Group.all.paginate(page: params[:page], :per_page => 12)
     else
       @groups = @groups.paginate(page: params[:page], :per_page => 12)

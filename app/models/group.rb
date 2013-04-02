@@ -2,14 +2,14 @@
 class Group < ActiveRecord::Base
   attr_accessible :description, :name, :sex, :location,
                   :member_counts, :group_memberships_attributes,
-                  :status, :member_ids, :image
+                  :status, :member_ids, :image, :remote_image_url
 
   belongs_to :team_leader, :class_name => "User", :inverse_of => :mygroups
   has_many :group_memberships, :dependent => :destroy, 
                                :inverse_of => :group
   has_many :members, :class_name => "User", :through => :group_memberships
 
-  has_many :myinvitations, :class_name => "Invitation", 
+  has_many :myinvitations, :class_name => "Invitation",
                            :foreign_key => "initiate_group_id",
                            :dependent => :destroy,
                            :inverse_of => :initiate_group
@@ -37,6 +37,7 @@ class Group < ActiveRecord::Base
     indexes :name
     indexes location
     has member_counts
+    indexes sex
   end
   sphinx_scope(:by_group_location) { |location|
     { :conditions => { :location => location } }
@@ -46,6 +47,9 @@ class Group < ActiveRecord::Base
   }
   sphinx_scope(:by_name) { |name|
     { :conditions => { :name => name } }
+  }
+  sphinx_scope(:by_sex) { |sex|
+    { :conditions => { :sex => sex } }
   }
 =begin
   def labels_number_cannot_greater_than_three

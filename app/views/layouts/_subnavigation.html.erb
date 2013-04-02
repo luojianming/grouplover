@@ -24,7 +24,7 @@
           <% if current_user != nil %>
             <%= current_user.profile.sex == "男" ? "女" : "男" %>
           <% else %>
-            性格不限
+            性别不限
           <% end %>
         <% else %>
           <%= params[:sex] %>

@@ -6,7 +6,7 @@
   %>
   <div class="span8 pending_request_box">
     <div class="pending_request_left pull-left">
-      <%= safe_image_tag(group.image_url(:mini), 'photo/2.jpg') %>
+      <%= safe_image_tag(group.image_url(:mini), 'photo/'+(group.id%12 + 1).to_s+'.jpg') %>
     </div>
     <div class="pending_request_body pull-left">
       <%= leader.name %>向你发出了邀请，希望你加入TA创建的小组<%= group.name %></br>
