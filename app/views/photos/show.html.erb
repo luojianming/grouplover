@@ -24,7 +24,9 @@
           <%= link_to '下一张', photo_path(photos[(num+1)%(photos.size)]) %>
           <%= link_to '返回相册', album_path(album), :class => "pull-right" %>
         </div>
-        <%= image_tag @photo.image_url(:big) %>
+        <%= link_to  photo_path(photos[(num+1)%(photos.size)]) do %>
+          <%= image_tag @photo.image_url(:big) %>
+        <% end %>
         <p>
         <%= best_in_place_if album.user==current_user, @photo, :description, type: :textarea,
           :html_attrs => {:maxlength => 100},
