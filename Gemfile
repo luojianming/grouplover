@@ -39,7 +39,7 @@ gem 'rmagick'
 gem 'carrierwave'
 gem 'best_in_place'
 gem 'thin'
-gem 'private_pub'
+gem 'private_pub', :git => "git://github.com/luojianming/private_pub.git"
 gem 'tlsmail'
 gem 'capistrano'
 gem 'chinese_cities'
