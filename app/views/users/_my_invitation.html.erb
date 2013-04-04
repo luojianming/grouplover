@@ -1,8 +1,8 @@
 <% if invitations.blank? != true %>
   <% invitations.each do |invitation| %>
+    <% initiate_group = invitation.initiate_group %>
+    <% team_leader = initiate_group.team_leader %>
     <% if invitation.status != "active" %>
-      <% initiate_group = invitation.initiate_group %>
-      <% team_leader = initiate_group.team_leader %>
       <div class="item" id="invitation_<%=invitation.id%>">
       <%= render 'shared/my_invitation_delete_action', :invitation => invitation %>
     <% else %>

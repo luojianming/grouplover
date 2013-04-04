@@ -37,6 +37,14 @@ class GroupInvitationshipsController < ApplicationController
     @applied_group_id = params[:applied_group]
     @invitation_id = params[:invitation]
     GroupInvitationship.accept(@applied_group_id,@invitation_id)
+    @invitation = Invitation.find(@invitation_id)
+    @applied_group = Group.find(@applied_group_id)
+    @applied_group.members.each do |member|
+      member.tips.create(:tip_type => "group_invitationship", :content => @invitation.initiate_group.name + "接受了你们的申请")
+    end
+
+    @applied_group.team_leader.tips.create(:tip_type => "group_invitationship",
+                                           :content => @invitation.initiate_group.name + "接受了你们的申请")
     redirect_to conversations_path
   end
 

@@ -66,7 +66,7 @@
                 <% @ships = GroupInvitationship.find_received_invitations_by_user(current_user) %>
                 <% @ships.keys.each do |invitation_key| %>
                   <li>
-                <% if @ships[invitation_key].blank? != true %>
+                    <% if @ships[invitation_key].blank? != true %>
                     <% flag = 1 %>
                     <% invitation = Invitation.find(invitation_key) %>
                     <%= link_to received_invitations_user_path(current_user) do%>
@@ -74,7 +74,22 @@
                       有未处理的请求
                     </p>
                     <% end %>
-                  <%end%>
+                    <%end%>
+                  </li>
+                <% end %>
+
+                <% current_user.tips.each do |tip| %>
+                  <li>
+                    <% flag = 1 %>
+                    <% if tip.tip_type == "group_membership" %>
+                      <%= link_to groups_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% else %>
+                      <%= link_to sended_requests_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% end %>
                   </li>
                 <% end %>
               </ul>

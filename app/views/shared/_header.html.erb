@@ -125,6 +125,7 @@
         我的动态<b class="caret"></b>
       <% end %>
       <ul class="dropdown-menu">
+        <li><%= link_to "我的活动", active_invitations_user_path(@user) %></li>
         <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
         <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
         <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>

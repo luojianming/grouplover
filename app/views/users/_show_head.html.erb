@@ -1,6 +1,7 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
+<% if current_user == @user %>
 <% if current_user && current_user.sign_in_count == 1 || current_user.profile.style == nil ||
       current_user.profile.hobby == nil%>
   <% session[:visited] ||= false %> 
@@ -115,4 +116,4 @@ $(function(){
   });
 });
 </script>
-
+<% end %>

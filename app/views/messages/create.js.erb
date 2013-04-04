@@ -4,6 +4,9 @@
     {
       $("#chat_<%=@conversation.id %>").
         append("<%= j render('messages/left_message', :message => @message) %>");
+
+ // $("#chat_<%=@conversation.id %>").scrollTop = $("#chat_<%=@conversation.id%>").scrollHeight;
+      $("#new_message_<%= @conversation.id %>")[0].reset();
     }
   else
     {
@@ -18,9 +21,6 @@
           $("#coversation_link_invitation_" + <%= @conversation.id%>).addClass("yellow");
     }
 
- for(var i=0; i < $('div.chat').length; i++)
-  $("div.chat")[i].scrollTop = $("div.chat")[i].scrollHeight;
-
- // $("#chat_<%=@conversation.id %>").scrollTop = $("#chat_<%=@conversation.id%>").scrollHeight;
-  $("#new_message_<%= @conversation.id %>")[0].reset();
+    for(var i=0; i < $('div.chat').length; i++)
+      $("div.chat")[i].scrollTop = $("div.chat")[i].scrollHeight;
 <% end %>

@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   has_many :received_photo_comments, :class_name => "PhotoComment",
                                      :foreign_key => "receiver_id"
 
+  has_many :tips, :dependent => :destroy
   define_index do
     indexes profile.sex, as: :user_sex
     indexes :name

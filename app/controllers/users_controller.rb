@@ -129,6 +129,20 @@ class UsersController < ApplicationController
     render 'show_my_invitations'
   end
 
+  def active_invitations
+    @user = User.find(params[:id])
+    @related_groups = []
+    @active_invitations = Hash.new
+    @related_groups = current_user.related_groups()
+    @related_groups.each do |group|
+      #应征的活动
+      @active_invitations[group.id] = GroupInvitationship.find_all_by_applied_group_id_and_status(group.id,"active")
+      #发起的活动
+      @active_invitations[group.id] = @active_invitations[group.id] | Invitation.find_all_by_initiate_group_id_and_status(group.id,"active")
+    end
+    render 'show_active_invitations'
+  end
+
   def received_invitations
     @user = User.find(params[:id])
     @ships = GroupInvitationship.find_received_invitations_by_user(@user)
@@ -159,7 +173,7 @@ class UsersController < ApplicationController
   def visitors
     @label = "最近来访"
     @user = User.find(params[:id])
-     if @user.extra_info == nil
+    if @user.extra_info == nil
       @user.extra_info = @user.create_extra_info()
     end
     if @user.extra_info.visitors == nil 

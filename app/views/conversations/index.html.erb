@@ -1,5 +1,5 @@
 <% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations", "docs" %>
+  <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations", "docs", "style" %>
 <% end %>
 <% if current_user.related_groups.size > 0 %>
 <div>
@@ -23,7 +23,7 @@
                       :rel => 'tooltip') do %>
           <li class="conversationer_list">
           <div class="conversationer_list_left">
-            <%= safe_image_tag(group.image_url(:mini),'pic3.jpg') %>
+            <%= safe_image_tag(group.image_url(:mini),'photo/'+(group.id%12+1).to_s+'.jpg') %>
           </div>
           <div class="conversationer_list_right">
             <span><%= group.name %></span>
