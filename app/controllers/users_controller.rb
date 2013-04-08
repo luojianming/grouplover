@@ -182,7 +182,11 @@ class UsersController < ApplicationController
     @users = []
     @user_ids_array = @user.extra_info.visitors.split(",")
     @user_ids_array.each do |user_id|
-      @users << User.find(user_id)
+      begin
+        @users << User.find(user_id)
+      rescue
+        next
+      end
     end
     @users = @users.paginate(page: params[:page], :per_page => 12)
     render 'users/show_visitors'

@@ -6,16 +6,6 @@ class InvitationsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :only_create_one_invitation_one_day, :only => :create
   def index
-=begin
-    @city = params[:city]
-    @time = params[:time] || Time.now.strftime('%m-%d')..(Time.now+6*24*3600).strftime('%m-%d')
-    @member_counts = params[:member_counts] ||= 1..3
-    if @city == nil
-      @invitations = Invitation.search(conditions: {time: @time}, with: { group_member_counts: @member_counts})
-    else
-      @invitations = Invitation.search(conditions: {time: @time, city: @city}, with: { group_member_counts: @member_counts})
-    end
-=end
     per_page = 100
     @invitations = Invitation.by_location(params[:location]).search(:per_page => per_page) if params[:location]
     if @invitations == nil

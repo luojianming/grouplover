@@ -2,6 +2,7 @@
 require 'will_paginate/array'
 class HomeController < ApplicationController
   def index
+=begin
     per_page = 100
     if current_user != nil
       other_sex = (current_user.profile.sex == "男" ? "女" : "男")
@@ -10,6 +11,8 @@ class HomeController < ApplicationController
       @invitations = Invitation.all
     end
       @invitations = @invitations.paginate(page: params[:page])
+=end
+      @invitations = Invitation.all.paginate(page: params[:page])
 =begin
     respond_to do |format|
       format.html

@@ -23,12 +23,13 @@
               <!--
                 <span class="school"><%= @user.profile.school %></span>
               -->
-              <span class="hometown" style="margin-left: 120px;margin-right: 20px;"><%= @user.profile.hometown %></span>
+              <span class="hometown" style="margin-left: 110px;margin-right: 20px;"><%= @user.profile.hometown %></span>
               <% if current_user == @user %>
                 <%= best_in_place @user.profile, :status, :type => :select,
                   :inner_class => "status_select",
                   :path => user_profiles_path(@user), :classes => "user_status",
                   :collection => [["active", "可约"], ["pending", "不可约"]] %>
+                 <i class="icon-edit"></i>
               <% else %>
                  <span><%= @user.profile.status == "active" ? "可约" : "不可约" %></span>
               <% end %>

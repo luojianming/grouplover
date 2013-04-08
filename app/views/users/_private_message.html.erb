@@ -1,8 +1,20 @@
 <% private_messages.each do |private_message_original| %>
-  <% private_message = private_message_original.applied_messages[0] ||= private_message_original %>
-  <% 
+  <%
+      if private_message_original.applied_messages[0]
+        private_message = private_message_original.applied_messages[0]
+      else
+        private_message = private_message_original
+      end
+  %>
+  <%
     contactor_id = private_message_original.sender_id==current_user.id ? private_message_original.receiver_id : private_message_original.sender_id 
     contactor = User.find(contactor_id)
+    unread_messages = []
+    related_original_messages = private_message_original.applied_messages
+    unread_messages = related_original_messages.unread_messages(current_user)
+    if private_message_original.status == "unread" && private_message_original.receiver_id == current_user.id
+      unread_messages << private_message_original
+    end
   %>
   <div class="row" style="margin-bottom: 10px;">
     <div class="divider-horizontal span9"></div>
@@ -17,6 +29,7 @@
 
     <div class="span8 message-right">
       <div class="message-right-top">
+        <span class="badge badge-info"><%= unread_messages.size %></span>
         <span><%= private_message.sender.name %>:</span>
         <%= private_message.content %>
       </div>
@@ -31,7 +44,7 @@
           %>
 
           <%= link_to '共'+(private_message_original.applied_messages.count + 1).to_s+'条私信', 
-              private_message_path(private_message_original) %> | 
+              private_message_path(private_message_original) %> |
               <a class="replied_message_modal" data-toggle="modal" href="#"
                 data-id="<%= private_message_original.id %>" receiver_id="<%= receiver_id %>">
                 快速回复

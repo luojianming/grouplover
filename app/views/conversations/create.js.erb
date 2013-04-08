@@ -1,9 +1,10 @@
 $('#conversations_container').
-  append("<%= j render('conversations/conversation', :conversationer => @conversationer)  %>")
+  html("<%= j render('conversations/conversation', :conversationer => @conversationer)  %>")
+$("#conversation_list_" + <%= @conversationer.conversation.id.to_s%>).css("background-color", "");
 <% if @conversationer.class == Group %>
-    $('#conversation_link_group_<%=@conversationer.id %>').attr("href", "javascript:void(0)");
+ //   $('#conversation_link_group_<%=@conversationer.id %>').attr("href", "javascript:void(0)");
 <% end %>
 
 <% if @conversationer.class == Invitation %>
-    $('#conversation_link_invitation_<%=@conversationer.id %>').attr("href", "javascript:void(0)");
+ //   $('#conversation_link_invitation_<%=@conversationer.id %>').attr("href", "javascript:void(0)");
 <% end %>

@@ -21,6 +21,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span style="margin-right:10px;color: #ff0000"><%= current_user.name %></span>
                 <i class="icon-envelope"></i>
+                <span id="unread_logo" style="color: #ff0000;display:none">新</span>
               </a>
               <% flag = 0 %>
               <ul class="dropdown-menu">
@@ -95,9 +96,18 @@
               </ul>
             </li>
             <% if flag == 1 %>
+              <!--
               <li class="red_logo">
                 <%= image_tag("red_logo.png") %>
               </li>
+              -->
+              <script>
+                $('#unread_logo').css("display","inline");
+              </script>
+            <% else %>
+              <script>
+                $('#unread_logo').css("display","none");
+              </script>
             <% end %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -124,6 +134,15 @@
                </ul>
              </li>
            <% else %>
+             <li>
+              <div class="popover right">
+                <div class="arrow"></div>
+                <h3 class="popover-title">网站简介</h3>
+                <div class="popover-content">
+                  <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+                </div>
+              </div>
+             </li>
              <li>
                 <%= link_to '登录', new_user_session_path %>  
              </li>

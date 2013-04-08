@@ -74,7 +74,6 @@ class ProfilesController < ApplicationController
     @profile = @user.profile
     authorize! :update, @profile
 =end
-debugger
       @user = User.find(params[:user_id])
       @profile = @user.profile
     if params[:flag] != nil
@@ -101,7 +100,6 @@ debugger
         params[:profile]["lover_style"] = lover_style_str
       end
       respond_to do |format|
-      debugger
         if @profile.update_attributes(params[:profile])
           format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }
           format.json { head :no_content }

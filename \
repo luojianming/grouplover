@@ -11,8 +11,9 @@
   else
     {
       play_click(this,'/Audio.wav');
-      if ($('#opened_chat_id').text() != <%= @conversation.id %>)
-        $("#conversation_list_" + <%= @conversation.id.to_s%>).css("background-color", "#9AFF9A");
+      <% if session[:opened_chat] != @conversation.id %>
+        $("#conversation_list_" + <%= @conversation.id.to_s%>).css("background-color", "#00ff00");
+      <% end %>
       $("#chat_<%=@conversation.id %>").
         append("<%= j render('messages/right_message', :message => @message) %>");
     }

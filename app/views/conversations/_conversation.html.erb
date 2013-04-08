@@ -1,5 +1,6 @@
 <div class="span10 chat_room" id="room_<%=conversationer.conversation.id%>">
   <div class="chat_room_top">
+    <span style="display: none" id="opened_chat_id"><%= conversationer.conversation.id %></span>
     <% if conversationer.class == Group %>
       <h3><%= conversationer.name %></h3>
       <%
@@ -44,8 +45,8 @@
                                               :html => {
                                               :id => "new_message_"+conversationer.conversation.id.to_s,
                                               :class => "input-append"}) do |f| %>
-        <%= f.text_area :content, :class => "message_content" %>
-        <%= f.submit "发送", :class => "msg_send_btn" %>
+        <%= f.text_area :content%>
+        <%= f.submit "发送", :id => "msg_send_btn", :class => "msg_send_btn"%>
       <% end %>
 
       <%= subscribe_to "/conversations/group/"+conversationer.id.to_s %>
@@ -97,14 +98,25 @@ $(function(){
 $(function(){
   $('div.chat_room_body_right a').tooltip();
 });
-
+/*
 $(function(){
-  $('.message_content').keypress(function(event){
+  $('.message_content').focus(function(){
+    $(this).keypress(function(event){
     if (event.which == 13){
       event.preventDefault();
       //  $('#msg_send_btn').click();
-      $(this).parent("form").find(".msg_send_btn").click()
+    $(this).parent("form").find(".msg_send_btn").click()
    //   this.form.submit.click();
+    }
+    });
+  });
+  });
+ */
+$(function(){
+  $('#message_content').keypress(function(event){
+    if (event.which == 13){
+      event.preventDefault();
+      $('#msg_send_btn').click();
     }
   });
 });

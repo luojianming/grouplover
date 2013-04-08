@@ -21,6 +21,7 @@
       <tbody>
       <% user_tmp = @user %>
       <% @users.each do |user| %>
+        <% if user.profile != nil %>
         <tr>
           <% if user.profile.sex == '男' %>
             <td><%= safe_image_tag(user.profile.avatar_url(:mini), 'boy.jpg') %></td>
@@ -45,8 +46,9 @@
             发私信
           </a>
         </td>
+        <% end %>
+        </tr>
       <% end %>
-      </tr>
     <% end %>
       </tbody>
     </table>

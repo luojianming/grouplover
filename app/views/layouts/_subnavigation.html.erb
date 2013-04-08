@@ -6,6 +6,7 @@
     <li class="dropdown">
     <%= text_field_tag :sex, params[:sex], :id => "sex_value", :type => "hidden"%>
       <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+        <!--
         <% if params[:sex]==nil || params[:sex].size==0%>
           <% if current_user != nil %>
             <%= current_user.profile.sex == "男" ? "女" : "男" %>
@@ -14,6 +15,12 @@
           <% end %>
         <% else %>
           <%= params[:sex] %>
+        <% end %>
+        -->
+        <% if params[:sex]==nil || params[:sex].size==0%>
+          性别不限
+        <% else %>
+           <%= params[:sex] %>
         <% end %>
         <b class="caret"></b>
       </a>
@@ -77,3 +84,21 @@
   <input type="submit" value="搜索" name="commit" id="invitations_search_submit" style="display: none">
 <% end %>
 </div><!--navbar navbar-fixed-top-->
+<div class="container" style="margin-bottom:10px;z-index: 1034">
+  <a href="#" class="btn btn-large btn-danger" data-toggle="popover" data-placement="bottom"
+     data-content="爱组局是一个致立于group对group约会的社交网站，
+     每个人都可以和自己身边的好友组建成group并与异性group进行约会，等待就是浪费青春，
+     赶快加入我们吧" title="爱组局" style="margin-left: 410px;">
+    网站简介
+  </a>
+</div>  
+<script>
+$(function(){
+    $("a[data-toggle=popover]")
+      .popover()
+      .click(function(e) {
+        e.preventDefault()
+  })
+});
+
+</script>
