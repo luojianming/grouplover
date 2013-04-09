@@ -22,7 +22,7 @@
     <% end %>
 
     <%= link_to '退出', { :controller => "conversations", :action => "destroy",
-                            :id => conversationer.conversation.id }, 
+                            :id => conversationer.conversation.id },
                             :method => :delete, :remote => true,
                             :class => "pull-right"
     %>
@@ -49,7 +49,6 @@
         <%= f.submit "发送", :id => "msg_send_btn", :class => "msg_send_btn"%>
       <% end %>
 
-      <%= subscribe_to "/conversations/group/"+conversationer.id.to_s %>
     </div> <!-- chat_room_body_left -->
     <div class="chat_room_body_right">
       <h4>成员列表</h4>

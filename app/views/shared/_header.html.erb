@@ -48,7 +48,7 @@
               <a href="javascript:sendRequest();" class="btn btn-primary header_btn">邀请人人好友</a>
               <!--
                 <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
-                -->
+              -->
             <% else %>
               <% if @user.profile.description.to_s.size != 0 %>
                 <div style="margin-top: 60px;">
@@ -90,7 +90,6 @@
             visitors_array = visitors_array[0..5]
           end
         %>
-
         <% visitors_array.each do |visitor_id| %>
           <%
               begin
@@ -106,13 +105,10 @@
               <% else %>
                 <%= safe_image_tag(visitor.profile.avatar_url(:mini), 'girl.jpg') %>
               <% end %>
-
             <% end %>
           </div>
         <% end %>
-
         </div>
-
       </div>
     </div>
   </div>
@@ -120,40 +116,103 @@
   <div class="subnav" style="background-color:#FAF7F7">
     <ul class="nav nav-pills">
       <% if current_user == @user %>
-      <li><%= link_to "好友动态", following_invitations_user_path(@user) %></li>
-    <li class="dropdown">
-    <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle") do %>
-        我的动态<b class="caret"></b>
+        <% if(controller_name == "users" && (action_name == "show" || action_name == "following_invitations")) %>
+          <li class="nav_li"><%= link_to "关注动态", following_invitations_user_path(@user), :id => "my_feed" %></li>
+        <% else %>
+          <li><%= link_to "关注动态", following_invitations_user_path(@user) %></li>
+        <% end %>
+        <% if(controller_name == "users" && (action_name == "active_invitations" || action_name == "my_invitations" ||
+                                             action_name == "received_invitations" || action_name == "pending_requests" || action_name == "sended_requests")) %>
+          <li class="dropdown nav_li my_feed">
+          <% if (action_name == "active_invitations") %>
+            <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
+              我的活动<b class="caret"></b>
+            <% end %>
+          <% end %>
+          <% if (action_name == "my_invitations") %>
+            <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
+              我发布的活动<b class="caret"></b>
+            <% end %>
+          <% end %>
+          <% if (action_name == "received_invitations") %>
+            <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
+              收到的回帖<b class="caret"></b>
+            <% end %>
+          <% end %>
+          <% if (action_name == "pending_requests") %>
+            <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
+              未处理的请求<b class="caret"></b>
+            <% end %>
+          <% end %>
+          <% if (action_name == "sended_requests") %>
+            <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
+              已发送的请求<b class="caret"></b>
+            <% end %>
+          <% end %>
+        <% else %>
+          <li class="dropdown">
+          <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle") do %>
+            我的动态<b class="caret"></b>
+          <% end %>
+        <% end %>
+          <ul class="dropdown-menu">
+            <li><%= link_to "我的活动", active_invitations_user_path(@user) %></li>
+            <li><%= link_to "我发布的活动", my_invitations_user_path(@user) %></li>
+            <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
+            <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>
+            <li><%= link_to "已发送的请求", sended_requests_user_path(@user) %></li>
+          </ul>
+        </li>
+      <% else %>
+        <% if(controller_name == "users" && (action_name == "show" || action_name == "my_invitations")) %>
+          <li class="nav_li"><%= link_to "动态", my_invitations_user_path(@user), :id => "my_feed" %></li>
+        <% else %>
+          <li><%= link_to "动态", my_invitations_user_path(@user) %></li>
+        <% end %>
       <% end %>
-      <ul class="dropdown-menu">
-        <li><%= link_to "我的活动", active_invitations_user_path(@user) %></li>
-        <li><%= link_to "我的动态", my_invitations_user_path(@user) %></li>
-        <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
-        <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>
-        <li><%= link_to "已发送的请求", sended_requests_user_path(@user) %></li>
-      </ul>
-      </li>
-    <% else %>
-        <li><%= link_to "动态", my_invitations_user_path(@user) %></li>
-    <% end %>
+      <% if(controller_name == "users" && (action_name == "following" || 
+                                           action_name == "followers" || action_name == "friends")) %>
+        <% if action_name == "following" %>
+          <li class="dropdown nav_li"><a href="personalpage.html" id="my_feed" class="dropdown-toggle" data-toggle="dropdown">关注<b class="caret"></b></a>
+        <% end %>
+        <% if action_name == "followers" %>
+          <li class="dropdown nav_li"><a href="personalpage.html" id="my_feed" class="dropdown-toggle" data-toggle="dropdown">粉丝<b class="caret"></b></a>
+        <% end %>
+        <% if action_name == "friends" %>
+          <li class="dropdown nav_li"><a href="personalpage.html" class="dropdown-toggle" id="my_feed" data-toggle="dropdown">好友<b class="caret"></b></a>
+        <% end %>
 
-      <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
+      <% else %>
+        <li class="dropdown"><a href="personalpage.html" class="dropdown-toggle" data-toggle="dropdown">人脉<b class="caret"></b></a>
+      <% end %>
       <ul class="dropdown-menu" id="swatch-menu">
         <li><%= link_to "关注", following_user_path(@user) %></li>
         <li><%= link_to "粉丝", followers_user_path(@user) %></li>
         <li><%= link_to "好友", friends_user_path(@user) %></li>
       </ul>
       </li>
-      <li style="margin-left:300px"><%= link_to "Groups", groups_user_path(@user)%></li>
-      <li><%= link_to "资料", user_profiles_path(@user) %></li>
-      <li><%= link_to "个人show", albums_user_path(@user) %></li>
+      <% if controller_name == "users" && action_name == "groups" %>
+        <li style="margin-left:300px" class="nav_li"><%= link_to "Groups", groups_user_path(@user), :id => "my_feed"%></li>
+      <% else %>
+        <li style="margin-left:300px"><%= link_to "Groups", groups_user_path(@user)%></li>
+      <% end %>
+      <% if controller_name == "profiles" && action_name == "show" %>
+        <li class="nav_li"><%= link_to "资料", user_profiles_path(@user), :id => "my_feed" %></li>
+      <% else %>
+        <li><%= link_to "资料", user_profiles_path(@user) %></li>
+      <% end %>
+      <% if controller_name == "users" && action_name == "albums" %>
+        <li class="nav_li"><%= link_to "个人show", albums_user_path(@user), :id => "my_feed" %></li>
+      <% else %>
+        <li><%= link_to "个人show", albums_user_path(@user) %></li>
+      <% end %>
     </ul>
   </div>
 </header>
 <script type="text/javascript">
 function sendRequest() {
   var uiOpts = {
-    url : "request", 
+    url : "request",
     display : "popup",
     params : {
       "accept_url":"http://www.aizuju.com",//接受邀请按钮url
@@ -176,3 +235,11 @@ $(function(){
   });
 });
 </script>
+
+<script>
+$(function(){
+  $('.nav_li').css("background-color", "#FBEBE9");
+  $('#my_feed').css("color", "#D9230F");
+});
+</script>
+

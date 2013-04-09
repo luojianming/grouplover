@@ -15,8 +15,15 @@
   </li>
   <% if((controller_name == "users" && action_name == "index") || (controller_name == "groups" && action_name == "index")) %>
     <li class="dropdown active">
-    <%= link_to(users_path, :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle active") do %>
-      寻找<b class="caret"></b>
+    <% if controller_name == "groups" %>
+      <%= link_to(users_path, :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle active") do %>
+        寻找group<b class="caret"></b>
+      <% end %>
+    <% end %>
+    <% if controller_name == "users" %>
+      <%= link_to(users_path, :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle active") do %>
+        那个TA<b class="caret"></b>
+      <% end %>
     <% end %>
   <% else %>
     <li class="dropdown">
