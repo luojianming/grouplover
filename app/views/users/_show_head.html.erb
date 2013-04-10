@@ -46,7 +46,7 @@
               </div>
             </div><!-- location -->
             <div class="control-group required">
-              <label class="control-label required"><abbr title="required">*</abbr> 标签（请选择2～4个标签）</label>
+              <label class="control-label required"><abbr title="required">*</abbr>标签<span style="color: #ff0000">（请选择2～4个标签，否则不能提交）</span></label>
               <div class="controls">
                 <%= f.select(:style, ApplicationHelper::PERSONAL_STYLE,
                              {},
@@ -55,7 +55,7 @@
               </div>
             </div><!--labels -->
             <div class="control-group required">
-              <label class="control-label required"><abbr title="required">*</abbr> 兴趣（请选择2～4项兴趣）</label>
+              <label class="control-label required"><abbr title="required">*</abbr> 兴趣<span style="color: #ff0000">（请选择2～4项兴趣，否则不能提交）</span></label>
               <div class="controls">
                 <%= f.select(:hobby, ApplicationHelper::HOBBIES,
                              {},
