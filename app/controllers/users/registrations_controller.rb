@@ -1,4 +1,6 @@
+#encoding: utf-8
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_filter :valid_captcha_test, :only => :create
   def new
    render :layout => "sign_in"
 
@@ -32,6 +34,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
      #  render :action => 'new'
      #  respond_with resource, :location => after_sign_up_path_fails_for(resource)
         respond_with resource
+    end
+  end
+
+  def valid_captcha_test
+    debugger
+    if captcha_valid?(params[:user][:captcha])
+      return true
+    else
+      flash[:error] = "验证码错误"
+      redirect_to new_user_registration_path
+      return false
     end
   end
 

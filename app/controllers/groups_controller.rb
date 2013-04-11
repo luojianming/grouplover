@@ -109,7 +109,6 @@ debugger
     render 'new'
   end
   def members_should_of_the_same_sex
-    debugger
     params[:member_ids].each do |member_id|
       if User.find(member_id.to_i).profile.sex != current_user.profile.sex
         flash[:error] = "一个小组的所有成员必须是同性"
