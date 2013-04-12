@@ -4,6 +4,9 @@ class Invitation < ActiveRecord::Base
   default_scope order: 'invitations.created_at DESC'
   scope :active_invitation_initiated_by_group, 
         lambda{ |group|where(["initiate_group_id=? AND status=?", group.id, "active"]) }
+
+  scope :invitation_initiated_by_group,
+        lambda{ |group| where(["initiate_group_id=?", group.id ]) }
   belongs_to :initiate_group, :class_name => "Group", :inverse_of => :myinvitations
   has_many :group_invitationships, :dependent => :destroy
   has_many :applied_groups, :class_name => "Group", :through => :group_invitationships

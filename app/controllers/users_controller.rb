@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       redirect_to root_path, :alert => "您访问的页面不存在"
     end
   end
-  
+
   def update
     authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
       redirect_to users_path, :alert => "Unable to update user."
     end
   end
-    
+
   def destroy
     authorize! :destroy, @user, :message => 'Not authorized as an administrator.'
     user = User.find(params[:id])
@@ -135,17 +135,37 @@ class UsersController < ApplicationController
     @active_invitations = Hash.new
     @related_groups = current_user.related_groups()
     @related_groups.each do |group|
-      #应征的活动
-      @active_invitations[group.id] = GroupInvitationship.find_all_by_applied_group_id_and_status(group.id,"active")
-      #发起的活动
-      @active_invitations[group.id] = @active_invitations[group.id] | Invitation.find_all_by_initiate_group_id_and_status(group.id,"active")
+    #应征的活动
+    @active_invitations[group.id] = GroupInvitationship.find_all_by_applied_group_id_and_status(group.id,"active")
+    #发起的活动
+    @active_invitations[group.id] = @active_invitations[group.id] | Invitation.find_all_by_initiate_group_id_and_status(group.id,"active")
     end
     render 'show_active_invitations'
   end
 
-  def received_invitations
+  def participate_activities
     @user = User.find(params[:id])
-    @ships = GroupInvitationship.find_received_invitations_by_user(@user)
+    @related_groups = []
+    @participate_activities = Hash.new
+    @related_groups = current_user.related_groups()
+    @related_groups.each do |group|
+      @participate_activities[group.id] = GroupInvitationship.find_all_by_applied_group_id(group.id)
+      @participate_activities[group.id] = @participate_activities[group.id] | Invitation.find_all_by_initiate_group_id(group.id)
+    end
+    render 'show_participate_activities'
+  end
+
+  def received_invitations
+    @ships = Hash.new
+    @user = User.find(params[:id])
+    @received_invitations = []
+    @related_groups = @user.related_groups()
+    @related_groups.each do |group|
+      @received_invitations = @received_invitations | Invitation.find_all_by_initiate_group_id(group.id)
+    end
+    @received_invitations.each do |invitation|
+      @ships[invitation.id] = GroupInvitationship.find_all_by_invitation_id(invitation.id)
+    end
     render 'show_received_invitation'
   end
 
@@ -161,7 +181,6 @@ class UsersController < ApplicationController
     @albums = @user.albums
     render 'show_album'
   end
-
 
   def my_private_messages
     @user = User.find(params[:id])

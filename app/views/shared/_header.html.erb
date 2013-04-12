@@ -121,12 +121,12 @@
         <% else %>
           <li><%= link_to "关注动态", following_invitations_user_path(@user) %></li>
         <% end %>
-        <% if(controller_name == "users" && (action_name == "active_invitations" || action_name == "my_invitations" ||
+        <% if(controller_name == "users" && (action_name == "participate_activities" || action_name == "my_invitations" ||
                                              action_name == "received_invitations" || action_name == "pending_requests" || action_name == "sended_requests")) %>
           <li class="dropdown nav_li my_feed">
-          <% if (action_name == "active_invitations") %>
-            <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
-              我的活动<b class="caret"></b>
+          <% if (action_name == "participate_activities") %>
+            <%= link_to(participate_activities_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
+              我参与的活动<b class="caret"></b>
             <% end %>
           <% end %>
           <% if (action_name == "my_invitations") %>
@@ -156,7 +156,7 @@
           <% end %>
         <% end %>
           <ul class="dropdown-menu">
-            <li><%= link_to "我的活动", active_invitations_user_path(@user) %></li>
+            <li><%= link_to "我参与的活动", participate_activities_user_path(@user) %></li>
             <li><%= link_to "我发布的活动", my_invitations_user_path(@user) %></li>
             <li><%= link_to "收到的回帖", received_invitations_user_path(@user) %></li>
             <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>

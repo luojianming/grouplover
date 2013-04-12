@@ -1,0 +1,29 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
+<% end %>
+<%
+  tips = current_user.tips.select_tips_by_tip_type("invitation")
+  tips.each do |tip|
+    tip.destroy
+  end
+%>
+<div class="container">
+  <%= render 'shared/header' %> 
+  <div id="personalpage" class="container">
+    <%= render 'participate_activity'%>
+  </div><!-- personalpage -->
+</div><!-- container -->
+<script>
+$(function(){
+  $('.members ul a').tooltip();
+});
+</script>
+<script>
+var $container = $('.sended_request_inner');
+$container.imagesLoaded(function(){
+    $container.masonry({
+      itemSelector : '.item',
+      columnWidth : 234
+    });
+});
+</script>

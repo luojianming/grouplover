@@ -2,7 +2,6 @@
 class GroupMembershipsController < ApplicationController
   before_filter :authenticate_user!
   def accept
-    debugger
     @member = current_user
     @group_id= params[:group]
     @group = Group.find(@group_id)
@@ -13,7 +12,7 @@ class GroupMembershipsController < ApplicationController
             member.tips.create(:tip_type => "group_membership",:content => @member.name + "接受了小组" + @group.name + "发出的邀请")
           end
         end
-        @group.team_leader.tips.create(:content => @member.name + "接受了小组" + @group.name + "发出的邀请")
+        @group.team_leader.tips.create(:tip_type => "group_membership",:content => @member.name + "接受了小组" + @group.name + "发出的邀请")
         flash[:notice] = "加入成功"
       else
         flash[:notice] = "加入失败"

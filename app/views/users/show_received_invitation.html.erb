@@ -1,6 +1,12 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
+<%
+    tips = current_user.tips.select_tips_by_tip_type("group_invitationship_create")
+    tips.each do |tip|
+      tip.destroy
+    end
+%>
 <div class="container">
   <%= render 'shared/header' %> 
   <div id="personalpage" class="container">

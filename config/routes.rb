@@ -39,7 +39,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
           :groups, :following_invitations, :my_invitations,
           :received_invitations, :albums, :pending_requests,
           :my_private_messages, :visitors, :sended_requests,
-          :latest_followers, :active_invitations
+          :latest_followers, :active_invitations, :participate_activities
     end
   end
 

@@ -51,7 +51,6 @@ window.onload = function() {
   <div class="clearfix">
     <div class="row main">
       <%
-          debugger
           @profile = current_user.profile
           style_str = @profile.style
           @profile.style = str_to_array(style_str)
@@ -65,7 +64,11 @@ window.onload = function() {
         <div class="span3 sidenav">
           <div class="fileupload fileupload-new" data-provides="fileupload">
             <div class="fileupload-new thumbnail" style="width: 200px; height: 200px;" id="avatar">
-              <%= safe_image_tag(current_user.profile.avatar_url(:thumb), 'secure.gravatar.com.jpg') %>
+              <% if @profile.sex == '男' %>
+                <%= safe_image_tag(current_user.profile.avatar_url(:thumb), 'boy.jpg') %>
+              <% else %>
+                <%= safe_image_tag(current_user.profile.avatar_url(:thumb), 'girl.jpg') %>
+              <% end %>
             </div>
             <!--
             <input class="btn" value="修改头像" id="upload_btn" style="width:80px;margin-top:10px" />

@@ -78,6 +78,12 @@ class InvitationsController < ApplicationController
     authorize! :create, @invitation, :message => "对不起，您没有创建邀请贴的权限哦"
     respond_to do |format|
       if @invitation.save
+        initiate_group = @invitation.initiate_group
+        initiate_group.members do |member|
+          if member != current_user
+            member.tips.create(:tip_type => "invitation", :content => initiate_group.name + "发布了新的活动")
+          end
+        end
         format.html { redirect_to my_invitations_user_path(current_user), notice: '邀请贴创建成功.' }
         format.json { render json: @invitation, status: :created, location: @invitation }
       else

@@ -12,21 +12,11 @@ class GroupInvitationshipsController < ApplicationController
       redirect_to root_path
       return false
     end
-=begin
-    if @applied_group.can_applied?(@invitation)
-      @applied_group.applied!(@invitation, @description)
-      respond_to do |format|
-        format.html { redirect_to root_path, :notice => "申请成功"}
-        format.js
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to root_path, :notice => "申请失败，group中已经有成员申请了该invitation了"}
-        format.js
-      end
-    end
-=end
     @applied_group.applied!(@invitation, @description)
+    @invitation.initiate_group.members.each do |member|
+      member.tips.create(:tip_type => "group_invitationship_create", 
+                         :content => @invitation.initiate_group.name + "申请参加你们的活动哦")
+    end
     respond_to do |format|
       format.html { redirect_to sended_requests_user_path(current_user), :notice => "申请成功"}
       format.js
@@ -40,7 +30,8 @@ class GroupInvitationshipsController < ApplicationController
     @invitation = Invitation.find(@invitation_id)
     @applied_group = Group.find(@applied_group_id)
     @applied_group.members.each do |member|
-      member.tips.create(:tip_type => "group_invitationship", :content => @invitation.initiate_group.name + "接受了你们的申请")
+      member.tips.create(:tip_type => "group_invitationship", 
+                         :content => @invitation.initiate_group.name + "接受了你们的申请")
     end
 
     @applied_group.team_leader.tips.create(:tip_type => "group_invitationship",

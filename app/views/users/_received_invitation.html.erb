@@ -17,7 +17,9 @@
             <% applied_group = invitation_ship.applied_group %>
             <% team_leader = applied_group.team_leader %>
             <div class="item" id="invitation_ship_<%=invitation_ship.id%>" style="margin-right: 0px;margin-left: 5px;">
-            <%= render 'shared/received_action', :invitation_ship => invitation_ship %>
+              <% if invitation.initiate_group.team_leader == current_user %>
+                <%= render 'shared/received_action', :invitation_ship => invitation_ship %>
+              <% end %>
             <div class="box-photo"><%= safe_image_tag(applied_group.image_url(:thumb),'photo/'+(applied_group.id%12 + 1).to_s+'.jpg') %></div>
               <div class="activity_info"><span><%=invitation.time%>于<%= invitation.location %><%=invitation.activity %> </div>
               <div class="activity_description"><span><%= invitation.description %></span></div>

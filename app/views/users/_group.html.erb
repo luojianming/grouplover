@@ -3,7 +3,7 @@
   <% team_leader = show_group.team_leader %>
   <div class="group_showpanel" id="related_group_<%= show_group.id %>" style="clear: both;margin-top: 30px;" >
     <div class="group_showpanel_left">
-      <%= link_to safe_image_tag(show_group.image_url(:small), 'pic1.jpg'), user_path(team_leader),
+      <%= link_to safe_image_tag(show_group.image_url(:small), 'photo/'+(show_group.id%12 + 1).to_s+'.jpg'), user_path(team_leader),
         :placement => "left", :rel => "tooltip" %>
       <div class="groupleader_info">
         <span><%= show_group.name %>

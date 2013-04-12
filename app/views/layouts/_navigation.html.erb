@@ -37,6 +37,7 @@
                 </li>
                 <% unread_followed_message = Relationship.find_all_by_followed_id_and_status(current_user.id,"pending") %>
                 <% if unread_followed_message.size > 0 %>
+                  <% flag = 1 %>
                   <li>
                     <%= link_to(latest_followers_user_path(current_user)) do %>
                       <span>有<%= unread_followed_message.size %>个人关注了你</span>
@@ -86,8 +87,16 @@
                       <%= link_to groups_user_path(current_user) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% else %>
+                    <% elsif tip.tip_type == "group_invitationship" %>
                       <%= link_to sended_requests_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% elsif tip.tip_type == "invitation" %>
+                      <%= link_to participate_activities_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% elsif tip.tip_type == "group_invitationship_create" %>
+                      <%= link_to received_invitations_user_path(current_user) do %>
                         <p><%=tip.content %></p>
                       <% end %>
                     <% end %>

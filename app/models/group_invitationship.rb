@@ -17,7 +17,7 @@ class GroupInvitationship < ActiveRecord::Base
         group_invitationship.update_attribute("status", "active")
         other_group_invitationships = GroupInvitationship.find_all_by_invitation_id(invitation_id)
         for other_group_invitationship in other_group_invitationships
-          if group_invitationship != other_group_invitationship 
+          if group_invitationship != other_group_invitationship
             other_group_invitationship.destroy
           end
         end
