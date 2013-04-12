@@ -6,8 +6,12 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
         href="#collapse_<%=invitation_key%>">
-        活动发布小组：<%= invitation.initiate_group.name+"      " %>活动时间：<%=invitation.time+"      "%>活动地点：<%=invitation.location+" "%>活动：<%= invitation.activity %>
-      </a>
+        <% if invitation.activity %>
+          <span class="normal-font">活动发布小组：</span><%= invitation.initiate_group.name+"      " %><span class="normal-font">活动时间：</span><%=invitation.time+"      "%><span class="normal-font">活动地点：</span><%=invitation.location+" "%><span class="normal-font">活动：</span><%= invitation.activity %>
+        <% else %>
+          <span class="normal-font">活动发布小组：</span><%= invitation.initiate_group.name+"      " %><span class="normal-font">活动时间：</span><%=invitation.time+"      "%><span class="normal-font">活动地点：</span><%=invitation.location+" "%><span class="normal-font">活动：</span>待定
+        <% end %>
+    </a>
     </div>
 
     <% if @ships[invitation_key].blank? != true %>
