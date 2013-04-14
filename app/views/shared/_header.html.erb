@@ -164,10 +164,10 @@
           </ul>
         </li>
       <% else %>
-        <% if(controller_name == "users" && (action_name == "show" || action_name == "my_invitations")) %>
-          <li class="nav_li"><%= link_to "动态", my_invitations_user_path(@user), :id => "my_feed" %></li>
+        <% if(controller_name == "users" && (action_name == "show" || action_name == "friends_invitations")) %>
+          <li class="nav_li"><%= link_to "动态", friends_invitations_user_path(@user), :id => "my_feed" %></li>
         <% else %>
-          <li><%= link_to "动态", my_invitations_user_path(@user) %></li>
+          <li><%= link_to "动态", friends_invitations_user_path(@user) %></li>
         <% end %>
       <% end %>
       <% if(controller_name == "users" && (action_name == "following" || 

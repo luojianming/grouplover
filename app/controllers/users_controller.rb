@@ -2,6 +2,8 @@
 require 'will_paginate/array'
 class UsersController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :detect_authorization, :only => [:participate_activities, :received_invitations,
+                                                 :sended_requests, :pending_requests, :my_invitations]
   def index
     per_page = 100
     if @users == nil
@@ -129,6 +131,12 @@ class UsersController < ApplicationController
     render 'show_my_invitations'
   end
 
+  def friends_invitations
+    @user = User.find(params[:id])
+    @my_invitations = Invitation.initiated_by_user(@user)
+    render 'show_my_invitations'
+  end
+
   def active_invitations
     @user = User.find(params[:id])
     @related_groups = []
@@ -232,5 +240,15 @@ class UsersController < ApplicationController
       @sended_requests[group.id] = GroupInvitationship.find_all_by_applied_group_id(group.id)
     end
     render 'show_sended_requests'
+  end
+
+  def detect_authorization
+    @user = User.find(params[:id])
+    if @user == current_user
+      return true
+    else
+      redirect_to user_path(current_user), :notice => "您无权访问该页面哦"
+      return false
+    end
   end
 end

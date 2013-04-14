@@ -5,10 +5,12 @@
     <% if @following_invitations.size != 0 %>
       <%= render 'invitation', :invitations => @following_invitations %>
     <% else %>
+      <!--
       <div  style="margin-left: 392px;margin-top: 80px;">
         <%= image_tag('PeopleIcon156.png') %>
         <p style="margin-left: -40px;font-size: 24px;color: #CCC">最近您的好友没什么动态哦</p>
       </div>
+      -->
     <% end %>
 
   </div><!-- personalpage -->

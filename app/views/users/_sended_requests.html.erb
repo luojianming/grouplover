@@ -25,7 +25,11 @@
                 <div class="item" style="margin-right: 0px;margin-left: 5px;">
               <% end %>
                 <div class="box-photo"><%= safe_image_tag(initiate_group.image_url(:thumb),'photo/'+(initiate_group.id%12+1).to_s+'.jpg') %></div>
-                <div class="activity_info"><span><%=invitation.time%>于<%= invitation.location %><%=invitation.activity %> </div>
+                <div class="activity_info">
+                  <span class="normal-font">时间：</span><span class="activity_info_font"><%=invitation.time%></span><br/>
+                  <span class="normal-font">地点：</span><span class="activity_info_font"><%= invitation.location %></span><br/>
+                  <span class="normal-font">活动：</span><span class="activity_info_font"><%= invitation.activity %></span>
+                </div>
                   <div class="activity_description"><span><%= invitation.description %></span></div>
                   <div class="members">
                     <ul style="margin-left:5px;list-style-type: none;">
@@ -37,7 +41,7 @@
                         <% else %>
                           <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg') %>
                         <% end %>
-                          <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %></span>
+                        <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %></span>
                         </li>
                       <% end %>
                       <% initiate_group.members.each do |member| %>
