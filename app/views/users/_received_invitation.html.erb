@@ -11,7 +11,7 @@
         <% else %>
           <span class="normal-font">活动发布小组：</span><%= invitation.initiate_group.name+"      " %><span class="normal-font">活动时间：</span><%=invitation.time+"      "%><span class="normal-font">活动地点：</span><%=invitation.location+" "%><span class="normal-font">活动：</span>待定
         <% end %>
-    </a>
+      </a>
     </div>
 
     <% if @ships[invitation_key].blank? != true %>
@@ -21,7 +21,7 @@
             <% applied_group = invitation_ship.applied_group %>
             <% team_leader = applied_group.team_leader %>
             <div class="item" id="invitation_ship_<%=invitation_ship.id%>" style="margin-right: 0px;margin-left: 5px;">
-              <% if invitation.initiate_group.team_leader == current_user %>
+              <% if invitation.initiate_group.team_leader == current_user && invitation.status == "pending" %>
                 <%= render 'shared/received_action', :invitation_ship => invitation_ship %>
               <% end %>
             <div class="box-photo"><%= safe_image_tag(applied_group.image_url(:thumb),'photo/'+(applied_group.id%12 + 1).to_s+'.jpg') %></div>
