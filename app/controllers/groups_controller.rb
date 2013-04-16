@@ -2,7 +2,7 @@
 require 'will_paginate/array'
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :members_should_of_the_same_sex, :only => :create
+#  before_filter :members_should_of_the_same_sex, :only => :create
   before_filter :cannot_have_the_same_members, :only => :create
   before_filter :member_counts_limit, :only => :create
   load_and_authorize_resource
@@ -138,6 +138,16 @@ debugger
       flash[:error] = "成员数必须是2~4人哦"
       redirect_to new_group_path
       return false
+    end
+  end
+
+  def add_members
+    debugger
+    @group = Group.find(params[:id])
+    params[:member_ids].each do |member_id|
+      member = User.find(member_id.to_i)
+      GroupMembership.create(:group_id => @group.id, :member_id => member.id,
+                             :status => "pending")
     end
   end
 end

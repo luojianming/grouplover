@@ -58,10 +58,11 @@
               -->
 
               <ul class="friend_list">
-                <% friend_num = 0 %>
-                <% current_user.find_friends.each do |member| %>
-                  <% if member.profile.sex == current_user.profile.sex %>
-                    <% friend_num = friend_num + 1 %>
+                <% if current_user.find_friends.size == 0 %>
+                  <p>还没有好友哦</p>
+                  <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
+                <% else %>
+                  <% current_user.find_friends.each do |member| %>
                     <li>
                       <%= link_to(user_path(member),:title => member.name,:rel => 'tooltip', :target => "_blank") do %>
                       <% if member.profile.sex == '男' %>
@@ -74,16 +75,12 @@
                     </li>
                   <% end %>
                 <% end %>
-                <% if friend_num == 0 %>
-                  <p>还没有同性朋友哦</p>
-                  <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
-                <% end %>
                </ul>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" id="member_selected_btn">提交</button>
             </div>
-          </div>
+          </div> <!-- myModal -->
 <!--
           <div class="control-group">
             <div class="controls">							
@@ -95,18 +92,18 @@
       </div>
     </div><!--span9-->
     <div class="span4 group_notice">
+          <!--
       <div class="hero-unit" style="background-color:#FFC">
         <legend>注意事项</legend>
         <ul>
           <li><span class="badge badge-info">1</span>每个小组的所有成员必须同性，且无性取向问题</li>
-          <!--
             <li><span class="badge badge-info">2</span>每个人最多只能创建一个group</li>
             <li><span class="badge badge-info">3</span>每个人最多只能参加3个group</li>
-          -->
           <li><span class="badge badge-info">2</span>每个group的人数必须为2~4人</li>
           <li><span class="badge badge-info">3</span>Group创建之后便不能再修改</li>
         </ul>
       </div>
+          -->
     </div>
   </div>
 </div>
@@ -141,7 +138,7 @@ function sendRequest() {
       "accept_label":"接受",
       "actiontext":"邀请好友一起来玩"
     },
-     onSuccess: function(r){}, 
+     onSuccess: function(r){},
      onFailure: function(r){}
   };
   Renren.ui(uiOpts); 

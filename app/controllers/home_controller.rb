@@ -1,6 +1,8 @@
 #encoding: utf-8
 require 'will_paginate/array'
 class HomeController < ApplicationController
+  include ApplicationHelper
+  before_filter :store_location!
   def index
 =begin
     per_page = 100
@@ -19,5 +21,9 @@ class HomeController < ApplicationController
       format.json { render json: @invitations }
     end
 =end
+  end
+
+  def store_location!
+    store_location
   end
 end

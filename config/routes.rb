@@ -17,7 +17,11 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]
 
   resources :invitations, only: [:new, :create, :destroy]
-  resources :groups, only: [:new, :create, :update, :destroy, :edit, :index]
+  resources :groups, only: [:new, :create, :update, :destroy, :edit, :index] do
+    member do
+      post :add_members
+    end
+  end
   authenticated :user do
     root :to => 'home#index'
   end

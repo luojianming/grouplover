@@ -1,7 +1,9 @@
 #encoding: utf-8
 require 'will_paginate/array'
 class UsersController < ApplicationController
+  include ApplicationHelper
   before_filter :authenticate_user!
+  before_filter :store_location!
   before_filter :detect_authorization, :only => [:participate_activities, :received_invitations,
                                                  :sended_requests, :pending_requests, :my_invitations]
   def index
@@ -250,5 +252,9 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user), :notice => "您无权访问该页面哦"
       return false
     end
+  end
+
+  def store_location!
+    store_location
   end
 end
