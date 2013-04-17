@@ -28,7 +28,7 @@ class GroupInvitationshipsController < ApplicationController
                          :content => @applied_group.name + "申请参加了新的活动哦")
     end
     respond_to do |format|
-      format.html { redirect_to sended_requests_user_path(current_user), :notice => "申请成功"}
+      format.html { redirect_to sended_requests_user_path(current_user), :notice => "申请成功,等待发起者接受申请"}
       format.js
     end
   end
