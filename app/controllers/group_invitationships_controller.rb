@@ -17,9 +17,15 @@ class GroupInvitationshipsController < ApplicationController
       return false
     end
 =end
+    @applied_group.applied!(@invitation, @description)
     @invitation.initiate_group.members.each do |member|
       member.tips.create(:tip_type => "group_invitationship_create", 
                          :content => @applied_group.name + "申请参加你们的活动哦")
+    end
+
+    @applied_group.members.each do |member|
+      member.tips.create(:tip_type => "group_has_applied_invitation_tip",
+                         :content => @applied_group.name + "申请参加了新的活动哦")
     end
     respond_to do |format|
       format.html { redirect_to sended_requests_user_path(current_user), :notice => "申请成功"}

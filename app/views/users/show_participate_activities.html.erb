@@ -2,7 +2,8 @@
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
 <%
-  tips = current_user.tips.select_tips_by_tip_type("invitation")
+    tips = current_user.tips.select_tips_by_tip_type("invitation") | 
+            current_user.tips.select_tips_by_tip_type("group_has_applied_invitation_tip")
   tips.each do |tip|
     tip.destroy
   end

@@ -99,6 +99,10 @@
                       <%= link_to received_invitations_user_path(current_user) do %>
                         <p><%=tip.content %></p>
                       <% end %>
+                    <% elsif tip.tip_type == "group_has_applied_invitation_tip" %>
+                      <%= link_to participate_activities_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
                     <% end %>
                   </li>
                 <% end %>
