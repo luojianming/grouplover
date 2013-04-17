@@ -1,4 +1,4 @@
-<h4>各个活动收到的回帖</h4>
+<h4>申请参见各个活动的groups</h4>
 <div class="accordion" id="accordion2">
 <% @ships.keys.each do |invitation_key| %>
   <% invitation = Invitation.find(invitation_key) %>
@@ -25,12 +25,14 @@
                 <%= render 'shared/received_action', :invitation_ship => invitation_ship %>
               <% end %>
             <div class="box-photo"><%= safe_image_tag(applied_group.image_url(:thumb),'photo/'+(applied_group.id%12 + 1).to_s+'.jpg') %></div>
+            <!--
             <div class="activity_info">
               <span class="normal-font">时间：</span><span class="activity_info_font"><%=invitation.time%></span><br/>
               <span class="normal-font">地点：</span><span class="activity_info_font"><%= invitation.location %></span><br/>
               <span class="normal-font">活动：</span><span class="activity_info_font"><%= invitation.activity %></span>
             </div>
               <div class="activity_description"><span><%= invitation.description %></span></div>
+            -->
               <div class="members">
               <ul style="margin-left:5px;list-style-type: none;">
                 <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
