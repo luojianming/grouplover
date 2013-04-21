@@ -1,0 +1,4 @@
+<% flash[:error] = "发送申请失败，两个小组有共同的成员哦" %>
+$('#messages').html("<%= escape_javascript(render('layouts/messages')) %>" )
+$('#inviteModal_<%= @target_group_id %>').modal('hide')
+<% flash.delete(:error) %>

@@ -12,6 +12,9 @@ class ConversationsController < ApplicationController
     if params[:invitation] != nil
       @conversationer = Invitation.find(params[:invitation])
     end
+    if params[:groupship] != nil
+      @conversationer = GroupGroupship.find(params[:groupship])
+    end
   end
 
   def should_be_related_conversationer
@@ -30,7 +33,6 @@ class ConversationsController < ApplicationController
         redirect_to root_path, :notice => '您无权访问该页'
       end
     end
-    
   end
 
   def destroy

@@ -103,6 +103,22 @@
                       <%= link_to participate_activities_user_path(current_user) do %>
                         <p><%=tip.content %></p>
                       <% end %>
+                    <% elsif tip.tip_type == "apply_group_groupship" %>
+                      <%= link_to sended_requests_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% elsif tip.tip_type == "target_group_groupship" %>
+                      <%= link_to received_invitations_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% elsif tip.tip_type == "target_accept_groupship" %>
+                      <%= link_to participate_activities_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                    <% elsif tip.tip_type == "apply_accept_groupship" %>
+                      <%= link_to participate_activities_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
                     <% end %>
                   </li>
                 <% end %>

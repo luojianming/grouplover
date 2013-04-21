@@ -27,7 +27,7 @@
         <div id="collapse_mygroup" class="accordion-body collapse in">
           <div class="accordion-inner">
             <% if @mygroups.any? %>
-              <%= render 'group', :show_groups => @mygroups %>
+              <%= render 'group', :show_groups => @mygroups, :group_type => "mygroup" %>
             <% else %>
               <% if current_user == @user %>
                 <span style="font-size: 18px;">您还没有创建任何的group哦</span>
@@ -57,7 +57,7 @@
         <div id="collapse_group" class="accordion-body collapse in">
           <div class="accordion-inner">
             <% if @groups.any? %>
-              <%= render 'group', :show_groups => @groups %>
+              <%= render 'group', :show_groups => @groups, :group_type => "group" %>
             <% else %>
               <% if current_user == @user %>
                 <span style="font-size: 18px;">您还没有参与任何的group哦</span>

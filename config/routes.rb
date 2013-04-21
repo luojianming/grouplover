@@ -16,7 +16,11 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
 
   resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]
 
-  resources :invitations, only: [:new, :create, :destroy]
+  resources :invitations, only: [:new, :create, :destroy] do
+    member do
+      post :fast_create
+    end
+  end
   resources :groups, only: [:new, :create, :update, :destroy, :edit, :index] do
     member do
       post :add_members
@@ -49,6 +53,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   end
 
   resources :relationships, only: [:create, :destroy]
+  resources :group_groupships, only: [:create, :destroy]
   resources :group_invitationships, only: [:create, :destroy]
 
   match ':controller(/:action(/:id))'

@@ -1,6 +1,9 @@
-<h4>申请参加各个活动的groups</h4>
-<div class="accordion" id="accordion2">
+<% if @ships.keys.size > 0 %>
+  <h4>申请参加各个活动的groups</h4>
+<% end %>
 <% @ships.keys.each do |invitation_key| %>
+  <% if @ships[invitation_key].blank? != true  %>
+<div class="accordion" id="accordion2">
   <% invitation = Invitation.find(invitation_key) %>
   <div class="accordion-group">
     <div class="accordion-heading">
@@ -14,7 +17,6 @@
       </a>
     </div>
 
-    <% if @ships[invitation_key].blank? != true %>
     <div id="collapse_<%= invitation_key%>" class="accordion-body collapse in">
       <div class="accordion-inner applied_group_inner" style="padding-left: 0px;padding-right: 0px;">
           <% @ships[invitation_key].each do |invitation_ship| %>
@@ -43,7 +45,7 @@
                       <% else %>
                         <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg') %>
                       <% end %>
-                      <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %></span>
+                      <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %> <%= team_leader.profile.sex %></span>
                     </li>
                 <% end %>
                 <% applied_group.members.each do |member| %>
@@ -55,7 +57,89 @@
                       <% else %>
                         <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
                       <% end %>
-                      <span><%= member.name%> <%= member.profile.hometown %></span>
+                      <span><%= member.name%> <%= member.profile.hometown %> <%= member.profile.sex %></span>
+                    </li>
+                   <% end %>
+                <% end %>
+              </ul>
+            </div><!-- members -->
+          </div><!-- item -->
+        <% end %>
+      </div>
+    </div>
+<!--
+    <% if @ships[invitation_key].blank? == true %>
+      <div id="collapse_<%= invitation_key%>" class="accordion-body collapse in">
+        <div class="accordion-inner" style="padding-left: 0px;padding-right: 0px;">
+          <h4 style="text-align: center;">还没有group申请参加这个活动哦</h4>
+        </div>
+      </div>
+    <% end %>
+-->
+  </div>
+</div>
+    <% end %><!-- if -->
+<% end %>
+
+<% if @group_groupships.keys.size > 0 %>
+  <h4>各个group收到的邀请</h4>
+<% end %>
+<div class="accordion" id="accordion2">
+<% @group_groupships.keys.each do |group_key| %>
+  <% group = Group.find(group_key) %>
+  <% group_ships = @group_groupships[group_key] %>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+        href="#collapse_group_<%=group_key%>">
+        <%= group.name %>
+      </a>
+    </div>
+
+    <% if group_ships.blank? != true %>
+    <div id="collapse_group_<%= group_key%>" class="accordion-body collapse in">
+      <div class="accordion-inner applied_group_inner" style="padding-left: 0px;padding-right: 0px;">
+          <% group_ships.each do |group_ship| %>
+            <% applied_group = group_ship.applied_group %>
+            <% team_leader = applied_group.team_leader %>
+            <div class="item" id="group_ship_<%= group_ship.id%>" style="margin-right: 0px;margin-left: 5px;">
+              <% if group.team_leader == current_user && group_ship.status == "pending" %>
+                <%= render 'shared/group_received_action', :group_ship => group_ship %>
+              <% elsif group_ship.status == "active" %>
+                  <div class="pull-right actived_sended_request">
+                    <span style="font-size:24px; color: #00ff00;">已激活</span>
+                  </div>
+              <% end %>
+            <div class="box-photo"><%= safe_image_tag(applied_group.image_url(:thumb),'photo/'+(applied_group.id%12 + 1).to_s+'.jpg') %></div>
+            <div class="activity_info">
+              <span class="normal-font">时间：</span><span class="activity_info_font"><%= group_ship.time %></span><br/>
+              <span class="normal-font">地点：</span><span class="activity_info_font"><%= group_ship.location %></span><br/>
+              <span class="normal-font">活动：</span><span class="activity_info_font"><%= group_ship.activity %></span>
+            </div>
+              <div class="activity_description"><span><%= group_ship.description %></span></div>
+              <div class="members">
+              <ul style="margin-left:5px;list-style-type: none;">
+                <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
+                            :rel => 'tooltip') do %>
+                    <li>
+                      <% if team_leader.profile.sex == '男' %>
+                        <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'boy.jpg') %>
+                      <% else %>
+                        <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg') %>
+                      <% end %>
+                      <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %> <%= team_leader.profile.sex %></span>
+                    </li>
+                <% end %>
+                <% applied_group.members.each do |member| %>
+                   <%= link_to(user_path(member),:title => member.profile.style,
+                                          :rel => 'tooltip') do %>
+                    <li>
+                      <% if member.profile.sex == '男' %>
+                        <%= safe_image_tag(member.profile.avatar_url(:mini), 'boy.jpg') %>
+                      <% else %>
+                        <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
+                      <% end %>
+                      <span><%= member.name%> <%= member.profile.hometown %> <%= member.profile.sex %></span>
                     </li>
                    <% end %>
                 <% end %>
@@ -67,10 +151,10 @@
     </div>
     <% end %><!-- if -->
 
-    <% if @ships[invitation_key].blank? == true %>
-      <div id="collapse_<%= invitation_key%>" class="accordion-body collapse in">
+    <% if group_ships.blank? == true %>
+      <div id="collapse_group_<%= group_key%>" class="accordion-body collapse in">
         <div class="accordion-inner" style="padding-left: 0px;padding-right: 0px;">
-          <h4 style="text-align: center;">还没有group申请参加这个活动哦</h4>
+          <h4 style="text-align: center;">这个group还没有收到任何邀请哦</h4>
         </div>
       </div>
     <% end %>

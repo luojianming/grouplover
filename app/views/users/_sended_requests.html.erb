@@ -9,13 +9,23 @@
         </a>
       </div>
 
-      <% if @sended_requests[group_key].blank? != true %>
         <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
           <div class="accordion-inner sended_request_inner" style="padding-left: 0px;padding-right: 0px;">
             <% @sended_requests[group_key].each do |sended_request| %>
-              <% invitation = Invitation.find(sended_request.invitation_id) %>
-              <% initiate_group = invitation.initiate_group %>
-              <% team_leader = initiate_group.team_leader %>
+              <% if sended_request.class == GroupInvitationship %>
+                <% invitation = Invitation.find(sended_request.invitation_id) %>
+                <% initiate_group = invitation.initiate_group %>
+                <% team_leader = initiate_group.team_leader %>
+              <% elsif sended_request.class == GroupGroupship %>
+                <%
+                  invitation = Invitation.new(:time => sended_request.time,
+                                              :location => sended_request.location,
+                                              :description => sended_request.description,
+                                              :activity => sended_request.activity)
+                  initiate_group = sended_request.applied_group
+                  team_leader = initiate_group.team_leader
+                %>
+              <% end %>
               <% if sended_request.status == "active" %>
                 <div class="item" style="border-color:#00ff00;margin-right: 0px;margin-left: 5px;">
                   <div class="pull-right actived_sended_request">
@@ -63,13 +73,6 @@
               <% end %>
             </div><!--accordion-inner-->
           </div><!-- accordion-body -->
-        <% else %>
-          <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
-            <div class="accordion-inner">
-              <h4 style="text-align: center;">这个group没有未被处理的请求哦</h4>
-            </div>
-          </div>
-        <% end %>
       </div><!-- accordion-group -->
     <% end %>
 </div>

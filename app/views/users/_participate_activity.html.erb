@@ -10,8 +10,24 @@
       </div>
 
       <% if @participate_activities[group_key].blank? != true %>
+        <% applied_groupships = GroupGroupship.find_all_by_applied_group_id(group.id) %>
+        <% target_groupships = GroupGroupship.find_all_by_target_group_id(group.id) %>
         <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
           <div class="accordion-inner sended_request_inner" style="padding-left: 0px;padding-right: 0px;">
+            <% (applied_groupships | target_groupships).each do |group_ship| %>
+              <% 
+                invitation = Invitation.new(:initiate_group_id => group_ship.applied_group_id,
+                                            :time => group_ship.time,
+                                            :location => group_ship.location,
+                                            :activity => group_ship.activity,
+                                            :description => group_ship.description,
+                                            :status => group_ship.status)
+                initiate_group = group_ship.applied_group
+                team_leader = initiate_group.team_leader
+              %>
+              <%= render 'item', :invitation => invitation, :team_leader => team_leader,
+                  :initiate_group => initiate_group %>
+            <% end %>
             <% @participate_activities[group_key].each do |active_invitation| %>
               <% if active_invitation.class == GroupInvitationship %>
                 <% invitation = Invitation.find(active_invitation.invitation_id) %>
@@ -20,51 +36,9 @@
               <% end %>
               <% initiate_group = invitation.initiate_group %>
               <% team_leader = initiate_group.team_leader %>
-                <% if invitation.status == "active" %>
-                  <div class="item" style="border-color:#00ff00;margin-right: 0px;margin-left: 5px;">
-                  <div class="pull-right actived_sended_request">
-                    <span style="font-size:24px; color: #00ff00;">已激活</span>
-                  </div>
-                <% else %>
-                  <div class="item" style="margin-right: 0px;margin-left: 5px;margin-right: 0px;" id="invitation_<%= invitation.id %>">
-                <% end %>
-                <div class="box-photo"><%= safe_image_tag(initiate_group.image_url(:thumb),'photo/'+(initiate_group.id%12+1).to_s+'.jpg') %></div>
-                <div class="activity_info">
-                  <span class="normal-font">时间：</span><span class="activity_info_font"><%=invitation.time%></span><br/>
-                  <span class="normal-font">地点：</span><span class="activity_info_font"><%= invitation.location %></span><br/>
-                  <span class="normal-font">活动：</span><span class="activity_info_font"><%= invitation.activity %></span>
-                </div>
-                  <div class="activity_description"><span><%= invitation.description %></span></div>
-                  <div class="members">
-                    <ul style="margin-left:5px;list-style-type: none;">
-                      <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
-                                  :rel => 'tooltip') do %>
-                        <li>
-                          <% if team_leader.profile.sex == '男' %>
-                            <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'boy.jpg') %>
-                          <% else %>
-                            <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg') %>
-                          <% end %>    
-                          <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %></span>
-                        </li>
-                      <% end %>
-                      <% initiate_group.members.each do |member| %>
-                          <%= link_to(user_path(member),:title => member.profile.style,
-                                      :rel => 'tooltip') do %>
-                          <li>
-                            <% if member.profile.sex == '男' %>
-                              <%= safe_image_tag(member.profile.avatar_url(:mini), 'boy.jpg') %>
-                            <%else %>
-                              <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
-                            <% end %>
-                            <span><%= member.name%> <%= member.profile.hometown %></span>
-                          </li>
-                        <% end %>
-                      <% end %>
-                    </ul>
-                  </div><!-- members -->
-                </div><!-- item -->
-              <% end %>
+              <%= render 'item', :invitation => invitation, :team_leader => team_leader, 
+                  :initiate_group => initiate_group %>
+            <% end %>
             </div><!--accordion-inner-->
           </div><!-- accordion-body -->
         <% else %>

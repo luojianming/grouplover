@@ -149,4 +149,14 @@ class User < ActiveRecord::Base
     end
     my_active_groups
   end
+
+  def related_active_groupships()
+    @my_groups = mygroups
+    @result = []
+    @my_groups.each do |mygroup|
+      @result = @result | GroupGroupship.find_all_by_applied_group_id_and_status(mygroup.id,"active")
+      @result = @result | GroupGroupship.find_all_by_target_group_id_and_status(mygroup.id,"active")
+    end
+    @result
+  end
 end

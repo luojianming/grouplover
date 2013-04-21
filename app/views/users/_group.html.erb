@@ -5,6 +5,9 @@
     <div class="group_showpanel_left">
       <%= link_to safe_image_tag(show_group.image_url(:small), 'photo/'+(show_group.id%12 + 1).to_s+'.jpg'), user_path(team_leader),
         :placement => "left", :rel => "tooltip" %>
+      <% if group_type == "mygroup" && show_group.team_leader != current_user && !show_group.members.include?(current_user)%>
+        <%= render 'shared/invite_action', :show_group => show_group %>
+      <% end %>
       <div class="groupleader_info">
         <span><%= show_group.name %>
           <% if show_group.status == "active" %>
@@ -27,6 +30,7 @@
       <% end %>
     </div>
 
+    <%= render 'shared/group_invite_modal', :show_group => show_group %>
     <div class="group_showpanel_right" style="background-color:#FFF">
           <div class="group_member">
             <div class="pull-left">

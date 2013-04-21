@@ -3,7 +3,9 @@
 <% end %>
 <%
     tips = current_user.tips.select_tips_by_tip_type("invitation") | 
-            current_user.tips.select_tips_by_tip_type("group_has_applied_invitation_tip")
+      current_user.tips.select_tips_by_tip_type("group_has_applied_invitation_tip") |
+      current_user.tips.select_tips_by_tip_type("target_accept_groupship") |
+      current_user.tips.select_tips_by_tip_type("apply_accept_groupship")
   tips.each do |tip|
     tip.destroy
   end

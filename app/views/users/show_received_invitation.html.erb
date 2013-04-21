@@ -3,12 +3,13 @@
 <% end %>
 <%
     tips = current_user.tips.select_tips_by_tip_type("group_invitationship_create")
+    tips = tips | current_user.tips.select_tips_by_tip_type("target_group_groupship")
     tips.each do |tip|
       tip.destroy
     end
 %>
 <div class="container">
-  <%= render 'shared/header' %> 
+  <%= render 'shared/header' %>
   <div id="personalpage" class="container">
     <%= render 'received_invitation'%>
   </div><!-- personalpage -->

@@ -4,445 +4,90 @@
 <% content_for :subnav do %>
   <%= render 'layouts/subnavigation' %>
 <% end %>
-   <div class="container" id="container">
-  		<div class="item" onMouseOver="display_actions()">
-           <div class="actions" id="act">
-           		  <a class="btn favor_link" href="#">
-                	<i class="icon-thumbs-up"></i>
-                	<span>赞！</span>
-                </a>
+<div class="container" id="container">
+  <%= render 'users/invitation', :invitations => @invitations %>
+  <!-- <input class="btn" value="点此加载" id="load" />-->
+  <div id="loading_div" style="bottom: 0px;position: absolute;clear:both; width:100%;text-align:center;z-index: 1000;">
+  </div>
+</div>
+<%= render 'users/show_foot' %>
+<nav id="page-nav">
+  <%= will_paginate  @invitations%>
+</nav>
 
-                <a class="btn join_link" href="#">
-                	<i class="icon-heart"></i>
-                	<span>参与</span>
-                </a>
-            </div>        	
-            <div class="box-photo"><%= image_tag("photo/2.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    <a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic3.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
+<script>
+$('#load').click(function(){
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:3000",
+    success: function(data) {
+      var $res = $(data).find('.item');
+      $('#container').append($res).masonry('appended', $res);
+    }
 
-        <div class="item">        	
-            <div class="box-photo"><%= image_tag("photo/2.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/3.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/11.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item" onMouseOver="display_actions()">
-           <div class="actions" id="act">
-           		<a class="btn favor_link" href="#">
-                	<i class="icon-thumbs-up"></i>
-                	<span>赞！</span>
-                </a>
-                
-                <a class="btn join_link" href="#">
-                	<i class="icon-heart"></i>
-                	<span>参与</span>
-                </a>
-            </div>        	
-            <div class="box-photo"><%= image_tag("photo/8.jpg") %></div>
-            <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-            <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-            <div class="members">
-              <ul style="margin-left:5px">
-                <li>
-                <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                <a href="#">清华大学 杨过 湖南</a>
-                </li>
-                <li>
-                <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                <a href="#">清华大学 杨过 湖南</a>
-                </li>
-              </ul>
-            </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/8.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/3.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/2.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item" onMouseOver="display_actions()">
-           <div class="actions" id="act">
-           		<a class="btn favor_link" href="#">
-                	<i class="icon-thumbs-up"></i>
-                	<span>赞！</span>
-                </a>
-                
-                <a class="btn join_link" href="#">
-                	<i class="icon-heart"></i>
-                	<span>参与</span>
-                </a>
-            </div>        	
-           <div class="box-photo"><%= image_tag("photo/11.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-             <ul style="margin-left:5px">
-               <li>
-               <a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-               <a href="#">北京大学 小龙女 四川</a>
-               </li>
-               <li>
-               <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-               <a href="#">清华大学 杨过 湖南</a>
-               </li>
-             </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/2.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/3.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/9.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        <div class="item" onMouseOver="display_actions()">
-           <div class="actions" id="act">
-           		<a class="btn favor_link" href="#">
-                	<i class="icon-thumbs-up"></i>
-                	<span>赞！</span>
-                </a>
-                
-                <a class="btn join_link" href="#">
-                	<i class="icon-heart"></i>
-                	<span>参与</span>
-                </a>
-            </div>        	
-           <div class="box-photo"><%= image_tag("photo/3.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/2.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/8.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>     
-        </div>
-        
-        <div class="item">        	
-           <div class="box-photo"><%= image_tag("photo/9.jpg") %></div>
-           <div class="activity_info"><span>周末下午清华园三国杀</span></div>
-           <div class="activity_description"><span>等待就是浪费青春，快加入我们吧，让我们尽情挥霍</span></div>
-           <div class="members">
-           		<ul style="margin-left:5px">
-                	<li>
-                    	<a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    	<a href="#" id="2" rel="tooltip" class="pull-left" data-placement="left"  title="可爱 温柔 开朗"><%= image_tag("pic2.jpg") %></a>
-                        <a href="#">北京大学 小龙女 四川</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                    <li>
-                    <a href="#" id="1" rel="tooltip" data-placement="left"  title="聪明 帅气 开朗" class="pull-left"><%= image_tag("pic4.jpg") %></a>
-                        <a href="#">清华大学 杨过 湖南</a>
-                    </li>
-                </ul>
-           </div>   
-        </div>
-      </div> 
+  })
+});
+</script>
+<script>
+ function sleep(d){
+   for (var t = Date.now(); Date.now() - t <= d;);
+ }
+</script>
 <script type="text/javascript">
+
 $(function(){
-  $('#container').masonry({
-    // options
+  var $container = $('#container');
+  $container.imagesLoaded(function(){
+    $container.masonry({
+      // options
+      itemSelector : '.item',
+      columnWidth : 235
+    });
+  });
+  $container.infinitescroll({
+    navSelector : '#page-nav',
+    nextSelector : 'li.next_page a:first',
     itemSelector : '.item',
-    columnWidth : 235
+    loading: {
+      selector: '#loading_div',
+      msgText: "正在加载中...",
+      finishedMsg: '没有更多页面了',
+      img: '/6RMhx.gif'
+    }
+  },
+  function(newElements){
+    var $newElems = $( newElements ).css({ opacity: 0 });
+    $newElems.imagesLoaded(function(){
+      // show elems now they're ready
+      $newElems.animate({ opacity: 1 });
+      $container.masonry( 'appended', $newElems, true ); 
+    });
+    applied_action_process();
   });
 });
 
-
+jQuery(document).ajaxError(function(e,xhr,opt){
+  if (xhr.status == 404) jQuery('#').remove();
+  });
 </script>
 <script type="text/javascript">
-function display_actions(){
-	//$("#act").css("display","");
-	$(this).find(".actions").css("display","");
-	//alert("hello");
-}
+
+$(document).ready(function(){
+  applied_action_process();
+});
 </script>
 <script>
 	$('.members ul li').tooltip({
       selector: "a[rel=tooltip]"})
+</script>
+<script>
+  function applied_action_process(){
+    $("div.item").children(".actions").hide();
+    $("div.item").mouseout(function(){
+      $(this).children(".actions").hide();
+    });
+    $("div.item").mouseover(function(){
+      $(this).children(".actions").show();
+    });
+  }
 </script>

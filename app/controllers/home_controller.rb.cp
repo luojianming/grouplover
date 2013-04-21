@@ -14,8 +14,7 @@ class HomeController < ApplicationController
     end
       @invitations = @invitations.paginate(page: params[:page])
 =end
-      @invitations = Invitation.all
-      @groups = Group.all
+      @invitations = Invitation.all.paginate(page: params[:page])
 
 =begin
     respond_to do |format|

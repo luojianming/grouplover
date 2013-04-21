@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410111823) do
+ActiveRecord::Schema.define(:version => 20130419060812) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(:version => 20130410111823) do
   end
 
   add_index "extra_infos", ["user_id"], :name => "index_extra_infos_on_user_id"
+
+  create_table "group_groupships", :force => true do |t|
+    t.integer  "applied_group_id"
+    t.integer  "target_group_id"
+    t.string   "time"
+    t.string   "location"
+    t.string   "description"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "status"
+    t.string   "activity"
+  end
 
   create_table "group_invitationships", :force => true do |t|
     t.string   "applied_group_id"

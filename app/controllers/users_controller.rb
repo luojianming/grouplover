@@ -130,6 +130,11 @@ class UsersController < ApplicationController
   def my_invitations
     @user = User.find(params[:id])
     @my_invitations = Invitation.initiated_by_user(@user)
+    @my_groups = @user.mygroups
+    @my_groupships = []
+    @my_groups.each do |mygroup|
+      @my_groupships = @my_groupships | GroupGroupship.find_all_by_applied_group_id(mygroup.id)
+    end
     render 'show_my_invitations'
   end
 
@@ -159,22 +164,32 @@ class UsersController < ApplicationController
     @participate_activities = Hash.new
     @related_groups = current_user.related_groups()
     @related_groups.each do |group|
-      @participate_activities[group.id] = GroupInvitationship.find_all_by_applied_group_id(group.id)
-      @participate_activities[group.id] = @participate_activities[group.id] | Invitation.find_all_by_initiate_group_id(group.id)
+      @tmp = GroupInvitationship.find_all_by_applied_group_id(group.id) | Invitation.find_all_by_initiate_group_id(group.id)
+      if @tmp.size > 0
+        @participate_activities[group.id] = @tmp
+      end
     end
     render 'show_participate_activities'
   end
 
   def received_invitations
     @ships = Hash.new
+    @group_groupships = Hash.new
     @user = User.find(params[:id])
     @received_invitations = []
     @related_groups = @user.related_groups()
     @related_groups.each do |group|
       @received_invitations = @received_invitations | Invitation.find_all_by_initiate_group_id(group.id)
+      @groupships_tmp = GroupGroupship.find_all_by_target_group_id_and_status(group.id, "pending")
+      if @groupships_tmp.size > 0
+        @group_groupships[group.id] = @groupships_tmp
+      end
     end
     @received_invitations.each do |invitation|
-      @ships[invitation.id] = GroupInvitationship.find_all_by_invitation_id(invitation.id)
+      @invitation_tmp = GroupInvitationship.find_all_by_invitation_id_and_status(invitation.id,"pending")
+      if @invitation_tmp.size > 0
+        @ships[invitation.id] = @invitation_tmp
+      end
     end
     render 'show_received_invitation'
   end
@@ -239,7 +254,12 @@ class UsersController < ApplicationController
     @related_groups = current_user.related_groups()
     @sended_requests = Hash.new
     @related_groups.each do |group|
-      @sended_requests[group.id] = GroupInvitationship.find_all_by_applied_group_id(group.id)
+      @sended_request_tmp = GroupInvitationship.find_all_by_applied_group_id(group.id)
+      @sended_group_request_tmp = GroupGroupship.find_all_by_applied_group_id(group.id)
+      @sended_tmp = @sended_request_tmp | @sended_group_request_tmp
+      if @sended_tmp.size > 0
+        @sended_requests[group.id] = @sended_tmp
+      end
     end
     render 'show_sended_requests'
   end

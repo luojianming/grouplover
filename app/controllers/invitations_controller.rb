@@ -130,4 +130,8 @@ class InvitationsController < ApplicationController
     end
   end
 
+  def fast_create
+    debugger
+    
+  end
 end

@@ -16,6 +16,14 @@ class Group < ActiveRecord::Base
   has_many :group_invitationships, :dependent => :destroy, :foreign_key => "applied_group_id"
   has_many :invitations, :through => :group_invitationships, :foreign_key => "applied_group_id"
 
+  has_many :group_groupships, :dependent => :destroy, :foreign_key => "applied_group_id"
+  has_many :target_groups, :through => :group_groupships, :foreign_key => "applied_group_id"
+
+  has_many :reverse_group_groupships, :foreign_key => "target_group_id",
+                                      :class_name => "GroupGroupship",
+                                      :dependent => :destroy
+  has_many :applied_groups, :through => :reverse_group_groupships, :foreign_key => "target_group_id"
+
   has_one :conversation, :as => :conversationer, :dependent => :destroy
 
   accepts_nested_attributes_for :group_memberships,

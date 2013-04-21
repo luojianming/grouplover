@@ -1,33 +1,20 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "bootstrap_and_overrides", "style", "homepage" %>
 <% end %>
-<% content_for :subnav do %>
-  <%= render 'layouts/subnavigation' %>
-<% end %>
+<div class="container" style="margin-bottom:10px;z-index: 1034">
+  <a href="#" class="btn btn-large btn-danger" data-toggle="popover" data-placement="bottom"
+     data-content="爱组局是一专注于group对group约会的社交网站，
+     每个人都只能和自己身边的好友组建成group进而与其他group进行约会，等待就是浪费青春，
+     赶快加入我们吧" title="爱组局" style="margin-left: 410px;">
+    网站简介
+  </a>
+</div>
 <div class="container" id="container">
   <%= render 'users/invitation', :invitations => @invitations %>
-  <!-- <input class="btn" value="点此加载" id="load" />-->
-  <div id="loading_div" style="bottom: 0px;position: absolute;clear:both; width:100%;text-align:center;z-index: 1000;">
-  </div>
+  <%= render 'groups/group', :groups => @groups %>
 </div>
 <%= render 'users/show_foot' %>
-<nav id="page-nav">
-  <%= will_paginate  @invitations%>
-</nav>
 
-<script>
-$('#load').click(function(){
-  $.ajax({
-    type: "get",
-    url: "http://127.0.0.1:3000",
-    success: function(data) {
-      var $res = $(data).find('.item');
-      $('#container').append($res).masonry('appended', $res);
-    }
-
-  })
-});
-</script>
 <script>
  function sleep(d){
    for (var t = Date.now(); Date.now() - t <= d;);
@@ -90,4 +77,14 @@ $(document).ready(function(){
       $(this).children(".actions").show();
     });
   }
+</script>
+<script>
+$(function(){
+    $("a[data-toggle=popover]")
+      .popover()
+      .click(function(e) {
+        e.preventDefault()
+  })
+});
+
 </script>

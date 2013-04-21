@@ -3,6 +3,7 @@
 <% end %>
 <%
     tips = current_user.tips.select_tips_by_tip_type("group_invitationship")
+    tips = tips | current_user.tips.select_tips_by_tip_type("apply_group_groupship")
     tips.each do |tip|
       tip.destroy
     end

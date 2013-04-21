@@ -1,0 +1,4 @@
+<% flash[:notice] = "发送申请成功，等待对方接受邀请" %>
+$('#messages').html("<%= escape_javascript(render('layouts/messages')) %>" )
+$('#inviteModal_<%= @target_group_id %>').modal('hide')
+<% flash.delete(:notice) %>

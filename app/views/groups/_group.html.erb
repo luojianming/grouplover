@@ -3,6 +3,8 @@
     <% if group != nil && group.status != "pending" %>
       <% team_leader = group.team_leader %>
     <div class="item" id="group_<%=group.id%>">
+      <%= render 'shared/invite_action', :show_group => group %>
+      <%= render 'shared/group_invite_modal', :show_group => group %>
       <div class="box-photo"><%= safe_image_tag(group.image_url(:thumb),'photo/'+(group.id%12 + 1).to_s + '.jpg') %></div>
       <div class="group_info"><span><%= group.name %></span></div>
         <div class="group_description"><span><%= group.description %></span></div>
@@ -29,7 +31,7 @@
               <% else %>
                 <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
               <% end %>
-                <span><%= member.name %> <%= member.profile.hometown %></span>
+              <span><%= member.name %> <%= member.profile.hometown %></span>
               </li>
             <% end %>
           <% end %>

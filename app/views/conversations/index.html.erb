@@ -2,8 +2,8 @@
   <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations", "docs", "style" %>
 <% end %>
 <% if current_user.related_groups.size > 0 %>
-<div>
-    <div class="span4" style="position:fixed;margin-right:50px;margin-left:130px;">
+<div class="span12">
+    <div class="span4" style="float:left;margin-right:50px;margin-left:130px;">
       <ul id='conversation_list'>
         <h4>与我相关的小组</h4>
         <% current_user.related_groups.each do |group| %>
@@ -54,14 +54,8 @@
               my_group = applied_group
               other_group = initiate_group
             end
-=begin
-            member_names=""
-            other_group.members.each do |member|
-              member_names = member_names + " " + member.name
-            end
-=end
           %>
-          <%= link_to({ :controller => "conversations" , :invitation => invitation.id} ,
+          <%= link_to({ :controller => "conversations" , :invitation => invitation.id } ,
                       :method => "post",
                       :remote => true,
                       :id => "conversation_link_invitation_"+invitation.id.to_s,
@@ -69,23 +63,57 @@
                       :title =>  my_group.name + " vs " + other_group.name,
                       :rel => 'tooltip') do %>
             <li class="conversationer_list" id="conversation_list_<%= invitation.conversation.id.to_s%>">
-            <div class="conversationer_list_left">
-              <%= safe_image_tag(other_group.image_url(:mini),'photo/'+other_group.id.to_s+'.jpg') %>
-            </div>
+              <div class="conversationer_list_left">
+                <%= safe_image_tag(other_group.image_url(:mini),'photo/'+other_group.id.to_s+'.jpg') %>
+              </div>
 
-            <div class="conversationer_list_right">
-              <span><%= invitation.time  + "于" + invitation.location + invitation.activity %></span>
-            </div>
-          </li>
-          <%= subscribe_to "/conversations/group/"+invitation.conversation.id.to_s %>
+              <div class="conversationer_list_right">
+                <span><%= invitation.time  + "于" + invitation.location + invitation.activity %></span>
+              </div>
+            </li>
+            <%= subscribe_to "/conversations/group/"+invitation.conversation.id.to_s %>
+          <% end %>
+        <% end %><!-- if invitation != nil -->
         <% end %>
-      <% end %>
-      <% end %>
 
+        <%
+          active_groupships = current_user.related_active_groupships
+        %>
+        <% active_groupships.each do |groupship| %>
+          <%
+            applied_group = groupship.target_group
+            initiate_group = groupship.applied_group
+            if initiate_group.members.include?(current_user)
+              my_group = initiate_group
+              other_group = applied_group
+            else
+              my_group = applied_group
+              other_group = initiate_group
+            end
+          %>
+          <%= link_to({ :controller => "conversations" , :groupship => groupship.id} ,
+                      :method => "post",
+                      :remote => true,
+                      :id => "conversation_link_groupship_"+groupship.id.to_s,
+                      :class => "conversation_link",
+                      :title =>  my_group.name + " vs " + other_group.name,
+                      :rel => 'tooltip') do %>
 
+            <li class="conversationer_list" id="conversation_list_<%= groupship.conversation.id.to_s%>">
+              <div class="conversationer_list_left">
+                <%= safe_image_tag(other_group.image_url(:mini),'photo/'+other_group.id.to_s+'.jpg') %>
+              </div>
+
+              <div class="conversationer_list_right">
+                <span><%= groupship.time  + "于" + groupship.location + groupship.activity.to_s %></span>
+              </div>
+            </li>
+            <%= subscribe_to "/conversations/group/"+groupship.conversation.id.to_s %>
+          <% end %>
+        <% end %>
       </ul>
     </div>
-    <div class="span10" id="conversations_container" style="margin-left: 470px;margin-top: 37px;">
+    <div class="span10" id="conversations_container" style="float:left;margin-top: 37px;">
     </div>
   </div>
 <% else %>
