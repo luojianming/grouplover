@@ -8,7 +8,9 @@ class PrivateMessage < ActiveRecord::Base
   belongs_to :sender, :class_name => "User"
   belongs_to :receiver, :class_name => "User"
 
-  has_many :applied_messages, :class_name => "PrivateMessage", :foreign_key => "original_message_id"
+  has_many :applied_messages, :class_name => "PrivateMessage", 
+                              :foreign_key => "original_message_id",
+                              :dependent => :destroy
 
   belongs_to :original_message, :class_name => "PrivateMessage"
 

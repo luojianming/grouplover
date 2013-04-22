@@ -1,4 +1,11 @@
 <% show_groups.each do |show_group| %>
+  <% 
+      if show_group.member_counts == 0
+        show_group.destroy
+        next
+      end
+  %>
+
   <% if show_group != nil %>
   <% team_leader = show_group.team_leader %>
   <div class="group_showpanel" id="related_group_<%= show_group.id %>" style="clear: both;margin-top: 30px;" >

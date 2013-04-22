@@ -1,5 +1,11 @@
 <% if  groups.blank? != true %>
   <% groups.each do |group| %>
+  <%
+      if group.member_counts == 0
+        group.destroy
+        next
+      end
+  %>
     <% if group != nil && group.status != "pending" %>
       <% team_leader = group.team_leader %>
     <div class="item" id="group_<%=group.id%>">

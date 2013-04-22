@@ -38,19 +38,23 @@ class User < ActiveRecord::Base
 
   has_many :invitations, :through => :mygroups
 
-  has_many :messages, :foreign_key => "sender_id"
+  has_many :messages, :foreign_key => "sender_id", :dependent => :destroy
 
   has_many :sended_private_messages, :class_name => "PrivateMessage",
-                                     :foreign_key => "sender_id"
+                                     :foreign_key => "sender_id",
+                                     :dependent => :destroy
 
   has_many :received_private_messages, :class_name => "PrivateMessage",
-                                       :foreign_key => "receiver_id"
+                                       :foreign_key => "receiver_id",
+                                       :dependent => :destroy
 
   has_many :sended_photo_comments, :class_name => "PhotoComment",
-                                   :foreign_key => "sender_id"
+                                   :foreign_key => "sender_id",
+                                   :dependent => :destroy
 
   has_many :received_photo_comments, :class_name => "PhotoComment",
-                                     :foreign_key => "receiver_id"
+                                     :foreign_key => "receiver_id",
+                                     :dependent => :destroy
 
   has_many :tips, :dependent => :destroy
   define_index do

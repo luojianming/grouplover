@@ -7,7 +7,8 @@ class PhotoComment < ActiveRecord::Base
   scope :unread_reply_comments, lambda{ |user|where(["receiver_id=? AND status=?",user.id, "unread"]) }
 
   has_many :replied_comments, :class_name => "PhotoComment",
-           :foreign_key => "original_comment_id"
+           :foreign_key => "original_comment_id",
+           :dependent => :destroy
 
   belongs_to :original_comment, :class_name => "PhotoComment"
 
