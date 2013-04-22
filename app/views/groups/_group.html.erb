@@ -6,7 +6,7 @@
       <%= render 'shared/invite_action', :show_group => group %>
       <%= render 'shared/group_invite_modal', :show_group => group %>
       <div class="box-photo"><%= safe_image_tag(group.image_url(:thumb),'photo/'+(group.id%12 + 1).to_s + '.jpg') %></div>
-      <div class="group_info"><span><%= group.name %></span></div>
+      <div class="group_info"><span><%= group.name %>---<%= group.location %></span></div>
         <div class="group_description"><span><%= group.description %></span></div>
         <div class="members">
           <ul style="margin-left:5px">
@@ -18,7 +18,7 @@
                 <% else %>
                   <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg') %>
                 <% end %>
-                <span>发起者：<%= group.team_leader.name %> <%= group.team_leader.profile.hometown %></span>
+                <span>发起者：<%= team_leader.name %> <%= team_leader.profile.hometown %> <%= team_leader.profile.sex %></span>
               </li>
             <% end %>
             <% group.group_memberships.each do |group_membership| %>
@@ -31,7 +31,7 @@
               <% else %>
                 <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
               <% end %>
-              <span><%= member.name %> <%= member.profile.hometown %></span>
+              <span><%= member.name %> <%= member.profile.hometown %> <%= member.profile.sex %></span>
               </li>
             <% end %>
           <% end %>

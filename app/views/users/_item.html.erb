@@ -23,7 +23,7 @@
         <% else %>
           <%= safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg') %>
         <% end %>    
-        <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %></span>
+        <span>发起者：<%= team_leader.name%> <%= team_leader.profile.hometown %> <%=team_leader.profile.sex %></span>
         </li>
       <% end %>
         <% initiate_group.members.each do |member| %>
@@ -35,7 +35,7 @@
         <%else %>
           <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
         <% end %>
-        <span><%= member.name%> <%= member.profile.hometown %></span>
+        <span><%= member.name%> <%= member.profile.hometown %> <%= member.profile.sex %></span>
         </li>
       <% end %>
       <% end %>

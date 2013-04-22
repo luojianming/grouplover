@@ -15,7 +15,7 @@
         <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
           <div class="accordion-inner sended_request_inner" style="padding-left: 0px;padding-right: 0px;">
             <% (applied_groupships | target_groupships).each do |group_ship| %>
-              <% 
+              <%
                 invitation = Invitation.new(:initiate_group_id => group_ship.applied_group_id,
                                             :time => group_ship.time,
                                             :location => group_ship.location,

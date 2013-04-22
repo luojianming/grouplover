@@ -34,7 +34,7 @@
         <!--
         <div class="activity_description"><span><%= invitation.description %></span></div>
         -->
-        <div class="activity_description"><span>发布小组：<%= invitation.initiate_group.name %></span></div>
+        <div class="activity_description"><span>发布小组：<%= invitation.initiate_group.name %>---<%= invitation.initiate_group.location %></span></div>
     <div class="members">
       <ul style="margin-left:5px">
         <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
@@ -57,7 +57,7 @@
             <% else %>
               <%= safe_image_tag(member.profile.avatar_url(:mini),'girl.jpg') %>
             <% end %>
-            <span><%= member.name %> <%= member.profile.hometown %></span>
+            <span><%= member.name %> <%= member.profile.hometown %> <%= member.profile.sex %></span>
           </li>
         <% end %>
       <% end %>

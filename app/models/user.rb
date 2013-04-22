@@ -159,4 +159,13 @@ class User < ActiveRecord::Base
     end
     @result
   end
+
+  def self.followed_related_groups(user)
+    @followed_groups = []
+    @followed_user_ids = Relationship.where("follower_id=(:user_id)", user_id: user).map(&:followed_id)
+    @followed_user_ids.each do |followed_id|
+      @followed_groups = @followed_groups | User.find(followed_id).related_groups
+    end
+    @followed_groups
+  end
 end

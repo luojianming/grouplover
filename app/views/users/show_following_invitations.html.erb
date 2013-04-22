@@ -4,6 +4,7 @@
   <div id="personalpage" class="container">
     <% if @following_invitations.size != 0 %>
       <%= render 'invitation', :invitations => @following_invitations %>
+      <%= render 'groups/group', :groups => @followed_groups %>
     <% else %>
       <!--
       <div  style="margin-left: 392px;margin-top: 80px;">

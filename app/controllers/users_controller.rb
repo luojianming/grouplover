@@ -39,18 +39,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    begin
       @user = User.find(params[:id])
       if current_user == @user
         @following_invitations = Invitation.initiated_by_users_followed_by(@user)
+        @followed_groups = User.followed_related_groups(@user)
         render 'show_following_invitations'
       else
         @my_invitations = Invitation.initiated_by_user(@user)
         render 'show_my_invitations'
       end
-    rescue
-      redirect_to root_path, :alert => "您访问的页面不存在"
-    end
   end
 
   def update
@@ -124,6 +121,7 @@ class UsersController < ApplicationController
   def following_invitations
     @user = User.find(params[:id])
     @following_invitations = Invitation.initiated_by_users_followed_by(@user)
+    @followed_groups = User.followed_related_groups(@user)
     render 'show_following_invitations'
   end
 

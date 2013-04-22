@@ -139,11 +139,13 @@
               未处理的申请<b class="caret"></b>
             <% end %>
           <% end %>
+          <!--
           <% if (action_name == "pending_requests") %>
             <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
               未处理的请求<b class="caret"></b>
             <% end %>
           <% end %>
+          -->
           <% if (action_name == "sended_requests") %>
             <%= link_to(my_invitations_user_path(@user), :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle", :id => "my_feed") do %>
               已发送的请求<b class="caret"></b>
@@ -159,7 +161,9 @@
             <li><%= link_to "我参与的活动", participate_activities_user_path(@user) %></li>
             <li><%= link_to "我发布的活动", my_invitations_user_path(@user) %></li>
             <li><%= link_to "未处理的申请", received_invitations_user_path(@user) %></li>
+            <!--
             <li><%= link_to "未处理的请求", pending_requests_user_path(@user) %></li>
+            -->
             <li><%= link_to "已发送的请求", sended_requests_user_path(@user) %></li>
           </ul>
         </li>

@@ -2,8 +2,10 @@
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides", "homepage", "bootswatch", "chosen" %>
 <% end %>
 <div class="container">
-  <%= render 'shared/header' %>
   <div id="personalpage" class="container">
+    <% if @pending_requests.size > 0 %>
+      <h4>您收到了如下邀请</h4>
+    <% end %>
     <%= render 'pending_request', :pending_requests => @pending_requests %>
   </div><!-- personalpage -->
 </div><!-- container -->

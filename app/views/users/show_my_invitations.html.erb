@@ -12,26 +12,28 @@
     <% else %>
       <%= render 'invitation', :invitations => @my_invitations %>
     <% end %>
-      <%
+    <% if controller_name == "users" && action_name == "my_invitations"%>
+    <%
         @my_groupships.each do |groupship|
           invitation = Invitation.new(:initiate_group_id => groupship.applied_group_id,
-                                             :time => groupship.time,
-                                             :location => groupship.location,
-                                             :status => groupship.status,
-                                             :activity => groupship.activity)
+                                  :time => groupship.time,
+                                  :location => groupship.location,
+                                  :status => groupship.status,
+                                  :activity => groupship.activity)
 
           initiate_group = groupship.applied_group
           team_leader = initiate_group.team_leader
-        %>
-        <%=
-          render 'group_group_item', :initiate_group => initiate_group,
-            :team_leader => team_leader,
-            :invitation => invitation,
-            :groupship => groupship
-          %>
-      <%
-        end
-      %>
+    %>
+    <%=
+      render 'group_group_item', :initiate_group => initiate_group,
+        :team_leader => team_leader,
+        :invitation => invitation,
+        :groupship => groupship
+    %>
+    <%
+    end
+    end
+    %>
   </div><!-- personalpage -->
 </div><!-- container -->
 <%= render 'users/show_foot' %>

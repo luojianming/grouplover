@@ -2,8 +2,8 @@
   <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "conversations", "docs", "style" %>
 <% end %>
 <% if current_user.related_groups.size > 0 %>
-<div class="span12">
-    <div class="span4" style="float:left;margin-right:50px;margin-left:130px;">
+<div style="width: 1080px;margin: auto">
+    <div style="width: 300px;float:left;">
       <ul id='conversation_list'>
         <h4>与我相关的小组</h4>
         <% current_user.related_groups.each do |group| %>
@@ -113,7 +113,7 @@
         <% end %>
       </ul>
     </div>
-    <div class="span10" id="conversations_container" style="float:left;margin-top: 37px;">
+    <div id="conversations_container" style="width: 750px;float:left;margin-top: 37px;">
     </div>
   </div>
 <% else %>
