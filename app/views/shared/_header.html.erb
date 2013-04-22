@@ -43,7 +43,7 @@
             </div>
 
             <% if current_user == @user %>
-              <%= link_to "创建邀请帖", new_invitation_path, :class => "btn btn-primary header_btn", :id => "create_invitation_btn" %>
+              <%= link_to "创建活动", new_invitation_path, :class => "btn btn-primary header_btn", :id => "create_invitation_btn" %>
               <script type="text/javascript">Renren.init({appId:181208});</script>
               <a href="javascript:sendRequest();" class="btn btn-primary header_btn">邀请人人好友</a>
               <!--

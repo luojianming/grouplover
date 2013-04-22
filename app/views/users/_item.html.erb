@@ -13,6 +13,7 @@
       <span class="normal-font">活动：</span><span class="activity_info_font"><%= invitation.activity %></span>
     </div>
     <div class="activity_description"><span><%= invitation.description %></span></div>
+    <div class="activity_description"><span>发布小组：<%= initiate_group.name %>---<%=initiate_group.location %></span></div>
     <div class="members">
       <ul style="margin-left:5px;list-style-type: none;">
         <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
@@ -32,7 +33,7 @@
         <li>
         <% if member.profile.sex == '男' %>
           <%= safe_image_tag(member.profile.avatar_url(:mini), 'boy.jpg') %>
-        <%else %>
+        <% else %>
           <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg') %>
         <% end %>
         <span><%= member.name%> <%= member.profile.hometown %> <%= member.profile.sex %></span>

@@ -22,7 +22,7 @@
                                               :location => sended_request.location,
                                               :description => sended_request.description,
                                               :activity => sended_request.activity)
-                  initiate_group = sended_request.applied_group
+                  initiate_group = sended_request.target_group
                   team_leader = initiate_group.team_leader
                 %>
               <% end %>
@@ -40,7 +40,11 @@
                   <span class="normal-font">地点：</span><span class="activity_info_font"><%= invitation.location %></span><br/>
                   <span class="normal-font">活动：</span><span class="activity_info_font"><%= invitation.activity %></span>
                 </div>
-                  <div class="activity_description"><span><%= invitation.description %></span></div>
+                <% if sended_request.class == GroupGroupship %>
+                  <div class="activity_description"><span>邀请者：<%= sended_request.applied_group.name %>---<%=sended_request.applied_group.location %></span></div>
+                  <div class="activity_description"><span>接受者：<%= initiate_group.name %>---<%=initiate_group.location %></span></div>
+                <% end %>
+                <div class="activity_description"><span><%= invitation.description %></span></div>
                   <div class="members">
                     <ul style="margin-left:5px;list-style-type: none;">
                       <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
