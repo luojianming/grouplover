@@ -4,4 +4,10 @@
                        :class => "btn join_link", :confirm =>"确定接受该邀请吗？") do%>
       <i class="icon-heart"></i>接受
    <% end %>
+   <%= link_to({:controller => "group_groupships", :action => "destroy",
+                :group_groupship => group_ship},
+                :method => :delete,
+                :class => "btn join_link_delete", :confirm =>"确定忽略该邀请吗？") do%>
+      <i class="icon-heart"></i>忽略
+   <% end %>
 </div>	

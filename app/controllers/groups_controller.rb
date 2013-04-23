@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
     @group = current_user.mygroups.build(params[:group])
      respond_to do |format|
       if @group.save
-        format.html { redirect_to groups_user_path(current_user), notice: '小组创建成功' }
+        format.html { redirect_to groups_user_path(current_user), notice: '小组创建成功，等待激活' }
         format.json { render json: @profile, status: :created, location: @profile }
       else
         format.html { render 'new'}

@@ -38,8 +38,9 @@ class GroupGroupshipsController < ApplicationController
   end
 
   def destroy
-    @groupship = GroupGroupship.find(params[:id])
+    @groupship = GroupGroupship.find(params[:group_groupship].to_i)
     @groupship.destroy
+    redirect_to received_invitations_user_path(current_user), :notice => "忽略成功"
   end
 
   def accept
