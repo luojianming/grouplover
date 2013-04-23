@@ -46,7 +46,6 @@ class GroupsController < ApplicationController
 =end
 
   def create
-debugger
     @member_ids = params[:member_ids]
     if @member_ids == nil
       @member_ids = []
@@ -59,7 +58,6 @@ debugger
       params[:group][:group_memberships_attributes][i.to_s][:member_id] = @member_ids[i.to_i]
       params[:group][:group_memberships_attributes][i.to_s]["status"] = "pending"
     end
-    debugger
     @group = current_user.mygroups.build(params[:group])
      respond_to do |format|
       if @group.save

@@ -39,15 +39,21 @@ class UsersController < ApplicationController
   end
 
   def show
+    begin
       @user = User.find(params[:id])
-      if current_user == @user
-        @following_invitations = Invitation.initiated_by_users_followed_by(@user)
-        @followed_groups = User.followed_related_groups(@user)
-        render 'show_following_invitations'
-      else
-        @my_invitations = Invitation.initiated_by_user(@user)
-        render 'show_my_invitations'
-      end
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
+    if current_user == @user
+      @following_invitations = Invitation.initiated_by_users_followed_by(@user)
+      @followed_groups = User.followed_related_groups(@user)
+      render 'show_following_invitations'
+    else
+      @my_invitations = Invitation.initiated_by_user(@user)
+      render 'show_my_invitations'
+    end
   end
 
   def update
@@ -74,7 +80,13 @@ class UsersController < ApplicationController
   end
 
   def following
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     if current_user == @user
       @label = "关注"
     else
@@ -85,7 +97,13 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     if current_user == @user
       @label = "粉丝"
     else
@@ -96,7 +114,13 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     if current_user == @user
       @label = "好友"
     else
@@ -108,7 +132,13 @@ class UsersController < ApplicationController
   end
 
   def groups
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @mygroups = @user.mygroups
     @group_memberships = @user.group_memberships
     @groups = []
@@ -119,14 +149,26 @@ class UsersController < ApplicationController
   end
 
   def following_invitations
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @following_invitations = Invitation.initiated_by_users_followed_by(@user)
     @followed_groups = User.followed_related_groups(@user)
     render 'show_following_invitations'
   end
 
   def my_invitations
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @my_invitations = Invitation.initiated_by_user(@user)
     @my_groups = @user.mygroups
     @my_groupships = []
@@ -137,13 +179,25 @@ class UsersController < ApplicationController
   end
 
   def friends_invitations
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @my_invitations = Invitation.initiated_by_user(@user)
     render 'show_my_invitations'
   end
 
   def active_invitations
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @related_groups = []
     @active_invitations = Hash.new
     @related_groups = current_user.related_groups()
@@ -157,7 +211,13 @@ class UsersController < ApplicationController
   end
 
   def participate_activities
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @related_groups = []
     @participate_activities = Hash.new
     @related_groups = current_user.related_groups()
@@ -191,20 +251,38 @@ class UsersController < ApplicationController
   end
 
   def pending_requests
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @pending_requests = GroupMembership.find_all_by_member_id_and_status(
                         @user.id, "pending")
     render 'show_pending_requests'
   end
 
   def albums
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @albums = @user.albums
     render 'show_album'
   end
 
   def my_private_messages
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @private_messages_original = PrivateMessage.related_messages(@user).original_messages
     @private_messages_original = @private_messages_original.paginate(page: params[:page], :per_page => 10)
     render 'show_private_messages'
@@ -212,7 +290,13 @@ class UsersController < ApplicationController
 
   def visitors
     @label = "最近来访"
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     if @user.extra_info == nil
       @user.extra_info = @user.create_extra_info()
     end
@@ -234,7 +318,13 @@ class UsersController < ApplicationController
 
   def latest_followers
     @label = "最新粉丝"
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @follower_ships = Relationship.find_all_by_followed_id_and_status(current_user.id,"pending")
     @users = []
     @follower_ships.each do |follower_ship|
@@ -245,7 +335,13 @@ class UsersController < ApplicationController
   end
 
   def sended_requests
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     @related_groups = []
     @related_groups = current_user.related_groups()
     @sended_requests = Hash.new
@@ -261,7 +357,13 @@ class UsersController < ApplicationController
   end
 
   def detect_authorization
-    @user = User.find(params[:id])
+    begin
+      @user = User.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
     if @user == current_user
       return true
     else
