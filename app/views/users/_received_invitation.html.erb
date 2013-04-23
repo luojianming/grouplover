@@ -92,7 +92,10 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
         href="#collapse_group_<%=group_key%>">
-        <%= group.name %>
+        <%= group.name %>-----&nbsp;&nbsp;创建者：<%=group.team_leader.name %>&nbsp; &nbsp;&nbsp;成员：
+        <% group.members.each do |member| %>
+          <%= member.name %>&nbsp;&nbsp;
+        <% end %>
       </a>
     </div>
 

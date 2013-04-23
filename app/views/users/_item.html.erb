@@ -14,6 +14,9 @@
     </div>
     <div class="activity_description"><span><%= invitation.description %></span></div>
     <div class="activity_description"><span>发布小组：<%= initiate_group.name %>---<%=initiate_group.location %></span></div>
+    <% if group_ship != nil %>
+      <div class="activity_description"><span>受邀小组：<%= group_ship.target_group.name %>---<%=group_ship.target_group.location %></span></div>
+    <% end %>
     <div class="members">
       <ul style="margin-left:5px;list-style-type: none;">
         <%= link_to(user_path(team_leader),:title => team_leader.profile.style,

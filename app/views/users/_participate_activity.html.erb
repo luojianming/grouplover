@@ -1,6 +1,9 @@
 <div class="accordion" id="accordion2">
   <% @participate_activities.keys.each do |group_key| %>
     <% group = Group.find(group_key) %>
+    <% applied_groupships = GroupGroupship.find_all_by_applied_group_id(group.id) %>
+    <% target_groupships = GroupGroupship.find_all_by_target_group_id(group.id) %>
+    <% if (applied_groupships | target_groupships).size > 0 || @participate_activities[group_key].blank? != true %>
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
@@ -9,9 +12,6 @@
         </a>
       </div>
 
-      <% if @participate_activities[group_key].blank? != true %>
-        <% applied_groupships = GroupGroupship.find_all_by_applied_group_id(group.id) %>
-        <% target_groupships = GroupGroupship.find_all_by_target_group_id(group.id) %>
         <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
           <div class="accordion-inner sended_request_inner" style="padding-left: 0px;padding-right: 0px;">
             <% (applied_groupships | target_groupships).each do |group_ship| %>
@@ -26,7 +26,7 @@
                 team_leader = initiate_group.team_leader
               %>
               <%= render 'item', :invitation => invitation, :team_leader => team_leader,
-                  :initiate_group => initiate_group %>
+                :initiate_group => initiate_group, :group_ship => group_ship %>
             <% end %>
             <% @participate_activities[group_key].each do |active_invitation| %>
               <% if active_invitation.class == GroupInvitationship %>
@@ -37,17 +37,11 @@
               <% initiate_group = invitation.initiate_group %>
               <% team_leader = initiate_group.team_leader %>
               <%= render 'item', :invitation => invitation, :team_leader => team_leader, 
-                  :initiate_group => initiate_group %>
+                :initiate_group => initiate_group, :group_ship => nil %>
             <% end %>
             </div><!--accordion-inner-->
           </div><!-- accordion-body -->
-        <% else %>
-          <div id="collapse_<%= group_key %>" class="accordion-body collapse in">
-            <div class="accordion-inner">
-              <h4 style="text-align: center;">这个group没有相关的活动哦</h4>
-            </div>
-          </div>
-        <% end %>
       </div><!-- accordion-group -->
+    <% end %>
     <% end %>
 </div>

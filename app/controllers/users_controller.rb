@@ -163,9 +163,7 @@ class UsersController < ApplicationController
     @related_groups = current_user.related_groups()
     @related_groups.each do |group|
       @tmp = GroupInvitationship.find_all_by_applied_group_id(group.id) | Invitation.find_all_by_initiate_group_id(group.id)
-      if @tmp.size > 0
-        @participate_activities[group.id] = @tmp
-      end
+      @participate_activities[group.id] = @tmp
     end
     render 'show_participate_activities'
   end
