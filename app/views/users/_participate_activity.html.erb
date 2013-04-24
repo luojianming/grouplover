@@ -8,7 +8,12 @@
       <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
           href="#collapse_<%=group_key%>">
-          <%= group.name %>相关的活动
+          <%= group.name %>相关的活动&nbsp;-------
+          创建者：<%= group.team_leader.name %>&nbsp;&nbsp;
+          成员：
+          <% group.members.each do |member| %>
+            <%= member.name %>&nbsp;&nbsp;
+          <% end %>
         </a>
       </div>
 
@@ -22,11 +27,11 @@
                                             :activity => group_ship.activity,
                                             :description => group_ship.description,
                                             :status => group_ship.status)
-                initiate_group = group_ship.applied_group
+                initiate_group = group_ship.target_group
                 team_leader = initiate_group.team_leader
               %>
-              <%= render 'item', :invitation => invitation, :team_leader => team_leader,
-                :initiate_group => initiate_group, :group_ship => group_ship %>
+              <%= render 'group_group_item', :invitation => invitation, :team_leader => team_leader,
+                :initiate_group => initiate_group, :groupship => group_ship %>
             <% end %>
             <% @participate_activities[group_key].each do |active_invitation| %>
               <% if active_invitation.class == GroupInvitationship %>

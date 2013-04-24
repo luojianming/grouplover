@@ -5,7 +5,12 @@
       <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
           href="#collapse_<%=group_key%>">
-          <%= group.name %>应征的活动
+          <%= group.name %>应征的活动&nbsp;-------
+          创建者：<%= group.team_leader.name %>&nbsp;&nbsp;
+          成员：
+          <% group.members.each do |member| %>
+            <%= member.name %>&nbsp;&nbsp;
+          <% end %>
         </a>
       </div>
 

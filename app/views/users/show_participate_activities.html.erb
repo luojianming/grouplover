@@ -30,3 +30,17 @@ $container.imagesLoaded(function(){
     });
 });
 </script>
+<script>
+$(function(){
+  applied_action_process();
+});
+  function applied_action_process(){
+    $("div.item").children(".actions").hide();
+    $("div.item").mouseout(function(){
+      $(this).children(".actions").hide();
+    });
+    $("div.item").mouseover(function(){
+      $(this).children(".actions").show();
+    });
+  }
+</script>
