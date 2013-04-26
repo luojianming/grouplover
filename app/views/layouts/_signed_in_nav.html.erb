@@ -17,7 +17,7 @@
     <li class="dropdown active">
     <% if controller_name == "groups" %>
       <%= link_to(users_path, :data=> { :toggle => "dropdown"}, :class=>"dropdown-toggle active") do %>
-        寻找group<b class="caret"></b>
+        群组<b class="caret"></b>
       <% end %>
     <% end %>
     <% if controller_name == "users" %>
@@ -33,7 +33,7 @@
   <% end %>
     <ul class="dropdown-menu">
       <li>
-        <%= link_to "寻找group", groups_path %>
+        <%= link_to "群组", groups_path %>
       </li>
       <li>
         <%= link_to "那个TA", users_path %>

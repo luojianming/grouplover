@@ -38,7 +38,7 @@
             <div class="description">
               <p>
                 <%= best_in_place_if @user==current_user, @user.profile, :description, :classes => "user_description",
-                  :path => user_profiles_path(@user) , :type => :textarea, :html_attrs => {:maxlength => 140},:nil => "用一句话描述自己吧(最多140个字）..." %>
+                  :path => user_profiles_path(@user) , :type => :textarea, :html_attrs => {:maxlength => 140},:nil => "说点什么吧(最多140个字）..." %>
               </p>
             </div>
 
@@ -196,9 +196,9 @@
       </ul>
       </li>
       <% if controller_name == "users" && action_name == "groups" %>
-        <li style="margin-left:300px" class="nav_li"><%= link_to "Groups", groups_user_path(@user), :id => "my_feed"%></li>
+        <li style="margin-left:300px" class="nav_li"><%= link_to "群组", groups_user_path(@user), :id => "my_feed"%></li>
       <% else %>
-        <li style="margin-left:300px"><%= link_to "Groups", groups_user_path(@user)%></li>
+        <li style="margin-left:300px"><%= link_to "群组", groups_user_path(@user)%></li>
       <% end %>
       <% if controller_name == "profiles" && action_name == "show" %>
         <li class="nav_li"><%= link_to "资料", user_profiles_path(@user), :id => "my_feed" %></li>
@@ -206,9 +206,9 @@
         <li><%= link_to "资料", user_profiles_path(@user) %></li>
       <% end %>
       <% if controller_name == "users" && action_name == "albums" %>
-        <li class="nav_li"><%= link_to "个人show", albums_user_path(@user), :id => "my_feed" %></li>
+        <li class="nav_li"><%= link_to "个人秀", albums_user_path(@user), :id => "my_feed" %></li>
       <% else %>
-        <li><%= link_to "个人show", albums_user_path(@user) %></li>
+        <li><%= link_to "个人秀", albums_user_path(@user) %></li>
       <% end %>
     </ul>
   </div>
@@ -246,4 +246,3 @@ $(function(){
   $('#my_feed').css("color", "#D9230F");
 });
 </script>
-

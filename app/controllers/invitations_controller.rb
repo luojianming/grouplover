@@ -5,6 +5,7 @@ class InvitationsController < ApplicationController
   # GET /invitations.json
   before_filter :authenticate_user!
   before_filter :only_create_one_invitation_one_day, :only => :create
+  before_filter :the_group_cannot_be_nil, :only => :create
   def index
     per_page = 100
     @invitations = Invitation.by_location(params[:location]).search(:per_page => per_page) if params[:location]
@@ -79,10 +80,8 @@ class InvitationsController < ApplicationController
     respond_to do |format|
       if @invitation.save
         initiate_group = @invitation.initiate_group
-        initiate_group.members do |member|
-          if member != current_user
-            member.tips.create(:tip_type => "invitation", :content => initiate_group.name + "发布了新的活动")
-          end
+        initiate_group.members.each do |member|
+          member.tips.create(:tip_type => "invitation", :content => initiate_group.name + "发布了新的活动")
         end
         format.html { redirect_to my_invitations_user_path(current_user), notice: '邀请贴创建成功.' }
         format.json { render json: @invitation, status: :created, location: @invitation }
@@ -132,6 +131,13 @@ class InvitationsController < ApplicationController
 
   def fast_create
     debugger
-    
+  end
+
+  def the_group_cannot_be_nil
+    if params[:invitation][:initiate_group_id].size == 0
+      flash[:error] = "小组不能为空哦,如果还没有已经激活的小组，请先去创建并激活吧"
+      redirect_to new_invitation_path
+      return false
+    end
   end
 end

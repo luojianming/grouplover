@@ -27,7 +27,11 @@
                                             :activity => group_ship.activity,
                                             :description => group_ship.description,
                                             :status => group_ship.status)
-                initiate_group = group_ship.target_group
+                if group_ship.target_group.members.include?(current_user) || group_ship.target_group.team_leader == current_user
+                  initiate_group = group_ship.applied_group
+                else
+                  initiate_group = group_ship.target_group
+                end
                 team_leader = initiate_group.team_leader
               %>
               <%= render 'group_group_item', :invitation => invitation, :team_leader => team_leader,
@@ -41,7 +45,7 @@
               <% end %>
               <% initiate_group = invitation.initiate_group %>
               <% team_leader = initiate_group.team_leader %>
-              <%= render 'item', :invitation => invitation, :team_leader => team_leader, 
+              <%= render 'item', :invitation => invitation, :team_leader => team_leader,
                 :initiate_group => initiate_group, :group_ship => nil %>
             <% end %>
             </div><!--accordion-inner-->
