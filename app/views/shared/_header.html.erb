@@ -67,6 +67,22 @@
                 </div>
               </div>
             <% end %>
+            <% if Authorization.find_by_provider_and_user_id('xiaonei',@user.id) != nil %>
+              <div>
+                <a href="http://www.renren.com/<%= Authorization.find_by_provider_and_user_id('xiaonei',@user.id).uid%>/profile" 
+                  class="pull-right" style="margin-top: 0px;" target="_blank">
+                  人人网链接
+                </a>
+              </div>
+            <% end %>
+            <% if Authorization.find_by_provider_and_user_id('weibo',@user.id) != nil %>
+              <div>
+                <a href="http://weibo.com/u/<%= Authorization.find_by_provider_and_user_id('weibo',@user.id).uid %>"
+                   class="pull-right" style="margin-top: 0px;" target="_blank">
+                  新浪微博
+                </a>
+              </div>
+            <% end %>
           </div>
         </span>
       </div>
@@ -221,7 +237,7 @@ function sendRequest() {
     params : {
       "accept_url":"http://www.aizuju.com",//接受邀请按钮url
       "accept_label":"接受",
-      "actiontext":"邀请好友一起来玩"
+      "actiontext":"爱组局是一专注于群组对群组（2～4人）约会的社交网站， 每个人可以和自己的好友组建成群组，进而与其他群组进行约会，等待就是浪费青春， 赶快加入我们吧"
     },
      onSuccess: function(r){}, 
      onFailure: function(r){}

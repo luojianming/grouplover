@@ -23,7 +23,7 @@ every 30.minutes do
 end
 
 every :reboot do
-    rake "ts:start"
+  rake "ts:start"
 end
 
 
