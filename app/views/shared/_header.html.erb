@@ -49,6 +49,18 @@
               <!--
                 <%= link_to '绑定人人', user_omniauth_authorize_path("xiaonei")%>
               -->
+              <% if Authorization.find_by_provider_and_user_id('xiaonei',@user.id) != nil %>
+                <a href="http://www.renren.com/<%= Authorization.find_by_provider_and_user_id('xiaonei',@user.id).uid%>/profile" 
+                  class="pull-right header_btn" style="margin-top: 60px;" target="_blank">
+                  人人网链接
+                </a>
+              <% end %>
+              <% if Authorization.find_by_provider_and_user_id('weibo',@user.id) != nil %>
+                <a href="http://weibo.com/u/<%= Authorization.find_by_provider_and_user_id('weibo',@user.id).uid %>"
+                  class="pull-right header_btn" style="margin-top: 60px;" target="_blank">
+                  新浪微博
+                </a>
+              <% end %>
             <% else %>
               <% if @user.profile.description.to_s.size != 0 %>
                 <div style="margin-top: 60px;">
@@ -65,22 +77,20 @@
                   </a>
                   <%= render 'users/send_message_modal' %>
                 </div>
-              </div>
-            <% end %>
-            <% if Authorization.find_by_provider_and_user_id('xiaonei',@user.id) != nil %>
-              <div>
-                <a href="http://www.renren.com/<%= Authorization.find_by_provider_and_user_id('xiaonei',@user.id).uid%>/profile" 
-                  class="pull-right" style="margin-top: 0px;" target="_blank">
-                  人人网链接
-                </a>
-              </div>
-            <% end %>
-            <% if Authorization.find_by_provider_and_user_id('weibo',@user.id) != nil %>
-              <div>
-                <a href="http://weibo.com/u/<%= Authorization.find_by_provider_and_user_id('weibo',@user.id).uid %>"
-                   class="pull-right" style="margin-top: 0px;" target="_blank">
-                  新浪微博
-                </a>
+                <div class="pull-right" style="margin-top: -25px;">
+                  <% if Authorization.find_by_provider_and_user_id('xiaonei',@user.id) != nil %>
+                    <a href="http://www.renren.com/<%= Authorization.find_by_provider_and_user_id('xiaonei',@user.id).uid%>/profile" 
+                      class="send_private_message" target="_blank" style="margin-right: 10px;" >
+                      人人网链接
+                    </a>
+                  <% end %>
+                  <% if Authorization.find_by_provider_and_user_id('weibo',@user.id) != nil %>
+                    <a href="http://weibo.com/u/<%= Authorization.find_by_provider_and_user_id('weibo',@user.id).uid %>"
+                      class="send_private_message" style="margin-top: 60px;" target="_blank">
+                      新浪微博
+                    </a>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
