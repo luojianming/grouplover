@@ -19,6 +19,11 @@
     <%= yield(:head) %>
   </head>
   <body class="<%= controller_name %> <%= action_name %>">
+  <% if browser.ie6? %>
+    <div class="container">
+      <p style="font-size:20px;margin: auto;">糟糕，您的浏览器版本过低（IE6），为增强您的用户体验性，请升级您的浏览器或者换成其他浏览器哦</p>
+    </div>
+  <% else %>
     <%= render 'layouts/navigation' %>
     <%= yield(:subnav) %>
     <div id="messages">
@@ -30,5 +35,6 @@
       <span id="current_user_id" style="display: none"><%= current_user.id %></span>
       <% end %>
     </div>
+  <% end %>
   </body>
 </html>

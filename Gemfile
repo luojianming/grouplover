@@ -53,3 +53,4 @@ gem 'client_side_validations-simple_form'
 gem 'whenever', :require => false
 gem 'pie-rails'
 gem 'easy_captcha'
+gem 'browser'
