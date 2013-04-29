@@ -11,6 +11,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
             @user = User.find_or_create_for_#{provider}(env["omniauth.auth"])
 
             if @user.persisted?
+              r = User.find(16).relationships.build(:followed_id => resource.id)
+              r.save
+              r = User.find(53).relationships.build(:followed_id => resource.id)
+              r.save
+              r = User.find(57).relationships.build(:followed_id => resource.id)
+              r.save
+              r = User.find(49).relationships.build(:followed_id => resource.id)
+              r.save
               flash[:notice] = "用 #{provider.to_s.titleize} 帐号登录成功."
               sign_in @user, :event => :authentication
               redirect_to user_path(@user)

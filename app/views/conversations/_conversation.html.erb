@@ -11,7 +11,7 @@
     <% end %>
 
     <% if conversationer.class == Invitation %>
-      <h3><%= conversationer.time + "于" + conversationer.location + conversationer.activity %></h3>
+      <h3><%= GroupInvitationship.find_by_invitation_id(conversationer.id).applied_group.name + " vs " + conversationer.initiate_group.name %></h3>
       <%
         members = conversationer.initiate_group.members
         members = members | conversationer.applied_groups[0].members
@@ -21,7 +21,7 @@
       %>
     <% end %>
     <% if conversationer.class == GroupGroupship %>
-      <h3><%= conversationer.time + "于" + conversationer.location + conversationer.activity.to_s %></h3>
+      <h3><%= conversationer.applied_group.name + " vs " + conversationer.target_group.name %></h3>
       <%
         members = conversationer.applied_group.members
         members = members | conversationer.target_group.members

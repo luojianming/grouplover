@@ -60,15 +60,15 @@
                       :remote => true,
                       :id => "conversation_link_invitation_"+invitation.id.to_s,
                       :class => "conversation_link",
-                      :title =>  my_group.name + " vs " + other_group.name,
+                      :title => invitation.time  + "于" + invitation.location + invitation.activity,
                       :rel => 'tooltip') do %>
             <li class="conversationer_list" id="conversation_list_<%= invitation.conversation.id.to_s%>">
               <div class="conversationer_list_left">
-                <%= safe_image_tag(other_group.image_url(:mini),'photo/'+other_group.id.to_s+'.jpg') %>
+                <%= safe_image_tag(other_group.image_url(:mini),'photo/'+(other_group.id%12+1).to_s+'.jpg') %>
               </div>
 
               <div class="conversationer_list_right">
-                <span><%= invitation.time  + "于" + invitation.location + invitation.activity %></span>
+                <span><%= (invitation.time  + "于" + invitation.location + invitation.activity).slice(0,12) %>...</span>
               </div>
             </li>
             <%= subscribe_to "/conversations/group/"+invitation.conversation.id.to_s %>
@@ -96,16 +96,16 @@
                       :remote => true,
                       :id => "conversation_link_groupship_"+groupship.id.to_s,
                       :class => "conversation_link",
-                      :title =>  my_group.name + " vs " + other_group.name,
+                      :title => groupship.time  + "于" + groupship.location + groupship.activity.to_s,
                       :rel => 'tooltip') do %>
 
             <li class="conversationer_list" id="conversation_list_<%= groupship.conversation.id.to_s%>">
               <div class="conversationer_list_left">
-                <%= safe_image_tag(other_group.image_url(:mini),'photo/'+other_group.id.to_s+'.jpg') %>
+                <%= safe_image_tag(other_group.image_url(:mini),'photo/'+(other_group.id%12+1).to_s+'.jpg') %>
               </div>
 
               <div class="conversationer_list_right">
-                <span><%= groupship.time  + "于" + groupship.location + groupship.activity.to_s %></span>
+                <span><%= (groupship.time  + "于" + groupship.location + groupship.activity.to_s).slice(0,12) %>...</span>
               </div>
             </li>
             <%= subscribe_to "/conversations/group/"+groupship.conversation.id.to_s %>

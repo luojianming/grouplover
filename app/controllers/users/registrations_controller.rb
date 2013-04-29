@@ -19,8 +19,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
         profile.status = "active"
         profile.save(:validate => false)
 
+        r = User.find(16).relationships.build(:followed_id => resource.id)
+        r.save
+        r = User.find(53).relationships.build(:followed_id => resource.id)
+        r.save
+        r = User.find(57).relationships.build(:followed_id => resource.id)
+        r.save
+        r = User.find(49).relationships.build(:followed_id => resource.id)
+        r.save
         extra_info = resource.build_extra_info()
         extra_info.save(:validate => false)
+
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
@@ -38,7 +47,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def valid_captcha_test
-    debugger
     if captcha_valid?(params[:user][:captcha])
       return true
     else
