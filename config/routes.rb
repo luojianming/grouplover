@@ -3,6 +3,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   captcha_route
 
   match 'photos/create' => 'photos#create'
+  match 'home/about' => 'home#about'
   match 'private_messages/change_status' => 'private_messages#change_status'
   resources :private_messages, only: [:show, :create]
 

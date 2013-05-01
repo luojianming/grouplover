@@ -28,7 +28,7 @@ gem 'omniauth'
 gem 'oauth2'
 gem 'omniauth-douban-oauth2'
 gem 'omniauth-weibo-oauth2'
-gem 'omniauth-xiaonei'
+gem 'omniauth-xiaonei', :git => "git://github.com/luojianming/omniauth-xiaonei.git"
 gem 'omniauth-qq-connect'
 gem 'yaml_db'
 gem 'spork-rails'

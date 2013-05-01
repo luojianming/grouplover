@@ -23,16 +23,17 @@ class User
             else
               user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => (extra["raw_info"]["avatar_large"].to_s+".jpg") )
             end
-            r = User.find(16).relationships.build(:followed_id => resource.id)
+            r = User.find(16).relationships.build(:followed_id => user.id)
             r.save
-            r = User.find(53).relationships.build(:followed_id => resource.id)
+            r = User.find(53).relationships.build(:followed_id => user.id)
             r.save
-            r = User.find(57).relationships.build(:followed_id => resource.id)
+            r = User.find(57).relationships.build(:followed_id => user.id)
             r.save
-            r = User.find(49).relationships.build(:followed_id => resource.id)
+            r = User.find(49).relationships.build(:followed_id => user.id)
             r.save
-
-            profile = user.build_profile()
+            school_num = data["university_history"].size - 1
+            school = data["university_history"][school_num]["name"] + data["university_history"][school_num]["department"]
+            profile = user.build_profile(:birthday => data["birthday"], :school => school)
             profile.status = "active"
             profile.save(:validate => false)
             extra_info = user.build_extra_info()

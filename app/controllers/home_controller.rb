@@ -25,6 +25,9 @@ class HomeController < ApplicationController
 =end
   end
 
+  def about
+    render 'about'
+  end
   def store_location!
     store_location
   end

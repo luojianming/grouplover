@@ -60,7 +60,6 @@
               <ul class="friend_list">
                 <% if current_user.find_friends.size == 0 %>
                   <p>还没有好友哦</p>
-                  <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
                 <% else %>
                   <% current_user.find_friends.each do |member| %>
                     <li>
@@ -127,21 +126,4 @@
 
     });
   });
-</script>
-<script type="text/javascript">
-function sendRequest() {
-  var uiOpts = {
-    url : "request", 
-    display : "popup",
-    params : {
-      "accept_url":"http://www.aizuju.com",//接受邀请按钮url
-      "accept_label":"接受",
-      "actiontext":"邀请好友一起来玩"
-    },
-     onSuccess: function(r){},
-     onFailure: function(r){}
-  };
-  Renren.ui(uiOpts);
-}
-
 </script>
