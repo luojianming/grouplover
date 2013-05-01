@@ -95,6 +95,12 @@ class GroupsController < ApplicationController
       params[:group][:status] = "pending"
     end
     if @group.update_attributes(params[:group])
+      if @added_num > 0
+        for i in 0..@num-1
+          @group.members[i].tips.create(:tip_type => "add_members_tip",
+                                        :content => "群组"+@group.name+"邀请了新的成员加入")
+        end
+      end
       redirect_to groups_user_path(current_user), :notice => "更新成功"
     else
       redirect_to groups_user_path(current_user), :notice => "更新失败"

@@ -119,6 +119,10 @@
                       <%= link_to participate_activities_user_path(current_user) do %>
                         <p><%=tip.content %></p>
                       <% end %>
+                    <% elsif tip.tip_type == "add_members_tip" %>
+                      <%= link_to groups_user_path(current_user) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
                     <% end %>
                   </li>
                 <% end %>

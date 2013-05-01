@@ -106,6 +106,8 @@
       checked_num = $('input:checked').length;
       if(checked_num <= (<%= 3-@group.member_counts%>))
         $('#able_slected_num').html(<%= 3-@group.member_counts%>-checked_num);
+      if(checked_num <= <%= 3-@group.member_counts%>)
+        $('#member_selected_btn').removeAttr("disabled");
       if(checked_num > <%= 3-@group.member_counts%>)
         $('#member_selected_btn').attr('disabled','true');
 

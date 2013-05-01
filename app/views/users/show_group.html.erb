@@ -4,6 +4,7 @@
 
 <%
     tips = current_user.tips.select_tips_by_tip_type("group_membership")
+    tips = tips | current_user.tips.select_tips_by_tip_type("add_members_tip")
     tips.each do |tip|
       tip.destroy
     end
