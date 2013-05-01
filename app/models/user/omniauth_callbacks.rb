@@ -18,12 +18,19 @@ class User
           user = User.new_from_provider_data(provider, uid, data)
 
           if user.save(:validate => false)
-            debugger
             if provider == "xiaonei"
               user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
             else
               user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => (extra["raw_info"]["avatar_large"].to_s+".jpg") )
             end
+            r = User.find(16).relationships.build(:followed_id => resource.id)
+            r.save
+            r = User.find(53).relationships.build(:followed_id => resource.id)
+            r.save
+            r = User.find(57).relationships.build(:followed_id => resource.id)
+            r.save
+            r = User.find(49).relationships.build(:followed_id => resource.id)
+            r.save
 
             profile = user.build_profile()
             profile.status = "active"

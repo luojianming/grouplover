@@ -29,7 +29,7 @@
                   :inner_class => "status_select",
                   :path => user_profiles_path(@user), :classes => "user_status",
                   :collection => [["active", "可约"], ["pending", "不可约"]] %>
-                 <i class="icon-edit"></i>
+                <a id="profile_status_icon_edit"><i class="icon-edit"></i></a>
               <% else %>
                  <span><%= @user.profile.status == "active" ? "可约" : "不可约" %></span>
               <% end %>
@@ -270,5 +270,10 @@ $(function(){
 $(function(){
   $('.nav_li').css("background-color", "#FBEBE9");
   $('#my_feed').css("color", "#D9230F");
+});
+$(function(){
+  $('#profile_status_icon_edit').click(function(){
+    $('#best_in_place_profile_1_status').click();
+  });
 });
 </script>

@@ -18,10 +18,10 @@
         <div class="accordion-heading">
         <% if current_user == @user %>
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
-             href="#collapse_mygroup"> 我发起的Groups</a>
+             href="#collapse_mygroup"> 我发起的群组</a>
         <% else %>
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
-             href="#collapse_mygroup"> TA发起的Groups</a>
+             href="#collapse_mygroup"> TA发起的群组</a>
         <% end %>
         </div>
         <div id="collapse_mygroup" class="accordion-body collapse in">
@@ -30,9 +30,9 @@
               <%= render 'group', :show_groups => @mygroups, :group_type => "mygroup" %>
             <% else %>
               <% if current_user == @user %>
-                <span style="font-size: 18px;">您还没有创建任何的group哦</span>
+                <span style="font-size: 18px;">您还没有创建任何的群组哦</span>
               <% else %>
-                <span style="font-size: 18px;">TA还没有创建任何的group</span>
+                <span style="font-size: 18px;">TA还没有创建任何的群组</span>
               <% end %>
             <% end %><!-- block -->
           </div>
@@ -45,13 +45,13 @@
             <div style="clear: both; margin-top: 30px;">我参与的Groups</div>
           -->
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
-             href="#collapse_group"> 我参与的Groups</a>
+             href="#collapse_group"> 我参与的群组</a>
         <% else %>
           <!--
             <div style="clear: both; margin-top: 40px;">Ta参与的Groups</div>
             -->
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
-             href="#collapse_group"> TA参与的Groups</a>
+             href="#collapse_group"> TA参与的群组</a>
          <% end %>
        </div>
         <div id="collapse_group" class="accordion-body collapse in">
@@ -60,9 +60,9 @@
               <%= render 'group', :show_groups => @groups, :group_type => "group" %>
             <% else %>
               <% if current_user == @user %>
-                <span style="font-size: 18px;">您还没有参与任何的group哦</span>
+                <span style="font-size: 18px;">您还没有参与任何的群组哦</span>
               <% else %>
-                <span style="font-size: 18px;">TA还没有参与任何的group</span>
+                <span style="font-size: 18px;">TA还没有参与任何的群组</span>
               <% end %>
             <% end %> <!-- each -->
           </div>
@@ -73,7 +73,7 @@
 
     <div class="span3">
       <% if current_user == @user %>
-        <%= link_to "创建小组", new_group_path, :class => "btn btn-large btn-primary"  %>
+        <%= link_to "创建群组", new_group_path, :class => "btn btn-large btn-primary"  %>
       <% end %>
     </div>
   </div><!-- row -->
