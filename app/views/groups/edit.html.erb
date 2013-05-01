@@ -1,2 +1,131 @@
-<h1>Groups#edit</h1>
-<p>Find me in app/views/groups/edit.html.erb</p>
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides","chosen", "homepage" %>
+<% end %>
+<div class="container">
+  <div class="row">
+    <div class="span8">
+      <div class="hero-unit" style="background-color:#fff">
+        <%= simple_form_for @group, :html => {:class => "form-horizontal new_group_form"} do |f| %>
+          <%= f.error_notification %>
+          <legend>编辑群组</legend>
+          <%= f.input :name, :label => "小组名称", :required => true %>
+          <%= f.input :description, :label => "交友宣言", :as => :text,
+                      :input_html => { :rows => 3 }%>
+          <div class="control-group required">
+            <label class="control-label required"><abbr title="required">*</abbr> 小组所在地</label>
+            <div class="controls">
+              <%= f.select(:location, ApplicationHelper::CITIES,
+                           {},
+                           {:class => "location-select"}
+                          ) -%>
+            </div>
+          </div><!-- location -->
+          <div class="control-group">
+            <div class="controls">							
+              <a href="#myModal" role="button" class="btn" data-toggle="modal">增加好友并提交</a>
+            </div>
+          </div>
+          <!-- Modal -->
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="myModalLabel">增加好友</h3>
+            </div>
+            <div class="modal-body">
+              <% if @group.member_counts >= 3 %>
+                该组已经不能再增加成员了
+              <% else %>
+                <p>好友列表（最多还能选择<span id="able_slected_num"><%= 3-@group.member_counts %></span>人）</p>
+              <!--
+                <%= f.collection_check_boxes :member_ids, User.all, :id, :name , {:item_wrapper_tag => "div", :item_wrapper_class => "member_item"}%>
+              -->
+
+              <ul class="friend_list">
+                <% if current_user.find_friends.size == 0 %>
+                  <p>还没有可选好友哦</p>
+                  <a href="javascript:sendRequest();" class="btn btn-primary">邀请人人好友</a>
+                <% else %>
+                  <% current_user.find_friends.each do |member| %>
+                    <% if @group.members.include?(member) == false %>
+                    <li>
+                      <%= link_to(user_path(member),:title => member.name,:rel => 'tooltip', :target => "_blank") do %>
+                      <% if member.profile.sex == '男' %>
+                        <%= safe_image_tag(member.profile.avatar_url(:mini), 'boy.jpg')%>
+                      <% else %>
+                        <%= safe_image_tag(member.profile.avatar_url(:mini), 'girl.jpg')%>
+                      <% end %>
+                      <% end %>
+                      <%= check_box_tag 'member_ids[]', member.id -%>
+                    </li>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </ul>
+            <% end %>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="member_selected_btn">提交</button>
+            </div>
+          </div> <!-- myModal -->
+<!--
+          <div class="control-group">
+            <div class="controls">							
+              <button type="submit" class="btn">提交</button>
+            </div>
+          </div>
+-->
+        <% end %>
+      </div>
+    </div><!--span9-->
+    <div class="span4 group_notice">
+          <!--
+      <div class="hero-unit" style="background-color:#FFC">
+        <legend>注意事项</legend>
+        <ul>
+          <li><span class="badge badge-info">1</span>每个小组的所有成员必须同性，且无性取向问题</li>
+            <li><span class="badge badge-info">2</span>每个人最多只能创建一个group</li>
+            <li><span class="badge badge-info">3</span>每个人最多只能参加3个group</li>
+          <li><span class="badge badge-info">2</span>每个group的人数必须为2~4人</li>
+          <li><span class="badge badge-info">3</span>Group创建之后便不能再修改</li>
+        </ul>
+      </div>
+          -->
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(".location-select").chosen();
+  $(".chzn-container").css('width', '220px');
+  $(".chzn-select").chosen();
+  $(".friend_list a").tooltip();
+  $(function(){
+  //  $('#member_selected_btn').attr('disabled','true');
+  });
+  $(function(){
+    $('input[type=checkbox]').click(function(){
+      checked_num = $('input:checked').length;
+      if(checked_num <= (<%= 3-@group.member_counts%>))
+        $('#able_slected_num').html(<%= 3-@group.member_counts%>-checked_num);
+      if(checked_num > <%= 3-@group.member_counts%>)
+        $('#member_selected_btn').attr('disabled','true');
+
+    });
+  });
+</script>
+<script type="text/javascript">
+function sendRequest() {
+  var uiOpts = {
+    url : "request", 
+    display : "popup",
+    params : {
+      "accept_url":"http://www.aizuju.com",//接受邀请按钮url
+      "accept_label":"接受",
+      "actiontext":"邀请好友一起来玩"
+    },
+     onSuccess: function(r){},
+     onFailure: function(r){}
+  };
+  Renren.ui(uiOpts);
+}
+
+</script>

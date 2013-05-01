@@ -114,4 +114,15 @@ class Group < ActiveRecord::Base
     end
     return true
   end
+
+  def self.be_active?(group)
+    if(GroupInvitationship.find_by_applied_group_id(group.id) != nil || 
+       GroupGroupship.find_by_applied_group_id(group.id) != nil ||
+      GroupGroupship.find_by_target_group_id(group.id) != nil ||
+      Invitation.find_by_initiate_group_id(group.id) != nil)
+      return true
+    else
+      return false
+    end
+  end
 end

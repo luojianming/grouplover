@@ -5,6 +5,7 @@ class GroupsController < ApplicationController
 #  before_filter :members_should_of_the_same_sex, :only => :create
   before_filter :cannot_have_the_same_members, :only => :create
   before_filter :member_counts_limit, :only => :create
+#  before_filter :group_should_not_be_active, :only => :edit
   load_and_authorize_resource
   def index
     per_page = 100
@@ -78,17 +79,25 @@ class GroupsController < ApplicationController
   end
 
   def update
-    debugger
     @group = Group.find(params[:id])
-    params[:group][:status] = @group.status
     @num = @group.members.count
-    for i in  0..@num-1
-      params[:group][:group_memberships_attributes][i.to_s][:status] = @group.group_memberships[i].status
+    params[:group][:group_memberships_attributes] = {}
+    if params[:member_ids].size == 0
+      params[:group][:status] = @group.status
+    else
+      @added_members_id = params[:member_ids]
+      @added_num = @added_members_id.size
+      for i in @num..(@num+@added_num-1)
+        params[:group][:group_memberships_attributes][i.to_s] = {}
+        params[:group][:group_memberships_attributes][i.to_s][:member_id] = @added_members_id[i-@num]
+        params[:group][:group_memberships_attributes][i.to_s]["status"] = "pending"
+      end
+      params[:group][:status] = "pending"
     end
     if @group.update_attributes(params[:group])
-      redirect_to group_path(@group), :notice => "更新成功"
+      redirect_to groups_user_path(current_user), :notice => "更新成功"
     else
-      redirect_to group_path(@group), :notice => "更新失败"
+      redirect_to groups_user_path(current_user), :notice => "更新失败"
     end
   end
 
@@ -104,7 +113,6 @@ class GroupsController < ApplicationController
 
   def edit
     @group = Group.find(params[:id])
-    render 'new'
   end
   def members_should_of_the_same_sex
     params[:member_ids].each do |member_id|
@@ -146,6 +154,15 @@ class GroupsController < ApplicationController
       member = User.find(member_id.to_i)
       GroupMembership.create(:group_id => @group.id, :member_id => member.id,
                              :status => "pending")
+    end
+  end
+
+  def group_should_not_be_active
+    @group = Group.find(params[:id])
+    if Group.be_active?(@group) == true
+      flash[:error] = "目前该组不能编辑"
+      redirect_to groups_user_path
+      return false
     end
   end
 end

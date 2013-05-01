@@ -26,9 +26,13 @@
       </div>
       <% if current_user == @user %>
         <% if current_user == team_leader %>
-          <!-- 
+          <% if Group.be_active?(show_group) == false %>
             <%= link_to "编辑", edit_group_path(show_group) %>
-            -->
+          <% else %>
+            <a href="#" data-toggle="popover" data-placement="right" data-content="目前该群组已处于被邀请状态/已发布活动状态/申请活动状态，不能编辑">
+              编辑
+            </a>
+          <% end %>
           <%= link_to "解散", show_group, :confirm => '确定解散？',
             :method => :delete, :remote => true %>
         <% else %>
@@ -84,3 +88,13 @@
   </div>
 <% end %>
 <% end %> <!-- each -->
+<script>
+$(function(){
+    $("a[data-toggle=popover]")
+      .popover()
+      .click(function(e) {
+        e.preventDefault()
+  })
+});
+
+</script>
