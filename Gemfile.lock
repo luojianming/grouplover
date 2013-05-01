@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/luojianming/omniauth-xiaonei.git
+  revision: d92aeb55ef6c15bfd0dcfd4caf93517b93ad9bc3
+  specs:
+    omniauth-xiaonei (0.0.3)
+      omniauth-oauth2
+
+GIT
   remote: git://github.com/luojianming/private_pub.git
   revision: 7fd6e736d426987e639eec6c64fbe8a46322d524
   specs:
@@ -212,8 +219,6 @@ GEM
     omniauth-weibo-oauth2 (0.2.0)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
-    omniauth-xiaonei (0.0.3)
-      omniauth-oauth2
     orm_adapter (0.4.0)
     pie-rails (1.1.0)
     polyglot (0.3.3)
@@ -355,7 +360,7 @@ DEPENDENCIES
   omniauth-douban-oauth2
   omniauth-qq-connect
   omniauth-weibo-oauth2
-  omniauth-xiaonei
+  omniauth-xiaonei!
   pie-rails
   private_pub!
   quiet_assets (>= 1.0.1)
