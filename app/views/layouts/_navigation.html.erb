@@ -174,9 +174,15 @@
                 <%= link_to '注册', new_user_registration_path %>
              </li>
            <% end %>
-             <li>
-             <%= link_to '关于', home_about_path, :class => "stress" %>
-             </li>
+  <% if controller_name == "home" && action_name == "about" %>
+    <li class="active">
+      <%= link_to '关于', home_about_path, :class => "stress" %>
+    </li>
+  <% else %>
+    <li>
+      <%= link_to '关于', home_about_path, :class => "stress" %>
+    </li>
+  <% end %>
         </ul>
       </div>
     </div>

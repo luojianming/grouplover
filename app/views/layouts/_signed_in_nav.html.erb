@@ -1,5 +1,5 @@
 <ul class="nav">
-  <% if controller_name == "home" || (controller_name == "invitations" && action_name == "index") %>
+  <% if (controller_name == "home" && action_name == "index") || (controller_name == "invitations" && action_name == "index") %>
     <li class="active">
   <% else %>
     <li>
