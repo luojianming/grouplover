@@ -1,6 +1,16 @@
 Rails3BootstrapDeviseCancan::Application.routes.draw do
+  get "comments/new"
+
+  get "comments/create"
 
   captcha_route
+
+  resources :dynamic_statuses, only: [:new, :create] do
+    resources :comments, only: [:new, :create]
+  end
+  resources :feeds do
+    resources :comments, only: [:new, :create]
+  end
 
   match 'photos/create' => 'photos#create'
   match 'home/about' => 'home#about'
@@ -12,7 +22,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   end
 
   resources :photos, only: [:show, :create, :update, :destroy] do
-    resources :photo_comments, only: [:new, :create]
+    resources :comments, only: [:new, :create]
   end
 
   resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]
@@ -49,7 +59,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
           :received_invitations, :albums, :pending_requests,
           :my_private_messages, :visitors, :sended_requests,
           :latest_followers, :active_invitations, :participate_activities,
-          :friends_invitations
+          :friends_invitations, :feeds
     end
   end
 

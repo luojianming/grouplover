@@ -1,0 +1,2 @@
+module DynamicStatusesHelper
+end

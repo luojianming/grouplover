@@ -1,11 +1,11 @@
-<%= form_tag(photo_photo_comments_path(@photo),
+<%= form_tag(photo_comments_path(@photo),
                     :method => "post",
                     remote: true) do %>
   <div style="display: none">
-    <%= text_field_tag :original_comment_id,  @comment.id %>
-    <%= text_field_tag :photo_id, @photo.id %>
+    <%= text_field_tag :receiver_id,  @receiver_id %>
+    <%= text_field_tag :commentable_type, "Photo" %>
   </div>
-  <span>回复<%= @comment.sender.name %>:</span>
+  <span>回复<%= User.find(@receiver_id).name %>:</span>
   <span class="pull-right">还能输入<span class="wordsoffset">140</span>个字</span>
   <%= text_area_tag :content, nil,:class => "photo_comment_content", :maxlength => 140 %>
   <%= submit_tag "回复", :class=>"pull-right btn-primary" %>

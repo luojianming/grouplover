@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130419060812) do
+ActiveRecord::Schema.define(:version => 20130508163320) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -31,11 +31,28 @@ ActiveRecord::Schema.define(:version => 20130419060812) do
     t.string   "head_url"
   end
 
+  create_table "comments", :force => true do |t|
+    t.string   "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "conversations", :force => true do |t|
     t.integer  "conversationer_id"
     t.string   "conversationer_type"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+  end
+
+  create_table "dynamic_statuses", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "extra_infos", :force => true do |t|
@@ -48,6 +65,14 @@ ActiveRecord::Schema.define(:version => 20130419060812) do
   end
 
   add_index "extra_infos", ["user_id"], :name => "index_extra_infos_on_user_id"
+
+  create_table "feeds", :force => true do |t|
+    t.string   "model_name"
+    t.integer  "item_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "group_groupships", :force => true do |t|
     t.integer  "applied_group_id"

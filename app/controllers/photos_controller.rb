@@ -19,7 +19,13 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
-    @photo = Photo.find(params[:id])
+    begin
+      @photo = Photo.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
 
     respond_to do |format|
       format.html # show.html.erb

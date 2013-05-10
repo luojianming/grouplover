@@ -17,31 +17,36 @@ class User
         else
           user = User.new_from_provider_data(provider, uid, data)
 
-          if user.save(:validate => false)
-            if provider == "xiaonei"
-              user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
-            else
-              user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => (extra["raw_info"]["avatar_large"].to_s+".jpg") )
+          begin 
+            User.transaction do
+              if user.save(:validate => false)
+                if provider == "xiaonei"
+                  user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => extra["raw_info"]["headurl"] )
+                  school_num = data["university_history"].size - 1
+                  school = data["university_history"][school_num]["name"] + data["university_history"][school_num]["department"]
+                  profile = user.build_profile(:birthday => data["birthday"], :school => school)
+                else
+                  user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => (extra["raw_info"]["avatar_large"].to_s+".jpg") )
+                  profile = user.build_profile()
+                end
+                r = User.find(16).relationships.build(:followed_id => user.id)
+                r.save
+                r = User.find(53).relationships.build(:followed_id => user.id)
+                r.save
+                r = User.find(57).relationships.build(:followed_id => user.id)
+                r.save
+                r = User.find(49).relationships.build(:followed_id => user.id)
+                r.save
+                profile.status = "active"
+                profile.save(:validate => false)
+                extra_info = user.build_extra_info()
+                extra_info.save(:validate => false)
+                return user
+              else
+                Rails.logger.warn("User.create_from_hash 失败，#{user.errors.inspect}")
+                return nil
+              end
             end
-            r = User.find(16).relationships.build(:followed_id => user.id)
-            r.save
-            r = User.find(53).relationships.build(:followed_id => user.id)
-            r.save
-            r = User.find(57).relationships.build(:followed_id => user.id)
-            r.save
-            r = User.find(49).relationships.build(:followed_id => user.id)
-            r.save
-            school_num = data["university_history"].size - 1
-            school = data["university_history"][school_num]["name"] + data["university_history"][school_num]["department"]
-            profile = user.build_profile(:birthday => data["birthday"], :school => school)
-            profile.status = "active"
-            profile.save(:validate => false)
-            extra_info = user.build_extra_info()
-            extra_info.save(:validate => false)
-            return user
-          else
-            Rails.logger.warn("User.create_from_hash 失败，#{user.errors.inspect}")
-            return nil
           end
         end
       end
@@ -53,8 +58,7 @@ class User
         user.email = "weibo+#{uid}@itripl.com" if provider == "weibo"
         user.email = "douban+#{uid}@itripl.com" if provider == "douban"
         user.email = "xiaonei+#{uid}@itripl.com" if provider == "xiaonei"
-        
-         user.name = data["name"]
+        user.name = data["name"]
 #        user.login = data["name"] if provider == "google"
 #        user.login.gsub!(/[^\w]/, "_")
 =begin
@@ -62,7 +66,7 @@ class User
           user.login = "u#{Time.now.to_i}" # TODO: possibly duplicated user login here. What should we do?
         end
 =end
-         user.password = Devise.friendly_token[0, 20]
+        user.password = Devise.friendly_token[0, 20]
     #     user.location = data["location"]
  #       user.tagline = data["description"]
       end

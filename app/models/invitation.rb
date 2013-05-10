@@ -11,6 +11,7 @@ class Invitation < ActiveRecord::Base
   has_many :group_invitationships, :dependent => :destroy
   has_many :applied_groups, :class_name => "Group", :through => :group_invitationships
 
+  has_many :comments, :as => :commentable, :dependent => :destroy
   has_one :conversation, :as => :conversationer, :dependent => :destroy
 
   validates :initiate_group_id, :presence => true
@@ -57,5 +58,24 @@ class Invitation < ActiveRecord::Base
     where("initiate_group_id IN (:mygroup_ids)", mygroup_ids: mygroup_ids)
   end
 
+  after_save do |invitation|
+    if invitation.status != "active"
+      team_leader = initiate_group.team_leader
+      feed = team_leader.feeds.build(:model_name => "Invitation",
+                                     :item_id => id)
+      feed.save
+      initiate_group.members.each do |member|
+        feed = member.feeds.build(:model_name => "Invitation",
+                                  :item_id => id)
+        feed.save
+      end
+    end
+  end
+
+  before_destroy do |invitation|
+    Feed.find_all_by_model_name_and_item_id("Invitation",invitation.id).each do |feed|
+      feed.destroy
+    end
+  end
 
 end

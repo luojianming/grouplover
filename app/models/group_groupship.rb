@@ -6,6 +6,23 @@ class GroupGroupship < ActiveRecord::Base
 
   has_one :conversation, :as => :conversationer, :dependent => :destroy
 
+  has_many :comments, :as => :commentable, :dependent => :destroy
   validates :applied_group_id, :presence => true
   validates :target_group_id, :presence => true
+
+  def accept
+    update_attribute("status","active")
+    create_feed
+  end
+
+  def create_feed
+    applied_group.team_leader.feeds.create(:model_name => "GroupGroupship",
+                                           :item_id => id)
+    target_group.team_leader.feeds.create(:model_name => "GroupGroupship",
+                                           :item_id => id)
+    (applied_group.members | target_group.members).each do |member|
+      member.feeds.create(:model_name => "GroupGroupship",
+                          :item_id => id)
+    end
+  end
 end

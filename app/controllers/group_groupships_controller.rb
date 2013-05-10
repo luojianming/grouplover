@@ -49,7 +49,7 @@ class GroupGroupshipsController < ApplicationController
     @target_group = Group.find(@group_groupship.target_group_id)
     begin
       GroupGroupship.transaction do
-        @group_groupship.update_attribute("status","active")
+        @group_groupship.accept()
         @group_groupship.create_conversation()
         @target_group.members.each do |member|
           member.tips.create(:tip_type => "target_accept_groupship",

@@ -1,0 +1,79 @@
+<div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+  <% user = original_message_feed.user %>
+  <div style="width:50px;margin-right:20px;float:left;">
+    <%= link_to(user_path(user), :target => "_blank") do %>
+      <% if user.profile.sex == '男' %>
+        <%= safe_image_tag(user.profile.avatar_url(:mini), 'boy.jpg') %>
+      <% else %>
+        <%= safe_image_tag(user.profile.avatar_url(:mini), 'girl.jpg') %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="status_content_box" style="width:610px;float:left">
+    <span style="font-size:14px;color:#ff0000"><%= user.name %>:</span>
+    <span style="font-size:14px;"><%= original_message_feed.content %></span></br>
+    <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
+      <%= original_message_feed.created_at.strftime("%Y-%m-%d %H:%M")%>
+    </span>
+    <a href="###" class="hide_remain_link pull-right" style="display: none">收起回复</a>
+    <div id="reply_status_contents_<%= original_message_feed.id%>" class="reply_status_contents">
+      <% replied_dynamic_statuses = original_message_feed.comments %>
+      <% if replied_dynamic_statuses.size >= 1 %>
+        <%= render 'comments/comment_reply_box',
+          :replied_dynamic_status => replied_dynamic_statuses[0],
+          :original_message_feed => original_message_feed %>
+      <% end %>
+      <% if replied_dynamic_statuses.size > 2 %>
+          <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
+            <a href="###" class="remain_link"> 还有<%=(replied_dynamic_statuses.size-2).to_s%>条回复</a>
+          </div>
+          <div style="display: none" class="remain_status">
+            <% replied_dynamic_statuses.each do |replied_dynamic_status|%>
+              <% if replied_dynamic_status != replied_dynamic_statuses[0] && 
+                   replied_dynamic_status != replied_dynamic_statuses[replied_dynamic_statuses.size-1] %>
+                 <%= render 'comments/comment_reply_box',
+                   :replied_dynamic_status => replied_dynamic_status,
+                   :original_message_feed => original_message_feed %>
+               <% end %>
+            <% end %>
+          </div>
+      <% end %>
+      <% if replied_dynamic_statuses.size >= 2 %>
+        <%= render 'comments/comment_reply_box',
+          :replied_dynamic_status => replied_dynamic_statuses[replied_dynamic_statuses.size-1],
+          :original_message_feed => original_message_feed %>
+      <% end %>
+    </div>
+    <input class="span8 reply_input" placeholder="评论..." style="display: block;">
+    <span class="pull-right reply_input_btn" style="display: none">
+      <%= link_to "回复", new_dynamic_status_comment_path(original_message_feed,:type => "dynamic_status"),
+          :remote => true, :class => "reply_btn" %>
+    </span></br>
+    <div id="status_reply_<%= original_message_feed.id%>" class="original_status_reply">
+    </div>
+  </div>
+</div>
+<script>
+$(function(){
+  $('.reply_input').click(function(){
+    $(this).parent().children(".reply_input_btn").children(".reply_btn").click();
+    $(this).remove;
+  });
+});
+$(function(){
+  $('.remain_link').click(function(){
+    $(this).parent('div').siblings('.remain_status').css("display","block");
+    $(this).parent('div').css("display","none");
+    $(this).parents('.reply_status_contents').prev('a').css("display","block");
+  });
+});
+
+$(function(){
+  $('.hide_remain_link').click(function(){
+    tmp = $(this).siblings('.reply_status_contents').find('.remain_link').parent("div");
+    tmp.css("display","block");
+    tmp.siblings(".remain_status").css("display","none");
+    $(this).css("display","none");
+  });
+});
+</script>

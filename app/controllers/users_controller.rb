@@ -356,6 +356,13 @@ class UsersController < ApplicationController
     render 'show_sended_requests'
   end
 
+  def feeds
+    @user = User.find(params[:id])
+    @feeds = @user.feed
+    render 'show_feeds'
+  end
+
+
   def detect_authorization
     begin
       @user = User.find(params[:id])

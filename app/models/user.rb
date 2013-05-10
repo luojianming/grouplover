@@ -57,6 +57,9 @@ class User < ActiveRecord::Base
                                      :dependent => :destroy
 
   has_many :tips, :dependent => :destroy
+  has_many :dynamic_statuses, :dependent => :destroy
+
+  has_many :feeds, :dependent => :destroy
   define_index do
     indexes profile.sex, as: :user_sex
     indexes :name
@@ -115,7 +118,7 @@ class User < ActiveRecord::Base
   end
 #如果某个用户所在的group已经申请了某invitation，则返回true,否则返回nil
   def applied?(invitation)
-    groups = related_groups() 
+    groups = related_groups()
     for group in groups
        if (invitation.group_invitationships.find_by_applied_group_id(group.id) != nil ||
          invitation.initiate_group == group)
@@ -171,5 +174,9 @@ class User < ActiveRecord::Base
       @followed_groups = @followed_groups | User.find(followed_id).related_groups
     end
     @followed_groups
+  end
+
+  def feed
+    Feed.from_users_followed_by(self)
   end
 end

@@ -99,6 +99,10 @@ class ProfilesController < ApplicationController
         lover_style_str = lover_style_arr[1..lover_style_arr.size].join(',')
         params[:profile]["lover_style"] = lover_style_str
       end
+      if params[:profile][:description]
+        dynamic_status = current_user.dynamic_statuses.create(:content => params[:profile][:description])
+        dynamic_status.save
+      end
       respond_to do |format|
         if @profile.update_attributes(params[:profile])
           format.html { redirect_to edit_user_profiles_path(current_user), notice: '资料更新成功' }

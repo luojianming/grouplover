@@ -1,0 +1,25 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style", "bootstrap_and_overrides","bootswatch", "homepage" %>
+<% end %>
+<div class="container">
+  <%= render 'shared/header' %>
+  <div class="row">
+    <div class="span9">
+      <% @feeds.each do |feed| %>
+        <% if feed.model_name == "DynamicStatus" %>
+          <%= render 'feed', :feedable => DynamicStatus.find(feed.item_id), :feed => feed %>
+        <% elsif feed.model_name == "Photo" %>
+          <%= render 'feed', :feedable => Photo.find(feed.item_id), :feed => feed %>
+        <% elsif feed.model_name == "Group" %>
+          <%= render 'feed', :feedable => Group.find(feed.item_id), :feed => feed %>
+        <% elsif feed.model_name == "Invitation" %>
+          <%= render 'feed', :feedable => Invitation.find(feed.item_id), :feed => feed %>
+        <% elsif feed.model_name == "GroupInvitationship" %>
+          <%= render 'feed', :feedable => GroupInvitationship.find(feed.item_id), :feed => feed %>
+        <% elsif feed.model_name == "GroupGroupship" %>
+          <%= render 'feed', :feedable => GroupGroupship.find(feed.item_id), :feed => feed %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

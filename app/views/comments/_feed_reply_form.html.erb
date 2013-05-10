@@ -1,0 +1,38 @@
+<%= form_tag(feed_comments_path,:method => "post",remote: true) do %>
+  <div style="display: none">
+    <% if @receiver_id %>
+      <%= text_field_tag :receiver_id,  @receiver_id %>
+    <% end %>
+    <%= text_field_tag :general_feed_id, @general_feed_id  %>
+  </div>
+  <% if @receiver_id %>
+    <span>回复<%= User.find(@receiver_id).name %>:</span>
+  <% else %>
+    <span>评论：</span>
+  <% end %>
+  <span class="pull-right">还能输入<span class="wordsoffset">140</span>个字</span>
+  <%= text_area_tag :content, nil,:class => "reply_content", :maxlength => 140 %>
+  <%= submit_tag "回复", :class=>"pull-right btn-primary" %>
+<% end %>
+<script type="text/javascript">
+$(function(){
+  $('.reply_content').blur(function(){
+    if($(this).val().length==0)
+      {
+        $(this).parents(".status_content_box").children(".reply_input").css("display","block");
+        $(this).parents(".original_status_reply").html('');
+      }
+  });
+});
+$(function(){
+  $('textarea#content').keyup(function(){
+    discountWordNum();
+  });
+});
+function discountWordNum(){
+  var str = $('#content').val();
+  //	alert(str.length);
+  $('.wordsoffset').html(140 - str.length) ;
+
+}
+</script>

@@ -26,6 +26,7 @@ class Group < ActiveRecord::Base
 
   has_one :conversation, :as => :conversationer, :dependent => :destroy
 
+  has_many :comments, :as => :commentable,:dependent => :destroy
   accepts_nested_attributes_for :group_memberships,
                                 :reject_if => proc { |attributes| attributes['member_id'].blank? },
                                 :allow_destroy => true
@@ -69,15 +70,17 @@ class Group < ActiveRecord::Base
 #当且仅当所有的group_membership的status为accepted时才能变成active
   def self.update_status(group)
       group_status = "active"
-      Group.find(group).group_memberships.each do |ship|
+      @group = Group.find(group)
+      @group.group_memberships.each do |ship|
         if ship.status != "accepted"
           group_status = "pending"
           break
         end
       end
-      Group.find(group).update_attributes(:status => group_status)
+      @group.update_attributes(:status => group_status)
       if group_status == "active"
-        Group.find(group).create_conversation()
+        @group.create_conversation()
+        @group.create_feed
       end
   end
 =begin
@@ -125,4 +128,24 @@ class Group < ActiveRecord::Base
       return false
     end
   end
+
+
+  def create_feed
+    user = team_leader
+    feed = user.feeds.build(:model_name => "Group",
+                            :item_id => id)
+    feed.save
+    members.each do |member|
+      feed = member.feeds.build(:model_name => "Group",
+                                :item_id => id)
+      feed.save
+    end
+  end
+
+  before_destroy  do |group|
+    Feed.find_all_by_model_name_and_item_id("Group",group.id).each do |feed|
+      feed.destroy
+    end
+  end
+
 end

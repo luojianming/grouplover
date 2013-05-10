@@ -5,6 +5,7 @@ class GroupInvitationship < ActiveRecord::Base
   scope :active_invitation_ship_applied_by_group, 
           lambda { |group|where(["applied_group_id=? AND status=?", group.id,"active"]) }
 
+  has_many :comments, :as => :commentable, :dependent => :destroy
 
   def self.accept(applied_group_id, invitation_id)
     group_invitationship = GroupInvitationship.find_by_applied_group_id_and_invitation_id(
@@ -24,7 +25,7 @@ class GroupInvitationship < ActiveRecord::Base
         invitation.update_attribute("status", "active")
 
         invitation.create_conversation()
-
+        group_invitationship.create_feed
         #删除applied_group在当天的其它应征帖
         group_invitations = GroupInvitationship.find_all_by_applied_group_id_and_status(applied_group_id,"pending")
         group_invitations.each do |group_invitation|
@@ -46,5 +47,20 @@ class GroupInvitationship < ActiveRecord::Base
       end
     end
     @ships
+  end
+
+  def create_feed
+    initiate_group = invitation.initiate_group
+    feed = initiate_group.team_leader.feeds.build(:model_name => "GroupInvitationship",
+                                                  :item_id => id)
+    feed.save
+    feed = applied_group.team_leader.feeds.build(:model_name => "GroupInvitationship",
+                                                  :item_id => id)
+    feed.save
+    (initiate_group.members | applied_group.members).each do |member|
+      feed = member.feeds.build(:model_name => "GroupInvitationship",
+                                :item_id => id)
+      feed.save
+    end
   end
 end

@@ -81,8 +81,9 @@ class GroupsController < ApplicationController
   def update
     @group = Group.find(params[:id])
     @num = @group.members.count
+    @added_num = 0
     params[:group][:group_memberships_attributes] = {}
-    if params[:member_ids].size == 0
+    if params[:member_ids] == nil
       params[:group][:status] = @group.status
     else
       @added_members_id = params[:member_ids]

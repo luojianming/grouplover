@@ -50,7 +50,11 @@ window.onload = function() {
   <div class="row">
     <div class="span9">
       <div class="album_header">
-        <h2>我的相册-<%= @album.name %></h2>
+        <% if current_user == @album.user %>
+          <h2>我的相册-<%= @album.name %></h2>
+        <% else %>
+          <h2><%=@album.user.name %>的相册-<%= @album.name %></h2>
+        <% end %>
         <% if can? :update, @album %>
           <%= link_to '修改相册属性', edit_album_path(@album) ,:class => "album_edit_link"%> |
         <% end %>
