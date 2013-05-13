@@ -1,35 +1,74 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <div class="span9">
+      时间：<%= @invitation.time %></br>
+      地点：<%= @invitation.location %></br>
+      费用：</br>
+      活动: </br>
+      发起者：<%= @invitation.initiate_group.name %></br>
+      活动详情：<%= @invitation.description %>
 
-<p>
-  <b>Initiate group:</b>
-  <%= @invitation.initiate_group_id %>
-</p>
+      <span class="pull-right" style="display: none">
+        <%= link_to "评论", new_invitation_comment_path(@invitation, :type => "invitation_comment"), 
+          :id => "comment_btn", :remote => true %>
+      </span>
+        <div id='comments'>
+          <% comments = @invitation.comments %>
+          <% if comments.size >= 1 %>
+            <%= render('model_comments/comment', :comment => comments[0], :type => "invitation") %>
+          <% end %>
+          <% if comments.size > 2 %>
+            <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
+              <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
+            </div>
+            <div style="display: none" class="remain_status">
+              <% @invitation.comments.each do |comment| %>
+                <% if comment != comments[0] && comment != comments[comments.size-1] %>
+                  <%= render('model_comments/comment', :comment => comment, :type => "invitation") %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if comments.size >= 2 %>
+            <%= render('model_comments/comment', :comment => comments[comments.size-1], :type => "invitation") %>
+          <% end %>
+        </div>
+        <input class="span9 reply_input" placeholder="评论..." style="display: block;">
+        <div id="reply_form">
+        </div>
+    </div>
 
-<p>
-  <b>Time:</b>
-  <%= @invitation.time %>
-</p>
+    <div class="span3">
+    </div>
+  </div>
+</div>
+<script>
+$(function(){
+  $('#comment_btn').click(function(){
+      $('#content').focus();
+//    $('#content').click();
+  });
+});
+$(function(){
+  $('.reply_input').click(function(){
+    $('#comment_btn').click();
+    $(this).remove;
+  });
+});
+$(function(){
+  $('.remain_link').click(function(){
+    $(this).parent('div').siblings('.remain_status').css("display","block");
+    $(this).parent('div').css("display","none");
+    $(this).parents('.reply_status_contents').prev('a').css("display","block");
+  });
+});
 
-<p>
-  <b>Location:</b>
-  <%= @invitation.location %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @invitation.description %>
-</p>
-
-<p>
-  <b>Status:</b>
-  <%= @invitation.status %>
-</p>
-
-<p>
-  <b>Lover style:</b>
-  <%= @invitation.lover_style %>
-</p>
-
-
-<%= link_to 'Edit', edit_invitation_path(@invitation) %> |
-<%= link_to 'Back', invitations_path %>
+$(function(){
+  $('.hide_remain_link').click(function(){
+    tmp = $(this).siblings('.reply_status_contents').find('.remain_link').parent("div");
+    tmp.css("display","block");
+    tmp.siblings(".remain_status").css("display","none");
+    $(this).css("display","none");
+  });
+});
+</script>

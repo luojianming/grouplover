@@ -7,7 +7,7 @@ class Ability
       can :manage, :all
     else
       if user.persisted?
-        can :create, Group
+        can [:create, :show], Group
         can :read, Profile
         can :create, Album
       end

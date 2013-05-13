@@ -1,0 +1,17 @@
+<div style="margin-bottom: 10px;border-bottom:1px solid #CCC">
+<% sender = comment.sender %>
+<span><%= link_to sender.name, user_path(sender)%>:</span>
+<% if comment.receiver %>
+  <span>回复<%= comment.receiver.name %>:</span>
+<% end %>
+<span><%= comment.content %></span></br>
+<span class="pull-left" style="font-size: 10px;color: #cccccc"><%= comment.created_at.strftime("%Y-%m-%d %H:%M")%></span>
+<% if current_user != comment.sender %>
+<span class="pull-right">
+  <%= link_to "回复", new_invitation_comment_path(@invitation, :receiver_id => comment.sender_id,:type => "invitation_comment"),
+      :remote => true, :class => "reply_btn" %>
+</span></br>
+<% else %>
+  </br>
+<% end %>
+</div>

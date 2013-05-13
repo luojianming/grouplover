@@ -1,8 +1,10 @@
 class Feed < ActiveRecord::Base
-  attr_accessible :item_id, :model_name, :user_id
+  attr_accessible :feedable_id, :feedable_type, :user_id
   default_scope :order => 'feeds.created_at DESC'
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
   belongs_to :user
+
+  belongs_to :feedable, :polymorphic => true
 
   private
 

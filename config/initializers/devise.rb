@@ -210,7 +210,7 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   config.omniauth :douban, '038ee7705de8235e0aacb65119b86a1a', 'cc661fcbca20cc51'
   config.omniauth :weibo, '2494246390', '501dcf0a3abc49b812ee1c8834c29f3e'
-  config.omniauth :xiaonei, '28ad742d9f7b4865a158e0760de215f9', '5bcdef5b3d57471ea913e4883fb6e86b'
+  config.omniauth :xiaonei, '61a527406d7049e0ba7ab323c786f26a', '3d8aa4f63a4c45a889609fb3d655a4f8'
 
 
   # ==> Warden configuration

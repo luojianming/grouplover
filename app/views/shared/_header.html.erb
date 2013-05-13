@@ -141,6 +141,7 @@
 
   <div class="subnav" style="background-color:#FAF7F7">
     <ul class="nav nav-pills">
+      <li><%= link_to "新鲜事", feeds_user_path(@user) %></li>
       <% if current_user == @user %>
         <% if(controller_name == "users" && (action_name == "show" || action_name == "following_invitations")) %>
           <li class="nav_li"><%= link_to "关注动态", following_invitations_user_path(@user), :id => "my_feed" %></li>

@@ -7,6 +7,8 @@ class GroupGroupship < ActiveRecord::Base
   has_one :conversation, :as => :conversationer, :dependent => :destroy
 
   has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :feeds, :as => :feedable, :dependent => :destroy
+
   validates :applied_group_id, :presence => true
   validates :target_group_id, :presence => true
 
@@ -16,13 +18,13 @@ class GroupGroupship < ActiveRecord::Base
   end
 
   def create_feed
-    applied_group.team_leader.feeds.create(:model_name => "GroupGroupship",
-                                           :item_id => id)
-    target_group.team_leader.feeds.create(:model_name => "GroupGroupship",
-                                           :item_id => id)
+    applied_group.team_leader.feeds.create(:feedable_type => "GroupGroupship",
+                                           :feedable_id => id)
+    target_group.team_leader.feeds.create(:feedable_type => "GroupGroupship",
+                                           :feedable_id => id)
     (applied_group.members | target_group.members).each do |member|
-      member.feeds.create(:model_name => "GroupGroupship",
-                          :item_id => id)
+      member.feeds.create(:feedable_type => "GroupGroupship",
+                          :feedable_id => id)
     end
   end
 end

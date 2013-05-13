@@ -41,10 +41,10 @@ class GroupsController < ApplicationController
       @groups = @groups.paginate(page: params[:page], :per_page => 12)
     end
   end
-=begin
+
   def show
+    @group = Group.find(params[:id])
   end
-=end
 
   def create
     @member_ids = params[:member_ids]

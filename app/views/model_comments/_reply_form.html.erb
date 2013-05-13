@@ -1,0 +1,49 @@
+<% 
+  if @commentable.class == Invitation
+    post_path = invitation_comments_path(@commentable)
+    commentable_type = "Invitation"
+  elsif @commentable.class == Photo
+    post_path = photo_comments_path(@commentable)
+    commentable_type = "Photo"
+  elsif @commentable.class == Group
+    post_path = group_comments_path(@commentable)
+    commentable_type = "Group"
+  end
+%>
+<%= form_tag(post_path,:method => "post", :remote => true) do %>
+  <% if @receiver_id %>
+    <span>回复<%= User.find(@receiver_id).name %>:</span>
+  <% else %>
+    <span>评论:</span>
+  <% end %>
+  <div style="display: none">
+    <% if @receiver_id %>
+      <%= text_field_tag :receiver_id,  @receiver_id %>
+    <% end %>
+    <%= text_field_tag :commentable_type, commentable_type %>
+  </div>
+  <span class="pull-right">还能输入<span class="wordsoffset">140</span>个字</span>
+  <%= text_area_tag(:content, nil, :class => "photo_comment_content", :maxlength => 140) %>
+  <%= submit_tag("评论", :class => "pull-right btn-primary") %>
+<% end %>
+<script type="text/javascript">
+$(function(){
+  $('.photo_comment_content').blur(function(){
+    if($(this).val().length==0)
+      {
+        $(".reply_input").css("display","block");
+        $("#reply_form").html('');
+      }
+  });
+});
+$(function(){
+  $('textarea#content').keyup(function(){
+    discountWordNum();
+  });
+});
+function discountWordNum(){
+  var str = $('#content').val();
+  //	alert(str.length);
+  $('.wordsoffset').html(140 - str.length) ;
+}
+</script>

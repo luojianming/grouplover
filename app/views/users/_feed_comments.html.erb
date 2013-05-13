@@ -1,0 +1,28 @@
+      <% if replied_dynamic_statuses.size >= 1 %>
+        <%= render 'comments/comment_reply_box',
+          :replied_dynamic_status => replied_dynamic_statuses[0],
+          :feedable => feedable,
+          :general_feed_id => feed.id %>
+      <% end %>
+      <% if replied_dynamic_statuses.size > 2 %>
+          <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
+            <a href="javascript:;" class="remain_link"> 还有<%=(replied_dynamic_statuses.size-2).to_s%>条回复</a>
+          </div>
+          <div style="display: none" class="remain_status">
+            <% replied_dynamic_statuses.each do |replied_dynamic_status|%>
+              <% if replied_dynamic_status != replied_dynamic_statuses[0] && 
+                   replied_dynamic_status != replied_dynamic_statuses[replied_dynamic_statuses.size-1] %>
+                 <%= render 'comments/comment_reply_box',
+                   :replied_dynamic_status => replied_dynamic_status,
+                   :feedable => feedable,
+                   :general_feed_id => feed.id %>
+               <% end %>
+            <% end %>
+          </div>
+      <% end %>
+      <% if replied_dynamic_statuses.size >= 2 %>
+        <%= render 'comments/comment_reply_box',
+          :replied_dynamic_status => replied_dynamic_statuses[replied_dynamic_statuses.size-1],
+          :feedable => feedable,
+          :general_feed_id => feed.id %>
+      <% end %>

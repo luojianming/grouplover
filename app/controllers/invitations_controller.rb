@@ -42,7 +42,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-=begin
   # GET /invitations/1
   # GET /invitations/1.json
   def show
@@ -53,7 +52,6 @@ class InvitationsController < ApplicationController
       format.json { render json: @invitation }
     end
   end
-=end
   # GET /invitations/new
   # GET /invitations/new.json
   def new

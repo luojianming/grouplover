@@ -1,14 +1,15 @@
 <div style="height:30px;margin-top:5px;">
-  <%= render 'comments/comment_avatar', :user => group.team_leader %>
+  <% team_leader = group.team_leader %>
+  <%= render 'comments/comment_avatar', :user => team_leader %>
   <span class="pull-left" style="margin-top:5px;">
-    <%= group.team_leader.name+"(创建者)  " %>
-    <%= render 'comments/comment_user_info', :user => group.team_leader %>
+    <%= link_to team_leader.name, user_path(team_leader) %>(创建者)
+    <%= render 'comments/comment_user_info', :user => team_leader %>
   </span>
 </div>
 <% group.members.each do |member| %>
   <div style="height:30px;margin-top:5px;">
     <%= render 'comments/comment_avatar', :user => member %>
-    <span class="pull-left"><%= member.name+"(成员)  " %></span>
+    <span class="pull-left"><%=link_to member.name, user_path(member) %></span>(成员)
     <%= render 'comments/comment_user_info', :user => member %>
   </div>
 <% end %>

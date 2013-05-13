@@ -1,47 +1,47 @@
-<% if @commentable_type == "Photo" %>
-  $('#comments').append("<%= j render('photos/comment', :comment => @comment) %>");
-  $('#photo_reply').html('');
+<% if @commentable_type != nil %>
+  $('#comments').append("<%= j render('model_comments/comment', :comment => @comment) %>");
+  $('#reply_form').html('');
   $('.reply_input').css("display","block");
-<% elsif @model_name == "DynamicStatus" %>
+<% elsif @feedable_type == "DynamicStatus" %>
   $('#feed_comments_<%= @general_feed_id %>').append('<%=j render 'comment_reply_box',
                                                      :replied_dynamic_status => @comment,
                                                      :general_feed_id => @general_feed_id,
-                                                     :feedable => DynamicStatus.find(@feed.item_id)%>');
+                                                     :feedable => DynamicStatus.find(@feed.feedable_id)%>');
   $('#feed_reply_<%= @general_feed_id%>').html('');
   $('#feed_reply_<%= @general_feed_id%>').parent('.status_content_box').children('.reply_input').css("display","block");
-<% elsif @model_name == "Photo" %>
+<% elsif @feedable_type == "Photo" %>
   $('#feed_comments_<%= @general_feed_id %>').append('<%=j render 'comment_reply_box',
                                                      :replied_dynamic_status => @comment,
                                                      :general_feed_id => @general_feed_id,
-                                                     :feedable => Photo.find(@feed.item_id)%>');
+                                                     :feedable => Photo.find(@feed.feedable_id)%>');
   $('#feed_reply_<%= @general_feed_id%>').html('');
   $('#feed_reply_<%= @general_feed_id%>').parent('.status_content_box').children('.reply_input').css("display","block");
-<% elsif @model_name == "Group" %>
+<% elsif @feedable_type == "Group" %>
   $('#feed_comments_<%= @general_feed_id %>').append('<%=j render 'comment_reply_box',
                                                      :replied_dynamic_status => @comment,
                                                      :general_feed_id => @general_feed_id,
-                                                     :feedable => Group.find(@feed.item_id)%>');
+                                                     :feedable => Group.find(@feed.feedable_id)%>');
   $('#feed_reply_<%= @general_feed_id%>').html('');
   $('#feed_reply_<%= @general_feed_id%>').parent('.status_content_box').children('.reply_input').css("display","block");
-<% elsif @model_name == "Invitation" %>
+<% elsif @feedable_type == "Invitation" %>
   $('#feed_comments_<%= @general_feed_id %>').append('<%=j render 'comment_reply_box',
                                                      :replied_dynamic_status => @comment,
                                                      :general_feed_id => @general_feed_id,
-                                                     :feedable => Invitation.find(@feed.item_id)%>');
+                                                     :feedable => Invitation.find(@feed.feedable_id)%>');
   $('#feed_reply_<%= @general_feed_id%>').html('');
   $('#feed_reply_<%= @general_feed_id%>').parent('.status_content_box').children('.reply_input').css("display","block");
-<% elsif @model_name == "GroupInvitationship" %>
+<% elsif @feedable_type == "GroupInvitationship" %>
   $('#feed_comments_<%= @general_feed_id %>').append('<%=j render 'comment_reply_box',
                                                      :replied_dynamic_status => @comment,
                                                      :general_feed_id => @general_feed_id,
-                                                     :feedable => GroupInvitationship.find(@feed.item_id)%>');
+                                                     :feedable => GroupInvitationship.find(@feed.feedable_id)%>');
   $('#feed_reply_<%= @general_feed_id%>').html('');
   $('#feed_reply_<%= @general_feed_id%>').parent('.status_content_box').children('.reply_input').css("display","block");
-<% elsif @model_name == "GroupGroupship" %>
+<% elsif @feedable_type == "GroupGroupship" %>
   $('#feed_comments_<%= @general_feed_id %>').append('<%=j render 'comment_reply_box',
                                                      :replied_dynamic_status => @comment,
                                                      :general_feed_id => @general_feed_id,
-                                                     :feedable => GroupGroupship.find(@feed.item_id)%>');
+                                                     :feedable => GroupGroupship.find(@feed.feedable_id)%>');
   $('#feed_reply_<%= @general_feed_id%>').html('');
   $('#feed_reply_<%= @general_feed_id%>').parent('.status_content_box').children('.reply_input').css("display","block");
 <% end %>

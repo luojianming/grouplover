@@ -27,6 +27,7 @@ class Group < ActiveRecord::Base
   has_one :conversation, :as => :conversationer, :dependent => :destroy
 
   has_many :comments, :as => :commentable,:dependent => :destroy
+  has_many :feeds, :as => :feedable, :dependent => :destroy
   accepts_nested_attributes_for :group_memberships,
                                 :reject_if => proc { |attributes| attributes['member_id'].blank? },
                                 :allow_destroy => true
@@ -132,19 +133,13 @@ class Group < ActiveRecord::Base
 
   def create_feed
     user = team_leader
-    feed = user.feeds.build(:model_name => "Group",
-                            :item_id => id)
+    feed = user.feeds.build(:feedable_type => "Group",
+                            :feedable_id => id)
     feed.save
     members.each do |member|
-      feed = member.feeds.build(:model_name => "Group",
-                                :item_id => id)
+      feed = member.feeds.build(:feedable_type => "Group",
+                                :feedable_id => id)
       feed.save
-    end
-  end
-
-  before_destroy  do |group|
-    Feed.find_all_by_model_name_and_item_id("Group",group.id).each do |feed|
-      feed.destroy
     end
   end
 

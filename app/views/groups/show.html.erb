@@ -1,2 +1,98 @@
-<h1>Groups#show</h1>
-<p>Find me in app/views/groups/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="span9">
+      <div style="text-align: center;margin-bottom: 10px;">
+        <span style="font-size: 22px;"><%= @group.name %></span>&nbsp;&nbsp;
+        <% if current_user == @group.team_leader %>
+          <% if Group.be_active?(@group) == false %>
+          <%= link_to "编辑", edit_group_path(@group) %>
+        <% else %>
+          <a href="#" data-toggle="popover" data-placement="right" data-content="目前该群组已处于被邀请状态/已发布活动状态/申请活动状态，不能编辑">
+            编辑
+          </a>
+        <% end %>
+        <%= link_to "解散", @group, :confirm => '确定解散？',
+          :method => :delete, :remote => true %>
+        <% elsif @group.members.include?(current_user) %>
+            <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => @group } %>
+        <% end %>
+      </div>
+      <div>
+        <%= render 'comments/comment_group', :group => @group %>
+      </div>
+      <span class="pull-right" style="display: none">
+        <%= link_to "评论", new_group_comment_path(@group, :type => "group_comment"), 
+          :id => "comment_btn", :remote => true %>
+      </span>
+        <div id='comments'>
+          <% comments = @group.comments %>
+          <% if comments.size >= 1 %>
+            <%= render('model_comments/comment', :comment => comments[0], :type => "group") %>
+          <% end %>
+          <% if comments.size > 2 %>
+            <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
+              <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
+            </div>
+            <div style="display: none" class="remain_status">
+              <% comments.each do |comment| %>
+                <% if comment != comments[0] && comment != comments[comments.size-1] %>
+                  <%= render('model_comments/comment', :comment => comment, :type => "group") %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if comments.size >= 2 %>
+            <%= render('model_comments/comment', :comment => comments[comments.size-1], :type => "group") %>
+          <% end %>
+        </div>
+        <input class="span9 reply_input" placeholder="评论..." style="display: block;">
+        <div id="reply_form">
+        </div>
+    </div>
+    <div class="span3">
+      <h4>与该组相关的活动</h4>
+      <!--
+        <%= image_tag @group.image_url(:thumb) %>
+        -->
+    </div>
+  </div>
+</div>
+<script>
+$(function(){
+    $("a[data-toggle=popover]")
+      .popover()
+      .click(function(e) {
+        e.preventDefault()
+  })
+});
+</script>
+<script>
+$(function(){
+  $('#comment_btn').click(function(){
+      $('#content').focus();
+//    $('#content').click();
+  });
+});
+$(function(){
+  $('.reply_input').click(function(){
+    $('#comment_btn').click();
+    $(this).remove;
+  });
+});
+$(function(){
+  $('.remain_link').click(function(){
+    $(this).parent('div').siblings('.remain_status').css("display","block");
+    $(this).parent('div').css("display","none");
+    $(this).parents('.reply_status_contents').prev('a').css("display","block");
+  });
+});
+
+$(function(){
+  $('.hide_remain_link').click(function(){
+    tmp = $(this).siblings('.reply_status_contents').find('.remain_link').parent("div");
+    tmp.css("display","block");
+    tmp.siblings(".remain_status").css("display","none");
+    $(this).css("display","none");
+  });
+});
+</script>

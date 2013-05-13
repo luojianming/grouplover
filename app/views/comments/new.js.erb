@@ -1,7 +1,7 @@
-<% if @type == "photo_comment" %>
-  $('#photo_reply').html("<%= j render('photos/photo_reply_form') %>");
-  $('#photo_reply').prev('.reply_input').css("display","none");
-  $('#photo_reply').find('textarea').focus();
+<% if @type != nil %>
+  $('#reply_form').html("<%= j render('model_comments/reply_form') %>");
+  $('#reply_form').prev('.reply_input').css("display","none");
+  $('#reply_form').find('textarea').focus();
 <% else %>
   $('#feed_reply_<%= @general_feed_id %>').html("<%= j render('feed_reply_form') %>");
   $('#feed_reply_<%= @general_feed_id %>').parent().children('.reply_input').css("display","none");

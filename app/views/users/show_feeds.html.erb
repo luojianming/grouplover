@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "style", "bootstrap_and_overrides","bootswatch", "homepage" %>
 <% end %>
@@ -5,21 +6,139 @@
   <%= render 'shared/header' %>
   <div class="row">
     <div class="span9">
+      <%
+          group_groupship_similar_feeds = []
+          group_invitationship_similar_feeds = []
+          invitation_similar_feeds = []
+          group_similar_feeds = []
+      %>
       <% @feeds.each do |feed| %>
-        <% if feed.model_name == "DynamicStatus" %>
-          <%= render 'feed', :feedable => DynamicStatus.find(feed.item_id), :feed => feed %>
-        <% elsif feed.model_name == "Photo" %>
-          <%= render 'feed', :feedable => Photo.find(feed.item_id), :feed => feed %>
-        <% elsif feed.model_name == "Group" %>
-          <%= render 'feed', :feedable => Group.find(feed.item_id), :feed => feed %>
-        <% elsif feed.model_name == "Invitation" %>
-          <%= render 'feed', :feedable => Invitation.find(feed.item_id), :feed => feed %>
-        <% elsif feed.model_name == "GroupInvitationship" %>
-          <%= render 'feed', :feedable => GroupInvitationship.find(feed.item_id), :feed => feed %>
-        <% elsif feed.model_name == "GroupGroupship" %>
-          <%= render 'feed', :feedable => GroupGroupship.find(feed.item_id), :feed => feed %>
+        <% if feed.feedable_type == "DynamicStatus" %>
+          <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+            <%= render 'feed', :feedable => DynamicStatus.find(feed.feedable_id), :feed => feed %>
+          </div>
+        <% elsif feed.feedable_type == "Photo" %>
+          <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+            <%= render 'feed', :feedable => Photo.find(feed.feedable_id), :feed => feed %>
+          </div>
+        <% elsif feed.feedable_type == "Group" %>
+          <% if group_similar_feeds.include?(feed) == false %>
+            <%
+                feedable = Group.find(feed.feedable_id)
+                similar_feeds = feedable.feeds & @feeds
+                group_similar_feeds = group_similar_feeds | similar_feeds
+            %>
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+              <%= render 'feed', :feedable => feedable, :feed => feed %>
+              <% if similar_feeds.size > 1 %>
+                <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
+                <div style="display: none" class="remain_feed">
+                  <% similar_feeds.each do |similar_feed| %>
+                    <% if similar_feed != feed %>
+                      <%= render 'feed', :feedable => feedable, :feed => similar_feed %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% elsif feed.feedable_type == "Invitation" %>
+          <% if invitation_similar_feeds.include?(feed) == false %>
+            <%
+                feedable = Invitation.find(feed.feedable_id)
+                similar_feeds = feedable.feeds & @feeds
+                invitation_similar_feeds = invitation_similar_feeds | similar_feeds
+            %>
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+              <%= render 'feed', :feedable => feedable, :feed => feed %>
+              <% if similar_feeds.size > 1 %>
+                <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
+                <div style="display: none" class="remain_feed">
+                  <% similar_feeds.each do |similar_feed| %>
+                    <% if similar_feed != feed %>
+                      <%= render 'feed', :feedable => feedable, :feed => similar_feed %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% elsif feed.feedable_type == "GroupInvitationship" %>
+          <% if group_invitationship_similar_feeds.include?(feed) == false %>
+            <%
+                feedable = GroupInvitationship.find(feed.feedable_id)
+                similar_feeds = feedable.feeds & @feeds
+                group_invitationship_similar_feeds = group_invitationship_similar_feeds | similar_feeds
+            %>
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+              <%= render 'feed', :feedable => feedable, :feed => feed %>
+              <% if similar_feeds.size > 1 %>
+                <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
+                <div style="display: none" class="remain_feed">
+                  <% similar_feeds.each do |similar_feed| %>
+                    <% if similar_feed != feed %>
+                      <%= render 'feed', :feedable => feedable, :feed => similar_feed %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% elsif feed.feedable_type == "GroupGroupship" %>
+          <% if group_groupship_similar_feeds.include?(feed) == false %>
+            <%
+                feedable = GroupGroupship.find(feed.feedable_id)
+                similar_feeds = feedable.feeds & @feeds
+                group_groupship_similar_feeds = group_groupship_similar_feeds | similar_feeds
+            %>
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+              <%= render 'feed', :feedable => feedable, :feed => feed %>
+              <% if similar_feeds.size > 1 %>
+                <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
+                <div style="display: none" class="remain_feed">
+                  <% similar_feeds.each do |similar_feed| %>
+                    <% if similar_feed != feed %>
+                      <%= render 'feed', :feedable => feedable, :feed => similar_feed %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>
   </div>
 </div>
+<script>
+$(function(){
+  $('.remain_feed_link').click(function(){
+    $(this).siblings('.remain_feed').css("display","block");
+    $(this).css("display","none");
+  });
+});
+</script>
+<script>
+$(function(){
+  $('.reply_input').click(function(){
+    $(this).parent().children(".reply_input_btn").children(".reply_btn").click();
+    $(this).remove;
+  });
+});
+$(function(){
+  $('.remain_link').click(function(){
+    $(this).parent('div').siblings('.remain_status').css("display","block");
+    $(this).parent('div').css("display","none");
+    $(this).parents('.reply_status_contents').prev('a').css("display","block");
+  });
+});
+
+$(function(){
+  $('.hide_remain_link').click(function(){
+    tmp = $(this).siblings('.reply_status_contents').find('.remain_link').parent("div");
+    tmp.css("display","block");
+    tmp.siblings(".remain_status").css("display","none");
+    $(this).css("display","none");
+  });
+});
+</script>

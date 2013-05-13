@@ -6,6 +6,8 @@ class GroupInvitationship < ActiveRecord::Base
           lambda { |group|where(["applied_group_id=? AND status=?", group.id,"active"]) }
 
   has_many :comments, :as => :commentable, :dependent => :destroy
+  
+  has_many :feeds, :as => :feedable, :dependent => :destroy
 
   def self.accept(applied_group_id, invitation_id)
     group_invitationship = GroupInvitationship.find_by_applied_group_id_and_invitation_id(
@@ -51,15 +53,15 @@ class GroupInvitationship < ActiveRecord::Base
 
   def create_feed
     initiate_group = invitation.initiate_group
-    feed = initiate_group.team_leader.feeds.build(:model_name => "GroupInvitationship",
-                                                  :item_id => id)
+    feed = initiate_group.team_leader.feeds.build(:feedable_type => "GroupInvitationship",
+                                                  :feedable_id => id)
     feed.save
-    feed = applied_group.team_leader.feeds.build(:model_name => "GroupInvitationship",
-                                                  :item_id => id)
+    feed = applied_group.team_leader.feeds.build(:feedable_type => "GroupInvitationship",
+                                                  :feedable_id => id)
     feed.save
     (initiate_group.members | applied_group.members).each do |member|
-      feed = member.feeds.build(:model_name => "GroupInvitationship",
-                                :item_id => id)
+      feed = member.feeds.build(:feedable_type => "GroupInvitationship",
+                                :feedable_id => id)
       feed.save
     end
   end

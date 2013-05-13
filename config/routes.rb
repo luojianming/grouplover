@@ -27,12 +27,14 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
 
   resources :albums, only: [:show, :new, :edit, :create, :update, :destroy]
 
-  resources :invitations, only: [:new, :create, :destroy] do
+  resources :invitations, only: [:new, :create, :destroy, :show] do
+    resources :comments, only: [:new, :create]
     member do
       post :fast_create
     end
   end
-  resources :groups, only: [:new, :create, :update, :destroy, :edit, :index] do
+  resources :groups, only: [:new, :show, :create, :update, :destroy, :edit, :index] do
+    resources :comments, only: [:new, :create]
     member do
       post :add_members
     end
