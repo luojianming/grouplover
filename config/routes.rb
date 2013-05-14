@@ -5,7 +5,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
 
   captcha_route
 
-  resources :dynamic_statuses, only: [:new, :create] do
+  resources :dynamic_statuses, only: [:new, :create, :index, :show] do
     resources :comments, only: [:new, :create]
   end
   resources :feeds do
@@ -61,13 +61,17 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
           :received_invitations, :albums, :pending_requests,
           :my_private_messages, :visitors, :sended_requests,
           :latest_followers, :active_invitations, :participate_activities,
-          :friends_invitations, :feeds
+          :friends_invitations, :feeds, :status
     end
   end
 
   resources :relationships, only: [:create, :destroy]
-  resources :group_groupships, only: [:create, :destroy]
-  resources :group_invitationships, only: [:create, :destroy]
+  resources :group_groupships, only: [:create, :destroy, :show] do
+    resources :comments, only: [:new, :create]
+  end
+  resources :group_invitationships, only: [:create, :destroy, :show] do
+    resources :comments, only: [:new, :create]
+  end
 
   match ':controller(/:action(/:id))'
 end

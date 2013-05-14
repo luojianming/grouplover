@@ -1,6 +1,12 @@
 <%= content_for :stylesheet do %>
   <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums" %>
 <% end %>
+<%
+  tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("Photo",@photo.id)
+  tips.each do |tip|
+    tip.destroy
+  end
+%>
 <div class="container">
   <div class = "row">
     <div class="span9">
@@ -34,25 +40,25 @@
             <%= link_to "评论", new_photo_comment_path(@photo, :type => "photo_comment"), 
                 :id => "comment_btn", :remote => true %>
           </span>
-        <div id='comments'>
+          <div id='comments'>
           <% comments = @photo.comments %>
           <% if comments.size >= 1 %>
-            <%= render('model_comments/comment', :comment => comments[0], :type => "photo") %>
+            <%= render('model_comments/comment', :comment => comments[0]) %>
           <% end %>
           <% if comments.size > 2 %>
             <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
               <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
             </div>
             <div style="display: none" class="remain_status">
-              <% @photo.comments.each do |comment| %>
+              <% comments.each do |comment| %>
                 <% if comment != comments[0] && comment != comments[comments.size-1] %>
-                  <%= render('model_comments/comment', :comment => comment, :type => "photo") %>
+                  <%= render('model_comments/comment', :comment => comment) %>
                 <% end %>
               <% end %>
             </div>
           <% end %>
           <% if comments.size >= 2 %>
-            <%= render('model_comments/comment', :comment => comments[comments.size-1], :type => "photo") %>
+            <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
           <% end %>
         </div>
         <input class="span9 reply_input" placeholder="评论..." style="display: block;">

@@ -1,14 +1,21 @@
-<% 
+<%
   if comment.commentable_type == "Invitation"
     post_path = new_invitation_comment_path(comment.commentable, :receiver_id => comment.sender_id,:type => "invitation_comment")
   elsif comment.commentable_type == "Photo"
     post_path = new_photo_comment_path(comment.commentable, :receiver_id => comment.sender_id,:type => "photo_comment")
   elsif comment.commentable_type == "Group"
     post_path = new_group_comment_path(comment.commentable, :receiver_id => comment.sender_id,:type => "group_comment")
+  elsif comment.commentable_type == "DynamicStatus"
+    post_path = new_dynamic_status_comment_path(comment.commentable, :receiver_id => comment.sender_id,:type => "dynamic_status_comment")
+  elsif comment.commentable_type == "GroupInvitationship"
+    post_path = new_group_invitationship_comment_path(comment.commentable, :receiver_id => comment.sender_id,:type => "group_invitationship_comment")
+  elsif comment.commentable_type == "GroupGroupship"
+    post_path = new_group_groupship_comment_path(comment.commentable, :receiver_id => comment.sender_id,:type => "group_groupship_comment")
   end
 %>
 <div style="margin-bottom: 10px;border-bottom:1px solid #CCC">
 <% sender = comment.sender %>
+<%= render 'comments/comment_avatar', :user => sender %>
 <span><%= link_to sender.name, user_path(sender)%>:</span>
 <% if comment.receiver %>
   <span>回复<%= comment.receiver.name %>:</span>

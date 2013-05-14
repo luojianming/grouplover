@@ -362,6 +362,11 @@ class UsersController < ApplicationController
     render 'show_feeds'
   end
 
+  def status
+    @user = User.find(params[:id])
+    @statuses = @user.dynamic_statuses
+    render 'show_statuses'
+  end
 
   def detect_authorization
     begin

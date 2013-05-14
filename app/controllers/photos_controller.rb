@@ -65,7 +65,12 @@ class PhotosController < ApplicationController
 =end
     @photo = @album.photos.build(:image => params[:image])
     authorize! :create, @photo, :message => "对不起，您没有权限上传照片哦"
-    @photo.save
+    if @photo.save
+      user = photo.album.user
+      feed = user.feeds.build(:feedable_type => "Photo",
+                              :feedable_id => @photo.id)
+      feed.save
+    end
 =begin 
     respond_to do |format |
       if @photo.save

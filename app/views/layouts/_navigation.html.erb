@@ -123,6 +123,54 @@
                       <%= link_to groups_user_path(current_user) do %>
                         <p><%=tip.content %></p>
                       <% end %>
+                    <% elsif tip.tipable_type == "DynamicStatus" %>
+                      <%
+                          sender = User.find(tip.sender_id)
+                          status = DynamicStatus.find(tip.tipable_id)
+                      %>
+                      <%= link_to dynamic_status_path(status) do %>
+                        <p><%= sender.name %>在状态<span style="color: red"><%= status.content.slice(0,6)%>...</span>中回复了你</p>
+                      <% end %>
+                    <% elsif tip.tipable_type == "Photo" %>
+                      <%
+                          sender = User.find(tip.sender_id)
+                          photo = Photo.find(tip.tipable_id)
+                      %>
+                      <%= link_to photo_path(photo) do %>
+                        <p><%= sender.name %>在照片<span style="color: red"><%= photo.name.slice(0,6)%>...</span>中回复了你</p>
+                      <% end %>
+                    <% elsif tip.tipable_type == "Invitation" %>
+                      <%
+                          sender = User.find(tip.sender_id)
+                          invitation = Invitation.find(tip.tipable_id)
+                      %>
+                      <%= link_to invitation_path(invitation) do %>
+                        <p><%= sender.name %>在<span style="color: red"><%= invitation.time %></span>的活动中回复了你</p>
+                      <% end %>
+                    <% elsif tip.tipable_type == "Group" %>
+                      <%
+                          sender = User.find(tip.sender_id)
+                          group = Group.find(tip.tipable_id)
+                      %>
+                      <%= link_to group_path(group) do %>
+                        <p><%= sender.name %>在群组<span style="color: red"><%= group.name.slice(0,6)%></span>中回复了你</p>
+                      <% end %>
+                    <% elsif tip.tipable_type == "GroupInvitationship" %>
+                      <%
+                          sender = User.find(tip.sender_id)
+                          group_invitationship = GroupInvitationship.find(tip.tipable_id)
+                      %>
+                      <%= link_to group_invitationship_path(group_invitationship) do %>
+                        <p><%= sender.name %>在群组<span style="color: red"><%= group.name.slice(0,6)%></span>中回复了你</p>
+                      <% end %>
+                    <% elsif tip.tipable_type == "GroupGroupship" %>
+                      <%
+                          sender = User.find(tip.sender_id)
+                          group_groupship = GroupGroupship.find(tip.tipable_id)
+                      %>
+                      <%= link_to group_groupship_path(group_groupship) do %>
+                        <p><%= sender.name %>在<span style="color: red"><%= group_groupship.time%></span>的活动中回复了你</p>
+                      <% end %>
                     <% end %>
                   </li>
                 <% end %>
@@ -174,15 +222,15 @@
                 <%= link_to '注册', new_user_registration_path %>
              </li>
            <% end %>
-  <% if controller_name == "home" && action_name == "about" %>
-    <li class="active">
-      <%= link_to '关于', home_about_path, :class => "stress" %>
-    </li>
-  <% else %>
-    <li>
-      <%= link_to '关于', home_about_path, :class => "stress" %>
-    </li>
-  <% end %>
+           <% if controller_name == "home" && action_name == "about" %>
+             <li class="active">
+                <%= link_to '关于', home_about_path, :class => "stress" %>
+             </li>
+           <% else %>
+             <li>
+                <%= link_to '关于', home_about_path, :class => "stress" %>
+             </li>
+         <% end %>
         </ul>
       </div>
     </div>

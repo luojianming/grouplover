@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="span9">
+      <% @statuses.each do |status| %>
+        <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+          <%= render 'dynamic_statuses/status', :status => status %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="span3">
+    </div>
+  </div>
+</div>
+
+<script>
+$(function(){
+  $('a.comments_link').click(function(){
+    $(this).siblings(".comments").css("display", "block");
+  });
+});
+</script>

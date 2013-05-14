@@ -3,6 +3,9 @@ class GroupGroupshipsController < ApplicationController
   include ApplicationHelper
   before_filter :authenticate_user!
 
+  def show
+    @group_groupship = GroupGroupship.find(params[:id])
+  end
   def create
     @target_group_id = params[:group_groupship][:target_group_id]
     params[:group_groupship][:status] = "pending"

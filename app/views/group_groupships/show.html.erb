@@ -1,37 +1,28 @@
-<%
-  tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("Group",@group.id)
-  tips.each do |tip|
-    tip.destroy
-  end
-%>
 <div class="container">
+  <%
+    tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("GroupGroupship",@group_groupship.id)
+    tips.each do |tip|
+      tip.destroy
+    end
+    applied_group = @group_groupship.applied_group
+    target_group = @group_groupship.target_group
+  %>
   <div class="row">
     <div class="span9">
-      <div style="text-align: center;margin-bottom: 10px;">
-        <span style="font-size: 22px;"><%= @group.name %></span>&nbsp;&nbsp;
-        <% if current_user == @group.team_leader %>
-          <% if Group.be_active?(@group) == false %>
-          <%= link_to "编辑", edit_group_path(@group) %>
-        <% else %>
-          <a href="#" data-toggle="popover" data-placement="right" data-content="目前该群组已处于被邀请状态/已发布活动状态/申请活动状态，不能编辑">
-            编辑
-          </a>
-        <% end %>
-        <%= link_to "解散", @group, :confirm => '确定解散？',
-          :method => :delete, :remote => true %>
-        <% elsif @group.members.include?(current_user) %>
-            <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => @group } %>
-        <% end %>
-      </div>
-      <div>
-        <%= render 'comments/comment_group', :group => @group %>
-      </div>
+      时间：<%= @group_groupship.time %></br>
+      地点：<%= @group_groupship.location %></br>
+      费用：</br>
+      活动: </br>
+      发起者：<%= applied_group.name %></br>
+      参与者：<%= target_group.name %></br>
+      活动详情：<%= @group_groupship.description %>
+
       <span class="pull-right" style="display: none">
-        <%= link_to "评论", new_group_comment_path(@group, :type => "group_comment"), 
+        <%= link_to "评论", new_group_groupship_comment_path(@group_groupship, :type => "group_groupship_comment"),
           :id => "comment_btn", :remote => true %>
       </span>
         <div id='comments'>
-          <% comments = @group.comments %>
+          <% comments = @group_groupship.comments %>
           <% if comments.size >= 1 %>
             <%= render('model_comments/comment', :comment => comments[0]) %>
           <% end %>
@@ -55,23 +46,11 @@
         <div id="reply_form">
         </div>
     </div>
+
     <div class="span3">
-      <h4>与该组相关的活动</h4>
-      <!--
-        <%= image_tag @group.image_url(:thumb) %>
-        -->
     </div>
   </div>
 </div>
-<script>
-$(function(){
-    $("a[data-toggle=popover]")
-      .popover()
-      .click(function(e) {
-        e.preventDefault()
-  })
-});
-</script>
 <script>
 $(function(){
   $('#comment_btn').click(function(){

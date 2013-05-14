@@ -1,4 +1,4 @@
-<% 
+<%
   if @commentable.class == Invitation
     post_path = invitation_comments_path(@commentable)
     commentable_type = "Invitation"
@@ -8,6 +8,15 @@
   elsif @commentable.class == Group
     post_path = group_comments_path(@commentable)
     commentable_type = "Group"
+  elsif @commentable.class == DynamicStatus
+    post_path = dynamic_status_comments_path(@commentable)
+    commentable_type = "DynamicStatus"
+  elsif @commentable.class == GroupInvitationship
+    post_path = group_invitationship_comments_path(@commentable)
+    commentable_type = "GroupInvitationship"
+  elsif @commentable.class == GroupGroupship
+    post_path = group_groupship_comments_path(@commentable)
+    commentable_type = "GroupGroupship"
   end
 %>
 <%= form_tag(post_path,:method => "post", :remote => true) do %>
@@ -17,9 +26,7 @@
     <span>评论:</span>
   <% end %>
   <div style="display: none">
-    <% if @receiver_id %>
-      <%= text_field_tag :receiver_id,  @receiver_id %>
-    <% end %>
+    <%= text_field_tag :receiver_id,  @receiver_id %>
     <%= text_field_tag :commentable_type, commentable_type %>
   </div>
   <span class="pull-right">还能输入<span class="wordsoffset">140</span>个字</span>

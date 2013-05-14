@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130510064800) do
+ActiveRecord::Schema.define(:version => 20130513084825) do
 
   create_table "albums", :force => true do |t|
     t.integer  "user_id"
@@ -267,9 +267,12 @@ ActiveRecord::Schema.define(:version => 20130510064800) do
   create_table "tips", :force => true do |t|
     t.integer  "user_id"
     t.text     "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "tip_type"
+    t.string   "tipable_type"
+    t.integer  "tipable_id"
+    t.integer  "sender_id"
   end
 
   create_table "users", :force => true do |t|

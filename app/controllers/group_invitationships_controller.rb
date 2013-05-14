@@ -6,6 +6,11 @@ class GroupInvitationshipsController < ApplicationController
   before_filter :detect_applied_group, :only => :create
   before_filter :one_group_can_apply_the_invitation_only_one_time, :only => :create
 #  before_filter :the_members_of_applied_group_should_be_equal_to_invitation , :only => :create
+
+  def show
+    @group_invitationship = GroupInvitationship.find(params[:id])
+  end
+
   def create
     @applied_group = Group.find(params[:group_invitationship][:applied_group_id])
     @invitation = Invitation.find(params[:group_invitationship][:invitation_id])
