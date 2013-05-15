@@ -1,6 +1,7 @@
 #encoding: utf-8
 class Invitation < ActiveRecord::Base
-  attr_accessible :description, :initiate_group_id, :location, :lover_style, :status, :style, :time, :activity, :image_url
+  attr_accessible :description, :initiate_group_id, :location, :lover_style, :status, 
+                  :style, :time, :activity, :image, :invitation_type, :fee
   default_scope order: 'invitations.created_at DESC'
   scope :active_invitation_initiated_by_group, 
         lambda{ |group|where(["initiate_group_id=? AND status=?", group.id, "active"]) }
@@ -19,6 +20,9 @@ class Invitation < ActiveRecord::Base
   validates :initiate_group_id, :presence => true
   validates :location, :presence => true
   validates :time, :presence => true
+  validates :invitation_type, :presence => true
+
+  mount_uploader :image, ImageUploader
 
   define_index do
     indexes location
@@ -75,8 +79,9 @@ class Invitation < ActiveRecord::Base
   end
 
   before_destroy do |invitation|
-    Feed.find_all_by_feedable_type_and_feedable_id("Invitation",invitation.id).each do |feed|
-      feed.destroy
+    tips = Tip.find_all_by_tipable_type_and_tipable_id("Invitation",invitation.id)
+    tips.each do |tip|
+      tip.destroy
     end
   end
 

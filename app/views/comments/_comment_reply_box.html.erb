@@ -4,10 +4,12 @@
     <span style="font-size:12px;color:#ff0000">
       <%= user.name %>
     </span>
-    <% if replied_dynamic_status.receiver_id %>
-      回复<%= User.find(replied_dynamic_status.receiver_id).name %>:
-    <% end %>
-    <span style="font-syyze:12px;"><%= replied_dynamic_status.content %></span></br>
+    <span style="font-size:12px;">
+      <% if replied_dynamic_status.receiver_id %>
+        回复<%= User.find(replied_dynamic_status.receiver_id).name %>:
+      <% end %>
+    </span>
+    <span style="font-size:12px;"><%= replied_dynamic_status.content %></span></br>
     <span class="pull-left" style="font-size: 10px;color: #cccccc"><%= replied_dynamic_status.created_at.strftime("%Y-%m-%d %H:%M")%></span>
     <span class="pull-right">
       <%= link_to "回复", new_feed_comment_path(feedable,

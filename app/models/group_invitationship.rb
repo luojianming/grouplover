@@ -65,4 +65,11 @@ class GroupInvitationship < ActiveRecord::Base
       feed.save
     end
   end
+
+  before_destroy do |group_invitationship|
+    tips = Tip.find_all_by_tipable_type_and_tipable_id("GroupInvitationship",group_invitationship.id)
+    tips.each do |tip|
+      tip.destroy
+    end
+  end
 end

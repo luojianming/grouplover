@@ -101,7 +101,6 @@ class ProfilesController < ApplicationController
       end
       if params[:profile][:description]
         dynamic_status = current_user.dynamic_statuses.create(:content => params[:profile][:description])
-        dynamic_status.save
       end
       respond_to do |format|
         if @profile.update_attributes(params[:profile])

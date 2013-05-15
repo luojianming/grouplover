@@ -7,38 +7,43 @@
   %>
   <div class="row">
     <div class="span9">
-      时间：<%= @invitation.time %></br>
-      地点：<%= @invitation.location %></br>
-      费用：</br>
-      活动: </br>
-      发起者：<%= @invitation.initiate_group.name %></br>
-      活动详情：<%= @invitation.description %>
+      <div class="pull-left feed_photo" style="margin-right: 20px;">
+        <%= image_tag @invitation.image_url(:big) %>
+      </div>
+      <span class="small_gray">时间：</span><%= @invitation.time %></br>
+      <span class="small_gray">地点：</span><%= @invitation.location %></br>
+      <span class="small_gray">费用：</span></br>
+      <span class="small_gray">活动: </span></br>
+      <span class="small_gray">发起者：</span><%= @invitation.initiate_group.name %></br>
 
+      <div class="pull-left" style="clear:both;margin-top:15px;margin-bottom: 15px;">活动详情：</div><%= @invitation.description %>
+      <%= render 'groups/show_group', :group => @invitation.initiate_group %>
       <span class="pull-right" style="display: none">
-        <%= link_to "评论", new_invitation_comment_path(@invitation, :type => "invitation_comment"), 
+        <%= link_to "评论", new_invitation_comment_path(@invitation, :type => "invitation_comment"),
           :id => "comment_btn", :remote => true %>
       </span>
-        <div id='comments'>
-          <% comments = @invitation.comments %>
-          <% if comments.size >= 1 %>
-            <%= render('model_comments/comment', :comment => comments[0]) %>
-          <% end %>
-          <% if comments.size > 2 %>
-            <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
-              <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
-            </div>
-            <div style="display: none" class="remain_status">
-              <% @invitation.comments.each do |comment| %>
-                <% if comment != comments[0] && comment != comments[comments.size-1] %>
-                  <%= render('model_comments/comment', :comment => comment) %>
-                <% end %>
-              <% end %>
-            </div>
-          <% end %>
-          <% if comments.size >= 2 %>
-            <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
+      <div style="font-size: 16px;margin-top: 10px;">评论：</div>
+      <div id='comments' style="clear: both;margin-top: 5px;">
+        <% comments = @invitation.comments %>
+        <% if comments.size >= 1 %>
+          <%= render('model_comments/comment', :comment => comments[0]) %>
+        <% end %>
+        <% if comments.size > 2 %>
+          <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
+            <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
+          </div>
+        <div style="display: none" class="remain_status">
+          <% @invitation.comments.each do |comment| %>
+            <% if comment != comments[0] && comment != comments[comments.size-1] %>
+              <%= render('model_comments/comment', :comment => comment) %>
+            <% end %>
           <% end %>
         </div>
+      <% end %>
+        <% if comments.size >= 2 %>
+          <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
+      <% end %>
+      </div>
         <input class="span9 reply_input" placeholder="评论..." style="display: block;">
         <div id="reply_form">
         </div>

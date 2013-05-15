@@ -8,11 +8,19 @@ class DynamicStatus < ActiveRecord::Base
 
   has_many :comments, :as => :commentable, :dependent => :destroy
 
+  has_many :feeds, :as => :feedable, :dependent => :destroy
   after_save do |dynamic_status|
     user = dynamic_status.user
-    feed = user.feeds.build(:model_name => "DynamicStatus",
-                            :item_id => id)
+    feed = user.feeds.build(:feedable_type => "DynamicStatus",
+                            :feedable_id => id)
     feed.save
+  end
+
+  before_destroy do |dynamic_status|
+    tips = Tip.find_all_by_tipable_type_and_tipable_id("DynamicStatus",dynamic_status.id)
+    tips.each do |tip|
+      tip.destroy
+    end
   end
   private
 

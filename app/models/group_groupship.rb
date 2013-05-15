@@ -27,4 +27,12 @@ class GroupGroupship < ActiveRecord::Base
                           :feedable_id => id)
     end
   end
+
+  before_destroy do |group_groupship|
+
+    tips = Tip.find_all_by_tipable_type_and_tipable_id("GroupGroupship",group_groupship.id)
+    tips.each do |tip|
+      tip.destroy
+    end
+  end
 end

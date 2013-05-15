@@ -1,0 +1,9 @@
+<div style="width:50px;clear:both;float:left;margin-right:10px;">
+  <%= link_to(user_path(user), :target => "_blank") do %>
+    <% if user.profile.sex == '男' %>
+      <%= safe_image_tag(user.profile.avatar_url(:mini), 'boy.jpg') %>
+    <% else %>
+      <%= safe_image_tag(user.profile.avatar_url(:mini), 'girl.jpg') %>
+    <% end %>
+  <% end %>
+</div>

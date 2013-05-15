@@ -1,0 +1,17 @@
+      <div style="clear: both">
+        <div style="height:50px;margin-top:5px;">
+          <% team_leader = group.team_leader %>
+          <%= render 'comments/comment_mid_avatar', :user => team_leader %>
+          <span class="pull-left" style="margin-top:5px;">
+            <%= link_to team_leader.name, user_path(team_leader) %>(创建者)</br>
+            <%= render 'comments/comment_user_info', :user => team_leader %>
+          </span>
+        </div>
+        <% group.members.each do |member| %>
+          <div style="height:50px;margin-top:5px;">
+            <%= render 'comments/comment_mid_avatar', :user => member %>
+            <span class="pull-left"><%=link_to member.name, user_path(member) %></span>(成员)</br>
+            <%= render 'comments/comment_user_info', :user => member %>
+          </div>
+        <% end %>
+      </div>

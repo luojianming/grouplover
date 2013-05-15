@@ -1,0 +1,38 @@
+<% initiate_group = invitation.initiate_group %>
+<% team_leader = initiate_group.team_leader %>
+<div class="pull-left item">
+  <div class="box-photo"><%= safe_image_tag(initiate_group.image_url(:thumb), 'photo/'+(initiate_group.id%12 + 1).to_s+'.jpg') %></div>
+  <div class="activity_info">
+    <span class="normal-font">时间：</span><span class="activity_info_font"><%=invitation.time%></span><br/>
+    <span class="normal-font">地点：</span><span class="activity_info_font"><%= invitation.location %></span><br/>
+    <span class="normal-font">活动：</span><span class="activity_info_font"><%= invitation.activity %></span>
+  </div>
+    <div class="members">
+      <ul style="margin-left:5px">
+        <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
+                        :rel => 'tooltip') do %>
+          <li>
+            <% if team_leader.profile.sex == '男' %>
+              <%= safe_image_tag(team_leader.profile.avatar_url(:mini),'boy.jpg') %>
+            <% else %>
+              <%= safe_image_tag(team_leader.profile.avatar_url(:mini),'girl.jpg') %>
+            <% end %>
+            <span>发起者：<%= team_leader.name %> <%= team_leader.profile.hometown %> <%= team_leader.profile.sex %> </span>
+          </li>
+        <% end %>
+        <% initiate_group.members.each do |member| %>
+        <%= link_to(user_path(member),:title => member.profile.style,
+                        :rel => 'tooltip') do %>
+          <li>
+            <% if member.profile.sex == '男' %>
+              <%= safe_image_tag(member.profile.avatar_url(:mini),'boy.jpg') %>
+            <% else %>
+              <%= safe_image_tag(member.profile.avatar_url(:mini),'girl.jpg') %>
+            <% end %>
+            <span><%= member.name %> <%= member.profile.hometown %> <%= member.profile.sex %></span>
+          </li>
+        <% end %>
+      <% end %>
+      </ul>
+    </div><!-- members -->
+</div>

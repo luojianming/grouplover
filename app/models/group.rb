@@ -143,4 +143,11 @@ class Group < ActiveRecord::Base
     end
   end
 
+  before_destroy do |group|
+    tips = Tip.find_all_by_tipable_type_and_tipable_id("Group",group.id)
+    tips.each do |tip|
+      tip.destroy
+    end
+  end
+
 end

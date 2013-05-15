@@ -14,6 +14,9 @@
     <span style="font-size:14px;color:#ff0000"><%= user.name %>:</span>
     <% if feed.feedable_type == "DynamicStatus" %>
       <span style="font-size:14px;"><%= feedable.content %></span></br>
+      <span class="pull-left" style="font-size: 10px;color: #cccccc">
+        <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
+      </span>
     <% elsif feed.feedable_type == "Photo"%>
       <span style="font-size:14px;">上传了新的照片</span></br>
       <div class="feed_photo">
@@ -21,6 +24,9 @@
           <%= image_tag feedable.image_url(:big) %>
         <% end %>
       </div>
+      <span class="pull-left" style="font-size: 10px;color: #cccccc">
+        <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
+      </span>
     <% elsif feed.feedable_type == "Group" %>
       <% team_leader = feedable.team_leader %>
       <% if team_leader == user %>
@@ -34,7 +40,13 @@
       <% team_leader = initiate_group.team_leader %>
       <span>所在的小组<%= link_to initiate_group.name, group_path(initiate_group) %>发布了新的活动</span>
       <%= link_to '详情', invitation_path(feedable), :class => "pull-right" %>
-<a name="xn_share" onclick="share_<%=feed.id%>_Click()" type="icon" href="javascript:;"></a>
+</br>
+      <%= render 'comments/invitation', :invitation => feedable %>
+      <a name="xn_share" onclick="share_<%=feed.id%>_Click()" class="pull-right" type="icon" href="javascript:;"></a>
+      <span class="pull-right" style="color:#999;font-size: 12px;">分享：</span>
+    <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
+      <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
+    </span>
 <script type="text/javascript">
 function share_<%= feed.id%>_Click() {
   var rrShareParam = {
@@ -42,16 +54,11 @@ function share_<%= feed.id%>_Click() {
     srcUrl : '',//分享的资源æ<SNR>70_SuperTab('n')
     pic : '',//分享的主题图片Url
     title : '小组<%= initiate_group.name %>发布了新的活动,求同行',//分享的标题
-    description : '时间：<%= feedable.time %>/地点：<%= feedable.location %>/活动：<%= feedable.activity %></br>'//分享的详细描述
+    description : '时间：<%= feedable.time %>地点：<%= feedable.location %>活动：<%= feedable.activity %>'//分享的详细描述
   };
   rrShareOnclick(rrShareParam);
 }
 </script>
-</br>
-      <span class="small_gray">时间：</span><%= feedable.time %>/
-      <span class="small_gray">地点：</span><%= feedable.location %>/
-      <span class="small_gray">活动：</span><%= feedable.activity %></br>
-      <%= render 'comments/comment_group', :group => initiate_group %>
     <% elsif feed.feedable_type == "GroupInvitationship" %>
       <%
         invitation = feedable.invitation
@@ -71,10 +78,11 @@ function share_<%= feed.id%>_Click() {
       <span class="small_gray">时间：</span><%= invitation.time %>/
       <span class="small_gray">地点：</span><%= invitation.location %>/
       <span class="small_gray">活动：</span><%= invitation.activity %></br>
-      <span><%= initiate_group.name %>(活动发起者)</span>
-      <%= render 'comments/comment_group', :group => initiate_group %>
-      <span><%= applied_group.name %></span>
-      <%= render 'comments/comment_group', :group => applied_group %>
+      <%= render 'comments/comment_group_item', :group => initiate_group %>
+      <%= render 'comments/comment_group_item', :group => applied_group %>
+      <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
+        <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
+      </span>
     <% elsif feed.feedable_type == "GroupGroupship" %>
       <%
         applied_group = feedable.applied_group
@@ -90,17 +98,15 @@ function share_<%= feed.id%>_Click() {
       <span>参与的小组<%= link_to group.name, group_path(group) %>与小组<%= link_to other_group.name, group_path(other_group)%>组局成功</span>
       <%= link_to '详情', group_groupship_path(feedable), :class => "pull-right" %>
       </br>
-      <span class="small_gray">时间：</span><%= feedable.time %>/
-      <span class="small_gray">地点：</span><%= feedable.location %>/
+      <span class="small_gray">时间：</span><%= feedable.time %>
+      <span class="small_gray">地点：</span><%= feedable.location %>
       <span class="small_gray">活动：</span><%= feedable.activity %></br>
-      <span><%= applied_group.name %>(活动发起者)</span>
-      <%= render 'comments/comment_group', :group => applied_group %>
-      <span><%= target_group.name %></span>
-      <%= render 'comments/comment_group', :group => target_group %>
+      <%= render 'comments/comment_group_item', :group => applied_group %>
+      <%= render 'comments/comment_group_item', :group => target_group %>
+      <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
+        <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
+      </span>
     <% end %>
-    <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
-      <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
-    </span>
     <a href="javascript:;" class="hide_remain_link pull-right" style="display: none">收起回复</a>
     <div id="feed_comments_<%= feed.id%>" class="reply_status_contents">
       <% replied_dynamic_statuses = feedable.comments %>
@@ -108,7 +114,7 @@ function share_<%= feed.id%>_Click() {
                                   :feedable => feedable,
                                   :feed => feed %>
     </div>
-    <input class="span8 reply_input" placeholder="评论..." style="display: block;">
+    <input class="span8 reply_input" placeholder="评论..." style="display: block;margin-top: 10px;">
     <span class="pull-right reply_input_btn" style="display: none">
       <%= link_to "回复", new_feed_comment_path(feedable,
                                                 :general_feed_id => feed.id),

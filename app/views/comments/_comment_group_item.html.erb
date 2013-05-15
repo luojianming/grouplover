@@ -1,0 +1,35 @@
+<% team_leader = group.team_leader %>
+<div class="pull-left" style="width: 290px;border: 1px solid #ccc;margin-right:10px;">
+    <div class="members">
+      <ul style="margin-left:5px">
+        <%= link_to group_path(group) do %>
+          <li style="text-align: center;"><%= group.name %>----<%= group.location %></li>
+        <% end %>
+        <%= link_to(user_path(team_leader),:title => team_leader.profile.style,
+                        :rel => 'tooltip') do %>
+          <li>
+            <% if team_leader.profile.sex == '男' %>
+              <%= safe_image_tag(team_leader.profile.avatar_url(:mini),'boy.jpg') %>
+            <% else %>
+              <%= safe_image_tag(team_leader.profile.avatar_url(:mini),'girl.jpg') %>
+            <% end %>
+            <span>发起者：<%= team_leader.name %> <%= team_leader.profile.hometown %> <%= team_leader.profile.sex %> </span>
+          </li>
+        <% end %>
+        <% group.members.each do |member| %>
+        <%= link_to(user_path(member),:title => member.profile.style,
+                        :rel => 'tooltip') do %>
+          <li>
+            <% if member.profile.sex == '男' %>
+              <%= safe_image_tag(member.profile.avatar_url(:mini),'boy.jpg') %>
+            <% else %>
+              <%= safe_image_tag(member.profile.avatar_url(:mini),'girl.jpg') %>
+            <% end %>
+            <span><%= member.name %> <%= member.profile.hometown %> <%= member.profile.sex %></span>
+          </li>
+        <% end %>
+      <% end %>
+      </ul>
+    </div><!-- members -->
+
+</div>

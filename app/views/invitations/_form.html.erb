@@ -5,7 +5,7 @@
   <div class="row">
 
     <div class="span9">
-      <h4>创建邀请函</h4>
+      <h4>创建活动</h4>
       <%= link_to '返回', user_path(current_user) %>
   <%= simple_form_for(@invitation) do |f| %>
     <%
@@ -26,9 +26,29 @@
                       ) -%>
         </div>
       </div>
+
+      <div class="control-group required">
+        <label class="control-label required"><abbr title="required">*</abbr>活动类型</label>
+        <div class="controls">
+          <%= f.select(:invitation_type, ApplicationHelper::INVITATION_TYPE,
+                       {},
+                       {:class => "type-select"}
+                      ) -%>
+        </div>
+      </div>
       <%= f.input :location, :label => "活动地点" %>
       <%= f.input :activity, :label => "活动" %>
-      <%= f.input :description, :label => "描述", :as => :text,
+      <div class="control-group required">
+        <label class="control-label required"><abbr title="required">*</abbr>活动费用</label>
+        <div class="controls">
+          <%= f.select(:fee, ["举办者付费","免费","AA"],
+                       {},
+                       {:class => "fee-select"}
+                      ) -%>
+        </div>
+      </div>
+      <%= f.input :image, :label => "请上传宣传照" %>
+      <%= f.input :description, :label => "详情", :as => :text,
                   :input_html => {:rows => 3} %>
       <%= f.hidden_field :status, :value => "pending" %>
       <!--
@@ -47,4 +67,11 @@
 <script>
   $(".time-select").chosen();
   $(".chzn-container").css('width', '220px');
+  $(".type-select").chosen();
+  $(".fee-select").chosen();
+</script>
+<script>
+  $(".time-select").chosen();
+  $(".chzn-container").css('width', '220px');
+  $(".type-select").chosen();
 </script>

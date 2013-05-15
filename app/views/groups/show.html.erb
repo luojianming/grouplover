@@ -6,7 +6,7 @@
 %>
 <div class="container">
   <div class="row">
-    <div class="span9">
+    <div class="span8">
       <div style="text-align: center;margin-bottom: 10px;">
         <span style="font-size: 22px;"><%= @group.name %></span>&nbsp;&nbsp;
         <% if current_user == @group.team_leader %>
@@ -23,14 +23,16 @@
             <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => @group } %>
         <% end %>
       </div>
-      <div>
-        <%= render 'comments/comment_group', :group => @group %>
+      <%= render 'show_group', :group => @group %>
+      <div style="margin-top: 10px;">
+        小组详情：
       </div>
       <span class="pull-right" style="display: none">
         <%= link_to "评论", new_group_comment_path(@group, :type => "group_comment"), 
           :id => "comment_btn", :remote => true %>
       </span>
-        <div id='comments'>
+        <div id='comments' style="margin-top: 15px;">
+          <span style="font-size: 16px;">评论：</span></br>
           <% comments = @group.comments %>
           <% if comments.size >= 1 %>
             <%= render('model_comments/comment', :comment => comments[0]) %>
@@ -51,11 +53,11 @@
             <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
           <% end %>
         </div>
-        <input class="span9 reply_input" placeholder="评论..." style="display: block;">
+        <input class="span8 reply_input" placeholder="评论..." style="display: block;">
         <div id="reply_form">
         </div>
     </div>
-    <div class="span3">
+    <div class="span4">
       <h4>与该组相关的活动</h4>
       <!--
         <%= image_tag @group.image_url(:thumb) %>
