@@ -7,61 +7,69 @@
 <div class="container">
   <div class="row">
     <div class="span8">
-      <div style="text-align: center;margin-bottom: 10px;">
+      <div style="margin-bottom: 20px;">
         <span style="font-size: 22px;"><%= @group.name %></span>&nbsp;&nbsp;
         <% if current_user == @group.team_leader %>
           <% if Group.be_active?(@group) == false %>
-          <%= link_to "编辑", edit_group_path(@group) %>
-        <% else %>
-          <a href="#" data-toggle="popover" data-placement="right" data-content="目前该群组已处于被邀请状态/已发布活动状态/申请活动状态，不能编辑">
-            编辑
-          </a>
-        <% end %>
-        <%= link_to "解散", @group, :confirm => '确定解散？',
-          :method => :delete, :remote => true %>
+            <%= link_to "编辑", edit_group_path(@group) %>
+          <% else %>
+            <a href="#" data-toggle="popover" data-placement="right" data-content="目前该群组已处于被邀请状态/已发布活动状态/申请活动状态，不能编辑">
+              编辑
+            </a>
+          <% end %>
+          <%= link_to "解散", @group, :confirm => '确定解散？',
+            :method => :delete, :remote => true %>
+          <%= link_to "收到的邀请", invite_posts_group_path(@group), :class => "pull-right" %>
+          <%= link_to "已发送的邀请", sended_posts_group_path(@group), :class => "pull-right " %>
         <% elsif @group.members.include?(current_user) %>
-            <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => @group } %>
+          <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => @group } %>
+          <%= link_to "收到的邀请", invite_posts_group_path(@group), :class => "pull-right" %>
+          <%= link_to "已发送的邀请", sended_posts_group_path(@group), :class => "pull-right" %>
+        <% else %>
+          <a href="#inviteModal_<%=@group.id%>" data-toggle="modal" class="pull-right" style="font-size:16px;margin-top:10px;">
+            邀请
+          </a>
+          <%= render 'shared/group_invite_modal', :show_group => @group %>
+
         <% end %>
       </div>
       <%= render 'show_group', :group => @group %>
-      <div style="margin-top: 10px;">
-        小组详情：
+      <div class="pull-left" style="clear:both;margin-top:10px;margin-bottom:10px;">
+        <% if @group.description.to_s.size > 0 %>
+          活动详情：<%= @group.description %>
+        <% end %>
       </div>
       <span class="pull-right" style="display: none">
         <%= link_to "评论", new_group_comment_path(@group, :type => "group_comment"), 
           :id => "comment_btn", :remote => true %>
       </span>
-        <div id='comments' style="margin-top: 15px;">
-          <span style="font-size: 16px;">评论：</span></br>
-          <% comments = @group.comments %>
-          <% if comments.size >= 1 %>
-            <%= render('model_comments/comment', :comment => comments[0]) %>
-          <% end %>
-          <% if comments.size > 2 %>
-            <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
-              <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
-            </div>
-            <div style="display: none" class="remain_status">
-              <% comments.each do |comment| %>
-                <% if comment != comments[0] && comment != comments[comments.size-1] %>
-                  <%= render('model_comments/comment', :comment => comment) %>
-                <% end %>
-              <% end %>
-            </div>
-          <% end %>
-          <% if comments.size >= 2 %>
-            <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
-          <% end %>
-        </div>
-        <input class="span8 reply_input" placeholder="评论..." style="display: block;">
-        <div id="reply_form">
-        </div>
+      <% comments = @group.comments %>
+      <p style="clear:both;font-size: 16px;">评论：</p>
+      <%= render 'comments/show_comments', :comments => comments %>
+      <input class="span8 reply_input" placeholder="评论..." style="display: block;">
+      <div id="reply_form">
+      </div>
     </div>
     <div class="span4">
       <h4>与该组相关的活动</h4>
-      <!--
-        <%= image_tag @group.image_url(:thumb) %>
-        -->
+      <ul class="actived_invitation_list">
+      <% @group.actived_invitations.each do |actived_invitation| %>
+        <% if actived_invitation.class == GroupInvitationship %>
+          <% invitation = actived_invitation.invitation %>
+          <%= link_to group_invitationship_path(actived_invitation) do %>
+            <li>
+              <%= invitation.time %>于<%= invitation.location %><%= invitation.activity %>
+            </li>
+          <% end %>
+        <% elsif actived_invitation.class == GroupGroupship %>
+          <%= link_to group_groupship_path(actived_invitation) do %>
+            <li>
+              <%= actived_invitation.time %>于<%= actived_invitation.location %><%= actived_invitation.activity %>
+            </li>
+          <% end %>
+        <% end %>
+      <% end %>
+      </ul>
     </div>
   </div>
 </div>

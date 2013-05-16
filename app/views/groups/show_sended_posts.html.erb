@@ -1,0 +1,47 @@
+<div class="container">
+  <% if @group_invitationships.size > 0 %>
+  <h4>群组<%= link_to @group.name, group_path(@group) %>申请参加的活动</h4>
+  <% @group_invitationships.each do |group_invitationship| %>
+    <%
+      invitation = group_invitationship.invitation
+      initiate_group = invitation.initiate_group
+    %>
+    <div style="border: 1px solid #ccc;overflow: hidden;margin-bottom:15px;">
+      <div class="pull-left" style="width:200px; border-right: 1px solid #ddd">
+        <%= render 'group_invitationships/invitation_info',
+            :invitation => invitation,
+            :initiate_group => initiate_group %>
+      </div>
+      <div class="pull-left" style="padding-left:5px;width:730px;">
+        <%= render 'comments/comment_group', :group => @group %>
+        <% if group_invitationship.description.to_s.size > 0 %>
+          <div style="border-top: 1px solid #ddd; margin-top:5px;"></div>
+          活动详情：<%= group_invitationship.description %>
+        <% end%>
+      </div>
+    </div>
+  <% end %>
+  <% end %>
+
+  <% if @group_groupships.size > 0 %>
+  <h4>群组<%= link_to @group.name, group_path(@group) %>发出的邀请帖</h4>
+  <% @group_groupships.each do |group_groupship| %>
+    <%
+      target_group = group_groupship.target_group
+    %>
+    <div style="border: 1px solid #ccc;overflow: hidden;margin-bottom:15px;">
+      <div class="pull-left" style="width:200px; border-right: 1px solid #ddd">
+        <%= render 'group_invitationships/invitation_info', :invitation => group_groupship,
+            :initiate_group => @group %>
+      </div>
+      <div class="pull-left" style="padding-left:5px;width:730px;">
+        <%= render 'comments/comment_group', :group => target_group %>
+        <% if group_groupship.description.to_s.size > 0 %>
+          <div style="border-top: 1px solid #ddd; margin-top:5px;"></div>
+          活动详情：<%= group_groupship.description %>
+        <% end%>
+      </div>
+    </div>
+  <% end %>
+  <% end %>
+</div>

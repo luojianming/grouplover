@@ -1,0 +1,30 @@
+<div class="container">
+<% if @group_groupships.size > 0 %>
+  <h4>群组<%= link_to @group.name, group_path(@group)%>收到的邀请贴</h4>
+  <% @group_groupships.each do |group_groupship| %>
+    <% 
+        applied_group = group_groupship.applied_group
+        team_leader = applied_group.team_leader
+    %>
+  <%= link_to team_leader.name, user_path(team_leader) %>于<%= group_groupship.created_at.strftime("%Y-%m-%d")%>发出了邀请
+    <div style="border: 1px solid #ccc;overflow: hidden;margin-bottom:15px;">
+      <div class="pull-left" style="width:200px; border-right: 1px solid #ddd">
+        <%= render 'group_invitationships/invitation_info', :invitation => group_groupship,
+          :initiate_group => group_groupship.applied_group %>
+        <% if can? :accept, group_groupship %>
+          <%= render 'shared/group_received_action', :group_ship => group_groupship %>
+        <% end %>
+      </div>
+      <div class="pull-left" style="padding-left:5px;width:730px;">
+        <%= render 'comments/comment_group', :group => group_groupship.applied_group %>
+        <% if group_groupship.description.to_s.size > 0 %>
+          <div style="border-top: 1px solid #ddd; margin-top:5px;"></div>
+          活动详情：<%= group_groupship.description %>
+        <% end%>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <h4>群组<%= link_to @group.name, group_path(@group)%>还没收到任何邀请贴哦</h4>
+<% end %>
+</div>

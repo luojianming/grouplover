@@ -14,6 +14,8 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
 
   match 'photos/create' => 'photos#create'
   match 'home/about' => 'home#about'
+  match 'group_groupships/accept' => 'group_groupships#accept'
+  match 'group_invitationships/accept' => 'group_invitationships#accept'
   match 'private_messages/change_status' => 'private_messages#change_status'
   resources :private_messages, only: [:show, :create]
 
@@ -31,12 +33,14 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
     resources :comments, only: [:new, :create]
     member do
       post :fast_create
+      get :applied_groups
     end
   end
   resources :groups, only: [:new, :show, :create, :update, :destroy, :edit, :index] do
     resources :comments, only: [:new, :create]
     member do
       post :add_members
+      get :invite_posts, :sended_posts
     end
   end
   authenticated :user do

@@ -5,26 +5,7 @@
     <% if invitation.status != "active" %>
     <div class="item" id="invitation_<%=invitation.id%>">
         <%= render 'shared/applied_action', :invitation => invitation %>
-      <div id="appliedModal_<%=invitation.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">申请参加</h3>
-        </div>
-    <% if user_signed_in?%>
-        <%= simple_form_for invitation.group_invitationships.build(invitation_id: invitation.id) do |f| %>
-          <div class="modal-body">
-            <p>选择你的一个group</p>
-            <%= f.hidden_field :invitation_id %>
-            <%= f.collection_select :applied_group_id, current_user.active_groups, :id, :name%>
-            <%= f.input :description, :label => "对TA说的话", :as => :text,
-              :input_html => { :rows => 3, class: 'span5' }%>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary">提交</button>
-          </div>
-         <% end %>
-      <% end %>
-        </div>
+        <%= render 'shared/applied_invitation_modal', :invitation => invitation %>
         <div class="box-photo"><%= safe_image_tag(initiate_group.image_url(:thumb), 'photo/'+(initiate_group.id%12 + 1).to_s+'.jpg') %></div>
         <div class="activity_info">
           <span class="normal-font">时间：</span><span class="activity_info_font"><%=invitation.time%></span><br/>

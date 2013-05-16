@@ -161,7 +161,7 @@
                           group_invitationship = GroupInvitationship.find(tip.tipable_id)
                       %>
                       <%= link_to group_invitationship_path(group_invitationship) do %>
-                        <p><%= sender.name %>在群组<span style="color: red"><%= group.name.slice(0,6)%></span>中回复了你</p>
+                        <p><%= sender.name %>在<span style="color: red"><%= group_invitationship.invitation.time %></span>的活动中回复了你</p>
                       <% end %>
                     <% elsif tip.tipable_type == "GroupGroupship" %>
                       <%

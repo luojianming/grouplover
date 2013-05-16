@@ -9,42 +9,22 @@
   %>
   <div class="row">
     <div class="span9">
-      时间：<%= @group_groupship.time %></br>
-      地点：<%= @group_groupship.location %></br>
-      费用：</br>
-      活动: </br>
-      发起者：<%= applied_group.name %></br>
-      参与者：<%= target_group.name %></br>
-      活动详情：<%= @group_groupship.description %>
+      <%= render 'group_invitationships/invitation_info', :invitation => @group_groupship, :initiate_group => applied_group %>
 
+    <div style="clear: both;">
+      <%= render 'comments/comment_group_item', :group => applied_group %>
+      <%= render 'comments/comment_group_item', :group => target_group %>
+    </div>
       <span class="pull-right" style="display: none">
         <%= link_to "评论", new_group_groupship_comment_path(@group_groupship, :type => "group_groupship_comment"),
           :id => "comment_btn", :remote => true %>
       </span>
-        <div id='comments'>
-          <% comments = @group_groupship.comments %>
-          <% if comments.size >= 1 %>
-            <%= render('model_comments/comment', :comment => comments[0]) %>
-          <% end %>
-          <% if comments.size > 2 %>
-            <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
-              <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
-            </div>
-            <div style="display: none" class="remain_status">
-              <% comments.each do |comment| %>
-                <% if comment != comments[0] && comment != comments[comments.size-1] %>
-                  <%= render('model_comments/comment', :comment => comment) %>
-                <% end %>
-              <% end %>
-            </div>
-          <% end %>
-          <% if comments.size >= 2 %>
-            <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
-          <% end %>
-        </div>
-        <input class="span9 reply_input" placeholder="评论..." style="display: block;">
-        <div id="reply_form">
-        </div>
+      <div style="clear:both;font-size: 16px;margin-top: 10px;">评论：</div>
+      <% comments = @group_groupship.comments %>
+      <%= render 'comments/show_comments', :comments => comments %>
+      <input class="span9 reply_input" placeholder="评论..." style="display: block;">
+      <div id="reply_form">
+      </div>
     </div>
 
     <div class="span3">

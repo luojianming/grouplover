@@ -131,6 +131,17 @@ class Group < ActiveRecord::Base
   end
 
 
+  def actived_invitations
+    @actived_invitations = Invitation.find_all_by_initiate_group_id_and_status(id,"active")
+    @actived_invitationships = []
+    @actived_invitations.each do |active_invitation|
+      @actived_invitationships << GroupInvitationship.find_by_invitation_id(active_invitation.id)
+    end
+    @actived_invitationships = @actived_invitationships | GroupInvitationship.find_all_by_applied_group_id_and_status(id, "active")
+    @actived_invitationships = @actived_invitationships | GroupGroupship.find_all_by_applied_group_id_and_status(id,"active")
+    @actived_invitationships = @actived_invitationships | GroupGroupship.find_all_by_target_group_id_and_status(id,"active")
+  end
+
   def create_feed
     user = team_leader
     feed = user.feeds.build(:feedable_type => "Group",

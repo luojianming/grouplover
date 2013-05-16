@@ -1,8 +1,7 @@
 <div class="actions">
   <%= link_to({:controller => "group_invitationships", :action => "accept", 
-                       :applied_group => invitation_ship.applied_group,
-                       :invitation => invitation_ship.invitation},
-                       :class => "btn join_link", :confirm =>"接受该回帖后将会删除其他的回帖哦") do%>
+               :group_invitationship => invitation_ship },
+               :class => "btn join_link", :confirm =>"接受该回帖后将会删除其他的回帖哦") do%>
       <i class="icon-heart"></i>接受
    <% end %>
 </div>	

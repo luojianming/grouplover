@@ -20,12 +20,27 @@ class Ability
       can :manage, Group  do |group|
         group.try(:team_leader) == user
       end
+      can :invite_posts, Group do |group|
+        group.team_leader == user || group.members.include?(user)
+      end
+      can :applied_groups, Invitation do |invitation|
+        initiate_group = invitation.initiate_group
+        initiate_group.team_leader == user || initiate_group.members.include?(user)
+      end
       can :manage, Album do |album|
         album.try(:user) == user
       end
       can :manage, Photo do |photo|
         photo.album.try(:user) == user
       end
+      can :accept, GroupInvitationship do |group_invitationship|
+        group_invitationship.invitation.initiate_group.team_leader == user
+      end
+
+      can [:accept,:destroy], GroupGroupship do |group_groupship|
+        group_groupship.target_group.team_leader == user
+      end
+
     end
     # Define abilities for the passed in user here. For example:
     #

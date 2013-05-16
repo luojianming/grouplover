@@ -183,7 +183,7 @@ class CommentsController < ApplicationController
                                                :tipable_type => "GroupGroupship",
                                                :tipable_id => @commentable.id,
                                                :sender_id => sender_id)
-          (target_group.members | applied_group.members).each do |member|
+          (target_group.members | initiate_group.members).each do |member|
             member.tips.create(:tip_type => "comments",
                                :tipable_type => "GroupGroupship",
                                :tipable_id => @commentable.id,

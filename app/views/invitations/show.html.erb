@@ -4,49 +4,45 @@
     tips.each do |tip|
       tip.destroy
     end
+    initiate_group = @invitation.initiate_group
   %>
   <div class="row">
     <div class="span9">
-      <div class="pull-left feed_photo" style="margin-right: 20px;">
+      <div class="pull-left invitation_photo" style="margin-right: 20px;">
         <%= image_tag @invitation.image_url(:big) %>
       </div>
-      <span class="small_gray">时间：</span><%= @invitation.time %></br>
-      <span class="small_gray">地点：</span><%= @invitation.location %></br>
-      <span class="small_gray">费用：</span></br>
-      <span class="small_gray">活动: </span></br>
-      <span class="small_gray">发起者：</span><%= @invitation.initiate_group.name %></br>
-
-      <div class="pull-left" style="clear:both;margin-top:15px;margin-bottom: 15px;">活动详情：</div><%= @invitation.description %>
+      <% if @invitation.status == "active" %>
+        <% if can? :aplied_groups, @invitation %>
+          <%= link_to '申请该活动的群组', applied_groups_invitation_path(@invitation), :class => "pull-right" %>
+        <% end %>
+        <a class="pull-right" href="#appliedModal_<%=@invitation.id%>" data-toggle="modal" style="margin-right: 20px;">
+          <span>参与</span>
+        </a>
+      <% else %>
+        <div class="pull-right">
+          <span style="font-size: 20px;color:#00ff00;margin-right:20px;">已激活</span>
+          <% group_invitationship = GroupInvitationship.find_by_invitation_id(@invitation.id) %>
+          <%= link_to '前往', group_invitationship_path(group_invitationship) %>
+        </div>
+      <% end %>
+        <%= render 'shared/applied_invitation_modal', :invitation => @invitation %>
+        <%= render 'group_invitationships/invitation_info', :invitation => @invitation, :initiate_group => @invitation.initiate_group%>
+      <div class="pull-left" style="clear:both;margin-top:10px;margin-bottom:10px;">
+        <% if @invitation.description.to_s.size > 0 %>
+          活动详情：<%= @invitation.description %>
+        <% end %>
+      </div>
       <%= render 'groups/show_group', :group => @invitation.initiate_group %>
       <span class="pull-right" style="display: none">
         <%= link_to "评论", new_invitation_comment_path(@invitation, :type => "invitation_comment"),
           :id => "comment_btn", :remote => true %>
       </span>
       <div style="font-size: 16px;margin-top: 10px;">评论：</div>
-      <div id='comments' style="clear: both;margin-top: 5px;">
-        <% comments = @invitation.comments %>
-        <% if comments.size >= 1 %>
-          <%= render('model_comments/comment', :comment => comments[0]) %>
-        <% end %>
-        <% if comments.size > 2 %>
-          <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
-            <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
-          </div>
-        <div style="display: none" class="remain_status">
-          <% @invitation.comments.each do |comment| %>
-            <% if comment != comments[0] && comment != comments[comments.size-1] %>
-              <%= render('model_comments/comment', :comment => comment) %>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
-        <% if comments.size >= 2 %>
-          <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
-      <% end %>
+      <% comments = @invitation.comments %>
+      <%= render 'comments/show_comments', :comments => comments %>
+      <input class="span9 reply_input" placeholder="评论..." style="display: block;">
+      <div id="reply_form">
       </div>
-        <input class="span9 reply_input" placeholder="评论..." style="display: block;">
-        <div id="reply_form">
-        </div>
     </div>
 
     <div class="span3">

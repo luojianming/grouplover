@@ -39,11 +39,11 @@ class GroupInvitationshipsController < ApplicationController
   end
 
   def accept
-    @applied_group_id = params[:applied_group]
-    @invitation_id = params[:invitation]
-    GroupInvitationship.accept(@applied_group_id,@invitation_id)
-    @invitation = Invitation.find(@invitation_id)
-    @applied_group = Group.find(@applied_group_id)
+    @group_invitationship = GroupInvitationship.find(params[:group_invitationship])
+    authorize! :accept, @group_invitationship
+    GroupInvitationship.accept(@group_invitationship)
+    @invitation = @group_invitationship.invitation
+    @applied_group = @group_invitationship.applied_group
     @applied_group.members.each do |member|
       member.tips.create(:tip_type => "group_invitationship", 
                          :content => @invitation.initiate_group.name + "接受了你们的申请")

@@ -6,6 +6,7 @@ class InvitationsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :only_create_one_invitation_one_day, :only => :create
   before_filter :the_group_cannot_be_nil, :only => :create
+  before_filter :the_invitation_should_be_exist, :only => [:show, :destroy, :applied_groups]
   def index
     per_page = 100
     @invitations = Invitation.by_location(params[:location]).search(:per_page => per_page) if params[:location]
@@ -110,6 +111,7 @@ class InvitationsController < ApplicationController
   # DELETE /invitations/1.json
   def destroy
     @invitation = Invitation.find(params[:id])
+    authorize! :destroy, @invitation
     @invitation = @invitation.destroy
 
     respond_to do |format|
@@ -131,10 +133,27 @@ class InvitationsController < ApplicationController
     debugger
   end
 
+  def applied_groups
+    @invitation = Invitation.find(params[:id])
+    authorize! :applied_groups, @invitation, :message => "对不起，您没有权限查看收到的邀请贴哦"
+    @group_invitationships = GroupInvitationship.find_all_by_invitation_id_and_status(@invitation.id, "pending")
+    render 'show_applied_groups'
+  end
+
   def the_group_cannot_be_nil
     if params[:invitation][:initiate_group_id].size == 0
       flash[:error] = "小组不能为空哦,如果还没有已经激活的小组，请先去创建并激活吧"
       redirect_to new_invitation_path
+      return false
+    end
+  end
+
+  def the_invitation_should_be_exist
+    begin
+      @invitation = Invitation.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
       return false
     end
   end

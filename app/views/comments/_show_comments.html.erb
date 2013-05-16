@@ -1,0 +1,20 @@
+        <div id='comments' style="clear: both;margin-top: 5px;">
+          <% if comments.size >= 1 %>
+            <%= render('model_comments/comment', :comment => comments[0]) %>
+          <% end %>
+          <% if comments.size > 2 %>
+            <div style="clear:both;margin-top: 10px;margin-bottom: 10px;display: block">
+              <a href="javascript:;" class="remain_link"> 还有<%=(comments.size-2).to_s%>条回复</a>
+            </div>
+            <div style="display: none" class="remain_status">
+              <% comments.each do |comment| %>
+                <% if comment != comments[0] && comment != comments[comments.size-1] %>
+                  <%= render('model_comments/comment', :comment => comment) %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if comments.size >= 2 %>
+            <%= render('model_comments/comment', :comment => comments[comments.size-1]) %>
+          <% end %>
+        </div>

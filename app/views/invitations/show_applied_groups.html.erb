@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="span8" style="overflow:hidden">
+      <% if @group_invitationships.size > 0 %>
+      <h4>申请参加<%= link_to @invitation.time, invitation_path(@invitation) %>日活动的群组</h4>
+
+      <% @group_invitationships.each do |group_invitationship| %>
+        <%
+            applied_group = group_invitationship.applied_group
+            invitation = group_invitationship.invitation
+            initiate_group = invitation.initiate_group
+        %>
+        <div style="border-bottom: 1px solid #ddd;padding-bottom: 10px;padding-top:10px;">
+          <h4><%= link_to applied_group.name, group_path(applied_group) %></h4>
+          <% if can? :accept, group_invitationship %>
+            <%= link_to('接受',{:controller => "group_invitationships", :action => "accept", 
+                                :group_invitationship => group_invitationship},
+                                :confirm =>"接受该回帖后将会删除其他的回帖哦",
+                                :class => "pull-right")%>
+          <% end %>
+          <%= render 'groups/show_group', :group => applied_group %>
+        </div>
+      <% end %>
+      <% else %>
+        <h4>还没有群组申请参加<%= link_to @invitation.time, invitation_path(@invitation) %>日的活动哦</h4>
+      <% end %>
+    </div>
+
+    <div class="span4">
+    </div>
+  </div>
+</div>

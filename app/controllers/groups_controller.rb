@@ -5,12 +5,13 @@ class GroupsController < ApplicationController
 #  before_filter :members_should_of_the_same_sex, :only => :create
   before_filter :cannot_have_the_same_members, :only => :create
   before_filter :member_counts_limit, :only => :create
+  before_filter :the_group_should_be_exist, :only => [:sended_posts,:create,:show,:update,:destroy,:invite_posts,:group_should_not_be_active]
 #  before_filter :group_should_not_be_active, :only => :edit
   load_and_authorize_resource
   def index
     per_page = 100
     if params[:search] != nil
-      @groups = Group.search(params[:search],:per_page => per_page)
+      @grouGs = Group.search(params[:search],:per_page => per_page)
     end
     if @groups == nil
       @groups = Group.by_group_location(params[:city]).search(:per_page => per_page) if (params[:city] && params[:city].to_s.size != 0 && params[:city] != "全国")
@@ -169,6 +170,30 @@ class GroupsController < ApplicationController
     if Group.be_active?(@group) == true
       flash[:error] = "目前该组不能编辑"
       redirect_to groups_user_path
+      return false
+    end
+  end
+
+  def invite_posts
+    @group = Group.find(params[:id])
+    @group_groupships = GroupGroupship.find_all_by_target_group_id_and_status(@group.id, "pending")
+    render 'show_invite_posts'
+  end
+
+  def sended_posts
+    @group = Group.find(params[:id])
+    @group_invitationships = GroupInvitationship.find_all_by_applied_group_id_and_status(@group.id, "pending")
+    @group_groupships = GroupGroupship.find_all_by_applied_group_id_and_status(@group.id,"pending")
+    render 'show_sended_posts'
+  end
+
+
+  def the_group_should_be_exist
+    begin
+      @group = Group.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
       return false
     end
   end

@@ -9,16 +9,15 @@ class GroupInvitationship < ActiveRecord::Base
   
   has_many :feeds, :as => :feedable, :dependent => :destroy
 
-  def self.accept(applied_group_id, invitation_id)
-    group_invitationship = GroupInvitationship.find_by_applied_group_id_and_invitation_id(
-                           applied_group_id, invitation_id)
-    invitation = Invitation.find(invitation_id)
+  def self.accept(group_invitationship)
+    invitation = group_invitationship.invitation
+    applied_group = group_invitationship.applied_group
     begin
       #首先，将group_invitationship的status置为active，接着删除其他人的申请请求，最后将该邀请的status
       #置为active，使其别再显示在首页，以免别人再次请求
       GroupInvitationship.transaction do
         group_invitationship.update_attribute("status", "active")
-        other_group_invitationships = GroupInvitationship.find_all_by_invitation_id(invitation_id)
+        other_group_invitationships = GroupInvitationship.find_all_by_invitation_id(invitation.id)
         for other_group_invitationship in other_group_invitationships
           if group_invitationship != other_group_invitationship
             other_group_invitationship.destroy
@@ -29,7 +28,7 @@ class GroupInvitationship < ActiveRecord::Base
         invitation.create_conversation()
         group_invitationship.create_feed
         #删除applied_group在当天的其它应征帖
-        group_invitations = GroupInvitationship.find_all_by_applied_group_id_and_status(applied_group_id,"pending")
+        group_invitations = GroupInvitationship.find_all_by_applied_group_id_and_status(applied_group.id,"pending")
         group_invitations.each do |group_invitation|
           if group_invitation.invitation.time == invitation.time
             group_invitation.destroy
