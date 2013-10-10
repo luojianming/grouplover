@@ -18,7 +18,7 @@
         <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
       </span>
     <% elsif feed.feedable_type == "Photo"%>
-      <span style="font-size:14px;">上传了新的照片</span></br>
+      <span style="font-size:14px;">上传了新的照片至相册<%= Photo.find(feed.feedable_id).album.name %></span></br>
       <div class="feed_photo">
         <%= link_to  photo_path(feedable) do %>
           <%= image_tag feedable.image_url(:big) %>
@@ -42,23 +42,12 @@
       <%= link_to '详情', invitation_path(feedable), :class => "pull-right" %>
 </br>
       <%= render 'comments/invitation', :invitation => feedable %>
-      <a name="xn_share" onclick="share_<%=feed.id%>_Click()" class="pull-right" type="icon" href="javascript:;"></a>
+      <a name="xn_share" onclick="share_Click('<%= initiate_group.name%>','<%= feedable.time%>','<%= feedable.location%>','<%= feedable.activity %>')" class="pull-right" type="icon" href="javascript:;">
+      </a>
       <span class="pull-right" style="color:#999;font-size: 12px;">分享：</span>
-    <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
-      <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
-    </span>
-<script type="text/javascript">
-function share_<%= feed.id%>_Click() {
-  var rrShareParam = {
-    reply_btnsourceUrl : '',//分享的资源Url
-    srcUrl : '',//分享的资源æ<SNR>70_SuperTab('n')
-    pic : '',//分享的主题图片Url
-    title : '小组<%= initiate_group.name %>发布了新的活动,求同行',//分享的标题
-    description : '时间：<%= feedable.time %>地点：<%= feedable.location %>活动：<%= feedable.activity %>'//分享的详细描述
-  };
-  rrShareOnclick(rrShareParam);
-}
-</script>
+      <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
+        <%= feedable.created_at.strftime("%Y-%m-%d %H:%M")%>
+      </span>
     <% elsif feed.feedable_type == "GroupInvitationship" %>
       <%
         invitation = feedable.invitation

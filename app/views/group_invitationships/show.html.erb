@@ -1,6 +1,8 @@
 <div class="container">
   <%
-    tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("GroupInvitationship",@group_invitationship.id)
+    tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("group_invitationship_comments", @group_invitationship.id)
+    tips = tips | current_user.tips.select_tips_by_tip_type_and_tipable_id('invitation_accept_your_group', @group_invitationship.id)
+    tips = tips | current_user.tips.select_tips_by_tip_type_and_tipable_id('your_invitation_has_actived', @group_invitationship.id)
     tips.each do |tip|
       tip.destroy
     end

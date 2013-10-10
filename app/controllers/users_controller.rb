@@ -358,7 +358,11 @@ class UsersController < ApplicationController
 
   def feeds
     @user = User.find(params[:id])
-    @feeds = @user.feed
+    if @user == current_user
+      @feeds = @user.feed.paginate(page: params[:page])
+    else
+      @feeds = @user.feeds.paginate(page: params[:page])
+    end
     render 'show_feeds'
   end
 

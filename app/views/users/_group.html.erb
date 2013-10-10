@@ -1,5 +1,5 @@
 <% show_groups.each do |show_group| %>
-  <% 
+  <%
       if show_group.member_counts == 0
         show_group.destroy
         next
@@ -16,7 +16,7 @@
         <%= render 'shared/invite_action', :show_group => show_group %>
       <% end %>
       <div class="groupleader_info">
-        <span><%= show_group.name %>
+        <span><%= link_to show_group.name, group_path(show_group) %>
           <% if show_group.status == "active" %>
             (已激活)
           <% else %>
@@ -52,14 +52,10 @@
                 <%= link_to safe_image_tag(team_leader.profile.avatar_url(:mini), 'girl.jpg'), user_path(team_leader), :title => team_leader.profile.style,
                   :placement => "top", :rel => "tooltip" %>
               <% end %>
-
             </div>
             <div class="group_member_info pull-left">
               <label>创建者：<%= team_leader.name %></label>
               <label>爱好：<%= team_leader.profile.hobby %></label>
-              <!--
-                <label>喜欢的异性类型：<%= team_leader.profile.lover_style %></label>
-              -->
             </div>
           </div>
           <% show_group.group_memberships.each do |ship| %>

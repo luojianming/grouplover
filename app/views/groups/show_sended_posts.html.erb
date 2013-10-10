@@ -1,4 +1,10 @@
 <div class="container">
+  <%
+    tips = current_user.tips.select_tips_by_tip_type_and_tipable_id('apply_group_groupship', @group.id)
+    tips.each do |tip|
+      tip.destroy
+    end
+  %>
   <% if @group_invitationships.size > 0 %>
   <h4>群组<%= link_to @group.name, group_path(@group) %>申请参加的活动</h4>
   <% @group_invitationships.each do |group_invitationship| %>

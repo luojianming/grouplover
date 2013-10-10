@@ -55,6 +55,16 @@
                   </li>
                   <% end %>
                 <% end %>
+                <% current_user.mygroups.each do |mygroup| %>
+                  <% if mygroup.received_invitations.size > 0 %>
+                    <% flag = 1 %>
+                    <li>
+                      <%= link_to invite_posts_group_path(mygroup) do %>
+                        <%= mygroup.name %>有未处理的请求哦
+                      <% end %>
+                    </li>
+                  <% end %>
+                <% end %>
                 <% unprocessed_invite = GroupMembership.unprocessed_invite(current_user) %>
                 <% if unprocessed_invite.count > 0%>
                   <% flag = 1 %>
@@ -72,9 +82,9 @@
                     <% flag = 1 %>
                     <% invitation = Invitation.find(invitation_key) %>
                     <%= link_to received_invitations_user_path(current_user) do%>
-                    <p>活动<%= invitation.time%>于<%=invitation.location%><%=invitation.activity%>
-                      有未处理的请求
-                    </p>
+                      <p>活动<%= invitation.time%>于<%=invitation.location%><%=invitation.activity%>
+                        有未处理的请求
+                      </p>
                     <% end %>
                     <%end%>
                   </li>
@@ -83,47 +93,52 @@
                 <% current_user.tips.each do |tip| %>
                   <li>
                     <% flag = 1 %>
-                    <% if tip.tip_type == "group_membership" %>
-                      <%= link_to groups_user_path(current_user) do %>
+                    <% if tip.tip_type == "GroupMembership_accept" %>
+                      <%= link_to group_path(Group.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% elsif tip.tip_type == "group_invitationship" %>
-                      <%= link_to sended_requests_user_path(current_user) do %>
+                    <% elsif tip.tip_type == "invitation_accept_your_group" %>
+                      <%= link_to group_invitationship_path(GroupInvitationship.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% elsif tip.tip_type == "invitation" %>
-                      <%= link_to participate_activities_user_path(current_user) do %>
+                    <% elsif tip.tip_type == "your_invitation_has_actived" %>
+                      <%= link_to group_invitationship_path(GroupInvitationship.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% elsif tip.tip_type == "group_invitationship_create" %>
-                      <%= link_to received_invitations_user_path(current_user) do %>
+                    <% elsif tip.tip_type == "Invitation_create" %>
+                      <%= link_to invitation_path(Invitation.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% elsif tip.tip_type == "group_has_applied_invitation_tip" %>
-                      <%= link_to participate_activities_user_path(current_user) do %>
+                    <% elsif tip.tip_type == "GroupInvitationship_received" %>
+                      <%= link_to applied_groups_invitation_path(Invitation.find(tip.tipable_id)) do %>
+                        <p><%=tip.content %></p>
+                      <% end %>
+                      <!-- 所在的群组申请参加了新的活动 -->
+                    <% elsif tip.tip_type == "Group_applied" %>
+                      <%= link_to invitation_path(Invitation.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
                     <% elsif tip.tip_type == "apply_group_groupship" %>
-                      <%= link_to sended_requests_user_path(current_user) do %>
+                      <%= link_to sended_posts_group_path(Group.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
                     <% elsif tip.tip_type == "target_group_groupship" %>
-                      <%= link_to received_invitations_user_path(current_user) do %>
+                      <%= link_to invite_posts_group_path(Group.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
                     <% elsif tip.tip_type == "target_accept_groupship" %>
-                      <%= link_to participate_activities_user_path(current_user) do %>
+                      <%= link_to group_groupship_path(GroupGroupship.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
                     <% elsif tip.tip_type == "apply_accept_groupship" %>
-                      <%= link_to participate_activities_user_path(current_user) do %>
+                      <%= link_to group_groupship_path(GroupGroupship.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% elsif tip.tip_type == "add_members_tip" %>
-                      <%= link_to groups_user_path(current_user) do %>
+                    <% elsif tip.tip_type == "Group_update" %>
+                      <%= link_to group_path(Group.find(tip.tipable_id)) do %>
                         <p><%=tip.content %></p>
                       <% end %>
-                    <% elsif tip.tipable_type == "DynamicStatus" %>
+                    <% elsif tip.tip_type == "dynamic_comments" %>
                       <%
                           sender = User.find(tip.sender_id)
                           status = DynamicStatus.find(tip.tipable_id)
@@ -131,7 +146,7 @@
                       <%= link_to dynamic_status_path(status) do %>
                         <p><%= sender.name %>在状态<span style="color: red"><%= status.content.slice(0,6)%>...</span>中回复了你</p>
                       <% end %>
-                    <% elsif tip.tipable_type == "Photo" %>
+                    <% elsif tip.tip_type == "photo_comments" %>
                       <%
                           sender = User.find(tip.sender_id)
                           photo = Photo.find(tip.tipable_id)
@@ -139,7 +154,7 @@
                       <%= link_to photo_path(photo) do %>
                         <p><%= sender.name %>在照片<span style="color: red"><%= photo.name.slice(0,6)%>...</span>中回复了你</p>
                       <% end %>
-                    <% elsif tip.tipable_type == "Invitation" %>
+                    <% elsif tip.tip_type == "invitation_comments" %>
                       <%
                           sender = User.find(tip.sender_id)
                           invitation = Invitation.find(tip.tipable_id)
@@ -147,7 +162,7 @@
                       <%= link_to invitation_path(invitation) do %>
                         <p><%= sender.name %>在<span style="color: red"><%= invitation.time %></span>的活动中回复了你</p>
                       <% end %>
-                    <% elsif tip.tipable_type == "Group" %>
+                    <% elsif tip.tip_type == "group_comments" %>
                       <%
                           sender = User.find(tip.sender_id)
                           group = Group.find(tip.tipable_id)
@@ -155,7 +170,7 @@
                       <%= link_to group_path(group) do %>
                         <p><%= sender.name %>在群组<span style="color: red"><%= group.name.slice(0,6)%></span>中回复了你</p>
                       <% end %>
-                    <% elsif tip.tipable_type == "GroupInvitationship" %>
+                    <% elsif tip.tip_type == "group_invitationship_comments" %>
                       <%
                           sender = User.find(tip.sender_id)
                           group_invitationship = GroupInvitationship.find(tip.tipable_id)
@@ -163,7 +178,7 @@
                       <%= link_to group_invitationship_path(group_invitationship) do %>
                         <p><%= sender.name %>在<span style="color: red"><%= group_invitationship.invitation.time %></span>的活动中回复了你</p>
                       <% end %>
-                    <% elsif tip.tipable_type == "GroupGroupship" %>
+                    <% elsif tip.tip_type == "group_groupship_comments" %>
                       <%
                           sender = User.find(tip.sender_id)
                           group_groupship = GroupGroupship.find(tip.tipable_id)
@@ -196,7 +211,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <%= link_to '个人主页', user_path(current_user) , :method => 'get' %>
+                  <%= link_to '所有状态', status_user_path(current_user) , :method => 'get' %>
                 </li>
                 <li>
                   <%= link_to '退出', destroy_user_session_path, :method=>'delete' %>        

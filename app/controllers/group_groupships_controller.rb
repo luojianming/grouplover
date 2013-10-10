@@ -25,15 +25,17 @@ class GroupGroupshipsController < ApplicationController
     g = GroupGroupship.new(params[:group_groupship])
     if g.save
       @applied_group.members.each do |member|
-        member.tips.create(:tip_type => "apply_group_groupship",
-                           :content => "您所在的group"+@applied_group.name+"向group"+@target_group.name+"发出了邀请")
+        member.tips.create(:tipable_type => "Group",
+                           :tip_type => "apply_group_groupship",
+                           :tipable_id => @applied_group.id,
+                           :content => "您所在的群组"+@applied_group.name+"向group"+@target_group.name+"发出了邀请")
       end
       @target_group.members.each do |member|
-        member.tips.create(:tip_type => "target_group_groupship",
-                           :content => "您所在的group"+@target_group.name+"收到了"+@applied_group.name+"发来的邀请")
+        member.tips.create(:tipable_type => "Group",
+                           :tip_type => "target_group_groupship",
+                           :tipable_id => @target_group.id,
+                           :content => "您所在的群组"+@target_group.name+"收到了"+@applied_group.name+"发来的邀请")
       end
-      @target_group.team_leader.tips.create(:tip_type => "target_group_groupship",
-                                            :content => "您所在的group"+@target_group.name+"收到了"+@applied_group.name+"发来的邀请")
       respond_to do |format|
         format.js
       end
@@ -58,14 +60,20 @@ class GroupGroupshipsController < ApplicationController
         @group_groupship.create_conversation()
         @target_group.members.each do |member|
           member.tips.create(:tip_type => "target_accept_groupship",
-                             :content => "您所在的group"+@target_group.name+"接受了"+@applied_group.name+"发来的邀请")
+                             :tipable_type => "GroupGroupship",
+                             :tipable_id => @group_groupship.id,
+                             :content => "新的活动已被激活，您所在的group"+@target_group.name+"接受了"+@applied_group.name+"发来的邀请")
         end
         @applied_group.members.each do |member|
           member.tips.create(:tip_type => "apply_accept_groupship",
-                             :content => "group"+@target_group.name+"接受了"+@applied_group.name+"发出的邀请")
+                             :tipable_type => "GroupGroupship",
+                             :tipable_id => @group_groupship.id,
+                             :content => "群组"+@target_group.name+"接受了"+@applied_group.name+"发出的邀请")
         end
         @applied_group.team_leader.tips.create(:tip_type => "apply_accept_groupship",
-                                               :content => "group"+@target_group.name+"接受了"+@applied_group.name+"发出的邀请")
+                                               :tipable_type => "GroupGroupship",
+                                               :tipable_id => @group_groupship.id,
+                                               :content => "群组"+@target_group.name+"接受了"+@applied_group.name+"发出的邀请")
 
       end
     end

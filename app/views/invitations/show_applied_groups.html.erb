@@ -1,4 +1,10 @@
 <div class="container">
+  <%
+    tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("GroupInvitationship_received", @invitation.id)
+    tips.each do |tip|
+      tip.destroy
+    end
+  %>
   <div class="row">
     <div class="span8" style="overflow:hidden">
       <% if @group_invitationships.size > 0 %>

@@ -49,6 +49,7 @@ class CommentsController < ApplicationController
   def create
     @commentable_type = params[:commentable_type]
     sender_id = current_user.id
+    sender = current_user
     if params[:receiver_id]
       receiver_id = params[:receiver_id]
     end
@@ -91,103 +92,128 @@ class CommentsController < ApplicationController
       if receiver_id && receiver_id.size > 0
         receiver = User.find(receiver_id)
         if @commentable_type == "DynamicStatus" || @feedable_type == "DynamicStatus"
-          receiver.tips.create(:tip_type => "comments",
+          receiver.tips.create(:tip_type => "dynamic_comments",
                                :tipable_type => "DynamicStatus",
                                :tipable_id => @commentable.id,
                                :sender_id => sender_id)
         elsif @commentable_type == "Photo" || @feedable_type == "Photo"
-          receiver.tips.create(:tip_type => "comments",
+          receiver.tips.create(:tip_type => "photo_comments",
                                :tipable_type => "Photo",
                                :tipable_id => @commentable.id,
                                :sender_id => sender_id)
         elsif @commentable_type == "Group" || @feedable_type == "Group"
-          receiver.tips.create(:tip_type => "comments",
+          receiver.tips.create(:tip_type => "group_comments",
                                :tipable_type => "Group",
                                :tipable_id => @commentable.id,
                                :sender_id => sender_id)
         elsif @commentable_type == "Invitation" || @feedable_type == "Invitation"
-          receiver.tips.create(:tip_type => "comments",
+          receiver.tips.create(:tip_type => "invitation_comments",
                                :tipable_type => "Invitation",
                                :tipable_id => @commentable.id,
                                :sender_id => sender_id)
         elsif @commentable_type == "GroupInvitationship" || @feedable_type == "GroupInvitationship"
-          receiver.tips.create(:tip_type => "comments",
+          receiver.tips.create(:tip_type => "group_invitationship_comments",
                                :tipable_type => "GroupInvitationship",
                                :tipable_id => @commentable.id,
                                :sender_id => sender_id)
         elsif @commentable_type == "GroupGroupship" || @feedable_type == "GroupGroupship"
-          receiver.tips.create(:tip_type => "comments",
+          receiver.tips.create(:tip_type => "group_groupship_comments",
                                :tipable_type => "GroupGroupship",
                                :tipable_id => @commentable.id,
                                :sender_id => sender_id)
         end
       else
         if @commentable_type == "DynamicStatus" || @feedable_type == "DynamicStatus"
-          @commentable.user.tips.create(:tip_type => "comments",
-                                        :tipable_type => "DynamicStatus",
-                                        :tipable_id => @commentable.id,
-                                        :sender_id => sender_id)
+          if @commentable.user != sender
+            @commentable.user.tips.create(:tip_type => "dynamic_comments",
+                                          :tipable_type => "DynamicStatus",
+                                          :tipable_id => @commentable.id,
+                                          :sender_id => sender_id)
+          end
         elsif @commentable_type == "Photo" || @feedable_type == "Photo"
-          @commentable.album.user.tips.create(:tip_type => "comments",
-                                              :tipable_type => "Photo",
-                                              :tipable_id => @commentable.id,
-                                              :sender_id => sender_id)
+          if @commentable.album.user != sender
+            @commentable.album.user.tips.create(:tip_type => "photo_comments",
+                                                :tipable_type => "Photo",
+                                                :tipable_id => @commentable.id,
+                                                :sender_id => sender_id)
+          end
         elsif @commentable_type == "Group" || @feedable_type == "Group"
-          @commentable.team_leader.tips.create(:tip_type => "comments",
-                                               :tipable_type => "Group",
-                                               :tipable_id => @commentable.id,
-                                               :sender_id => sender_id)
+          if @commentable.team_leader != sender
+            @commentable.team_leader.tips.create(:tip_type => "group_comments",
+                                                 :tipable_type => "Group",
+                                                 :tipable_id => @commentable.id,
+                                                 :sender_id => sender_id)
+          end
           @commentable.members.each do |member|
-            member.tips.create(:tip_type => "comments",
-                               :tipable_type => "Group",
-                               :tipable_id => @commentable.id,
-                               :sender_id => sender_id)
+            if member != sender
+              member.tips.create(:tip_type => "group_comments",
+                                 :tipable_type => "Group",
+                                 :tipable_id => @commentable.id,
+                                 :sender_id => sender_id)
+            end
           end
         elsif @commentable_type == "Invitation" || @feedable_type == "Invitation"
           initiate_group = @commentable.initiate_group
-          initiate_group.team_leader.tips.create(:tip_type => "comments",
-                                                 :tipable_type => "Invitation",
-                                                 :tipable_id => @commentable.id,
-                                                 :sender_id => sender_id)
+          if initiate_group.team_leader != sender
+            initiate_group.team_leader.tips.create(:tip_type => "invitation_comments",
+                                                   :tipable_type => "Invitation",
+                                                   :tipable_id => @commentable.id,
+                                                   :sender_id => sender_id)
+          end
+
           initiate_group.members.each do |member|
-            member.tips.create(:tip_type => "comments",
-                               :tipable_type => "Invitation",
-                               :tipable_id => @commentable.id,
-                               :sender_id => sender_id)
+            if member != sender
+              member.tips.create(:tip_type => "invitation_comments",
+                                 :tipable_type => "Invitation",
+                                 :tipable_id => @commentable.id,
+                                 :sender_id => sender_id)
+            end
           end
         elsif @commentable_type == "GroupInvitationship" || @feedable_type == "GroupInvitationship"
           initiate_group = @commentable.invitation.initiate_group
           applied_group = @commentable.applied_group
-          initiate_group.team_leader.tips.create(:tip_type => "comments",
-                                                 :tipable_type => "GroupInvitationship",
-                                                 :tipable_id => @commentable.id,
-                                                 :sender_id => sender_id)
-          applied_group.team_leader.tips.create(:tip_type => "comments",
-                                                :tipable_type => "GroupInvitationship",
-                                                :tipable_id => @commentable.id,
-                                                :sender_id => sender_id)
+          if initiate_group.team_leader != sender
+            initiate_group.team_leader.tips.create(:tip_type => "group_invitationship_comments",
+                                                   :tipable_type => "GroupInvitationship",
+                                                   :tipable_id => @commentable.id,
+                                                   :sender_id => sender_id)
+          end
+          if applied_group.team_leader != sender
+            applied_group.team_leader.tips.create(:tip_type => "group_invitationship_comments",
+                                                  :tipable_type => "GroupInvitationship",
+                                                  :tipable_id => @commentable.id,
+                                                  :sender_id => sender_id)
+          end
           (initiate_group.members | applied_group.members).each do |member|
-            member.tips.create(:tip_type => "comments",
-                               :tipable_type => "GroupInvitationship",
-                               :tipable_id => @commentable.id,
-                               :sender_id => sender_id)
+            if member != sender
+              member.tips.create(:tip_type => "group_invitationship_comments",
+                                 :tipable_type => "GroupInvitationship",
+                                 :tipable_id => @commentable.id,
+                                 :sender_id => sender_id)
+            end
           end
         elsif @commentable_type == "GroupGroupship" || @feedable_type == "GroupGroupship"
           initiate_group = @commentable.applied_group
           target_group = @commentable.target_group
-          initiate_group.team_leader.tips.create(:tip_type => "comments",
+          if sender != initiate_group.team_leader
+            initiate_group.team_leader.tips.create(:tip_type => "group_groupship_comments",
+                                                   :tipable_type => "GroupGroupship",
+                                                   :tipable_id => @commentable.id,
+                                                   :sender_id => sender_id)
+          end
+          if sender != target_group.team_leader
+            target_group.team_leader.tips.create(:tip_type => "group_groupship_comments",
                                                  :tipable_type => "GroupGroupship",
                                                  :tipable_id => @commentable.id,
                                                  :sender_id => sender_id)
-          target_group.team_leader.tips.create(:tip_type => "comments",
-                                               :tipable_type => "GroupGroupship",
-                                               :tipable_id => @commentable.id,
-                                               :sender_id => sender_id)
+          end
           (target_group.members | initiate_group.members).each do |member|
-            member.tips.create(:tip_type => "comments",
-                               :tipable_type => "GroupGroupship",
-                               :tipable_id => @commentable.id,
-                               :sender_id => sender_id)
+            if member != sender
+              member.tips.create(:tip_type => "group_groupship_comments",
+                                 :tipable_type => "GroupGroupship",
+                                 :tipable_id => @commentable.id,
+                                 :sender_id => sender_id)
+            end
           end
         end
       end

@@ -24,13 +24,17 @@ class GroupInvitationshipsController < ApplicationController
 =end
     @applied_group.applied!(@invitation, @description)
     @invitation.initiate_group.members.each do |member|
-      member.tips.create(:tip_type => "group_invitationship_create", 
-                         :content => @applied_group.name + "申请参加你们的活动哦")
+      member.tips.create(:tipable_type => "Invitation",
+                         :content => @applied_group.name + "申请参加你们的活动哦",
+                         :tip_type => "GroupInvitationship_received",
+                         :tipable_id => @invitation.id)
     end
 
     @applied_group.members.each do |member|
-      member.tips.create(:tip_type => "group_has_applied_invitation_tip",
-                         :content => @applied_group.name + "申请参加了新的活动哦")
+      member.tips.create(:tipable_type => "Invitation",
+                         :content => @applied_group.name + "申请参加了新的活动哦",
+                         :tip_type => "Group_applied",
+                         :tipable_id => @invitation.id)
     end
     respond_to do |format|
       format.html { redirect_to sended_requests_user_path(current_user), :notice => "申请成功,等待发起者接受申请"}
@@ -43,14 +47,26 @@ class GroupInvitationshipsController < ApplicationController
     authorize! :accept, @group_invitationship
     GroupInvitationship.accept(@group_invitationship)
     @invitation = @group_invitationship.invitation
+    @initiate_group = @invitation.initiate_group
     @applied_group = @group_invitationship.applied_group
     @applied_group.members.each do |member|
-      member.tips.create(:tip_type => "group_invitationship", 
-                         :content => @invitation.initiate_group.name + "接受了你们的申请")
+      member.tips.create(:tipable_type => "GroupInvitationship",
+                         :content => @invitation.initiate_group.name + "接受了你们的申请",
+                         :tip_type => "invitation_accept_your_group",
+                         :tipable_id => @group_invitationship.id)
     end
 
-    @applied_group.team_leader.tips.create(:tip_type => "group_invitationship",
-                                           :content => @invitation.initiate_group.name + "接受了你们的申请")
+    @applied_group.team_leader.tips.create(:tipable_type => "GroupInvitationship",
+                                           :content => @invitation.initiate_group.name + "接受了你们的申请",
+                                           :tip_type => "invitation_accept_your_group",
+                                           :tipable_id => @group_invitationship.id)
+
+    @initiate_group.members.each do |member|
+      member.tips.create(:tipable_type => "GroupInvitationship",
+                         :content => @invitation.time + "日的活动已经激活了",
+                         :tip_type => "your_invitation_has_actived",
+                         :tipable_id => @group_invitationship.id)
+    end
     redirect_to conversations_path
   end
 

@@ -1,3 +1,4 @@
+<div style="clear:both;">
 <%= form_tag(feed_comments_path,:method => "post",remote: true) do %>
   <div style="display: none">
     <% if @receiver_id %>
@@ -14,6 +15,7 @@
   <%= text_area_tag :content, nil,:class => "reply_content", :maxlength => 140 %>
   <%= submit_tag "回复", :class=>"pull-right btn-primary" %>
 <% end %>
+</div>
 <script type="text/javascript">
 $(function(){
   $('.reply_content').blur(function(){

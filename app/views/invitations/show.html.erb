@@ -1,6 +1,9 @@
+<script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
 <div class="container">
   <%
-    tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("Invitation",@invitation.id)
+    tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("invitation_comments",@invitation.id)
+    tips = tips | current_user.tips.select_tips_by_tip_type_and_tipable_id('Invitation_create',@invitation.id)
+    tips = tips | current_user.tips.select_tips_by_tip_type_and_tipable_id('Group_applied', @invitation.id)
     tips.each do |tip|
       tip.destroy
     end
@@ -11,7 +14,9 @@
       <div class="pull-left invitation_photo" style="margin-right: 20px;">
         <%= image_tag @invitation.image_url(:big) %>
       </div>
-      <% if @invitation.status == "active" %>
+      <a name="xn_share" onclick="share_Click('<%= initiate_group.name%>','<%= @invitation.time%>','<%= @invitation.location%>','<%= @invitation.activity %>')" class="pull-right" type="icon" href="javascript:;">
+      </a>
+      <% if @invitation.status != "active" %>
         <% if can? :aplied_groups, @invitation %>
           <%= link_to '申请该活动的群组', applied_groups_invitation_path(@invitation), :class => "pull-right" %>
         <% end %>
@@ -78,4 +83,16 @@ $(function(){
     $(this).css("display","none");
   });
 });
+</script>
+<script>
+function share_Click(group_name,time,location,activity) {
+  var rrShareParam = {
+    reply_btnsourceUrl : '',//分享的资源Url
+    srcUrl : '',//分享的资源æ<SNR>70_SuperTab('n')
+    pic : '',//分享的主题图片Url
+    title : '小组'+group_name+'发布了新的活动,求同行',//分享的标题
+    description : '时间：'+time+'地点：'+location+'活动：'+activity//分享的详细描述
+  };
+  rrShareOnclick(rrShareParam);
+}
 </script>

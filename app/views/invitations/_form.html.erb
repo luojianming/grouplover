@@ -41,7 +41,7 @@
       <div class="control-group required">
         <label class="control-label required"><abbr title="required">*</abbr>活动费用</label>
         <div class="controls">
-          <%= f.select(:fee, ["举办者付费","免费","AA"],
+          <%= f.select(:fee, [["举办者付费",'public'],["免费",'free'],["AA",'AA']],
                        {},
                        {:class => "fee-select"}
                       ) -%>

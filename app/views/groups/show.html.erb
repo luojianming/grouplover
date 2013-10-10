@@ -1,5 +1,7 @@
 <%
-  tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("Group",@group.id)
+  tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("group_comments", @group.id)
+  tips = tips | current_user.tips.select_tips_by_tip_type_and_tipable_id('GroupMembership_accept', @group.id)
+  tips = tips | current_user.tips.select_tips_by_tip_type_and_tipable_id('Group_update', @group.id)
   tips.each do |tip|
     tip.destroy
   end
@@ -20,20 +22,42 @@
           <%= link_to "解散", @group, :confirm => '确定解散？',
             :method => :delete, :remote => true %>
           <%= link_to "收到的邀请", invite_posts_group_path(@group), :class => "pull-right" %>
-          <%= link_to "已发送的邀请", sended_posts_group_path(@group), :class => "pull-right " %>
+          <%= link_to "已发送的邀请", sended_posts_group_path(@group), :class => "pull-right margin_right_20" %>
         <% elsif @group.members.include?(current_user) %>
           <%= link_to "退出该组", {:controller => "group_memberships", :action => "reject", :group => @group } %>
           <%= link_to "收到的邀请", invite_posts_group_path(@group), :class => "pull-right" %>
-          <%= link_to "已发送的邀请", sended_posts_group_path(@group), :class => "pull-right" %>
+          <%= link_to "已发送的邀请", sended_posts_group_path(@group), :class => "pull-right margin_right_20" %>
         <% else %>
-          <a href="#inviteModal_<%=@group.id%>" data-toggle="modal" class="pull-right" style="font-size:16px;margin-top:10px;">
-            邀请
-          </a>
+          <% if @group.status == "active" %>
+            <a href="#inviteModal_<%=@group.id%>" data-toggle="modal" class="pull-right" style="font-size:16px;margin-top:10px;">
+              邀请
+            </a>
+          <% end %>
           <%= render 'shared/group_invite_modal', :show_group => @group %>
 
         <% end %>
       </div>
-      <%= render 'show_group', :group => @group %>
+      <div style="clear: both">
+        <div style="height:50px;margin-top:5px;">
+          <% team_leader = @group.team_leader %>
+          <%= render 'comments/comment_mid_avatar', :user => team_leader %>
+          <span class="pull-left" style="margin-top:5px;">
+            <%= link_to team_leader.name, user_path(team_leader) %>(创建者)</br>
+            <%= render 'comments/comment_user_info', :user => team_leader %>
+          </span>
+        </div>
+        <% @group.members.each do |member| %>
+          <div style="height:50px;margin-top:5px;">
+            <%= render 'comments/comment_mid_avatar', :user => member %>
+            <% if GroupMembership.find_by_group_id_and_member_id(@group.id, member.id).status == "pending"  %>
+              <span class="pull-left"><%=link_to member.name, user_path(member) %></span>(成员)<span style="color: #ff0000;" class="pull-right">尚未接受邀请</span></br>
+            <% else %>
+              <span class="pull-left"><%=link_to member.name, user_path(member) %></span>(成员)<span style="color: #00ff00;" class="pull-right">已接受邀请</span></br>
+            <% end %>
+            <%= render 'comments/comment_user_info', :user => member %>
+          </div>
+        <% end %>
+      </div>
       <div class="pull-left" style="clear:both;margin-top:10px;margin-bottom:10px;">
         <% if @group.description.to_s.size > 0 %>
           活动详情：<%= @group.description %>

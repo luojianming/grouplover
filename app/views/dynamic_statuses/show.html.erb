@@ -1,5 +1,5 @@
 <%
-  tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("DynamicStatus",@dynamic_status.id)
+  tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("dynamic_comments",@dynamic_comments.id)
   tips.each do |tip|
     tip.destroy
   end

@@ -3,7 +3,7 @@ require 'thinking_sphinx/deploy/capistrano'
 
 load 'deploy' unless defined?(_cset)
 
-server "210.209.68.24", :web, :app, :db, primary: true
+server "166.111.70.158", :web, :app, :db, primary: true
 
 _cset :asset_env, "RAILS_GROUPS=assets"
 _cset :assets_prefix, "assets"
@@ -11,8 +11,8 @@ _cset :assets_role, [:web]
 
 _cset :normalize_asset_timestamps, false
 set :application, "grouplover"
-set :user, "luojm"
-set :deploy_to, "/home/#{user}/RailsApp/grouplover_v2"
+set :user, "ljm"
+set :deploy_to, "/home/#{user}/grouplover_v2"
 set :deploy_via, :remote_cache
 set :use_sudo, true
 set :bundle_cmd, 'source $HOME/.bash_profile && bundle'

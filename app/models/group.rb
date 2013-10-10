@@ -84,24 +84,6 @@ class Group < ActiveRecord::Base
         @group.create_feed
       end
   end
-=begin
-  def member_ids
-    @member_nums =  self.group_memberships.size
-    @member_ids = [];
-    for i in 0..@member_nums-1 
-      @member_ids << self.group_memberships[i.to_s][:member_id]
-    end
-  end
-
-  def member_ids=(member_ids)
-    @member_nums = member_ids.size
-    self.group_memberships = {}
-    for i in 0..@member_nums-1
-      self.group_memberships[i.to_s] = {}
-      self.group_memberships[i.to_s][:member_id] = member_ids[i].to_i
-    end
-  end
-=end
 
   def applied!(invitation, description)
     group_invitationships.create!(:invitation_id => invitation.id, :status => "pending", :description => description)
@@ -140,6 +122,34 @@ class Group < ActiveRecord::Base
     @actived_invitationships = @actived_invitationships | GroupInvitationship.find_all_by_applied_group_id_and_status(id, "active")
     @actived_invitationships = @actived_invitationships | GroupGroupship.find_all_by_applied_group_id_and_status(id,"active")
     @actived_invitationships = @actived_invitationships | GroupGroupship.find_all_by_target_group_id_and_status(id,"active")
+  end
+#收到的邀请
+  def invite_posts
+    @group_groupships = GroupGroupship.find_all_by_target_group_id_and_status(id, "pending")
+  end
+
+  #发布的活动
+  def sended_public_posts
+    @group_invitationships = GroupInvitationship.find_all_by_applied_group_id_and_status(id, "pending")
+  end
+
+  #发出的邀请
+  def sended_private_posts
+    @group_groupships = GroupGroupship.find_all_by_applied_group_id_and_status(id,"pending")
+  end
+
+  def received_invitations
+    GroupGroupship.find_all_by_target_group_id_and_status(id, "pending")
+  end
+
+  def the_group_should_be_exist
+    begin
+      @group = Group.find(params[:id])
+    rescue
+      flash[:error] = "您访问的页面不存在"
+      redirect_to user_path(current_user)
+      return false
+    end
   end
 
   def create_feed

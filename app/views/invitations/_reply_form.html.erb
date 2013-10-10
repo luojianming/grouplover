@@ -1,3 +1,4 @@
+<div style="clear: both;">
 <%= form_tag(invitation_comments_path(@commentable),:method => "post", :remote => true) do %>
   <% if @receiver_id %>
     <span>回复<%= User.find(@receiver_id).name %>:</span>
@@ -14,6 +15,7 @@
   <%= text_area_tag(:content, nil, :class => "photo_comment_content", :maxlength => 140) %>
   <%= submit_tag("评论", :class => "pull-right btn-primary") %>
 <% end %>
+</div>
 <script type="text/javascript">
 $(function(){
   $('.photo_comment_content').blur(function(){

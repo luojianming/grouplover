@@ -1,11 +1,13 @@
 #encoding: utf-8
 require 'will_paginate/array'
 class GroupsController < ApplicationController
+  include ApplicationHelper
   before_filter :authenticate_user!
 #  before_filter :members_should_of_the_same_sex, :only => :create
   before_filter :cannot_have_the_same_members, :only => :create
   before_filter :member_counts_limit, :only => :create
-  before_filter :the_group_should_be_exist, :only => [:sended_posts,:create,:show,:update,:destroy,:invite_posts,:group_should_not_be_active]
+  before_filter :the_group_should_be_exist, :only => [:sended_posts,:show,:update,:destroy,:invite_posts,:group_should_not_be_active]
+  before_filter :store_location!
 #  before_filter :group_should_not_be_active, :only => :edit
   load_and_authorize_resource
   def index
@@ -98,9 +100,11 @@ class GroupsController < ApplicationController
     end
     if @group.update_attributes(params[:group])
       if @added_num > 0
-        for i in 0..@num-1
-          @group.members[i].tips.create(:tip_type => "add_members_tip",
-                                        :content => "群组"+@group.name+"邀请了新的成员加入")
+        for i in 0..@group.members.size-1
+          @group.members[i].tips.create(:tip_type => "Group_update",
+                                        :content => "群组"+@group.name+"更新了",
+                                        :tipable_type => "Group",
+                                        :tipable_id => @group.id)
         end
       end
       redirect_to groups_user_path(current_user), :notice => "更新成功"
@@ -173,17 +177,17 @@ class GroupsController < ApplicationController
       return false
     end
   end
-
+#收到的邀请
   def invite_posts
     @group = Group.find(params[:id])
-    @group_groupships = GroupGroupship.find_all_by_target_group_id_and_status(@group.id, "pending")
+    @group_groupships = @group.invite_posts
     render 'show_invite_posts'
   end
 
   def sended_posts
     @group = Group.find(params[:id])
-    @group_invitationships = GroupInvitationship.find_all_by_applied_group_id_and_status(@group.id, "pending")
-    @group_groupships = GroupGroupship.find_all_by_applied_group_id_and_status(@group.id,"pending")
+    @group_invitationships = @group.sended_public_posts
+    @group_groupships = @group.sended_private_posts
     render 'show_sended_posts'
   end
 
@@ -196,5 +200,8 @@ class GroupsController < ApplicationController
       redirect_to user_path(current_user)
       return false
     end
+  end
+  def store_location!
+    store_location
   end
 end

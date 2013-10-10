@@ -5,21 +5,24 @@
 <div class="container">
   <%= render 'shared/header' %>
   <div class="row">
-    <div class="span9">
+    <div class="span9" id="feed_container">
       <%
           group_groupship_similar_feeds = []
           group_invitationship_similar_feeds = []
           invitation_similar_feeds = []
           group_similar_feeds = []
+          photo_similar_feeds = []
       %>
       <% @feeds.each do |feed| %>
         <% if feed.feedable_type == "DynamicStatus" %>
-          <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+          <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc" class="feed">
             <%= render 'feed', :feedable => DynamicStatus.find(feed.feedable_id), :feed => feed %>
           </div>
         <% elsif feed.feedable_type == "Photo" %>
-          <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
-            <%= render 'feed', :feedable => Photo.find(feed.feedable_id), :feed => feed %>
+          <% if photo_similar_feeds.include?(feed) == false %>
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc" class="feed">
+              <%= render 'feed', :feedable => Photo.find(feed.feedable_id), :feed => feed %>
+            <% end %>
           </div>
         <% elsif feed.feedable_type == "Group" %>
           <% if group_similar_feeds.include?(feed) == false %>
@@ -28,7 +31,7 @@
                 similar_feeds = feedable.feeds & @feeds
                 group_similar_feeds = group_similar_feeds | similar_feeds
             %>
-            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc" class="feed">
               <%= render 'feed', :feedable => feedable, :feed => feed %>
               <% if similar_feeds.size > 1 %>
                 <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
@@ -49,7 +52,7 @@
                 similar_feeds = feedable.feeds & @feeds
                 invitation_similar_feeds = invitation_similar_feeds | similar_feeds
             %>
-            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc" class="feed">
               <%= render 'feed', :feedable => feedable, :feed => feed %>
               <% if similar_feeds.size > 1 %>
                 <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
@@ -70,7 +73,7 @@
                 similar_feeds = feedable.feeds & @feeds
                 group_invitationship_similar_feeds = group_invitationship_similar_feeds | similar_feeds
             %>
-            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc" class="feed">
               <%= render 'feed', :feedable => feedable, :feed => feed %>
               <% if similar_feeds.size > 1 %>
                 <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
@@ -91,7 +94,7 @@
                 similar_feeds = feedable.feeds & @feeds
                 group_groupship_similar_feeds = group_groupship_similar_feeds | similar_feeds
             %>
-            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc">
+            <div style="margin-bottom: 15px;overflow:hidden;padding-top:10px; clear:both;border-bottom:1px solid #ccc" class="feed">
               <%= render 'feed', :feedable => feedable, :feed => feed %>
               <% if similar_feeds.size > 1 %>
                 <a href='javascript:;' style="clear:both;display: block;text-align: center" class="remain_feed_link">查看<%= similar_feeds.size - 1 %>条类似新鲜事</a>
@@ -104,12 +107,17 @@
                 </div>
               <% end %>
             </div>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-</div>
+          <% end %><!-- if -->
+        <% end %><!-- elsif -->
+      <% end %><!-- each -->
+      <div id="loading_div" style="bottom: 0px;position: absolute;clear:both; text-align:center;z-index: 1000;">
+      </div>
+    </div><!-- span9 -->
+    <nav id="page-nav">
+      <%= will_paginate  @feeds%>
+    </nav>
+  </div><!-- row -->
+</div><!-- container -->
 <script>
 $(function(){
   $('.remain_feed_link').click(function(){
@@ -141,4 +149,55 @@ $(function(){
     $(this).css("display","none");
   });
 });
+</script>
+<script type="text/javascript">
+
+$(function(){
+  var $container = $('#feed_container');
+  $container.infinitescroll({
+    navSelector : '#page-nav',
+    nextSelector : 'li.next_page a:first',
+    itemSelector : '.feed',
+    loading: {
+      selector: '#loading_div',
+      msgText: "正在加载中...",
+      finishedMsg: '没有更多新鲜事了',
+      img: '/6RMhx.gif'
+    }
+  },
+  /*
+  function(newElements){
+    var $newElems = $( newElements ).css({ opacity: 0 });
+    $newElems.imagesLoaded(function(){
+      // show elems now they're ready
+      $newElems.animate({ opacity: 1 });
+      $container.masonry( 'appended', $newElems, true );
+    });
+    var Renren = Renren || {};
+    if(!Renren.share){
+      Renren.share();
+    }
+    }
+    */
+  function(newElements){
+    $container.append($(newElements));
+  }
+  );
+});
+
+jQuery(document).ajaxError(function(e,xhr,opt){
+  if (xhr.status == 404) jQuery('#').remove();
+  });
+</script>
+<script>
+function share_Click(group_name,time,location,activity) {
+  var rrShareParam = {
+    reply_btnsourceUrl : '',//分享的资源Url
+    srcUrl : '',//分享的资源æ<SNR>70_SuperTab('n')
+    pic : '',//分享的主题图片Url
+    title : '小组'+group_name+'发布了新的活动,求同行',//分享的标题
+    description : '时间：'+ time + '地点：'+location+'活动：'+activity//分享的详细描述
+  };
+  rrShareOnclick(rrShareParam);
+}
 </script>

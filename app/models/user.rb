@@ -179,4 +179,5 @@ class User < ActiveRecord::Base
   def feed
     Feed.from_users_followed_by(self)
   end
+
 end

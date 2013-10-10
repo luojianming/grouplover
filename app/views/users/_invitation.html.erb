@@ -6,7 +6,7 @@
     <div class="item" id="invitation_<%=invitation.id%>">
         <%= render 'shared/applied_action', :invitation => invitation %>
         <%= render 'shared/applied_invitation_modal', :invitation => invitation %>
-        <div class="box-photo"><%= safe_image_tag(initiate_group.image_url(:thumb), 'photo/'+(initiate_group.id%12 + 1).to_s+'.jpg') %></div>
+        <div class="box-photo"><%= safe_image_tag(invitation.image_url(:thumb), 'invitation/'+(invitation.invitation_type).to_s+'.jpg') %></div>
         <div class="activity_info">
           <span class="normal-font">时间：</span><span class="activity_info_font"><%=invitation.time%></span><br/>
           <span class="normal-font">地点：</span><span class="activity_info_font"><%= invitation.location %></span><br/>

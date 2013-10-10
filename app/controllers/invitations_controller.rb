@@ -1,12 +1,14 @@
 #encoding: utf-8
 require 'will_paginate/array'
 class InvitationsController < ApplicationController
+  include ApplicationHelper
   # GET /invitations
   # GET /invitations.json
   before_filter :authenticate_user!
   before_filter :only_create_one_invitation_one_day, :only => :create
   before_filter :the_group_cannot_be_nil, :only => :create
   before_filter :the_invitation_should_be_exist, :only => [:show, :destroy, :applied_groups]
+  before_filter :store_location!
   def index
     per_page = 100
     @invitations = Invitation.by_location(params[:location]).search(:per_page => per_page) if params[:location]
@@ -80,7 +82,10 @@ class InvitationsController < ApplicationController
       if @invitation.save
         initiate_group = @invitation.initiate_group
         initiate_group.members.each do |member|
-          member.tips.create(:tip_type => "invitation", :content => initiate_group.name + "发布了新的活动")
+          member.tips.create(:tipable_type => "Invitation",
+                             :content => initiate_group.name + "发布了新的活动",
+                             :tip_type => "Invitation_create",
+                             :tipable_id => @invitation.id)
         end
         format.html { redirect_to my_invitations_user_path(current_user), notice: '邀请贴创建成功.' }
         format.json { render json: @invitation, status: :created, location: @invitation }
@@ -156,5 +161,9 @@ class InvitationsController < ApplicationController
       redirect_to user_path(current_user)
       return false
     end
+  end
+
+  def store_location!
+    store_location
   end
 end

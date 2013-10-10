@@ -19,14 +19,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         profile.status = "active"
         profile.save(:validate => false)
 
-        r = User.find(16).relationships.build(:followed_id => resource.id)
-        r.save
-        r = User.find(53).relationships.build(:followed_id => resource.id)
-        r.save
-        r = User.find(57).relationships.build(:followed_id => resource.id)
-        r.save
-        r = User.find(49).relationships.build(:followed_id => resource.id)
-        r.save
         extra_info = resource.build_extra_info()
         extra_info.save(:validate => false)
 

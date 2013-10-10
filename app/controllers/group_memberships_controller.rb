@@ -9,10 +9,16 @@ class GroupMembershipsController < ApplicationController
       if GroupMembership.accept(@member, @group_id)
         @group.members.each do |member|
           if member != @member
-            member.tips.create(:tip_type => "group_membership",:content => @member.name + "接受了小组" + @group.name + "发出的邀请")
+            member.tips.create(:tipable_type => "Group",
+                               :content => @member.name + "接受了小组" + @group.name + "发出的邀请",
+                               :tip_type => "GroupMembership_accept",
+                               :tipable_id => @group.id)
           end
         end
-        @group.team_leader.tips.create(:tip_type => "group_membership",:content => @member.name + "接受了小组" + @group.name + "发出的邀请")
+        @group.team_leader.tips.create(:tipable_type => "Group",
+                                       :content => @member.name + "接受了小组" + @group.name + "发出的邀请",
+                                       :tip_type => "GroupMembership_accept",
+                                       :tipable_id => @group.id)
         flash[:notice] = "加入成功"
       else
         flash[:notice] = "加入失败"

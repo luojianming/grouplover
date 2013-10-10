@@ -2,10 +2,10 @@
   <%= stylesheet_link_tag "bootstrap_and_overrides", "bootswatch", "albums" %>
 <% end %>
 <%
-  tips = current_user.tips.select_tips_by_tipable_type_and_tipable_id("Photo",@photo.id)
-  tips.each do |tip|
-    tip.destroy
-  end
+    tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("photo_comments", @photo.id)
+tips.each do |tip|
+  tip.destroy
+end
 %>
 <div class="container">
   <div class = "row">

@@ -36,11 +36,18 @@ class Ability
       can :accept, GroupInvitationship do |group_invitationship|
         group_invitationship.invitation.initiate_group.team_leader == user
       end
+      can :create, GroupGroupship do |group_groupship|
+        group_groupship.applied_group.status == "active" &&
+        group_groupship.target_group.status == "active"
+      end
 
       can [:accept,:destroy], GroupGroupship do |group_groupship|
         group_groupship.target_group.team_leader == user
       end
 
+      can [:sended_posts, :invite_posts], Group do |group|
+        group.team_leader == user || group.members.include?(user)
+      end
     end
     # Define abilities for the passed in user here. For example:
     #

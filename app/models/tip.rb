@@ -3,7 +3,7 @@ class Tip < ActiveRecord::Base
 
   scope :select_tips_by_tip_type,
          lambda { |tip_type|where(["tip_type=?",tip_type])  }
-  scope :select_tips_by_tipable_type_and_tipable_id,
-         lambda { |tipable_type,tipable_id|where(["tipable_type=? AND tipable_id=?",tipable_type,tipable_id])  }
+  scope :select_tips_by_tip_type_and_tipable_id,
+         lambda { |tip_type,tipable_id|where(["tip_type=? AND tipable_id=?",tip_type,tipable_id])  }
   belongs_to :user
 end
