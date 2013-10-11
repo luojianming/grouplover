@@ -12,7 +12,7 @@
   <div class="row">
     <div class="span9">
       <div class="pull-left invitation_photo" style="margin-right: 20px;">
-        <%= image_tag @invitation.image_url(:big) %>
+        <%= safe_image_tag(@invitation.image_url(:big), 'invitation/'+(@invitation.invitation_type).to_s+'.jpg') %>
       </div>
       <a name="xn_share" onclick="share_Click('<%= initiate_group.name%>','<%= @invitation.time%>','<%= @invitation.location%>','<%= @invitation.activity %>')" class="pull-right" type="icon" href="javascript:;">
       </a>

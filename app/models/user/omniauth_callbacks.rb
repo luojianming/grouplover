@@ -29,6 +29,7 @@ class User
                   user.authorizations << Authorization.new(:provider => provider, :uid => uid, :head_url => (extra["raw_info"]["avatar_large"].to_s+".jpg") )
                   profile = user.build_profile()
                 end
+=begin
                 r = User.find(16).relationships.build(:followed_id => user.id)
                 r.save
                 r = User.find(53).relationships.build(:followed_id => user.id)
@@ -37,6 +38,7 @@ class User
                 r.save
                 r = User.find(49).relationships.build(:followed_id => user.id)
                 r.save
+=end
                 profile.status = "active"
                 profile.save(:validate => false)
                 extra_info = user.build_extra_info()

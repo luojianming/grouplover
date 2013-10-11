@@ -67,11 +67,14 @@ class PhotosController < ApplicationController
     authorize! :create, @photo, :message => "对不起，您没有权限上传照片哦"
     if @photo.save
       user = @photo.album.user
-      feed = user.feeds.build(:feedable_type => "Photo",
-                              :feedable_id => @photo.id)
-      feed.save
+      latest_similar_feed = Feed.find_by_user_id_and_feedable_type(user.id, "Photo")
+      if latest_similar_feed == nil || (Time.now - latest_similar_feed.created_at > 3600)
+        feed = user.feeds.build(:feedable_type => "Photo",
+                                :feedable_id => @photo.id)
+        feed.save
+      end
     end
-=begin 
+=begin
     respond_to do |format |
       if @photo.save
         format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
