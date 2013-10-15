@@ -99,7 +99,7 @@ class ProfilesController < ApplicationController
         lover_style_str = lover_style_arr[1..lover_style_arr.size].join(',')
         params[:profile]["lover_style"] = lover_style_str
       end
-      if params[:profile][:description]
+      if params[:profile][:description] && params[:profile][:description] != ""
         dynamic_status = current_user.dynamic_statuses.create(:content => params[:profile][:description])
       end
       respond_to do |format|

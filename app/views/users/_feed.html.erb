@@ -11,7 +11,7 @@
     <% end %>
   </div>
   <div class="status_content_box" style="width:610px;float:left">
-    <span style="font-size:14px;color:#ff0000"><%= user.name %>:</span>
+    <span style="font-size:14px;color:#ff0000;"><%= user.name %>:</span>
     <% if feed.feedable_type == "DynamicStatus" %>
       <span style="font-size:14px;"><%= feedable.content %></span></br>
       <span class="pull-left" style="font-size: 10px;color: #cccccc">
@@ -19,7 +19,7 @@
       </span>
     <% elsif feed.feedable_type == "Photo"%>
       <span style="font-size:14px;">上传了新的照片至相册<%= Photo.find(feed.feedable_id).album.name %></span></br>
-      <div class="feed_photo">
+      <div class="feed_photo" style="margin-top: 10px">
         <%= link_to  photo_path(feedable) do %>
           <%= image_tag feedable.image_url(:big) %>
         <% end %>
@@ -34,14 +34,18 @@
       <% else %>
         <span>加入了小组<%= link_to feedable.name, group_path(feedable) %></span></br>
       <% end %>
-      <%= render 'comments/comment_group', :group => feedable %>
+      <div style="margin-top: 10px;">
+        <%= render 'comments/comment_group', :group => feedable %>
+      </div>
     <% elsif feed.feedable_type == "Invitation" %>
       <% initiate_group = feedable.initiate_group %>
       <% team_leader = initiate_group.team_leader %>
-      <span>所在的小组<%= link_to initiate_group.name, group_path(initiate_group) %>发布了新的活动</span>
+      <span style="margin-bottom: 5px;">所在的小组<%= link_to initiate_group.name, group_path(initiate_group) %>发布了新的活动</span>
       <%= link_to '详情', invitation_path(feedable), :class => "pull-right" %>
 </br>
-      <%= render 'comments/invitation', :invitation => feedable %>
+      <div style="margin-top: 10px;">
+        <%= render 'comments/invitation', :invitation => feedable %>
+      </div>
       <a name="xn_share" onclick="share_Click('<%= initiate_group.name%>','<%= feedable.time%>','<%= feedable.location%>','<%= feedable.activity %>')" class="pull-right" type="icon" href="javascript:;">
       </a>
       <span class="pull-right" style="color:#999;font-size: 12px;">分享：</span>
@@ -64,9 +68,11 @@
     参与的小组<span style="color: red"><%= link_to group.name, group_path(group) %></span>与小组<span style="color: red"><%= link_to other_group.name, group_path(other_group)%></span>组局成功
     <%= link_to '详情', group_invitationship_path(feedable), :class => "pull-right" %>
     </br>
+    <div style="margin-top: 10px;"> 
       <span class="small_gray">时间：</span><%= invitation.time %>/
       <span class="small_gray">地点：</span><%= invitation.location %>/
       <span class="small_gray">活动：</span><%= invitation.activity %></br>
+    </div>
       <%= render 'comments/comment_group_item', :group => initiate_group %>
       <%= render 'comments/comment_group_item', :group => applied_group %>
       <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
@@ -87,9 +93,11 @@
       <span>参与的小组<%= link_to group.name, group_path(group) %>与小组<%= link_to other_group.name, group_path(other_group)%>组局成功</span>
       <%= link_to '详情', group_groupship_path(feedable), :class => "pull-right" %>
       </br>
-      <span class="small_gray">时间：</span><%= feedable.time %>
-      <span class="small_gray">地点：</span><%= feedable.location %>
-      <span class="small_gray">活动：</span><%= feedable.activity %></br>
+      <div style="margin-top: 10px;">
+        <span class="small_gray">时间：</span><%= feedable.time %>
+        <span class="small_gray">地点：</span><%= feedable.location %>
+        <span class="small_gray">活动：</span><%= feedable.activity %></br>
+      </div>
       <%= render 'comments/comment_group_item', :group => applied_group %>
       <%= render 'comments/comment_group_item', :group => target_group %>
       <span class="pull-left" style="clear:both;font-size: 10px;color: #cccccc">
