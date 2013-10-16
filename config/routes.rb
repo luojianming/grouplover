@@ -17,7 +17,7 @@ Rails3BootstrapDeviseCancan::Application.routes.draw do
   match 'group_groupships/accept' => 'group_groupships#accept'
   match 'group_invitationships/accept' => 'group_invitationships#accept'
   match 'private_messages/change_status' => 'private_messages#change_status'
-  resources :private_messages, only: [:show, :create]
+  resources :private_messages, only: [:show, :create, :new]
 
   resources :conversations, only: [:index, :create] do
     resources :messages, only: [:index, :create]

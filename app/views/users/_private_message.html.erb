@@ -1,4 +1,3 @@
-<% private_messages.each do |private_message_original| %>
   <%
       if private_message_original.applied_messages[0]
         private_message = private_message_original.applied_messages[0]
@@ -45,22 +44,18 @@
 
           <%= link_to '共'+(private_message_original.applied_messages.count + 1).to_s+'条私信', 
               private_message_path(private_message_original) %> |
+              <!--
               <a class="replied_message_modal" data-toggle="modal" href="#"
                 data-id="<%= private_message_original.id %>" receiver_id="<%= receiver_id %>">
                 快速回复
               </a>
+              -->
+              <%= link_to '快速回复', new_private_message_path(:original_message_id => private_message_original.id,
+                                                               :receiver_id => receiver_id),
+                                                               :remote => true %>
         </span>
+      </div>
+      <div id="quick_reply_<%=private_message_original.id %>">
       </div>
     </div>
   </div>
-<% end %>
-<%= render 'send_message_modal' %>
-<script>
-$(function(){
-  $(".replied_message_modal").click(function() {
-    $('#private_message_original_message_id').val($(this).data('id'));
-    $('#private_message_receiver_id').val($(this).attr('receiver_id'));
-    $('#send_message_modal').modal('show');
-  });
-});
-</script>

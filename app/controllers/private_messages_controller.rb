@@ -26,10 +26,12 @@ class PrivateMessagesController < ApplicationController
   # GET /private_messages/new.json
   def new
     @private_message = PrivateMessage.new
-
+    @original_message_id = params[:original_message_id]
+    @receiver_id = params[:receiver_id]
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @private_message }
+      format.js
     end
   end
 

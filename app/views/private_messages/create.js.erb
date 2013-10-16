@@ -1,5 +1,9 @@
 $('#send_message_modal').modal('hide');
 $('#send_message_modal_2').modal('hide');
+<% if @private_message.original_message != nil %>
+  $('#private_message_<%= @private_message.original_message_id%>').html(
+               "<%= j render('users/private_message', :private_message_original => @private_message.original_message) %>");
+<% end %>
 <% flash[:notice] = "恭喜，消息发送成功!" %>
 $('#messages').html("<%= j render('layouts/messages') %>");
 setTimeout("$('#messages').html('')",3000);

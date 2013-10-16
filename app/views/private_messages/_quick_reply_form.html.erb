@@ -1,0 +1,8 @@
+  <%= simple_form_for(PrivateMessage.new(original_message_id: @original_message_id,
+                                    receiver_id: @receiver_id), remote: true) do |f| %>
+    <%= f.hidden_field :original_message_id %>
+    <%= f.hidden_field :receiver_id %>
+    <%= f.input :content, :label => "快速回复：", :as => :text,
+      :input_html => { :rows => 2, class: 'span8' }%>
+    <button class="btn pull-right">发送</button>
+  <% end %>

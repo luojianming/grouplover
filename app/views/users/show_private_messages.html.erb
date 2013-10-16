@@ -6,7 +6,11 @@
     <div class="span9" id="private_messages_abstract">
     <h4>我的私信</h4>
     <%= link_to '将所有私信标为已读', private_messages_change_status_path, :remote => true, :class => "pull-right" %>
-    <%= render 'private_message', :private_messages => @private_messages_original %>
+    <% @private_messages_original.each do |private_message_original| %>
+      <div id="private_message_<%= private_message_original.id%>">
+        <%= render 'private_message', :private_message_original => private_message_original %>
+      </div>
+    <% end %>
     <%= will_paginate  @private_messages_original %>
     </div>
 

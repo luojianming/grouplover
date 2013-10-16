@@ -3,9 +3,9 @@
 <% end %>
 <%
     tips = current_user.tips.select_tips_by_tip_type_and_tipable_id("photo_comments", @photo.id)
-tips.each do |tip|
-  tip.destroy
-end
+    tips.each do |tip|
+      tip.destroy
+    end
 %>
 <div class="container">
   <div class = "row">
